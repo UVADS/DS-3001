@@ -1,0 +1,84 @@
+---
+title: "tidyr_example"
+author: "Brian Wright"
+date: "2/4/2020"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+ 
+weather <- read_csv('weather.csv')
+View(weather)
+```
+
+Take a look at the weather data. It’s not tidy. Let’s work to make it tidy.
+
+What are the problems?
+
+1), we probably need to gather those columns, so we end up with 2 columns, one for the day of the month, with data d1,d2,…, and another for the actual temperature values. Create a new dataframe and consider the code below. Once, you get gather to run review the gather documentation and see what interesting recommendations you find. Implement these recommendations on the original weather.csv data. 
+```{r}
+
+weather_1 <- gather(weather, key = 'day', value = 'temp', 5:35)
+View(weather_1)
+
+```
+
+We probably need to spread the data so that we create two columns, tmax and tmin, then populate with the corresponding tempature data. Use the dataframe you created above in the below chunk to spread the tmax/tmin values. As with the above read the documentation and implement the recommendations. 
+
+```{r}
+
+weather_2 <- spread(weather_1, key=element, value = temp)
+View(weather_2)
+
+
+```
+
+
+We don't need the "d" in the day column so we will use Separate to convert the day column to get rid of the "d"
+```{r}
+
+weather_3 <- separate(weather_2, day, c('symbol', 'day'), sep = 1)
+View(weather_3)
+
+
+```
+
+We don't need the symbol column so going to "down" select
+```{r}
+weather_4 <- select(weather_3, -symbol)
+View(weather_4)
+
+```
+
+Replacing the NAs with 0 (maybe not a great idea but an example of dealing with NAs)
+
+```{r}
+
+weather_5 <- mutate(weather_4, day = as.numeric(day),
+         tmax = replace_na(tmax, 0), 
+         tmin = replace_na(tmin, 0))
+View(weather_5)
+
+```
+
+Now let's pipe everything together so we don't have to these operations on individual lines. 
+
+```{r}
+weather_tidy <- weather %>% 
+  gather(key = 'day', value = 'temp', starts_with('d')) %>% 
+  spread(element, temp) %>% 
+  separate(day, c('symbol', 'day'), sep = 1) %>% 
+  select(-symbol) %>% 
+  mutate(day = as.numeric(day),
+         tmax = replace_na(tmax, 0), 
+         tmin = replace_na(tmin, 0))
+```
+
+
