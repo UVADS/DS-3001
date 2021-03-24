@@ -1,0 +1,581 @@
+﻿age,sex,country,outcome,travel_history_binary,Hypertension,COPD,Diabetes,Heart Disease,Chronic Kidney Disease,Asthma,Cancer,symp_fatigue,symp_acuterespsyndrome,symp_acuterespfail,symp_cough,symp_fever,symp_sorethroat,symp_septic,symp_pneu
+78,male,Italy,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+61,female,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+28,male,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+56,female,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+79,female,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+26,male,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+25,male,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+40,male,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+43,male,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+29,male,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+71,female,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+68,female,Italy,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+1,male,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+35,male,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+36,male,South Korea,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+32,male,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+30,female,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+41,male,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,Italy,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+58,female,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+38,male,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,female,Switzerland,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+88,male,San Marino,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+22,female,South Korea,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+55,female,Australia,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+12,male,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+68,female,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+54,female,Australia,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+57,female,Australia,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+24,male,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+36,male,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,female,China,Discharged,,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0
+44,female,China,Discharged,,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0
+95,female,Australia,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+39,female,China,Discharged,,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+46,male,China,Discharged,,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+27,male,China,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+40,male,Japan,Discharged,,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1
+30,male,Japan,Discharged,,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0
+32,male,Nepal,Discharged,,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0
+66,male,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0
+40,male,Malaysia,Discharged,,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0
+51,male,Thailand,Discharged,,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0
+54.5,male,Canada,Discharged,,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+84.5,male,Canada,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+42,male,China,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+38,female,China,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+7,male,China,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,China,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+33,male,Germany,Discharged,,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0
+,female,China,Discharged,,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0
+4,female,Malaysia,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+38,female,Philippines,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+43,male,China,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+60,male,Australia,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+60,male,France,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+60,female,Australia,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+20,female,China,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+94,female,China,Discharged,,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+38,,China,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+63,male,Malaysia,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+32,female,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+60,female,Philippines,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+0.5,male,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+84.5,male,France,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,China,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,China,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,China,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+1,female,China,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,China,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+53,male,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+52,female,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+51,male,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,China,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+33,female,China,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+79,female,China,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+24,female,Australia,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+9,male,France,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,male,France,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+30,female,France,Discharged,,0,0,0,0,0,0,0,1,0,0,1,1,0,0,0
+31,male,France,Discharged,,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0
+,,United States,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,United States,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+64.5,female,United States,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+24.5,female,Canada,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+27,male,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+52,female,Guyana,Deceased,,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0
+54.5,male,United States,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+44.5,female,United States,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,Germany,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,Germany,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+46,male,South Korea,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+66,male,United States,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+84.5,male,Japan,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,United States,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,China,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+39,male,China,Deceased,,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0
+44,male,Philippines,Deceased,,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0
+,,United States,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+74.5,male,United States,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+84.5,female,United States,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+54.5,male,United States,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+74.5,male,United States,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+74.5,female,United States,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+82,female,China,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+54.5,male,United States,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+74.5,female,United States,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+84.5,female,United States,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+74.5,male,United States,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+94.5,female,United States,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+84.5,female,United States,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+84.5,male,United States,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+94.5,male,United States,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+84.5,female,United States,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+74.5,female,United States,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+73,female,China,Deceased,,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+92,male,France,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+29,male,China,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+61,male,Brazil,Discharged,,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0
+32,male,Brazil,Discharged,,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0
+55,male,South Korea,Discharged,,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+28,male,Switzerland,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+49,male,Switzerland,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+66,male,Vietnam,Discharged,,1,0,1,1,0,0,1,0,0,0,0,0,0,0,0
+28,male,Vietnam,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+56,female,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+44,male,Australia,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+56,male,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+36,,United Arab Emirates,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+42,female,Australia,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+84.5,female,Japan,Deceased,,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0
+29,male,Vietnam,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+23,female,Vietnam,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+25,female,Vietnam,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,male,Italy,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,female,Italy,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+31,male,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+47,female,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+38,male,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,Spain,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+73,male,Vietnam,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+64.5,male,,Deceased,,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0
+25,female,Vietnam,Discharged,,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0
+31,female,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+29,female,Vietnam,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+42,female,South Korea,Discharged,,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0
+30,male,Vietnam,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+28,female,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0
+48,female,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+44,female,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+42,female,Vietnam,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+8,male,Australia,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,Iran,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+49,female,Vietnam,Discharged,,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0
+16,female,Vietnam,Discharged,,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0
+37,female,Australia,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+37,male,Australia,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+20,female,South Korea,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+53,male,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+42,female,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+39,female,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,China,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,male,Spain,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,Iran,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+29,male,Italy,Discharged,,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+29,female,Vietnam,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+55,female,Vietnam,Discharged,,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+0.25,female,Vietnam,Discharged,,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0
+50,male,Vietnam,Discharged,,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0
+54,male,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+37,male,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2,female,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+35,male,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+39,male,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+77,female,Italy,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+34,male,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+46,male,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+37,male,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+54,female,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+30,male,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+55,male,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+61,male,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+51,female,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+57,male,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+44,female,Singapore,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+70,male,China,Deceased,,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0
+76,female,China,Deceased,,1,0,1,0,0,0,0,0,0,0,0,1,0,0,0
+72,male,China,Deceased,,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0
+79,male,China,Deceased,,1,0,1,0,0,0,0,0,0,0,1,1,0,0,0
+55,male,China,Deceased,,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0
+87,male,China,Deceased,,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0
+66,female,China,Deceased,,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+58,male,China,Deceased,,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0
+66,male,China,Deceased,,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0
+78,male,China,Deceased,,0,0,0,1,0,0,0,0,0,0,1,1,0,0,0
+65,male,China,Deceased,,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0
+67,male,China,Deceased,,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+58,male,China,Deceased,,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0
+67,female,China,Deceased,,1,0,1,0,0,0,0,0,0,0,0,1,0,0,0
+82,female,China,Deceased,,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+85,female,China,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+69,female,China,Deceased,,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0
+36,male,China,Deceased,,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0
+73,male,China,Deceased,,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0
+70,female,China,Deceased,,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+81,male,China,Deceased,,1,0,1,1,0,0,0,0,0,0,0,1,0,0,0
+32,male,China,Discharged,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+49,female,China,Discharged,,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0
+65,female,China,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+51.5,female,China,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+66,male,China,Deceased,,1,1,1,0,1,0,0,1,0,0,1,1,0,0,0
+48,female,China,Deceased,,0,0,1,0,0,0,0,0,0,0,1,1,0,0,0
+89,male,China,Deceased,,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0
+61,male,China,Deceased,,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+69,male,China,Deceased,,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0
+89,male,China,Deceased,,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+75,male,China,Deceased,,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0
+82,male,China,Deceased,,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+66,male,China,Deceased,,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0
+81,male,China,Deceased,,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+82,female,China,Deceased,,0,0,0,0,0,0,0,1,0,0,1,1,0,0,0
+65,male,China,Deceased,,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0
+80,female,China,Deceased,,1,0,1,0,0,0,0,0,0,0,1,1,0,0,0
+86,male,China,Deceased,,1,0,1,0,0,0,1,1,0,0,0,0,0,0,0
+70,female,China,Deceased,,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+84,male,China,Deceased,,1,0,0,1,0,0,0,0,0,0,1,1,0,0,0
+36,male,Niger,Discharged,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+51,male,Niger,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,Niger,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+63,male,Niger,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+57,male,Niger,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+63,female,Niger,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+63,male,Niger,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+62,male,Niger,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+52,female,Niger,Discharged,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+56,male,Niger,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+20,male,Gambia,Discharged,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+40,female,Gambia,Discharged,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+27,female,Niger,Discharged,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+69,male,Niger,Discharged,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+57,female,Niger,Discharged,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+54,male,Niger,Discharged,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+52,female,Niger,Discharged,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+52,female,Zimbabwe,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+62,male,Algeria,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+78,female,Algeria,Discharged,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+54,female,Algeria,Discharged,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+84,female,Algeria,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+77,female,Algeria,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+42,male,Algeria,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,male,Algeria,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,female,Algeria,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+85,male,Algeria,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,Ghana,Deceased,FALSE,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,Ghana,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,Ghana,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,Ghana,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,Ghana,Discharged,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,Ghana,Discharged,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,Ghana,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+71,male,Gambia,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+28,female,Gambia,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+70,male,Gambia,Deceased,TRUE,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
+79,male,Zimbabwe,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+56,male,Ethiopia,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+30,male,Zimbabwe,Deceased,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+52,male,Zimbabwe,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,Egypt,Discharged,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,Egypt,Discharged,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,Nigeria,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+44,male,Zimbabwe,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,China,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+29,female,Vietnam,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+55,female,Vietnam,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+0.25,female,Vietnam,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0
+50,male,Vietnam,Discharged,TRUE,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0
+53,male,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+52,female,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+51,male,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+54,male,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+37,male,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2,female,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+35,male,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+39,male,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+34,male,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+46,male,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+37,male,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+84.5,female,Japan,Deceased,TRUE,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0
+54,female,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+30,male,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+55,male,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+61,male,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+51,female,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+57,male,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+44,female,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+61,female,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+28,male,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+56,female,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+79,female,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+26,male,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+25,male,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+40,male,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+64.5,male,,Deceased,TRUE,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0
+43,male,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+29,male,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+71,female,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+1,male,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+35,male,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,Iran,Deceased,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,Iran,Deceased,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+36,male,South Korea,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+46,male,South Korea,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+84.5,male,Japan,Deceased,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+32,male,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+30,female,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+41,male,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,China,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+33,female,China,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+24,female,Australia,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+58,female,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+38,male,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+22,female,South Korea,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+55,female,Australia,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+42,male,China,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+38,female,China,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+7,male,China,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+12,male,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+95,female,Australia,Deceased,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+79,female,China,Deceased,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+68,female,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+54,female,Australia,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+57,female,Australia,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+24,male,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+36,male,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+82,female,China,Deceased,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,China,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+56,female,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+29,male,China,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,female,China,Discharged,TRUE,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0
+38,female,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+44,male,Philippines,Deceased,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+60,female,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+48,male,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+62,male,Philippines,Deceased,TRUE,1,0,1,0,0,0,0,0,1,0,0,0,0,0,1
+59,female,Philippines,Deceased,TRUE,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1
+38,male,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+86,male,Philippines,Deceased,TRUE,1,0,1,0,1,0,0,0,0,1,0,0,0,0,1
+57,male,Philippines,Discharged,TRUE,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0
+72,male,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0
+56,male,Philippines,Deceased,TRUE,0,0,0,0,0,1,0,0,1,0,1,1,0,0,0
+34,male,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+46,male,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0
+24,male,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+70,male,Philippines,Discharged,TRUE,1,0,0,0,0,0,0,0,0,0,1,1,1,0,0
+69,female,Philippines,Discharged,TRUE,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+41,male,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+46,female,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+38,male,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0
+51,female,Philippines,Discharged,TRUE,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0
+30,female,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0
+31,male,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+34,male,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+69,male,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+82,female,Philippines,Deceased,TRUE,1,0,1,1,0,0,0,0,1,0,0,0,0,1,0
+28,female,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+67,female,Philippines,Deceased,TRUE,1,0,1,0,0,0,0,0,0,0,0,0,0,0,1
+88,female,Philippines,Deceased,TRUE,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0
+64,male,Philippines,Deceased,TRUE,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0
+54,male,Philippines,Deceased,TRUE,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1
+75,female,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+51,male,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+72,male,Philippines,Discharged,TRUE,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+26,male,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+79,female,Philippines,Deceased,TRUE,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+39,male,Philippines,Deceased,TRUE,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1
+65,male,Philippines,Deceased,TRUE,1,0,1,0,0,0,0,0,1,0,0,0,0,0,1
+45,female,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+35,male,Philippines,Discharged,TRUE,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0
+25,male,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+54,male,Philippines,Discharged,TRUE,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+68,male,Philippines,Deceased,TRUE,1,0,0,0,0,0,0,0,0,1,0,0,0,0,1
+66,male,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+76,female,Philippines,Discharged,TRUE,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0
+33,male,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+67,male,Philippines,Deceased,TRUE,1,0,1,0,1,0,0,0,0,1,0,0,0,0,1
+64,male,Philippines,Discharged,TRUE,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+39,male,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+44,male,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+41,male,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+35,male,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+41,male,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+65,male,Philippines,Deceased,TRUE,0,0,1,0,0,0,0,0,0,1,0,0,0,0,1
+76,male,Philippines,Deceased,TRUE,1,0,1,0,0,0,0,0,1,0,0,0,0,0,1
+67,male,Philippines,Deceased,TRUE,1,0,0,0,0,0,0,0,1,0,0,0,0,0,1
+21,female,Philippines,Discharged,TRUE,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0
+13,female,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+73,male,Philippines,Discharged,TRUE,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+61,female,Philippines,Deceased,TRUE,1,0,0,0,0,0,0,0,0,1,0,0,0,0,1
+86,female,Philippines,Deceased,TRUE,1,0,0,0,1,0,0,0,0,0,0,0,0,1,1
+55,male,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+74,male,Philippines,Deceased,TRUE,1,0,0,0,0,0,0,0,1,0,0,0,0,0,1
+59,male,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+48,male,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+77,male,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+34,male,Philippines,Deceased,TRUE,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0
+58,male,Philippines,Deceased,TRUE,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0
+32,female,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+73,female,Philippines,Deceased,TRUE,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0
+81,male,Philippines,Deceased,TRUE,1,0,1,0,0,0,0,0,0,0,0,0,0,1,1
+71,male,Philippines,Deceased,TRUE,1,0,1,0,0,0,0,0,0,0,0,0,0,0,1
+69,male,Philippines,Deceased,TRUE,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0
+30,male,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+76,male,Philippines,Deceased,TRUE,0,0,1,0,0,0,0,0,0,1,0,0,0,0,1
+68,male,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+71,male,Philippines,Deceased,FALSE,1,0,1,1,1,0,0,0,0,0,0,0,0,1,1
+60,male,Philippines,Discharged,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+72,female,Philippines,Deceased,FALSE,1,0,1,0,0,1,0,0,1,0,0,0,0,1,1
+72,female,Philippines,Deceased,TRUE,1,0,0,0,0,0,1,0,0,0,0,0,0,1,1
+73,male,Philippines,Deceased,TRUE,1,0,1,1,1,0,0,0,0,0,0,0,0,0,1
+57,male,Philippines,Deceased,TRUE,1,0,1,0,1,0,0,0,0,0,0,0,0,1,1
+89,male,Philippines,Deceased,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+67,female,Philippines,Deceased,FALSE,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0
+60,female,Philippines,Deceased,TRUE,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1
+56,male,Philippines,Deceased,TRUE,1,0,1,0,0,0,0,0,0,0,0,0,0,0,1
+46,male,Philippines,Deceased,TRUE,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+57,male,Philippines,Deceased,FALSE,1,0,1,0,0,0,0,0,1,0,0,0,0,0,1
+46,male,Philippines,Deceased,TRUE,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0
+74,male,Philippines,Deceased,FALSE,1,0,0,0,1,0,0,0,0,1,0,0,0,0,1
+65,male,Philippines,Deceased,FALSE,1,0,0,0,1,0,0,0,1,0,0,0,0,0,1
+56,male,Philippines,Deceased,TRUE,1,0,1,0,0,0,0,0,0,1,0,0,0,0,1
+56,male,Philippines,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1
+80,female,Philippines,Deceased,FALSE,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0
+35,male,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+63,male,Philippines,Deceased,TRUE,1,0,0,1,0,1,0,0,0,1,0,0,0,0,1
+78,male,Philippines,Deceased,FALSE,0,1,0,0,0,0,0,0,1,0,0,0,0,1,1
+63,female,Philippines,Deceased,TRUE,1,0,1,0,1,0,0,0,0,0,0,0,0,0,1
+71,female,Philippines,Deceased,FALSE,1,0,1,0,0,0,0,0,0,1,0,0,0,0,1
+80,female,Philippines,Deceased,TRUE,1,0,0,1,0,0,0,0,0,0,0,0,0,0,1
+74,female,Philippines,Deceased,TRUE,1,0,0,1,0,0,0,0,0,0,0,0,0,1,1
+62,male,Philippines,Deceased,TRUE,1,0,1,1,0,0,0,0,0,1,0,0,0,0,1
+78,female,Philippines,Deceased,FALSE,1,0,0,0,0,0,0,0,1,0,0,0,0,0,1
+57,male,Philippines,Deceased,TRUE,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+83,female,Philippines,Deceased,TRUE,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1
+61,female,Philippines,Deceased,TRUE,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0
+50,male,Philippines,Deceased,TRUE,0,0,1,0,0,0,0,0,0,1,0,0,0,0,1
+64,male,Philippines,Discharged,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+79,female,Philippines,Deceased,TRUE,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1
+79,male,Philippines,Deceased,TRUE,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0
+87,male,Philippines,Deceased,TRUE,0,1,0,0,0,0,0,0,0,1,0,0,0,0,1
+60,male,Philippines,Deceased,TRUE,1,0,1,0,0,0,0,0,1,0,0,0,0,0,1
+,,China,Deceased,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+77,male,Philippines,Deceased,TRUE,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+80,female,Philippines,Deceased,TRUE,1,0,0,0,1,0,0,0,1,0,0,0,0,0,1
+56,male,Philippines,Deceased,TRUE,1,0,0,0,0,0,0,0,1,1,0,0,0,0,1
+75,male,Philippines,Deceased,TRUE,1,0,1,0,0,0,1,0,0,1,0,0,0,0,0
+43,male,Philippines,Deceased,TRUE,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0
+71,male,Philippines,Deceased,FALSE,0,0,1,1,0,0,0,0,1,0,0,0,0,1,1
+64,male,Philippines,Deceased,TRUE,1,0,1,0,1,0,0,0,0,0,0,0,0,0,1
+60,male,Philippines,Deceased,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+78,male,Philippines,Deceased,TRUE,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0
+67,male,Philippines,Deceased,FALSE,1,0,1,0,0,0,0,0,0,0,0,0,0,0,1
+86,male,Philippines,Deceased,TRUE,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1
+82,male,Philippines,Deceased,TRUE,1,0,1,0,0,0,0,0,1,0,0,0,0,0,1
+74,male,Philippines,Deceased,TRUE,1,0,1,1,0,0,0,0,0,0,0,0,0,0,1
+70,male,Philippines,Deceased,FALSE,1,0,1,0,0,1,0,0,0,1,0,0,0,0,1
+78,male,Philippines,Deceased,FALSE,1,0,0,0,0,0,0,0,0,1,0,0,0,0,1
+71,male,Philippines,Deceased,FALSE,1,0,0,1,0,0,0,0,1,0,0,0,0,0,1
+83,male,Philippines,Deceased,FALSE,1,0,1,0,1,0,0,0,1,0,0,0,0,0,0
+64,female,Philippines,Deceased,TRUE,1,0,1,0,0,0,0,0,1,0,0,0,0,0,1
+84,male,Philippines,Deceased,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+51,male,Philippines,Deceased,FALSE,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0
+89,male,Philippines,Deceased,FALSE,0,1,1,0,0,0,0,0,1,0,0,0,0,0,1
+69,male,Philippines,Deceased,TRUE,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1
+59,male,Philippines,Deceased,TRUE,0,0,0,1,0,0,0,0,1,0,0,0,0,0,1
+45,male,Philippines,Deceased,FALSE,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1
+60,male,Philippines,Deceased,FALSE,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0
+74,male,Philippines,Deceased,FALSE,1,0,1,0,0,0,0,0,1,0,0,0,0,0,1
+39,male,China,Deceased,TRUE,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0
+,female,China,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0
+44,male,Australia,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+56,male,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+36,,United Arab Emirates,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+4,female,Malaysia,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+38,female,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+42,female,Australia,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+29,male,Vietnam,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+23,female,Vietnam,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+25,female,Vietnam,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+39,female,China,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+46,male,China,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+31,male,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+47,female,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+38,male,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+43,male,China,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+73,male,Vietnam,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+25,female,Vietnam,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0
+44,male,Philippines,Deceased,TRUE,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0
+60,male,Australia,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+60,female,Australia,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+31,female,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+73,female,China,Deceased,TRUE,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+20,female,China,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+94,female,China,Discharged,TRUE,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0
+38,,China,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+29,female,Vietnam,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+63,male,Malaysia,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+42,female,South Korea,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0
+30,male,Vietnam,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+28,female,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0
+48,female,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+44,female,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+32,female,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+42,female,Vietnam,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+8,male,Australia,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+44,female,China,Discharged,TRUE,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0
+49,female,Vietnam,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0
+16,female,Vietnam,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0
+60,female,Philippines,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+37,female,Australia,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+37,male,Australia,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+0.5,male,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+27,male,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,China,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,China,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,China,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+27,male,China,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+20,female,South Korea,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+40,male,Japan,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,1,1,0,1
+30,male,Japan,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0
+32,male,Nepal,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0
+66,male,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0
+55,male,South Korea,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+66,male,Vietnam,Discharged,TRUE,1,0,1,1,0,0,1,0,0,0,0,0,0,0,0
+28,male,Vietnam,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+53,male,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+42,female,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+39,female,Singapore,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+40,male,Malaysia,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0
+51,male,Thailand,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0
+,,China,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+1,female,China,Discharged,TRUE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+20,male,Romania,Discharged,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+38,female,Romania,Discharged,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+47,male,Romania,Discharged,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+16,male,Romania,Discharged,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+16,female,Romania,Discharged,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+44,male,Romania,Discharged,FALSE,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0
+15,male,Romania,Discharged,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+16,female,Romania,Discharged,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+52,female,Guyana,Deceased,TRUE,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0
+61,male,Brazil,Discharged,FALSE,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0
+32,male,Brazil,Discharged,FALSE,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0
+74.5,female,United States,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+66,male,United States,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,United States,Discharged,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,United States,Discharged,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+74.5,male,United States,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+84.5,male,United States,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+84.5,female,United States,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+74.5,female,United States,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+74.5,male,United States,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+84.5,male,Canada,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,United States,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+94.5,male,United States,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+54.5,male,Canada,Discharged,FALSE,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+54.5,male,United States,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+84.5,female,United States,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+74.5,male,United States,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+74.5,female,United States,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,United States,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+74.5,male,United States,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+54.5,male,United States,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+24.5,female,Canada,Discharged,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+84.5,female,United States,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+64.5,female,United States,Discharged,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+84.5,female,United States,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+44.5,female,United States,Discharged,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+80,female,United States,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+94.5,female,United States,Deceased,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+54.5,male,United States,Discharged,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
