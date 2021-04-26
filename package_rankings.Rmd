@@ -1,0 +1,49 @@
+---
+title: "Package_Rankings: Single_Trans_Vote"
+author: "Brian Wright"
+date: "3/11/2020"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(rio)
+library(STV)
+library(tidyverse)
+library(psych)
+```
+
+Students submitted their votes via a Qualtrics survey and below are the results. The single transferable voting package was used on a simple matrix of student input. The data came in the form of a ranking 
+
+Ok Needed to Format this a good bit to work in STV package
+
+```{r}
+package_ranking_2 <- import('data/package_votes_S21.csv')
+View(package_ranking_2)
+
+
+#Just using a quick pre-processing function as recommended by the package
+clean_stv_all_ballot <- cleanBallots(package_ranking_2, cand.names = NULL)
+
+View(clean_stv_all_ballot)
+
+#Pass in our clean results, here we are filling 1 seats so one winner
+results_2 <- stv(clean_stv_all_ballot, seats = 1, file = "", surplusMethod = "Cambridge",
+quotaMethod = "Droop", quotaFloor = TRUE)
+
+
+x <- results_2$elected
+
+cat("The Winner is", x,"!!!!")
+
+View(results_2$details)
+
+
+
+```
+
