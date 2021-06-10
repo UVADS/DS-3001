@@ -58,15 +58,31 @@ How you’ll know you are learning
 
 On any given week, the course will require reviewing short video lectures and completing readings prior to coming to class.  These lectures and readings will then be implemented in the lab portion of the course which will be conducted during the scheduled class period.  Lab sessions will include a variety of activities but mostly be centered on team-oriented coding assignments.  Students can also use lab sessions to work on mid-term and final projects when needed.
 
-    Ethical data scientist reflection (10%) – Based on in-class discussion and readings students will write a personal reflection of how ethics and data science interact and how we all can think about these concerns moving forward. This is critical to the work of a data scientist as the models we build have the potential to impact the lives of thousands of people so we must use caution and constraint whenever possible.
-    Quizzes (10%) – Short occasional (5 or 6) quizzes, will be auto-graded, so you will get instant feedback. In order to ensure we are all meeting the learning objectives from week to week short quizzes will be given. You will be allowed as many chances to complete the quiz as needed and they will be open note however students are to work independently.  (To be completed Independent unless otherwise stated)
-    Labs (40%) – On most weeks we will have in-class labs/assignments. These are designed to allow you to practice the skills being presented in class. While they should be submitted individually you are encouraged to work with your peers as much of the best learning can come from your peers. You’ll need to create publishable markdown documents for every lab and submit them along with the raw code file and link each week (Groups).   
-    Package Overview Project (15%) (Mid-Term) – Select an R package of interest and publish a markdown document with an overview of the package's contents, example problems the package could solve, and example code of the package in use. you will vote on the top presentations (Groups of 3). This is designed to reinforce using Rmarkdown as a communications tool, communication data-related work and to give you a sense of the world of possibilities that open-source programming languages provide. (Assigned Groups)
+    Ethical data scientist reflection (10%) – Based on in-class discussion and readings 
+    students will write a personal reflection of how ethics and data science interact and how we all can think 
+    about these concerns moving forward. This is critical to the work of a data scientist as the models we 
+    build have the potential to impact the lives of thousands of people so we must use caution and constraint whenever possible.
+    
+    Quizzes (10%) – Short occasional (5 or 6) quizzes, will be auto-graded, so you will get instant feedback. In order 
+    to ensure we are all meeting the learning objectives from week to week short quizzes will be given. You will be allowed 
+    as many chances to complete the quiz as needed and they will be open note however students are to work independently.  
+    (To be completed Independent unless otherwise stated)
+    
+    Labs (40%) – On most weeks we will have in-class labs/assignments. These are designed to allow you to practice the skills 
+    being presented in class. While they should be submitted individually you are encouraged to work with your peers as much of the
+    best learning can come from your peers. You’ll need to create publishable markdown documents for every lab and submit them along 
+    with the raw code file and link each week (Groups).   
+    
+    Package Overview Project (15%) (Mid-Term) – Select an R package of interest and publish a markdown document with an overview of the 
+    package's contents, example problems the package could solve, and example code of the package in use. you will vote on the top presentations 
+    (Groups of 3). This is designed to reinforce using Rmarkdown as a communications tool, communication data-related work and to give you a sense 
+    of the world of possibilities that open-source programming languages provide. (Assigned Groups)
         Example: https://rpubs.com/lailagermanis/581365
    
-    Final project (20%) – The course will culminate in a final project that will involve working with a dataset of your choice, giving a presentation, submitting well-annotated code to include summary information in report form. This is an open-ended project designed to allow groups to choose a topic of interest from the semester to explore deeper and share with the class.
-    Diigo Course Outline (5%) – Using Diigo, an online tool for organizing internet content, create a course outline for the semester. Every week take time to annotate sources you used or references from the course you found useful. Also, reflect on what we covered that week as it relates to the sources you are capturing.  At the end of the course, you will have an easy-to-use reference guide to which you can continue to add content over time. Turn this in at the end of the course. (Create an Example for Week 1)
-
+    Final project (25%) – The course will culminate in a final project that will involve working with a dataset of your choice, giving a presentation, 
+    submitting well-annotated code to include summary information in report form. This is an open-ended project designed to allow 
+    groups to choose a topic of interest from the semester to explore deeper and share with the class.
+    
  
 
 Tech Stack
