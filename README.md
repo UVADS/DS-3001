@@ -5,19 +5,19 @@ Your Practice of Data Science Tour Guides:
 
 Brian Wright, Ph.D., Office: Dell I 103B, Email: brianwright@virginia.edu, phone: 703-244-5573
 
-Location: Virtual
+Location: In-Person!
 
-Brian's Office Hours: Mondays, 2:00 - 4:00 and Fridays from 9 to 11 or by appointment 
+Brian's Office Hours: Mondays, 2:00 - 4:00
 
 Office Hours Zoom: https://virginia.zoom.us/j/98266832283?pwd=ODlkR2xFSUMyeFhmcWtEV2pVRHY0QT09
 
-TA: Mawulolo Koku Ameko email: mka9db@virginia.edu - available for informal or formal advising
+TA: TBD
 
-Peer Mentors: Jeannette Jiang and Malvika Kunchan 
+Peer Mentors: Izzy Shehan iws4kc@virginia.edu and Brittany Nguyen bhn4bf@virginia.edu  
 
-Subject Area and Catalog Number: Data Science, DS 4001
+Subject Area and Catalog Number: Data Science, DS 3001
 
-Year and Term: 2021, Spring
+Year and Term: 2021, Fall
 
 Class Title: Practice of Data Science
 
@@ -89,9 +89,7 @@ Tech Stack
 
     Rstudio Cloud - You'll be provided logins at the onset of the class
     Zoom - Virtual Meetings
-    Google Sheets for Collaboration in Lab Groups
     Github - Code collaborations in Lab Groups
-    Diigo - Capture resources you find useful throughout the semester
     Collab - Submission of assignments and class-wide communications
     Discord - https://discord.gg/nTnMPdzvMP
 
