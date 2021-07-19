@@ -26,7 +26,7 @@ Level: Undergraduate
 Credit Type: Grade (A-F)
 
 
-**A little bit about the course
+**A little bit about the course**
 
 What is Data Science, why is it becoming so important and what is needed to be successful in this field? We will explore these questions throughout the course through a variety of topics with data always at the center.  In all things, we focus on creative thinking, not blind implementation. If you cannot answer why you are doing something, not only will you discover no new knowledge but you will also create new problems versus solving them.
 
