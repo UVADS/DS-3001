@@ -25,9 +25,8 @@ Level: Undergraduate
 
 Credit Type: Grade (A-F)
 
- 
 
-A little bit about the course
+**A little bit about the course
 
 What is Data Science, why is it becoming so important and what is needed to be successful in this field? We will explore these questions throughout the course through a variety of topics with data always at the center.  In all things, we focus on creative thinking, not blind implementation. If you cannot answer why you are doing something, not only will you discover no new knowledge but you will also create new problems versus solving them.
 
@@ -39,7 +38,7 @@ Throughout the course, we will endeavor to “live the life of a data scientist�
 
  
 
-What you’ll learn along the way
+**What you’ll learn along the way
 
 Data Science is incredibly broad and dynamic. The topics below are designed to reinforce this perspective and help you understand the field’s core tenements and what is demanding from practicing data scientists.  The key outcome would be for you to gain a sense of the scope of Data Science, what is needed to contribute to the community, and feel comfortable incorporating these techniques into your work moving forward.
 
@@ -54,7 +53,7 @@ Data Science is incredibly broad and dynamic. The topics below are designed to r
 The course will move rather quickly and can be demanding at times. However, if we all work together to support each other you’ll be amazed how much you learn at the end of the semester!
 
 
-How you’ll know you are learning
+**How you’ll know you are learning
 
 On any given week, the course will require reviewing short video lectures and completing readings prior to coming to class.  These lectures and readings will then be implemented in the lab portion of the course which will be conducted during the scheduled class period.  Lab sessions will include a variety of activities but mostly be centered on team-oriented coding assignments.  Students can also use lab sessions to work on mid-term and final projects when needed.
 
@@ -82,7 +81,7 @@ On any given week, the course will require reviewing short video lectures and co
     
  
 
-Tech Stack
+**Tech Stack
 
     Rstudio - You'll need to have the software loaded and ready to go day one. 
     Zoom - Virtual Meetings
@@ -92,7 +91,7 @@ Tech Stack
 
  
 
-Materials that will aid in your learning
+**Materials that will aid in your learning
 
     A. Weapons of Math Destruction: Amazon
     The below texts are all available here: https://bookdown.org/
@@ -102,7 +101,7 @@ Materials that will aid in your learning
     E. R Markdown: The Definitive Guide
     F. Machine Learning with R – Posted in Resources
 
-*** NOTE: depending on student interest, the syllabus can be adjusted to accommodate additional topics
+***NOTE: depending on student interest, the syllabus can be adjusted to accommodate additional topics
 
 | Week 	| Theme 	| Topics 	| Lab 	| Reading (Prior to Class) 	|
 |:---:	|:---:	|:---:	|:---:	|:---:	|
@@ -122,3 +121,30 @@ Materials that will aid in your learning
 |  Week 14 | Do the next right thing…ethics 	| - Bias in AI Discussion -Simple methods for identifying bias   - Protected Classes 	| Protected class example - KNN  	|     	|
 | Week 15 | Content Exam	|  	| 	|  Weapons of Math Destruction Ethical Reflection Due	|
 | Week 16	| Final Projects	|  	|  	|  	|
+
+**A few policies that will govern the class
+
+Grading Policies: Courses carrying a Data Science subject area use the following grading system: A, A-; B+, B, B-; C+, C, C-; D+, D, D-; F.  The symbol W is used when a student officially drops a course before its completion or if the student withdraws from an academic program of the University.
+
+Grading Scale: 
+
+- 93-98 A
+ - 90-92 A- 
+ - 87-89 B+
+ - 83-86 B 
+ - 80-82 B- 
+ - 77-79 C+ 
+ - 73-76 C 
+ - 70-72 C- 
+ - <70 F
+
+University of Virginia Honor System: All work should be pledged in the spirit of the Honor System at the University of Virginia. The instructor will indicate which assignments and activities are to be done individually and which permit collaboration. The following pledge should be written out at the end of all quizzes, examinations, individual assignments, and papers:  “I pledge that I have neither given nor received help on this examination (quiz, assignment, etc.)”.  The pledge must be signed by the student. For more information, visit www.virginia.edu/honor.
+
+
+Special Needs:  The University of Virginia accommodates students with disabilities. Any SCPS student with a disability who needs accommodation (e.g., in arrangements for seating, extended time for examinations, or note-taking, etc.), should contact the Student Disability Access Center (SDAC) and provide them with appropriate medical or psychological documentation of his/her condition. Once accommodations are approved, just follow up with me concerning any logistics and implementation of accommodations.  Please try to make accommodations for test-taking at least 14 business days in advance of the date of the test(s). Students with disabilities are encouraged to contact the SDAC: 434-243-5180/Voice, 434-465-6579/Video Phone, 434-243-5188/Fax. Further policies and statements are available at www.virginia.edu/studenthealth/sdac/sdac.html
+
+Technical Support Contacts
+
+    Login/Password: scpshelpdesk@virginia.edu
+    UVaCollab: collab-support@virginia.edu
+    BbCollaborate Support: http://www.tinyurl.com/uvabbc
