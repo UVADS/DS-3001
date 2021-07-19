@@ -102,6 +102,9 @@ On any given week, the course will require reviewing short video lectures and co
     E. R Markdown: The Definitive Guide
     F. Machine Learning with R – Posted in Resources
 
+
+## Schedule of Topics 
+
 ***NOTE: depending on student interest, the syllabus can be adjusted to accommodate additional topics
 
 | Week 	| Theme 	| Topics 	| Lab 	| Reading (Prior to Class) 	|
