@@ -11,6 +11,8 @@ Brian's Office Hours: Tuesday, 2:00 - 4:00
 
 Office Hours Zoom: https://virginia.zoom.us/j/98266832283?pwd=ODlkR2xFSUMyeFhmcWtEV2pVRHY0QT09
 
+Course Materials: https://github.com/UVADS/DS-4001
+
 TA: TBD
 
 Peer Mentors: Izzy Shehan iws4kc@virginia.edu and Brittany Nguyen bhn4bf@virginia.edu  
