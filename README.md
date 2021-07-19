@@ -109,19 +109,19 @@ Materials that will aid in your learning
 
 | Week 	| Theme 	| Topics 	| Lab 	| Reading (Prior to Class) 	|
 |:---:	|:---:	|:---:	|:---:	|:---:	|
-| Week 1  2.3 	| What is this “Data Science” that  you speak of and tech stack 	| - Assessment - Diigo Overview  - Videos: DS Overview and History - RStudio Cloud Environment  	| - Find DS Dream Job - Create your first project,  load the dataset, visualize using the code provided what questions could this data answer? 	|  Synchronous: Short Lab  	|
-| Week 2  2.10 	|  Getting back up to “coding speed” 	| 'Dataframing' with tidyverse functions  	| - Group Case Study - Questions + PsuedoCode + Code + Functions  = High Quality Data Science  	| References in C 	|
-| Week 3 	| A Weird Break 	|  	|  	|  	|
-| Week 4  2.24 	| How to share nicely  	| Knitr and rmarkdown 	| Rmarkdown article reviews 	|  Rmarkdown: The definitive guide: Sections I and II Knit R Reference Guide 	|
-| Week 5   3.3 	| If you can't see it is it Data Science? 	| ggplot, flexdashboard dashboards, and Plotly Midterm Overview 	| ggplot, Plotly, and flexdashboard 	| C. Sections 1 -3 	|
-|  Week 6 3.10 	| Let's gather together... but separately 	| Overview of Clustering Kmeans -  (hint it's all about Data Vis) 	| - NBA Scout for the worst team in the league 	|  F. Chapter 1 and Chapter 9  	|
-| Week 7 3.17 	| I’m committed!! Version Control: GitHub   	| Deloitte Stopping By - Case Study Group Projects – Teams in the real world  	| GitHub Version Control 	|  	|
-| Week 8 3.24 	| Computers can read…well kind of 	| Text Mining – Bag of Words approaches 	| Count, Word Cloud, Sentiment, and LDA Newspaper sentiment 	| D. Sections 1 - 3 	|
-| Week 9 3.31 	| Machines really can learn 	| Introduction to ML: Prediction versus Classification Unsupervised versus Supervised  - Bias/Variance Tradeoff - KNN 	| Create your first ML algo via KNN 	| F. Chapter 3 	|
-|   Package Presentations 4.7 	|  	|  	|  	| Package Options will be provided and Lab Teams can Sign Up 	|
-| Week 11 4.14 	| The key to ML: Knowing how bad your model really is… 	| - Metrics for Accuracy, Sensitivity, ROC, AUC - 	| The key to ML: Knowing how bad  your model really is… 	|  	|
-|  Week 12 4.21 	| Do the next right thing…ethics 	| - Bias in AI Discussion -Simple methods for identifying bias   - Protected Classes 	| Protected class example - KNN  	|     	|
-| Week 13 4.28 	| Trees – Nature's Perfect ML analogy ML: Tree Methods  	| - Bias Discussion Decision Trees Classification 	| Decision Tree Lab C5.0 	| Weapons of Math Destruction Ethical Reflection Due 	|
-|  Week 14 5.5 	| Wisdom of the Crowd ML: Tree Methods Cont. 	| Random Forrest    - Sampling Matters  - XGBoost - Bonus Lecture 	|  	|  	|
-| Exam Day 5.14 Friday 	| 9 to 12 am 	|  	| Final Presentations 	|  	|
-| Week 16 TBD 	| Not a thing 	|  	|  	|  	|
+| Week 1 	| What is this “Data Science” that you speak of and tech stack 	| - Assessment - Videos: DS Overview and History 	| - Find DS Dream Job - Create your first project,  load the dataset, visualize using the code provided what questions could this data answer? 	|  Synchronous: Short Lab  	|
+| Week 2 	|  Getting back up to “coding speed” 	| 'Dataframing' with tidyverse functions  	| - Group Case Study - Questions + PsuedoCode + Code + Functions  = High Quality Data Science  	| References in C 	|
+| Week 3 	| I'm Committed Version Control:  GitHub	|  	|  	|  	|
+| Week 4 	| How to share nicely  	| Knitr and rmarkdown 	| Rmarkdown article reviews 	|  Rmarkdown: The definitive guide: Sections I and II Knit R Reference Guide 	|
+| Week 5 	| Machine Learning Bootcamp 	| Key ML Methods 	| Pre-processing,Training,Testing	| ML Methods Lab 	|
+|  Week 6	| Let's gather together... but separately 	| Overview of Clustering Kmeans -  (hint it's all about Data Vis) 	| - NBA Scout for the worst team in the league 	|  F. Chapter 1 and Chapter 9  |
+| Week 7	| Computers can read…well kind of 	| Text Mining – Bag of Words approaches 	| Count, Word Cloud, Sentiment, and LDA Newspaper sentiment 	| D. Sections 1 - 3 	|
+| Week 8 | Machines really can learn 	| Introduction to ML: Prediction versus Classification  - Unsupervised - Bias/Variance Tradeoff - KNN  	| Create your first ML algo via KNN  | F. Chapter 3 	|
+| Week 9 | Reinforcement Lab	| Let's Put these Skills to Use!	| Case Study	|  	|
+| Week 10	| The key to ML: Knowing how bad your model really is… 	| - Metrics for Accuracy, Sensitivity, ROC, AUC - 	| The key to ML: Knowing how bad  your model really is… 	| |
+| Week 11 	| Nature's Perfect ML analogy ML: Tree Methods  	| - Bias Discussion Decision Trees Classification 	| Decision Tree Lab	|  	|
+|  Week 12 | Wisdom of the Crowd ML: Tree Methods Cont. 	| Random Forrest    - Sampling Matters  - XGBoost - Bonus Lecture 	|  	|  	|
+|  Week 13 	| Reinforcment Lab	| Time to think on your own!	| Case Study 	| 	  |
+|  Week 14 | Do the next right thing…ethics 	| - Bias in AI Discussion -Simple methods for identifying bias   - Protected Classes 	| Protected class example - KNN  	|     	|
+| Week 15 | Content Exam	|  	| 	|  Weapons of Math Destruction Ethical Reflection Due	|
+| Week 16	| Final Projects	|  	|  	|  	|
