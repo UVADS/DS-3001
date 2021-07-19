@@ -68,18 +68,15 @@ On any given week, the course will require reviewing short video lectures and co
     as many chances to complete the quiz as needed and they will be open note however students are to work independently.  
     (To be completed Independent unless otherwise stated)
     
-    Labs (40%) – On most weeks we will have in-class labs/assignments. These are designed to allow you to practice the skills 
+    Labs (45%) – On most weeks we will have in-class labs/assignments. These are designed to allow you to practice the skills 
     being presented in class. While they should be submitted individually you are encouraged to work with your peers as much of the
     best learning can come from your peers. You’ll need to create publishable markdown documents for every lab and submit them along 
     with the raw code file and link each week (Groups).   
     
-    Package Overview Project (15%) (Mid-Term) – Select an R package of interest and publish a markdown document with an overview of the 
-    package's contents, example problems the package could solve, and example code of the package in use. you will vote on the top presentations 
-    (Groups of 3). This is designed to reinforce using Rmarkdown as a communications tool, communication data-related work and to give you a sense 
-    of the world of possibilities that open-source programming languages provide. (Assigned Groups)
-        Example: https://rpubs.com/lailagermanis/581365
+    Final Exam (15%) – Content exam designed to reinforce the information presented throughout the semester. Completed on the last day of class,
+    topics covered will be reinforced and highlighted throughout the semester. 
    
-    Final project (25%) – The course will culminate in a final project that will involve working with a dataset of your choice, giving a presentation, 
+    Final project (20%) – The course will culminate in a final project that will involve working with a dataset of your choice, giving a presentation, 
     submitting well-annotated code to include summary information in report form. This is an open-ended project designed to allow 
     groups to choose a topic of interest from the semester to explore deeper and share with the class.
     
@@ -87,11 +84,11 @@ On any given week, the course will require reviewing short video lectures and co
 
 Tech Stack
 
-    Rstudio Cloud - You'll be provided logins at the onset of the class
+    Rstudio - You'll need to have the software loaded and ready to go day one. 
     Zoom - Virtual Meetings
     Github - Code collaborations in Lab Groups
     Collab - Submission of assignments and class-wide communications
-    Discord - https://discord.gg/nTnMPdzvMP
+    Discord - link to be generated
 
  
 
