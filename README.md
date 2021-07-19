@@ -3,7 +3,7 @@ DS 3001: Practice of Data Science
 
 Your Practice of Data Science Tour Guides: 
 
-Brian Wright, Ph.D., Office: Dell I 103B, Email: brianwright@virginia.edu, phone: 703-244-5573
+Brian Wright, Ph.D., Office: Dell I 103B, Email: brianwright@virginia.edu, phone: 434-297-6814
 
 Location: In-Person!
 
