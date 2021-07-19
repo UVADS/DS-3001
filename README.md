@@ -27,7 +27,7 @@ Credit Type: Grade (A-F)
 
 <br>
 
-**A little bit about the course**
+## A Little Bit About the Course
 
 What is Data Science, why is it becoming so important and what is needed to be successful in this field? We will explore these questions throughout the course through a variety of topics with data always at the center.  In all things, we focus on creative thinking, not blind implementation. If you cannot answer why you are doing something, not only will you discover no new knowledge but you will also create new problems versus solving them.
 
@@ -39,7 +39,7 @@ Throughout the course, we will endeavor to “live the life of a data scientist�
 
  
 
-**What you’ll learn along the way
+## What you’ll learn along the way
 
 Data Science is incredibly broad and dynamic. The topics below are designed to reinforce this perspective and help you understand the field’s core tenements and what is demanding from practicing data scientists.  The key outcome would be for you to gain a sense of the scope of Data Science, what is needed to contribute to the community, and feel comfortable incorporating these techniques into your work moving forward.
 
@@ -54,7 +54,7 @@ Data Science is incredibly broad and dynamic. The topics below are designed to r
 The course will move rather quickly and can be demanding at times. However, if we all work together to support each other you’ll be amazed how much you learn at the end of the semester!
 
 
-**How you’ll know you are learning
+## How You’ll Know You Are Learning
 
 On any given week, the course will require reviewing short video lectures and completing readings prior to coming to class.  These lectures and readings will then be implemented in the lab portion of the course which will be conducted during the scheduled class period.  Lab sessions will include a variety of activities but mostly be centered on team-oriented coding assignments.  Students can also use lab sessions to work on mid-term and final projects when needed.
 
@@ -82,7 +82,7 @@ On any given week, the course will require reviewing short video lectures and co
     
  
 
-**Tech Stack
+## Tech Stack
 
     Rstudio - You'll need to have the software loaded and ready to go day one. 
     Zoom - Virtual Meetings
@@ -92,7 +92,7 @@ On any given week, the course will require reviewing short video lectures and co
 
  
 
-**Materials that will aid in your learning
+## Materials That Will Aid in Your Learning
 
     A. Weapons of Math Destruction: Amazon
     The below texts are all available here: https://bookdown.org/
@@ -123,7 +123,7 @@ On any given week, the course will require reviewing short video lectures and co
 | Week 15 | Content Exam	|  	| 	|  Weapons of Math Destruction Ethical Reflection Due	|
 | Week 16	| Final Projects	|  	|  	|  	|
 
-**A few policies that will govern the class
+## A few Policies that will Govern the Class
 
 Grading Policies: Courses carrying a Data Science subject area use the following grading system: A, A-; B+, B, B-; C+, C, C-; D+, D, D-; F.  The symbol W is used when a student officially drops a course before its completion or if the student withdraws from an academic program of the University.
 
