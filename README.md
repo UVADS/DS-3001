@@ -25,6 +25,7 @@ Level: Undergraduate
 
 Credit Type: Grade (A-F)
 
+<br>
 
 **A little bit about the course**
 
