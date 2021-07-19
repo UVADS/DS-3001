@@ -1,5 +1,4 @@
-# DS-4001
-DS 3001: Practice of Data Science
+# DS 3001: Practice of Data Science
 
 Your Practice of Data Science Tour Guides: 
 
