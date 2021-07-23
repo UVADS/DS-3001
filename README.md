@@ -108,9 +108,9 @@ On any given week, the course will require reviewing short video lectures and co
 
 ***NOTE: depending on student interest, the syllabus can be adjusted to accommodate additional topics
 
-| Week 	| Theme 	| Topics 	| Lab 	| Reading (Prior to Class) 	|
+| Week 	| Theme 	| Topics 	| Lab 	| Reading/Repo (Prior to Class) 	|
 |:---:	|:---:	|:---:	|:---:	|:---:	|
-| Week 1 	| What is this “Data Science” that you speak of and tech stack 	| - Assessment - Videos: DS Overview and History 	| - Find DS Dream Job - Create your first project,  load the dataset, visualize using the code provided what questions could this data answer? 	|  Synchronous: Short Lab  	|
+| Week 1 	| What is this “Data Science” that you speak of and tech stack 	| - Assessment - Videos: DS Overview and History 	| - Find DS Dream Job - Create your first project,  load the dataset, visualize using the code provided what questions could this data answer? 	|  [Synchronous: Short Lab](https://github.com/UVADS/DS-4001/tree/main/2_R_function_basics)  	|
 | Week 2 	|  Getting back up to “coding speed” 	| 'Dataframing' with tidyverse functions  	| - Group Case Study - Questions + PsuedoCode + Code + Functions  = High Quality Data Science  	| References in C 	|
 | Week 3 	| I'm Committed Version Control:  GitHub	|  	|  	|  	|
 | Week 4 	| How to share nicely  	| Knitr and rmarkdown 	| Rmarkdown article reviews 	|  Rmarkdown: The definitive guide: Sections I and II Knit R Reference Guide 	|
