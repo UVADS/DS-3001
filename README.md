@@ -133,7 +133,7 @@ Grading Policies: Courses carrying a Data Science subject area use the following
 
 Grading Scale: 
 
-- 93-98 A
+ - 93-100 A
  - 90-92 A- 
  - 87-89 B+
  - 83-86 B 
