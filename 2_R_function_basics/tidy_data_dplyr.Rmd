@@ -1,0 +1,372 @@
+---
+title: "Fun with functions and dplyr"
+author: "Brian Wright"
+date: "1/24/2020"
+output: 
+  beamer_presentation:
+    theme: "Boadilla"
+    fonttheme: "structureitalicserif" 
+    df_print: tibble 
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, error = F, comment = '> ',  message = F, warning = F)
+```
+
+```{r, include=FALSE, eval=TRUE}
+library(tidyverse)
+get
+```
+
+
+## Overview of Functions (Advanced R)
+
+- Functions are at the core of R language, it's really a function based language
+
+>"R, at its heart, is a "functional" language. This means that it has certain technical properties, but more importantly that it lends itself to a style of problem solving centred on functions." Hadley Wickham 
+
+## What is a functional based language?
+
+- Recently functions have grown in popularity because they can produce efficient and simple solutions to lots of problems. Many of the problems with performance have been solved.  
+
+- Functional programming compliments object oriented programming
+
+## What makes a programming approach "functional"?
+
+- Functions can behave like any other data structure
+
+  - Assign them to variables, store to lists, pass them as aurguments to other functions, create them inside functions and even produce a function as a result of a funcion
+
+- Functions need to be "pure" meaning that if you call it again with the same inputs you get the same results. sys.time() not a "pure" function
+
+- The execution of the function shouldn't change global variables, have no side effects. 
+
+## Functions
+
+- Function don't have to be "pure" but it can help to ensure your code is doing what you intend it to do. 
+
+- Functional programming helps to break a problem down into it's pieces. When working to solve a problem it helps to divide the code into individually operating functions that solve parts of the problem. 
+
+## Types of Functions
+
+![Function Types](fp.png)
+
+## Let's Build a Function
+
+- Basically recipes composed of series of R statements
+
+```{r, eval=FALSE}
+name <- funtion(variables){
+  #In here goes the series of R statements
+}
+```
+
+## Example, talk out the steps
+
+```{r}
+my_mean <- function(x){
+  Sum <- sum(x)#Here we are using a function 
+  #inside a function!
+  N <- length(x)
+  return(Sum/N)#return is optional but helps with 
+  #clarity on some level. 
+}
+
+```
+>Create a little list and pass it to the function and see if it works. Also call the Sum and N variables...does this work?
+
+## Functional - Will show later, Function Factory (Advanced R)
+
+```{r}
+power1 <- function(exp) {
+  function(x) {
+    x ^ exp
+  }
+}
+
+#Assigning the exponentials
+square <- power1(2)
+cube <- power1(3)
+
+```
+
+## Run the Created Functions
+```{r}
+square(3)
+cube(3)
+```
+
+
+
+## Quick Exercise
+
+>Create a function that computes the range of a variable and then for no good reason adds 100 and divides by 10. Write out the steps you would need first in Pseudocode, then develop the function. 
+
+
+## `dplyr` verbs in the tidyverse
+
+The `dplyr` package gives us a few verbs for data manipulation
+
+```{r 01-lecture1-46, echo = F, results='asis'}
+dat <- tribble(
+  ~Function, ~Purpose,
+  'select', "Select columns based on name or position",
+  'mutate', 'Create or change a column',
+  'filter', 'Extract rows based on some criteria',
+  'arrange', 'Re-order rows based on values of variable(s)',
+  'group_by', 'Split a dataset by unique values of a variable',
+  'summarize', 'Create summary statistics based on columns')
+knitr::kable(dat, format='markdown')
+```
+
+## `select`
+
+You can select columns by name or position, of course. 
+
+You can also select columns based on some criteria, 
+which are encapsulated in functions.
+
+- starts_with("___"), ends_with("___"), contains("____")
+- one_of("____","_____","______")
+
+There are others; see `help(starts_with)`.
+
+
+## Example
+
+Load the `weather.csv`. This contains daily temperature data in 2010 for some location.
+
+```{r 01-lecture1-47, echo = F}
+weather <- rio::import('~/git_3001/DS-4001/data/weather.csv')
+getwd()
+```
+
+```{r 01-lecture1-48}
+head(weather, 2)
+```
+
+## How would you just select the columns with the daily data?
+
+```{r 01-lecture1-49, eval = F}
+select(weather, starts_with("d"))
+```
+
+## mutate
+
+`mutate` can either transform a column in place or create a new column in a dataset
+
+We'll use the in-built `mpg` dataset for this example, We'll select only the city and highway mileages. To use this selection later, we will need to assign it to a new name
+
+```{r 01-lecture1-50}
+mpg1 <- select(mpg, cty, hwy)
+```
+
+## mutate
+
+We'll change the city and highway mileage to km/l from mpg. 
+This will involve multiplying it by 1.6 and dividing by 3.8
+
+```{r 01-lecture1-51}
+head(mutate(mpg1, cty = cty * 1.6 / 3.8, 
+            hwy = hwy * 1.6/3.8), 5)
+```
+>This is in-place replacement
+
+## New Variable Defined
+
+```{r 01-lecture1-52}
+mutate(mpg1, cty1 = cty * 1.6/3.8, hwy1 = hwy * 1.6/3.8)
+```
+>This creates new variables
+
+## filter
+
+`filter` extracts rows based on criteria
+
+```{r 01-lecture1-53}
+filter(mpg, cyl == 4)
+```
+
+This extracts only 4 cylinder vehicles
+
+Other choices might be `cyl != 4`, `cyl > 4`, `year == 1999`, `manufacturer=="audi"`
+
+## Practice Piping 
+```{r, echo=TRUE}
+admit_df <- read_csv("~/git_3001/DS-4001/data/LogReg.csv")
+str(admit_df)
+#Do we notice anything that seems a bit off. 
+```
+
+## Coercion num to factor
+
+```{r}
+admit_df$rank <- as.factor(admit_df$rank)
+#changes rank to a factor 
+
+```
+
+## Five Basic Classes in R
+
+- character 
+- numeric (double precision floating point numbers, default)
+- integer (subset of numeric)
+- complex (j = 10 + 5i)
+- logical (True/False)
+  
+## All have coercion calls (example from: R Nuts and Bolts)
+
+```{r}
+x <- 0:6
+class(x)#why
+as.numeric(x)
+as.logical(x)
+as.character(x)
+```
+
+## Functional Example: Pass a function get a vector
+We can also convert multiple columns using lapply(), great example of functional orientation of R. 
+```{r}
+names <- c("admit","rank")
+#using names as a index on admit_df, 
+admit_df[,names] <- lapply(admit_df[,names], factor)
+
+#Check class of those two variables
+(as.character(meta_fun <- lapply(subset(admit_df,
+                                        select = names), 
+                                        class)))
+```
+
+>#using a functional with two functions inside that creates a object coerced to a character list...what fun. 
+
+## Using the code chunk below to "group_by" rank
+```{r}
+
+
+```
+
+## Using the code chunk below to filter by 1 in the admit column
+```{r}
+
+
+```
+
+## Ok now summarise by average GPA 
+```{r}
+
+
+```
+
+## Now Pipe everything together
+```{r, echo=TRUE}
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r, include=FALSE}
+sum_admit <- group_by(admit_df, rank)%>%
+  filter(admit==1)%>%
+  summarise(mean(gre), mean(gpa))%>%
+  print(sum_admit)
+
+```
+
