@@ -11,10 +11,12 @@ editor_options:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```
 
 ```{r}
+library(tidyverse)
  
-weather <- read_csv('weather.csv')
+weather <- read_csv('~/git_3001/DS-4001/data/weather.csv')
 View(weather)
 ```
 
@@ -79,6 +81,28 @@ weather_tidy <- weather %>%
   mutate(day = as.numeric(day),
          tmax = replace_na(tmax, 0), 
          tmin = replace_na(tmin, 0))
+
+View(weather_tidy)
 ```
 
+
+clean weather function
+```{r}
+weather_clean <- function(x){
+  gather(x,key = 'day', value = 'temp', starts_with('d')) %>% 
+  spread(element, temp) %>% 
+  separate(day, c('symbol', 'day'), sep = 1) %>% 
+  select(-symbol) %>% 
+  mutate(day = as.numeric(day),
+         tmax = replace_na(tmax, 0), 
+         tmin = replace_na(tmin, 0))
+}
+
+func_clean <- weather_clean(weather)
+
+View(func_clean)
+```
+
+
+```
 

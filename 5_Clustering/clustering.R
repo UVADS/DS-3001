@@ -12,6 +12,8 @@ library(e1071)
 library(tidyverse)
 library(plotly)
 
+
+
 library(help = "e1071")#<- learn about all the functionality of the package,
 #   be well informed about what you're doing
 
@@ -19,7 +21,7 @@ library(help = "e1071")#<- learn about all the functionality of the package,
 
 #### Slide 32: Step 1: load packages and data ####
 
-house_votes_Dem = read_csv("house_votes_Dem.csv")
+house_votes_Dem = read_csv("data/house_votes_Dem.csv")
 
 # What does the data look like?
 View(house_votes_Dem)
@@ -167,7 +169,7 @@ denom_Dem = kmeans_obj_Dem$totss
 #### Slide 53: Elbow method: measure variance ####
 
 # Run an algorithm with 3 centers.
-set.seed(1984)
+set.seed(1)
 kmeans_obj_Dem = kmeans(clust_data_Dem, centers = 3, algorithm = "Lloyd")
 
 # Inter-cluster variance.
@@ -210,6 +212,8 @@ View(clust_data_Dem)
 explained_var_Dem = sapply(1:10, explained_variance, data_in = clust_data_Dem)
 
 View(explained_var_Dem)
+
+
 
 # Data for ggplot2.
 elbow_data_Dem = data.frame(k = 1:10, explained_var_Dem)

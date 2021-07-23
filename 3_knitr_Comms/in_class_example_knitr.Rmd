@@ -13,15 +13,19 @@ editor_options:
 
 ```{r setup, include=FALSE, cache=TRUE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
 ```
 
 ```{r, include=FALSE}
 library(tidyverse)
+library(knitr)
 library(plotly)
+library(DT)
+
 ```
 
 
-<img src="bd.png" alt="drawing" width="200"/>
+<img src="bd.png" alt="drawing" width="500"/>
 
 Date that [article](https://www.smartdatacollective.com/5-excellent-big-data-tools-for-fostering-a-digital-workplace/) was published: **January 29, 2020**
 
@@ -31,10 +35,10 @@ The Big Data article emphasizes big data tools that could *improve* workspace re
 tools_to_improve <- c("Virtual Personal Assistants", "Workload Automation Software", "Enterprise Social Networks", "Cloud Computing Technologies", "Modern Corporate Intranets ")
 tools_to_improve
 ```
-In the world of data, big data is the topic that is on everyone's mind. Thus, it's no suprise that big data is finding its way into the simple, mundane tasks we find ourselves doing. For instance, creating an efficient schedule can be time-consuming. However, with the virtual personal assistant and workload automation software tools, one could optimize and complete tasks in record time. The article also details an enterprise social networking tool similar to **Slack** that allows for employees to utilize the powerful nature of direct messaging, which would push out the need for work emails and maximize time at the office. Ultimately, big data is everywhere and it's time we embrace it.
+In the world of data, big data is the topic that is on everyone's mind. Thus, it's no surprise that big data is finding its way into the simple, mundane tasks we find ourselves doing. For instance, creating an efficient schedule can be time-consuming. However, with the virtual personal assistant and workload automation software tools, one could optimize and complete tasks in record time. The article also details an enterprise social networking tool similar to **Slack** that allows for employees to utilize the powerful nature of direct messaging, which would push out the need for work emails and maximize time at the office. Ultimately, big data is everywhere and it's time we embrace it.
 
 ### Basic Article Stats
-```{r, message=FALSE, echo=TRUE}
+```{r, message=FALSE, echo=FALSE}
 library(knitr)
 stat <- data.frame("Article Views" = 2351, "Article Shares" = 71, "Article Likes on FB" = 576)
 kable(stat)
@@ -69,7 +73,6 @@ string
 2. [Harnessing Big Data to Write A Fantastic Research Paper](https://www.smartdatacollective.com/harnessing-big-data-to-write-fantastic-research-paper/)
 3. [5 Incredible Ways Big Data Has Made VPNs Powerful Privacy Tools](https://www.smartdatacollective.com/5-incredible-ways-big-data-has-made-vpns-powerful-privacy-tools/)
 
-![](cloud.png)
 
 
 #### Social Media 
@@ -94,6 +97,7 @@ iris_plot <- ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width))+
   geom_point(aes(color = Species, shape = Species))+
   scale_color_manual(values = c("#00AFBB", "#E7B800", "#FC4E07"))
 
+
 ggplotly(iris_plot)
 
 ```
@@ -101,6 +105,7 @@ ggplotly(iris_plot)
 #### Iris Datatable with DT
 
 ```{r, echo=FALSE}
+
 DT::datatable(iris)
 ```
 
