@@ -1,0 +1,287 @@
+---
+title: "Decision Trees"
+author: "Brian Wright"
+date: "November 27, 2017"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+Libraries
+```{r}
+library(rio)
+library(plyr)
+library(tidyverse)
+library(rpart)
+library(psych)
+library(pROC)
+#install.packages("rpart.plot")
+library(rpart.plot)
+#install.packages("rattle")
+library(rattle)
+setwd("/cloud/project/decision_trees")
+```
+
+
+```{r}
+tree_example <- tibble(import("pregnancy.csv", check.names= TRUE))
+
+describe(tree_example)
+View(tree_example)
+str(tree_example)
+#We want to build a classifier that can predict whether a shopper is pregnant based on the items they buy so we can direct-market to that customer if possible. 
+
+
+sum(tree_example$PREGNANT)
+length(tree_example$PREGNANT)
+
+(x <- 1- sum(tree_example$PREGNANT)/length(tree_example$PREGNANT))
+
+
+#What does .72 represent in this context? 
+
+```
+
+
+
+#reformat for exploration purposes
+```{r}
+
+#Creating a vertical dataframe for the pregnant variable, just stacking the variables on top of each other. 
+
+
+tree_example_long = tree_example %>% gather(Var, #<- list of predictor variables
+                                Value,#<- the values of those predictor variables
+                                -PREGNANT)  #<- the column to gather the data by
+
+View(tree_example)
+View(tree_example_long)
+
+```
+
+
+#See what the base rate of likihood of pregnancy looks like for each variable
+```{r}
+# Calculate the probability of being pregnant by predictor variable.
+# Since the data is binary you can take the average to get the probability.
+
+#Older way, but works well for doing multi-level group summaries, creates new variables for each group versus a summary for the entire list. 
+
+
+
+tree_example_long_form = ddply(tree_example_long, 
+                            .(Var, Value),#<- group by Var and Value, "." allows us to call the variables without quoting
+                            summarize,  
+                            prob_pregnant = mean(PREGNANT), #<- probability of being pregnant
+                            prob_not_pregnant = 1 - mean(PREGNANT)) #<- probability of not being pregnant
+
+#?ddply
+
+View(tree_example_long_form)
+```
+
+#Build the model 
+```{r}
+# In order for the decision tree algorithm to run, 
+# all the variables will need to be turned into factors.
+
+
+tree_example = lapply(tree_example, function(x) as.factor(x))
+
+#This is a handy reference on apply(), lapply(), sapply() all essentially designed to avoid for loops, especially in combination with (function (x))
+
+#https://www.r-bloggers.com/using-apply-sapply-lapply-in-r/
+
+str(tree_example)
+
+tree_example <- as_tibble(tree_example)
+
+table(tree_example$PREGNANT)
+
+#Also want to add data labels to the target
+tree_example$PREGNANT <- factor(tree_example$PREGNANT,labels = c("not_preg", "preg"))
+
+#Build the model
+# Train the tree with the rpart() function.
+# We'll need to set the seed to make the results reproducible. 
+set.seed(1980)
+tree_example_tree_gini = rpart(PREGNANT~.,  #<- formula, response variable ~ predictors
+                           #   "." means "use all other variables in data"
+                            method = "class",#<- specify method, use "class" for tree
+                            parms = list(split = "gini"),#<- method for choosing tree split
+                            data = tree_example,#<- data used
+                            control = rpart.control(cp=.001))
+
+#Look at the results
+tree_example_tree_gini
+
+View(tree_example_tree_gini$frame)
+
+# dev - the deviance or the total sum of squares within the node, so if
+#       you divide this by the sample size in each node you get the variance
+# yval - average value of the trait at the node (for categorical values identifies the group)  
+# complexity - the value of the parameter used to make the split (gini or information gain)
+# ncompete - number of competing variables that can be considered for this split
+# nsurrogate - number of surrogate trees (used when there is missing data in the test data set, to mimic the effects of splits in the training data set)
+# yval2 - average value of the trait at the node (for categorical values identifies the group), although it can mean different things when the rpart function is used for regression trees or other analyses 
+
+
+rpart.plot(tree_example_tree_gini, type =4, extra = 101)#package rpart.plot
+#export this to  pdf for better viewing
+?rpart.plot
+
+#The "cptable" element includes the optimal prunnings based on the complexity parameter.
+
+View(tree_example_tree_gini$cptable)
+
+plotcp(tree_example_tree_gini)#Produces a "elbow chart" for various cp values
+
+# Here's a summary:
+# CP - complexity parameter, or the value of the splitting criterion (gini or information gain)
+# nsplit - number of splits
+# rel error - the relative error rate for predictions for the data that generated the tree
+# xerror - cross-validated error, default cross-validation setting uses 10 folds
+# xstd - the standard derivation of cross-validated errors
+
+# NOTE: 
+# For pruning a tree, the rule of thumb is to choose the split at the lowest level 
+# where the rel_error + xstd < xerror
+
+cptable_ex <- as_tibble(tree_example_tree_gini$cptable, )
+str(cptable_ex)
+
+cptable_ex$opt <- cptable_ex$`rel error`+ cptable_ex$xstd
+
+View(cptable_ex)
+
+#Ok so let's compare the cptable_ex, the cpplot and the decision tree plot, they all covered around 8ish splits of the tree or a cp of .014ish. Print out skips splits that result in terminal leaf nodes for some reason, so makes it a little hard to interpret 
+
+rpart.plot(tree_example_tree_gini, type =4, extra = 101)
+
+#Shows the reduction in error provided by include the variable 
+tree_example_tree_gini$variable.importance
+
+```
+
+#Plot the Output to png 
+
+```{r}
+# Plot tree, and save to a png file.
+png("Pregnancy_tree_gini.png",  #<- image name
+    width = 1000,               #<- width of image in pixels
+    height = 600)               #<- height of image in pixels
+
+post(tree_example_tree_gini,                  #<- the rpart model to plot
+     file = "",                            #<- ensure the png file is created correctly
+     title = "Tree for Pregnancy - gini")  #<- the title of the graph
+
+dev.off()
+```
+
+
+# Test the accuracy 
+```{r}
+# Let's use the "predict" function to test our our model and then 
+# evaluate the accuracy of the results.
+tree_example_fitted_model = predict(tree_example_tree_gini, type= "class")
+
+View(as.data.frame(tree_example_fitted_model))
+
+#tree_example_fitted_model <- as.numeric(tree_example_fitted_model)
+View(tree_example_fitted_model)
+
+# Let's compare the results to the actual data.
+preg_conf_matrix = table(tree_example_fitted_model, tree_example$PREGNANT)
+preg_conf_matrix
+
+table(tree_example_fitted_model)
+
+#We can also just use the confusion matrix
+
+library(caret)
+confusionMatrix(as.factor(tree_example_fitted_model), as.factor(tree_example$PREGNANT), positive = "preg", dnn=c("Prediction", "Actual"), mode = "sens_spec")
+
+table(tree_example$PREGNANT)
+
+```
+
+Hit Rate or True Classification Rate, Detection Rate and ROC
+```{r}
+# The error rate is defined as a classification of "Pregnant" when 
+# this is not the case, and vice versa. It's the sum of all the
+# values where a column contains the opposite value of the row.
+sum(preg_conf_matrix[row(preg_conf_matrix)!= col(preg_conf_matrix)])
+# 301
+
+
+# The error rate divides this figure by the total number of data points
+# for which the forecast is created.
+sum(preg_conf_matrix)
+# 2000
+
+# Let's use these values in 1 calculation.
+preg_error_rate = sum(preg_conf_matrix[row(preg_conf_matrix) != col(preg_conf_matrix)]) / sum(preg_conf_matrix)
+
+
+paste0("Hit Rate/True Error Rate:", preg_error_rate * 100, "%")
+# "Hit Rate/True Error Rate:15.05%"
+
+
+#Detection Rate is the rate at which the algo detects the positive class in proportion to the entire classification A/(A+B+C+D) where A is poss poss
+
+preg_conf_matrix
+
+preg_conf_matrix[2,2]/sum(preg_conf_matrix)# 17.75%, want this to be higher but only so high it can go, in a perfect model for this date it would be:
+
+
+preg_roc <- roc(tree_example$PREGNANT, as.numeric(tree_example_fitted_model), plot = TRUE) #Building the evaluation ROC and AUV using the predicted and original target variables 
+
+preg_roc
+
+plot(preg_roc)
+
+#We can adjust using a if else statement and the predicted prob
+
+tree_example_fitted_prob = predict(tree_example_tree_gini, type= "prob")
+View(tree_example_fitted_prob)
+
+#Let's 
+roc(tree_example$PREGNANT, ifelse(tree_example_fitted_prob[,'not_preg'] >= .25,0,1), plot=TRUE)
+
+```
+#We can also prune the tree to make it less complex 
+```{r}
+set.seed(1)
+tree_example_tree_cp2 = rpart(PREGNANT~.,                         #<- formula, response variable ~ predictors,
+                                                               #   "." means "use all other variables in data"
+                           method = "class",	                 #<- specify method, use "class" for tree
+                           parms = list(split = "gini"),       #<- method for choosing tree split
+                           data = tree_example,             #<- data used
+                           control = rpart.control(maxdepth = 7))  #<- includes depth zero, the control for additional options (could use CP, 0.01 is the default)
+
+?rpart.control
+
+plotcp(tree_example_tree_cp2)
+
+View(tree_example_tree_cp2)
+
+rpart.plot(tree_example_tree_cp2, type =4, extra = 101)
+
+cptable_ex_cp <- as.data.frame(tree_example_tree_cp2$cptable, )
+View(cptable_ex_cp)
+
+cptable_ex_cp$opt <- cptable_ex_cp$`rel error`+ cptable_ex_cp$xstd
+
+View(cptable_ex_cp)
+
+#Change the rpart.control and take a look at results.
+
+dev.off()
+
+```
+

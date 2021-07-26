@@ -1,0 +1,244 @@
+---
+title: "Fairness Package Example"
+author: "Brian Wright"
+date: "3/12/2020"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+setwd("/cloud/project/Fairness")
+#install.packages("fairness")
+#install.packages('tidyverse')
+library(fairness)
+library(tidyverse)
+library(caret)
+save.image(file = "fairness.RData")
+library(rpart.plot)
+library(DT)
+library(plotly)
+```
+
+Ok let's take a look at some of these fairness measures in action. We are going to train a decision tree on a data set focused on Japanese Loan Approval to see if gender and sex play a role in the approval of the loans. 
+
+I should note that the labels on this dataset were completely anonymized so I had to guess (make up some of my own) at the labels. In terms of walking you through the process of measuring fairness it really shouldn't have any impact. 
+
+```{r}
+#Let's load in our data
+loan_data <- read_csv('japan_credit.csv')
+#Take a look
+View(loan_data)
+str(loan_data)
+```
+
+Cleaning 
+```{r}
+table(loan_data$gender)# so this is kinda tricky we have "?" in the data instead of NAs, so we should probably replace the "?" with NAs, then remove them 
+
+loan_data[loan_data=="?"] <- NA
+
+loan_data_2 <- loan_data[complete.cases(loan_data), ]
+
+dim(loan_data)
+dim(loan_data_2)#we didn't loose that many case, looks like about 37, actually going to overwrite to loan_data
+
+loan_data <- loan_data[complete.cases(loan_data), ]#ok makes the naming simpler
+  
+
+#Ok as you can see we have 15 predictor variables (including whether the applications prefer funfetti_cake) and one outcome measure. We do need to reclass the outcome measure to the traditional {0,1} format along with a few other variables, we can do this with recode.
+
+loan_data$outcome <- recode(loan_data$outcome, '+' = 1, '-' = 0)
+
+#need to do the same for gender, more b than a so b will be male and a female 
+
+loan_data$gender <- recode(loan_data$gender, 'b' = 'm', 'a' = 'f')
+
+#also going to recode maital_status g=married, p= divorced, s=single
+
+loan_data$marital_status <- recode(loan_data$marital_status, 'g' = 'mar', 'p' = 'div', 's'='sig') 
+
+#need to re-factor the race variable
+table(loan_data$race)#first we can use table to see the frequencies at each of the categories. Given that this is Japanese data we will classify v and Jap, h as white, bb as black, ff as Hispanic and everything else into other. 
+
+loan_data$race <- fct_collapse(loan_data$race,
+                               jap = "v",
+                               white ="h",
+                               black = "bb",
+                               hisp = "ff",
+                               other = c("z","o","n","j","dd"))
+
+table(loan_data$race)#run table again we see our collapsed categories 
+                               
+#also age and days_account_open need to be a numeric variable and outcome should be a factor so need to do some quick coercions 
+ 
+loan_data$age <- as.numeric(loan_data$age)
+loan_data$days_account_open <-as.numeric(loan_data$days_account_open)
+loan_data$outcome <- as.factor(loan_data$outcome)
+
+str(loan_data)
+  
+#Next let's get rid of var_d as it's essential the same as e and also f as its got 15 different categories so the complexity of keeping that many levels would be pretty difficult to manage inside our tree, especially not knowing the labels.  
+
+loan_pred <- loan_data[ , c(-3,-5)] 
+head(loan_pred)
+
+
+
+```
+So now we can create our decision tree, then we will see if its "fair" to the gender and race variables. We are going to use the caret package to grow our tree, this is a heavily used ml package in R
+
+```{r}
+#we need to create index that we can use for developing a test and training set. Training is for build the tree and test is for checking the quality. 
+
+set.seed(999)# this will allow you to replicate the outcomes of randomized process
+
+#caret function the will allow us to divide the data into test and train, it will randomly assign rows into each category while maintaining the relative balance (0 and 1s) of the target variable. 
+split_index <- createDataPartition(loan_pred$outcome, p = .8, #selects the split, 80% training 20% for test 
+                                  list = FALSE,#output of the data, we don't want a list
+                                  times = 1)#the number of partitions to create we just want one
+
+
+#then we just pass the index to our dataset
+
+train_data <- loan_pred[split_index,]
+table(train_data$outcome)
+
+
+test <-loan_pred[-split_index,]
+table(test$outcome)
+
+
+#now let's build out tree
+
+loan_tree <- train(outcome~., #model formula everything used to classify outcome
+                   data=train_data, #use the training data
+                   method='rpart',# indicates the use of tree based model
+                   na.action = na.omit)#omitting the missing values
+                   
+loan_tree#let's take a look, pretty good accuracy is at roughly 84%, not bad. Accuracy is (TP + TN)/(P+N). High level indicator of model efficiency. 
+loan_tree$finalModel$variable.importance#This will tell us the most important variables in terms of reducing our model error...hahaha liking funfetti takes the cake!! As it should anyone that doesn't enjoy a nice piece of funfetti cake just can't be trusted.
+
+loan_tree$finalModel
+
+loan_plot <- rpart.plot(loan_tree$finalModel, type =4, extra = 101)
+
+loan_plot
+
+```
+Now let's evaluate our model and see if it's treating our protected classes (gender and race) fairly
+
+```{r}
+#First we need to do some predictions using the test data.
+
+loan_eval <-predict(loan_tree,newdata = test)
+
+loan_eval_prob <- predict(loan_tree,newdata = test, type = "prob")#this gives us the predicted prob, we will need these later for the fairness evaluation
+
+View(loan_eval_prob)
+
+View(test$outcome)
+
+table(loan_eval,test$outcome)#essentially the confusion matrix, though we can make a fancy one using caret built in functions
+
+#Target comes first, then the predictions
+confusionMatrix(loan_eval, test$outcome, positive = "1", dnn=c("Prediction", "Actual"), mode = "sens_spec")
+
+#from the above we can see our true positive rate or sensitivity (1-FNR) is quite good at 94%, True Negative Rate or specificity (1-FPR) is not bad at 77%.  
+
+
+(error = mean(loan_eval != test$outcome))#overall error rate, on average when does our prediction not match the actual, looks like around 15%, so pretty good 
+
+sum(loan_eval != test$outcome)
+length(loan_eval)
+1-(19/130) #accuracy
+
+```
+Now let's check the fairness
+
+```{r}
+#first we are going to equality of odds or "proportional parity" and equal opportunity "equal odds" as defined by this package, but we need create a new data frame that includes our set of predicted values and the percentage values associated with each outcome. We will add this to our test set.  
+
+table(test$gender)
+
+#Test,Predicted Class and the Probabilities all in one dataframe
+fair_eval_data <- cbind(test,predicted=loan_eval, prob=loan_eval_prob$`1`)
+
+head(fair_eval_data)
+
+dpp <- prop_parity(data = fair_eval_data, 
+                   group="gender",#protected class
+                   probs = "prob",
+                   preds = "predicted",
+                   cutoff = .5,#threshold
+                   base = "m")#reference level 
+
+
+
+dpp$Metric #We would want these to be 1 across the board, but it's looks like being female appears to be favored, but very little. 
+
+#The below plots help to show this story a bit more.
+ddp_metric_plot <- dpp$Metric_plot
+ddp_metric_plot
+
+prob_plot <- dpp$Probability_plot #as we can see there's some slight advantages to being female both before the 50% threshold but about the same after the cutoff.
+
+prob_plot
+
+#We can also look at equal odds measures
+
+eqo_loan <- equal_odds(data = fair_eval_data, 
+           outcome = "outcome", 
+           group   = "gender",
+           probs   = "prob", 
+           preds   = "predicted",
+           cutoff = 0.5, 
+           base   = "m")
+
+eqo_loan$Metric #This is interesting because here it seems the roles are slightly reversed. 
+
+eqo_loan <- ggplotly(eqo_loan$Metric_plot)
+
+eqo_loan
+
+```
+Predictive Rate Parity
+
+```{r}
+prp <- pred_rate_parity(data = fair_eval_data, 
+           outcome = "outcome", 
+           group   = "gender",
+           probs   = "prob", 
+           preds   = "predicted",
+           cutoff = 0.50, 
+           base   = "m")
+
+prp$Metric
+
+datatable(prp$Metric, options = list(pageLength = 10))
+
+prp$Metric_plot # As we can see in comparison to those of Japanese decent white and black individuals are being classified much less accurately when it comes to the positive outcome of getting a loan. Keeping in mind this is made up data.  
+
+prp$Probability_plot
+
+
+```
+
+```{r}
+roc_eval <- roc_parity(data = fair_eval_data,
+                   outcome = "outcome",
+                   group="gender",#protected class
+                   probs = "prob",
+                   base = "m")
+
+#roc_eval$ROCAUC_plot #we would likely want to set our threshold at the intersection of these two graphs, but these seems to be a rather minor difference. 
+
+roc_eval_plty <- ggplotly(roc_eval$ROCAUC_plot)
+roc_eval_plty
+```
+
+
