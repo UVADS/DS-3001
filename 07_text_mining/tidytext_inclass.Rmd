@@ -1,0 +1,330 @@
+---
+title: "Tidytext"
+author: "Brian Wright"
+date: "3/23/2020"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r}
+library(tidyverse)
+#install.packages("tidytext")
+library(tidytext)
+#install.packages("ggwordcloud")
+library(ggwordcloud)
+install.packages("gutenbergr") 
+library(gutenbergr)
+#install.packages('textdata')
+library(textdata)
+setwd("/cloud/project/tidytext")
+save.image("tidytext.RData")
+
+```
+
+```{r}
+
+animal_house <- tibble(text= "Over? Did you say ‘over?!’ Nothing is over until we decide it is! Was it over when the Germans bombed Pearl Harbor? Hell no!And it ain’t over now. ‘Cause when the goin’ gets tough…the tough get goin’! Who’s with me? Let’s go! Come on! What the heck happened to the Delta I used to know? Where’s the spirit? Where’s the guts, huh? ‘Ooh, we’re afraid to go with you Bluto, we might get in trouble.’ Well just kiss my ass from now on! Not me! I’m not gonna take this. Wormer, he’s a dead man! Marmalard, dead! Niedermeyer.")
+
+View(animal_house)
+
+#The first line indicates that we are creating a new data frame called animal_house, starting, which has one variable named text.
+
+
+ah_word <- animal_house %>%
+  unnest_tokens(word, text)
+
+str(ah_word)
+
+View(ah_word)
+
+#If we want to tokenize by some other structure use the token option
+
+ah_sentence <- animal_house %>%
+  unnest_tokens(sentence, text, token = "sentences")
+
+View(ah_sentence)
+
+#Another option is to analyze the paragraph by ngrams, essentially multiple letter combination
+
+ah_ngrams <- animal_house %>%
+  unnest_tokens(sentence, text, token = "ngrams", n=3)
+
+View(ah_ngrams)
+
+#We can also use the count() function to start to get an idea on frequencies of used words in our text
+
+ah_count <- ah_word %>%
+  count(word, sort=TRUE)
+
+ah_count$word <- as.factor(ah_count$word)  
+
+View(ah_count)
+#Quick plot 
+
+ggplot(
+  data = ah_count,
+  aes(x = fct_reorder(word,n), 
+      y = n)
+  ) + 
+  geom_col() + 
+  coord_flip()+
+  theme_light()
+
+#We can also remove stop words, such as "the", "a", "and" essentially the most commonly used words in the English language. Most text packages have a vector list of stop words. This is true of tidytext = stop_words, there's 1,149 of them. We can pass this into our original word tokenization and use a join to remove the stop words.  
+
+View(stop_words)
+
+ah_word_sw <- ah_word %>%
+      anti_join(stop_words)
+
+View(ah_word_sw)#We can see now the stop words are removed from our list. 
+
+#So let's generate our plot again, probably will look very different. 
+
+ah_count_sw <- ah_word_sw %>%
+  count(word, sort=TRUE)
+
+ah_count_sw$word <- as.factor(ah_count_sw$word) 
+
+ggplot(
+  data = ah_count_sw,
+  aes(x = fct_reorder(word,n),
+      y = n)
+  ) + 
+  geom_col() + 
+  coord_flip()+
+  theme_light()
+  
+#Clearly this is very different, but not really interesting.       
+```
+
+Let's look at a slightly larger dataset. As referenced in Text Mining with R, a package gutenbergr provides access to the public domain items from the Gutenberg Project. Let's take a look. To learn more check out this link: <https://ropensci.org/tutorials/gutenbergr_tutorial/>
+
+```{r}
+eng_gut <- gutenberg_works(languages = "en", only_text = TRUE, distinct = TRUE)
+
+gutenberg_works(str_detect(title, "Kennedy"))
+
+eng_gut %>%
+  filter(str_detect(title, "Kennedy"))
+
+kennedy_inag <- gutenberg_download(3, mirror="http://mirrors.xmission.com/gutenberg/") #had to use a new mirror as the default mirror was down, list of mirrors is here: https://www.gutenberg.org/MIRRORS.ALL
+
+#Let's take a look at the speech from 1961
+View(kennedy_inag)
+
+#Looks like we have some extra info there at the top so let's remove those rows.
+
+kennedy_inag <- kennedy_inag[13:143, ]
+
+kennedy_inag <- kennedy_inag %>%
+  unnest_tokens(word, text)%>%
+  anti_join(stop_words)%>%
+  count(word, sort=TRUE)
+
+View(kennedy_inag)
+
+#Let's pull in Trump's inauguration speech and compare the differences. 
+
+
+trump_inag <- read_lines("trump_inag.txt")
+
+trump_inag <- tibble(trump_inag)
+View(trump_inag)
+
+trump_inag$trump_inag <- as.character(trump_inag$trump_inag)
+
+View(trump_inag)
+
+trump_inag <- trump_inag %>%
+  unnest_tokens(word, trump_inag)%>%
+  anti_join(stop_words)%>% 
+  count(word, sort=TRUE)
+
+View(trump_inag)
+
+#Biden's speech
+
+biden_inag <- read_lines("biden_inag.txt")
+
+biden_inag <- tibble(biden_inag)
+View(biden_inag)
+
+biden_inag$biden_inag <- as.character(biden_inag$biden_inag)
+
+biden_inag <- biden_inag %>%
+  unnest_tokens(word, biden_inag)%>%
+  anti_join(stop_words)%>% 
+  count(word, sort=TRUE)
+
+View(biden_inag)
+
+```
+
+Ok, now that we have our word frequencies let's do some analysis. We will compare the three speeches using sentiment analysis to see if the generally align or not. 
+
+```{r}
+#helps with the sentiment analysis, using package "textdata"
+
+get_sentiments('afinn')# we see a list of words and there classification, 2,467 - not really that many overall. 
+
+get_sentiments('nrc')# looks like a good amount more 13,891, but as we can see words are classified in several different categories. 
+
+get_sentiments('bing')# looks like a good amount more 6,776, but as we can see just negative and positive. 
+
+kenn_sentiment_affin <- kennedy_inag %>%
+  inner_join(get_sentiments("afinn"))#using a inner join to match words and add the sentiment variable
+
+kenn_sentiment_nrc <- kennedy_inag %>%
+  inner_join(get_sentiments("nrc"))
+
+kenn_sentiment_bing <- kennedy_inag %>%
+  inner_join(get_sentiments("bing"))
+
+View(kenn_sentiment_bing)
+
+#Walk through the same process for Trump 
+
+trump_sentiment_afinn <- trump_inag %>%
+  inner_join(get_sentiments("afinn"))
+  
+trump_sentiment_nrc <- trump_inag %>%
+  inner_join(get_sentiments("nrc"))
+
+trump_sentiment_bing <- trump_inag %>%
+  inner_join(get_sentiments("bing"))
+
+View(trump_sentiment_afinn)
+
+#again for Biden
+biden_sentiment_afinn <- biden_inag %>%
+  inner_join(get_sentiments("afinn"))
+  
+biden_sentiment_nrc <- biden_inag %>%
+  inner_join(get_sentiments("nrc"))
+
+biden_sentiment_bing <- biden_inag %>%
+  inner_join(get_sentiments("bing"))
+
+View(biden_sentiment_nrc)
+```
+
+Now that we have our sentiment let's do some quick comparisons
+
+```{r}
+#We can just do some tabling to see the differences in bing and nrc, seems like Kennedy's speech at least first glanced was much more balanced in terms of negative/positive sentiment
+table(trump_sentiment_bing$sentiment)
+table(kenn_sentiment_bing$sentiment)
+table(biden_sentiment_bing$sentiment)
+
+table(trump_sentiment_nrc$sentiment)
+table(kenn_sentiment_nrc$sentiment)
+table(biden_sentiment_nrc$sentiment)
+
+View(kenn_sentiment_affin)
+
+ggplot(data = kenn_sentiment_affin, 
+       aes(x=value)
+        )+
+  geom_histogram()+
+  ggtitle("Kennendy Sentiment Range")+
+  theme_minimal()
+
+
+ggplot(data = trump_sentiment_afinn, 
+       aes(x=value)
+        )+
+  geom_histogram()+
+  ggtitle("Trump Sentiment Range")+
+  theme_minimal()
+
+
+ggplot(data = biden_sentiment_afinn, 
+       aes(x=value)
+        )+
+  geom_histogram()+
+  ggtitle("Biden Sentiment Range")+
+  theme_minimal()
+
+#Again they look very different, which leads to all kinds of interesting questions around the current state of affairs at the time these speeches were given and enforces the idea that text needs to be analyzed in the context of when it was written.....Hermeneutics! I would reference this debate between Nixon and Kennedy to get a basic idea of the events being confronted at this time. 
+
+#https://www.jfklibrary.org/asset-viewer/archives/TNC/TNC-172/TNC-172
+
+#Could also do simple word clouds as we see, Trump is much more focused on the US whereas Kennedy references the "World" at a higher rate. 
+
+#below uses the ggwordcloud package
+
+set.seed(42)
+ggplot(kennedy_inag[1:50,], aes(label = word, size = n)
+       ) +
+  geom_text_wordcloud() +
+  theme_minimal()
+
+ggplot(trump_inag[1:50,], aes(label = word, size = n)
+       ) +
+  geom_text_wordcloud() +
+  theme_minimal()
+
+ggplot(biden_inag[1:50,], aes(label = word, size = n)
+       ) +
+  geom_text_wordcloud() +
+  theme_minimal()
+
+
+```
+
+term frequency - inverse document frequency tf-idf. Here we are going to treat
+each of our speeches as a document in a corpus and explore the relative 
+importance of words to these speeches as compared to the overall corpus. 
+```{r}
+#need to the raw data again
+
+kennedy_inag_raw <- gutenberg_download(3, mirror="http://mirrors.xmission.com/gutenberg/")
+
+trump_inag_raw <- as.tibble(read_lines("trump_inag.txt"))
+
+data_prep <- function(x,y,z){
+  i <- as_tibble(t(x))
+  ii <- unite(i,"text",y:z,remove = TRUE,sep = "")
+}
+
+kennedy_inag_bag <- data_prep(kennedy_inag_raw[13:143,2],'V1','V131')
+
+View(kennedy_inag_bag)
+
+biden_inag_bag <- data_prep(biden_inag_raw,'V1','V425')
+
+trump_inag_bag <- data_prep(trump_inag_raw,'V1','V149')
+
+president <- c("Kennedy","Biden","Trump")
+
+
+tf_idf_text <- tibble(president,text=t(tibble(kennedy_inag_bag,biden_inag_bag,trump_inag_bag,.name_repair = "universal")))
+
+View(tf_idf_text)
+
+word_count <- tf_idf_text %>%
+  unnest_tokens(word, text) %>%
+  count(president, word, sort = TRUE)
+
+
+total_words <- word_count %>% 
+  group_by(president) %>% 
+  summarize(total = sum(n))
+
+inag_words <- left_join(word_count, total_words)
+
+View(inag_words)
+
+inag_words <- inag_words %>%
+  bind_tf_idf(word, president, n)
+
+
+
+
+```

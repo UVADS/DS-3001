@@ -1,0 +1,99 @@
+---
+title: "Clustering Lab"
+author: "Brian Wright"
+date: "9/20/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Repeat the clustering process only using the Rep house votes dataset
+- What differences and similarities did you see between how the clustering 
+worked for the datasets?
+
+```{r}
+#Select the variables to be included in the cluster 
+
+```
+
+```{r}
+#Run the clustering algo with 2 centers
+```
+
+```{r}
+#View the results
+```
+
+```{r}
+#Visualize the output
+```
+
+```{r}
+#Create a 3d version of the output
+```
+
+```{r}
+#Evaluate the quality of the clustering 
+```
+
+```{r}
+#Use the function we created to evaluate several different number of clusters
+```
+
+```{r}
+#Create a elbow chart of the output 
+```
+
+```{r}
+#Use NbClust to select a number of clusters
+```
+
+```{r}
+#Display the results visually 
+```
+
+```{r}
+#Using the recommended number of cluster compare the quality of the model 
+#with 2 clusters 
+
+-3/4 * log2(3/4) -1/4* log2(1/4)
+
+-5/14*log2(5/14)-4/14*log2(4/14)-5/14*log2(5/14)
+
+((3/4) * 0.92) + ((1/4) * 0)
+.5*1
+```
+
+In a separate Rmarkdown document work through a similar process 
+with the NBA data. 
+
+You are a scout for the worst team in the NBA, probably the Wizards. Your 
+general manager just heard about Data Science and thinks it can solve all the
+teams problems!!! She wants you to figure out a way to find players that are 
+high performing but maybe not highly paid that you can steal to get your team 
+out of the toilet! 
+
+Details: 
+
+- Determine a way to use clustering to estimate based on performance if 
+players are under or over paid, generally.  
+- Provide a well commented and clean (knitted) report of your findings that can 
+be presented to your GM. Include a rationale for variable selection, details 
+on your approach and a overview of the results with supporting visualizations.  
+
+Hints:
+
+- Salary is the variable you are trying to understand 
+- You can include numerous performance variables in the clustering but when 
+interpreting you might want to use graphs that include variables that are the 
+most correlated with Salary, also might be a good way to select variables to
+include
+- You'll need to standardize the variables before performing the clustering 
+  
+
+
+
+
+
