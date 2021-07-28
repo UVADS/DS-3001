@@ -1,0 +1,18 @@
+Build a three ggplot graphes as a team 
+
+1. Create a new repo and have team members join with write access, not just read, this way you won't have to fork the repo before making a pull request. 
+
+2. Dividing the graph into three phases: 1) getting data loaded, 2) selecting the aes/adding labels, 3) and adding finishing details, assign a team member to each task. 
+
+3. Each team member should have a turn contributing at each stage. If you have four team members divide the third step into 2 steps and build four graphes.
+
+4. A topic or feature branch should be created for each graph with group members either making individual pull requests or working on the same pull request. Whomever is in control of the first phase will also complete the merging of the pull request(s) from the feature branch into the main branch. 
+
+5. Use a different datasets and produce different graphs for each dataset (don't push 3 scatter plots)
+
+6. Have separate Rscript or Rmarkdown files for each visualization. 
+
+7. All the above should be in one public repo, just submit the link to the repo when you are done via the collab assignment for this week.  
+
+
+
