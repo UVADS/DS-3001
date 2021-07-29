@@ -1,7 +1,7 @@
 Build a three ggplot graphs as a team using Github both from managing a repo and
 creating a pull request. 
 
-1. Create a new repo and manage access by giving with write access to team members.  
+1. One of your team members should create a new repo and manage access by giving write access to team members by added them as contributors.  
 
 2. Dividing the graph into three phases: 1) getting data loaded, 2) selecting the aes/adding labels, 3) and adding finishing details, assign a team member to each task. 
 
