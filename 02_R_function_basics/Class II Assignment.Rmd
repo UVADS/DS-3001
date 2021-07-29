@@ -31,7 +31,7 @@ library(tidyverse)
 group-by-group.
 
 
-## For this assignment you can use any or all of the datasets I 
+For this assignment you can use any or all of the datasets I 
 provided or choose three of your own!  I would like you to compose 
 a question for each dataset that requires at a minimum three "levels" 
 of pseudocode and use dplyr functions to solve the statements. Also create 
@@ -61,7 +61,7 @@ using dplyr functions, 4) pipe the individual lines together and
   - Calculate GPA Average
   - Count total admitted 
   - Calculate % Admitted
-  - Arrange in descending order by Ave GPA
+  - Arrange in descending order by Mean GPA
 
 
 Loading and preparing the data 

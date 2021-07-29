@@ -8,7 +8,9 @@ Using the code overview provided create a new Rmarkdown document that outputs to
 
 4. Embed the link your story
 
-5. At least four sections with different section headings related to the article, for example, you could have sections to summarize the article, areas of application, author information, etc.
+5. At least four sections with different section headings related to the article, 
+for example, you could have sections to summarize the article, 
+areas of application, author information, etc.
 
 6. Embed a picture or figure related to the article (control - height/width)
 
@@ -17,5 +19,3 @@ Using the code overview provided create a new Rmarkdown document that outputs to
 8. Publish the results to Rpubs
 
 9. Submit the link from Rpubs and the code file to collab - individually
-
-

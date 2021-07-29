@@ -116,7 +116,7 @@ On any given week, the course will require reviewing short video lectures and co
 | Week 7	| Computers can read…well kind of 	| Text Mining – Bag of Words approaches 	| Count, Word Cloud, Sentiment, and LDA Newspaper sentiment 	| D. Sections 1 - 3 	|
 | Week 8 | Machines really can learn 	| Introduction to ML: Prediction versus Classification  - Unsupervised - Bias/Variance Tradeoff - KNN  	| Create your first ML algo via KNN  | F. Chapter 3 	|
 | Week 9 | Reinforcement Lab	| Let's Put these Skills to Use!	| Case Study	|  	|
-| Week 10	| The key to ML: Knowing how bad your model really is… 	| - Metrics for Accuracy, Sensitivity, ROC, AUC - 	| The key to ML: Knowing how bad  your model really is… 	| |
+| Week 10	| The key to ML: Knowing how bad your model really is… 	| - Metrics for Accuracy, Sensitivity, ROC, AUC - 	| Evaluation Lab	| |
 | Week 11 	| Nature's Perfect ML analogy ML: Tree Methods  	| - Bias Discussion Decision Trees Classification 	| Decision Tree Lab	|  	|
 |  Week 12 | Wisdom of the Crowd ML: Tree Methods Cont. 	| Random Forrest    - Sampling Matters  - XGBoost - Bonus Lecture 	|  	|  	|
 |  Week 13 	| Reinforcment Lab	| Time to think on your own!	| Case Study 	| 	  |
