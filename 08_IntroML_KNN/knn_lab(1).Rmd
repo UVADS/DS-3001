@@ -11,26 +11,20 @@ editor_options:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-You are a new data scientist and unfortunately have a demanding and totally clueless
-boss.  Clueless meaning that he doesn't understand data science, but he knows 
-he wants it to be used to fix all the company's problems and you are just the
-data scientist to do it! 
+You are a new data scientist and unfortunately have a demanding and totally clueless boss.  Clueless meaning that he doesn't understand data science, but he knows he wants it to be used to fix all the company's problems and you are just the data scientist to do it! 
 
 Your company, Marketing Enterprises of Halifax or "MEH" is being beat out by the competition and wants a new way to determine the quality of its commercials. Your boss, Mr. Ed Rooney, would like the company's commercials to seem more like actual TV shows. So we wants you to develop a "machine learning thing" using the company’s internal data to classify when something is a commercial and when it is not. Mr. Rooney believes the company will then know how to trick potential future customers into thinking their commercials are actually still part of the show and as a result will pay more attention and thus buy more of the terrible products "MEH" is supporting (it's a terrible plan, but you have to make a living). 
 
 Given that MEH is producing commercials more or less continuously you know there 
-will be a need to update the model quite frequently, also being a new data scientist 
-and having a clueless boss you decide to use a accessible approach that you might 
-be able to explain to Mr. Rooney, (given several months of dedicated one on one time), that approach is k-nearest neighbor. 
+will be a need to update the model quite frequently, also being a new data scientist and having a clueless boss you decide to use a accessible approach that you might be able to explain to Mr. Rooney, (given several months of dedicated one on one time), that approach is k-nearest neighbor. 
 
-You'll also need to document your work extensively, because Mr. Rooney doesn't know
-he's clueless so he will ask lots of "insightful" questions and require lots of
-detail that he won't understand, so you'll need to have an easy to use reference document. Before you get started you hearken back to the excellent education you received at UVA and using this knowledge outline roughly 20 steps that need to be completed to build this algo for MEH and Ed, they are documented below...good luck.
+You'll also need to document your work extensively, because Mr. Rooney doesn't know he's clueless so he will ask lots of "insightful" questions and require lots of detail that he won't understand, so you'll need to have an easy to use reference document. Before you get started you hearken back to the excellent education you received at UVA and using this knowledge outline roughly 20 steps that need to be completed to build this algo for MEH and Ed, they are documented below...good luck.
  
 
 ```{r}
 #1
 #Load in the data, both the commercial dataset and the labels. You'll need to the place the labels on the columns. The dataset "tv_commercialsets-CNN_Cleaned.csv",  is data collected about the features of commercials on CNN. We can try to predict what segments of video are commercials based on their audio and video components. More information on the datasets can be found data.world:
+
 # https://data.world/kramea/tv-commercial-detection/workspace/file?filename=tv_commercial_datasets%2FBBC_Cleaned.csv
 
 #You can use the function colnames() to apply the labels (hint: you might need to reshape the labels to make this work)

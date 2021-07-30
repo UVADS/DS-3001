@@ -11,21 +11,26 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Throughout your early career as a data scientist you've built complex visualizations, explored NBA talent, minded text on Data Science news and gained a better understanding how to create commercials with great success but you've suddenly realized you need to enhance your ability to assess the models you are building. As the most important part about understanding any machine learning model (any model) is understanding it's weakness or better said it's vulnerabilities. 
 
-In doing so you've decided to practice on datasets that are of interest to you, but use a 
-approach to which you are very familiar, kNN. 
+In doing so you've decided to practice on datasets that are of interest to you, but use a approach to which you are very familiar, kNN. 
 
-Part 1. Select either as a lab or individual two datasets that you have not used before but that are of interest to you/group. Define questions that can be answered using a classification, specifically kNN, for each dataset. Build kNN models and then use the evaluation metrics we discussed in class (Accuracy, TPR, FPR, F1, Kappa, LogLoss and ROC/AUC) to assess the quality of the models. Make sure to calculate the base rate or prevalence to provide a reference for some of these measures.
+Part 1. Select either as a lab or individual two datasets that you have not used before but that are of interest to you/group. Define questions that can be answered using classification, specifically kNN, for each dataset. Build kNN models and then use the evaluation metrics we discussed in class (Accuracy, TPR, FPR, F1, Kappa, LogLoss and ROC/AUC) to assess the quality of the models. Make sure to calculate the base rate or prevalence to provide a reference for some of these measures.
 
 Part 2. Take a closer look at where miss-classification errors are occurring, is there a pattern? If so discuss this pattern and why you think this is the case. 
 
-Part 3. Based on your exploration in Part 2, change the threshold using the function provided, what differences do you see in the evaluation metrics? Speak specifically to the metrics you think are best suited to address the questions you are trying to answer. 
+Part 3. Based on your exploration in Part 2, change the threshold using the function provided, what differences do you see in the evaluation metrics? Speak specifically to the metrics you think are best suited to address the 
+questions you are trying to answer. 
 
-Part 4. Summarize your findings to include recommendations on how you might change each of the two kNN models based on the results. These recommendations might include gathering more data, adjusting the threshold or maybe that it's working fine at the current level and nothing should be done. Regardless of the outcome, what should we be aware of when these models are deployed? 
+Part 4. Are there features that you can engineer or hyperparameters that can be tuned that improve the evaluation metrics. Which of these two approaches 
+seems to work better for your dataset?  
 
+Part 5. Summarize your findings to include recommendations on how you might 
+change each of the two kNN models based on the results. Speak through your question, what does the evaluation outputs mean when answering the question 
+you've proposed. 
 
-```{r}
+Recommendations for improvement might include gathering more data, adjusting the threshold, adding new features, changing your questions or maybe 
+that it's working fine at the current level and nothing should be done. 
 
+Regardless of the outcome, what should we be aware of when these models are deployed (online versus offline)? 
 
-
-```
+Submit a .Rmd file along with the data used or access to the data sources to the Collab site. You can work together with your groups but submit individually. 
 

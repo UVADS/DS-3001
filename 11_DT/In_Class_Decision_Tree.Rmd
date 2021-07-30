@@ -11,51 +11,83 @@ editor_options:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Congrats! You just graduated from medical school and got a PhD in Data Science at the same time, wow impressive. Because of these incredible accomplishments the world now believes you will be able to cure cancer...no pressure. To start you figured you better create some way to detect cancer when present. Luckily because you are now a MD and DS PhD or MDSDPhD, you have access to data sets and know your way around a ML classifier. So, on the way to fulfilling your destiny to rig the world of cancer you start by building several classifiers that can be used to aid in determining if patients have cancer and the type of tumor. 
+Congrats! You just graduated UVA's MSDS program and got a job working at the 
+Treasury Department. In partnership with Congress members the Treasury has been 
+ask to come up with innovative ways to create tax policy. In doing so they 
+want to be able to reliably predict whether American workers make more than 
+$50,000 a year and also which variables seem to be most contributing 
+to predicting this outcome. 
 
-The included dataset (clinical_data_breast_cancer_modified.csv) has information on 105 patients across 17 variables, your goal is to build two classifiers one for PR.Status (progesterone receptor), a biomarker that routinely leads to a cancer diagnosis, indicating if there was a positive or negative outcome and one for the Tumor multi-class variable . You would like to be able to explain the model to the mere mortals around you but need a fairly robust and flexible approach so you've chosen to use decision trees to get started and will possibly move to a ensemble model if needed. 
+You would like to be able to explain the model to the mere mortals 
+around you but need a fairly robust and flexible approach so you've 
+chosen to use decision trees to get started and will possibly move 
+to a ensemble model if needed. 
 
-In doing so, similar to  great data scientists working at very average marketing firms, you remembered the excellent education provided to you at UVA in a undergrad data science course and have outline 20ish steps that will need to be undertaken to complete this task (you can add more or combine if needed).  As always, you will need to make sure to #comment your work heavily and render the results in a clear report (knitted) as the non MDSDPhDs of the world will someday need to understand the wonder and spectacle that will be your R code. Good luck and the world thanks you. 
+In doing so, similar to  great data scientists of the past 
+you remembered the excellent education provided 
+to you at UVA in a undergrad data science course and have outline 
+20ish steps that will need to be undertaken to complete this task 
+(you can add more or combine if needed).  As always, you will need 
+to make sure to #comment your work heavily and render the results in 
+a clear report (knitted). 
+
+
+```{r}
+url <- "http://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data"
+
+xx <- readr::read_csv(url)
+
+View(xx)
+```
+
 
  Footnotes: 
--	Some of the steps will not need to be repeated for the second model, use your judgment
+-	Some of the steps will not need to be repeated for the second model, 
+use your judgment
 -	You can add or combine steps if needed
--	Also, remember to try several methods during evaluation and always be mindful of how the model will be used in practice.
-- Do not include ER.Status in your first tree it's basically the same as PR.Status
+-	Also, remember to try several methods during evaluation and always be 
+mindful of how the model will be used in practice.
+- Make sure all your variables are the correct type (factor, character, etc.)
+
 
 
 ```{r}
-#1 Load the data and ensure the column names don't have spaces, hint check.names.  
+#1 Load the data, check for missing data and ensure the labels are correct.   
 
 ```
 
 ```{r}
-#2 Ensure all the variables are classified correctly and ensure the target variable for "PR.Status" is 0 for negative and 1 for positive
+#2 Ensure all the variables are classified correctly including the target 
+# variable
 ```
 
 ```{r}
-#3 Don't check for correlated variables....because it doesn't matter with Decision Trees...that was easy
+#3 Don't check for correlated variables....because it doesn't matter with 
+# Decision Trees...the make local greedy decisions. 
 ```
 
 
 ```{r}
-#4 You also don't need to complete a test train split because the rpart defaults to 10 fold cross-validation to train the model...you're welcome. (You can certainly build trees with a test and train)
+#4 Guess what, you also don't need to standardize the data, 
+#because DTs don't give a ish, they make local decisions...keeps getting easier
+
+```
+
+
+```{r}
+#5 Ok now determine the baserate or prevalence for the classifier, 
+# what does this number mean?  
 
 ```
 
 ```{r}
-
-#5 Guess what, you also don't need to standardize the data, because DTs don't give a ish, they make local decisions...keeps getting easier 
-
+#6 Split your data into test, validation and train. 
 ```
 
-```{r}
-#6 Ok now determine the base rate for the classifier, what does this number mean.  For the multi-class this will be the individual percentages for each class. 
-
-```
 
 ```{r}
-#7 Build your model using the default settings
+#7 Build your model using the training data and default settings in caret, 
+# double check to make sure you are using a cross-validation training approach
 ```
 
 ```{r}
@@ -63,31 +95,27 @@ In doing so, similar to  great data scientists working at very average marketing
 ```
 
 ```{r}
-#9 Plot the tree using the rpart.plot package
+#9 Plot the output of the model to see the tree visually 
 ```
 
 ```{r}
-#10 plot and convert the cp table to a data.frame
+#10 Use the validation set and the predict function with your model to the
+# estimate the target variable 
 ```
 
 ```{r}
-#11 Add together the real error and standard error to create a new column and determine the optimal number of splits.
+#11 Compare the predicted values to those of the actual by generating a 
+# matrix ("by-hand").
 ```
 
 ```{r}
-#12 Use the predict function and your model to predict the target variable. 
+#14 Generate, "by-hand", the hit rate and detection rate and compare the 
+# detection rate to your original baseline rate. How did your model work?
 ```
 
 ```{r}
-#13 Compare the predicted values to those of the actual by generating a matrix ("by-hand").
-```
-
-```{r}
-#14 Generate, "by-hand", the hit rate and detection rate and compare the detection rate to your original baseline rate. How did your model work?
-```
-
-```{r}
-#15 Use the the confusion matrix function to check a variety of metrics and comment on the metric that might be best for this type of analysis.  
+#15 Use the the confusion matrix function to check a variety of metrics 
+# and comment on the metric that might be best for this type of analysis.  
 ```
 
 ```{r}
@@ -95,23 +123,25 @@ In doing so, similar to  great data scientists working at very average marketing
 ```
 
 ```{r}
-#17 Use the predict function to generate percentages, then select several different threshold levels using the confusion matrix function and interpret the results? What metric should we be trying to optimize. 
+#17 Use the predict function to generate percentages, then select several 
+# different threshold levels using the confusion matrix function and 
+# interpret the results? What metric should you be trying to optimize. 
 ```
 
 ```{r}
-#18 Use your optimal cp (from step 11) (assuming it's different) and rerun the model, how does this impact the quality of the model. 
+#18 Try adjusting several other hyperparameters via the built in control function
+# in caret, does the model quality improve? 
 ```
 
 ```{r}
-#19 Try adjusting several other hyperparameters via rpart.control and review the model evaluation metrics. 
+#19 Once you are confident that your model is not improving, via changes 
+# implemented on the training set while exploring evaluation output from
+#the validation set, predict with the test set and evaluate the model.
 ```
 
 ```{r}
-#20 Follow the same steps for the multi-class target, tumor, aside from step 1, 2 and 14. For step 15 compare to the four base rates and see how you did. 
-```
-
-```{r}
-#21 Summarize what you learned for each model along the way and make recommendations to the world on how this could be used moving forward, being careful not to over promise. 
+#20 Summarize what you learned along the way and make recommendations to the 
+#world on how this could be used moving forward, being careful not to over promise. 
 ```
 
 
