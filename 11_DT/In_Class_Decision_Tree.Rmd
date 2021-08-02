@@ -52,8 +52,7 @@ mindful of how the model will be used in practice.
 
 
 ```{r}
-#1 Load the data, check for missing data and ensure the labels are correct.   
-
+#1 Load the data, check for missing data and ensure the labels are correct. 
 ```
 
 ```{r}
@@ -66,24 +65,19 @@ mindful of how the model will be used in practice.
 # Decision Trees...the make local greedy decisions. 
 ```
 
-
 ```{r}
 #4 Guess what, you also don't need to standardize the data, 
 #because DTs don't give a ish, they make local decisions...keeps getting easier
-
 ```
 
-
 ```{r}
-#5 Ok now determine the baserate or prevalence for the classifier, 
+#5 Determine the baserate or prevalence for the classifier, 
 # what does this number mean?  
-
 ```
 
 ```{r}
-#6 Split your data into test, validation and train. 
+#6 Split your data into test, validation and train. (70/15/15)
 ```
-
 
 ```{r}
 #7 Build your model using the training data and default settings in caret, 
@@ -100,7 +94,7 @@ mindful of how the model will be used in practice.
 
 ```{r}
 #10 Use the validation set and the predict function with your model to the
-# estimate the target variable 
+# estimate the target variable.
 ```
 
 ```{r}
@@ -109,40 +103,40 @@ mindful of how the model will be used in practice.
 ```
 
 ```{r}
-#14 Generate, "by-hand", the hit rate and detection rate and compare the 
+#12 Generate, "by-hand", the hit rate and detection rate and compare the 
 # detection rate to your original baseline rate. How did your model work?
 ```
 
 ```{r}
-#15 Use the the confusion matrix function to check a variety of metrics 
-# and comment on the metric that might be best for this type of analysis.  
+#13 Use the the confusion matrix function to check a variety of metrics 
+# and comment on the metric that might be best for this type of analysis given your question.  
 ```
 
 ```{r}
-#16 Generate a ROC and AUC output, interpret the results
+#14 Generate a ROC and AUC output, interpret the results
 ```
 
 ```{r}
-#17 Use the predict function to generate percentages, then select several 
+#15 Use the predict function to generate percentages, then select several 
 # different threshold levels using the confusion matrix function and 
-# interpret the results? What metric should you be trying to optimize. 
+# interpret the results. What patterns did you notice, did the evaluation metrics change? 
 ```
 
 ```{r}
-#18 Try adjusting several other hyperparameters via the built in control function
-# in caret, does the model quality improve? 
+#16 Based on your understanding of the model and data adjust several of the hyper-parameters via the built in control function in caret or build and try new features, does the model quality improve? If so how and why, if not, why not?
 ```
 
 ```{r}
-#19 Once you are confident that your model is not improving, via changes 
-# implemented on the training set while exploring evaluation output from
-#the validation set, predict with the test set and evaluate the model.
+#17 Once you are confident that your model is not improving, via changes 
+# implemented on the training set and evaluated on the the validation set (item 16), predict with the test set and report a final evaluation of the model. Discuss the output in comparison with the previous evaluations.  
 ```
 
 ```{r}
-#20 Summarize what you learned along the way and make recommendations to the 
-#world on how this could be used moving forward, being careful not to over promise. 
+#18 Summarize what you learned along the way and make recommendations on how this could be used moving forward, being careful not to over promise. 
 ```
 
+```{r}
+#19 What was the most interesting or hardest part of this process and what questions do you still have? 
+```
 
 

@@ -24,12 +24,11 @@ library(pROC)
 library(rpart.plot)
 #install.packages("rattle")
 library(rattle)
-setwd("/cloud/project/decision_trees")
 ```
 
 
 ```{r}
-tree_example <- tibble(import("pregnancy.csv", check.names= TRUE))
+tree_example <- tibble(import("data/pregnancy.csv", check.names= TRUE))
 
 describe(tree_example)
 View(tree_example)
@@ -85,10 +84,10 @@ tree_example_long_form = ddply(tree_example_long,
 View(tree_example_long_form)
 ```
 
-#Build the model 
+#Build  the model using rpart and CART Algo (Gini Index - Binary Tree)
 ```{r}
-# In order for the decision tree algorithm to run, 
-# all the variables will need to be turned into factors.
+# In order for this decision tree algorithm to run, 
+# all the variables will need to be turned into factors. Make sure your variables are classified correctly. 
 
 
 tree_example = lapply(tree_example, function(x) as.factor(x))
@@ -254,6 +253,7 @@ View(tree_example_fitted_prob)
 roc(tree_example$PREGNANT, ifelse(tree_example_fitted_prob[,'not_preg'] >= .25,0,1), plot=TRUE)
 
 ```
+
 #We can also prune the tree to make it less complex 
 ```{r}
 set.seed(1)
@@ -284,4 +284,106 @@ View(cptable_ex_cp)
 dev.off()
 
 ```
+
+Now let's take a look at the caret method using C5.0
+
+
+CARET Example using C5.0: Use a new Dataset multi-class 
+```{r}
+
+winequality <- read_csv("data/winequality-red-ddl.csv")
+View(winequality)
+str(winequality)
+table(winequality$text_rank)
+
+winequality$text_rank <- fct_collapse(winequality$text_rank,
+                                      ave=c("ave","average-ish"),
+                                      excellent = "excellent",
+                                      good = "good",
+                                      poor = c("poor","poor-ish"))
+
+split <- caret::createDataPartition(winequality$text_rank,times=2,p = 0.70,groups=2,list=TRUE)
+
+View(split)
+
+
+View(split_dummies) 
+
+training_w <- winequality[split$Resample1,]
+
+validation_w <- winequality[-split$Resample1,]
+
+test_w <- winequality[-split$Resample2,]
+```
+
+
+
+```{r}
+library(C50) #Need this to pass into caret 
+#library(mlbench)
+
+#Cross validation process 
+
+fitControl <- trainControl(method = "repeatedcv",
+  number = 10,
+  repeats = 5, returnResamp="all") #setting up our cross validation
+
+# number - number of folds
+# repeats - number of times the cv is repeated, here it's 5 take the average of
+# those 5 repeats
+
+# Choose the features and classes
+
+View(training_w)
+
+features <- training_w[,c(-12,-13)]
+target <- training_w$text_rank
+
+str(features)
+str(target)
+
+grid <- expand.grid(.winnow = c(TRUE,FALSE), .trials=c(1,5,10,15,20), .model="tree")
+
+#expand.grid - function in caret that will essentially conduct a hyper-parameter 
+# and select the best options
+
+#winnow - whether to reduce the feature space - uses a regulator/penalty
+#trails - number of boosting iterations to try, 1 indicates a single model 
+#model - type of ml model
+
+wine_mdl <- train(x=features,y=target,tuneGrid=grid,trControl=fitControl,method="C5.0"
+            ,verbose=TRUE)
+
+wine_mdl
+
+View(wine_mdl$pred)
+
+# visualize the re-sample distributions
+xyplot(wine_mdl,type = c("g", "p", "smooth"))
+
+varImp(wine_mdl)
+
+
+
+```
+
+Let's use the model to predict and the evaluate the performance
+```{r}
+wine_predict = predict(wine_mdl,test_w, type= "raw")
+
+View(as_tibble(wine_predict))
+
+
+#Lets use the confusion matrix
+
+confusionMatrix(as.factor(wine_predict), as.factor(test_w$text_rank), 
+                dnn=c("Prediction", "Actual"), mode = "sens_spec")
+
+table(test_w$text_rank)
+
+
+wine_predict_p = predict(wine_mdl,test_w, type= "prob")
+
+```
+
 
