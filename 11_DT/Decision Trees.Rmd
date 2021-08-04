@@ -343,7 +343,6 @@ dim(tune)
 
 
 ```{r}
-
 #Cross validation process 
 
 fitControl <- trainControl(method = "repeatedcv",
@@ -357,7 +356,6 @@ fitControl <- trainControl(method = "repeatedcv",
 
 # Choose the features and classes
 
-View(train)
 
 features <- train[,c(-12,-13)]#dropping 12 and 13. 12 essentially predicts 13 
 #perfectly and 13 is our target variable
@@ -366,15 +364,14 @@ target <- train$text_rank
 str(features)
 str(target)
 
-getModelInfo(model = "tree", regex = TRUE)
-
-grid <- expand.grid(.winnow = c(TRUE,TRUE), 
+grid <- expand.grid(.winnow = c(TRUE,FALSE), 
                     .trials=c(1,5,10,15,20), 
                     .model="tree")
 
-#expand.grid - 
+#expand.grid - series of options that are available for model training
 
-#winnow - whether to reduce the feature space - actually a pretty good StackExchange post on winnowing: Works remove unimportant features but it doesn't always work. 
+#winnow - whether to reduce the feature space - actually a pretty good StackExchange post on winnowing: Works remove unimportant features but it doesn't always work.
+#in the above we are 
 
 #https://stats.stackexchange.com/questions/83913/understanding-the-output-of-c5-0-classification-model-using-the-caret-package
 
