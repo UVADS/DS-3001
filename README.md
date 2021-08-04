@@ -121,7 +121,7 @@ On any given week, the course will require reviewing short video lectures and co
 |  Week 12 | Wisdom of the Crowd ML: Tree Methods Cont. 	| Random Forrest    - Sampling Matters  - XGBoost - Bonus Lecture 	|  	|  	|
 |  Week 13 	| Reinforcment Lab	| Time to think on your own!	| Case Study 	| 	  |
 |  Week 14 | Do the next right thing…ethics 	| - Bias in AI Discussion -Simple methods for identifying bias   - Protected Classes 	| Protected class example - KNN  	|     	|
-| Week 15 | Content Exam	|  	| 	|  Weapons of Math Destruction Ethical Reflection Due	|
+| Week 15 | Break - No Class	|  	| 	|  Weapons of Math Destruction Ethical Reflection Due	|
 | Week 16	| Final Projects	|  	|  	|  	|
 
 ## A few Policies that will Govern the Class

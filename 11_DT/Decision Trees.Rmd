@@ -24,6 +24,9 @@ library(pROC)
 library(rpart.plot)
 #install.packages("rattle")
 library(rattle)
+library(caret)
+library(C50) #Need this to pass into caret 
+library(mlbench)
 ```
 
 
@@ -285,15 +288,17 @@ dev.off()
 
 ```
 
-Now let's take a look at the caret method using C5.0
+Now let's take a look at the caret method using C5.0, nice overview of C5.0 
+and functions that build in the R version: https://www.rulequest.com/see5-unix.html
 
 
-CARET Example using C5.0: Use a new Dataset multi-class 
+CARET Example using C5.0: Use a new Dataset multi-class and doing three data
+partitions: Training, Tuning and Testing
 ```{r}
 
 winequality <- read_csv("data/winequality-red-ddl.csv")
-View(winequality)
-str(winequality)
+#View(winequality)
+#str(winequality)
 table(winequality$text_rank)
 
 winequality$text_rank <- fct_collapse(winequality$text_rank,
@@ -302,57 +307,86 @@ winequality$text_rank <- fct_collapse(winequality$text_rank,
                                       good = "good",
                                       poor = c("poor","poor-ish"))
 
-split <- caret::createDataPartition(winequality$text_rank,times=2,p = 0.70,groups=2,list=TRUE)
+```
 
-View(split)
+Splitting the Data
+```{r}
+#There is not a easy way to create 3 partitions using the createDataPartitions
+#so we are going to use it twice. 
+part_index_1 <- caret::createDataPartition(winequality$text_rank,
+                                           times=1,
+                                           p = 0.70,
+                                           groups=1,
+                                           list=FALSE)
+
+train <- winequality[part_index_1, ]
+tune_and_val <- winequality[-part_index_1, ]
+
+#The we need to use the function again to create the tuning set 
+
+tune_and_val_index <- createDataPartition(tune_and_val$text_rank,
+                                           p = .5,
+                                           list = FALSE,
+                                           times = 1)
+
+tune <- tune_and_val[tune_and_val_index, ]
+test <- tune_and_val[-tune_and_val_index, ]
 
 
-View(split_dummies) 
+dim(train)
+dim(test)# these will be slightly off because the data set isn't perfectly even
+#buts its not a issue. 
+dim(tune)
 
-training_w <- winequality[split$Resample1,]
-
-validation_w <- winequality[-split$Resample1,]
-
-test_w <- winequality[-split$Resample2,]
 ```
 
 
 
 ```{r}
-library(C50) #Need this to pass into caret 
-#library(mlbench)
 
 #Cross validation process 
 
 fitControl <- trainControl(method = "repeatedcv",
-  number = 10,
-  repeats = 5, returnResamp="all") #setting up our cross validation
+                          number = 10,
+                          repeats = 5, 
+                          returnResamp="all") 
 
 # number - number of folds
-# repeats - number of times the cv is repeated, here it's 5 take the average of
+# repeats - number of times the CV is repeated, here it's 5 take the average of
 # those 5 repeats
 
 # Choose the features and classes
 
-View(training_w)
+View(train)
 
-features <- training_w[,c(-12,-13)]
-target <- training_w$text_rank
+features <- train[,c(-12,-13)]#dropping 12 and 13. 12 essentially predicts 13 
+#perfectly and 13 is our target variable
+target <- train$text_rank
 
 str(features)
 str(target)
 
-grid <- expand.grid(.winnow = c(TRUE,FALSE), .trials=c(1,5,10,15,20), .model="tree")
+getModelInfo(model = "tree", regex = TRUE)
 
-#expand.grid - function in caret that will essentially conduct a hyper-parameter 
-# and select the best options
+grid <- expand.grid(.winnow = c(TRUE,TRUE), 
+                    .trials=c(1,5,10,15,20), 
+                    .model="tree")
 
-#winnow - whether to reduce the feature space - uses a regulator/penalty
+#expand.grid - 
+
+#winnow - whether to reduce the feature space - actually a pretty good StackExchange post on winnowing: Works remove unimportant features but it doesn't always work. 
+
+#https://stats.stackexchange.com/questions/83913/understanding-the-output-of-c5-0-classification-model-using-the-caret-package
+
 #trails - number of boosting iterations to try, 1 indicates a single model 
 #model - type of ml model
 
-wine_mdl <- train(x=features,y=target,tuneGrid=grid,trControl=fitControl,method="C5.0"
-            ,verbose=TRUE)
+wine_mdl <- train(x=features,
+                y=target,
+                tuneGrid=grid,
+                trControl=fitControl,
+                method="C5.0",
+                verbose=TRUE)
 
 wine_mdl
 
@@ -362,8 +396,6 @@ View(wine_mdl$pred)
 xyplot(wine_mdl,type = c("g", "p", "smooth"))
 
 varImp(wine_mdl)
-
-
 
 ```
 
