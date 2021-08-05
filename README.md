@@ -93,12 +93,13 @@ On any given week, the course will require reviewing short video lectures and co
 ## Materials That Will Aid in Your Learning
 
     A. Weapons of Math Destruction: Amazon
-    The below texts are all available here: https://bookdown.org/
+    The below texts (B-E) are all available here: https://bookdown.org/
     B. Evaluating Machine Learning Models – O’Reilly Digital via UVA Library
     C. R for Data Science 
     D. Text Mining with R
     E. R Markdown: The Definitive Guide
-    F. Machine Learning with R – Posted in Resources
+    F. Machine Learning with R – Posted in Collab
+   G. [Applied Predictive Learning, Kuh and Johnson](http://appliedpredictivemodeling.com/toc) - Expensive but very good 
 
 
 ## Schedule of Topics 
