@@ -87,7 +87,8 @@ On any given week, the course will require reviewing short video lectures and co
     Discord - link to be generated
 
 
-## Materials That Will Aid in Your Learning: Essentially a Starter Machine Learning Library. I will use all of these references at difference points during the class, but not heavily rely on anything but the free texts. Applied Predictive Learning is a theory and code review for much of what is in the CARET package. It's very good but also expensive. Everything else is either free or can be found for around 15 dollars. If you can master what is in books F through I, you'll be well on your way to being a highly capable Data Scientist. In order of importance I would list them in reverse I-F. 
+## Materials That Will Aid in Your Learning: 
+Essentially a Starter Machine Learning Library. I will use all of these references at difference points during the class, but not heavily rely on anything but the free texts. Applied Predictive Learning is a theory and code review for much of what is in the CARET package. It's very good but also expensive. Everything else is either free or can be found for around 15 dollars. If you can master what is in books F through I, you'll be well on your way to being a highly capable Data Scientist. In order of importance I would list them in reverse I-F. 
 
 * A. [Weapons of Math Destruction](https://www.amazon.com/Weapons-Math-Destruction-Increases-Inequality/dp/0553418815)
 * B. [Evaluating Machine Learning Models – O’Reilly Digital via UVA Library](https://www.oreilly.com/library/view/temporary-access/)<br>
