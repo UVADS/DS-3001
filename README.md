@@ -2,7 +2,9 @@
 
 Your Practice of Data Science Tour Guides: 
 
-Brian Wright, Ph.D., Office: Dell I 103B, Email: brianwright@virginia.edu, phone: 434-297-6814
+* Brian Wright, Ph.D., Office: Dell II, Email: brianwright@virginia.edu
+* TA: TBD
+* Peer Mentors: Izzy Shehan iws4kc@virginia.edu and Brittany Nguyen bhn4bf@virginia.edu 
 
 Location: In-Person!
 
@@ -12,13 +14,9 @@ Office Hours Zoom: https://virginia.zoom.us/j/98266832283?pwd=ODlkR2xFSUMyeFhmcW
 
 Course Materials: https://github.com/UVADS/DS-4001
 
-TA: TBD
-
-Peer Mentors: Izzy Shehan iws4kc@virginia.edu and Brittany Nguyen bhn4bf@virginia.edu  
-
 Subject Area and Catalog Number: Data Science, DS 3001
 
-Year and Term: 2021, Fall
+Year, Term and Time: 2021, Fall, Wednesday 2-4:30
 
 Class Title: Practice of Data Science
 
@@ -32,7 +30,7 @@ Credit Type: Grade (A-F)
 
 What is Data Science, why is it becoming so important and what is needed to be successful in this field? We will explore these questions throughout the course through a variety of topics with data always at the center.  In all things, we focus on creative thinking, not blind implementation. If you cannot answer why you are doing something, not only will you discover no new knowledge but you will also create new problems versus solving them.
 
-The course centers on lab-based work and employs a team-based pedagogy, meaning much of the work in the course can and should be completed in collaboration with your classmates.  Though very applied, we also include theoretical content and will have discussion sessions depending on the topic for any given week.  Much of the class is also "flipped" meaning lecture is limited and practice is emphasized.
+The course centers on lab-based work and employs a team-based pedagogy, meaning much of the work in the course can and should be completed in collaboration with your classmates.  Though very applied, we also include theoretical content and will have discussion sessions depending on the topic for any given week.
 
 I am also aware that students come from different backgrounds and have a variety of skillsets that they bring to the class.  There will be plenty of opportunities for those that would like to take advantage of extra discussions during office hours, TA support sessions, and team-based work that is designed in such a way that we can all learn from each other.   
 
@@ -42,13 +40,12 @@ Throughout the course, we will endeavor to “live the life of a data scientist�
 
 Data Science is incredibly broad and dynamic. The topics below are designed to reinforce this perspective and help you understand the field’s core tenements and what is demanding from practicing data scientists.  The key outcome would be for you to gain a sense of the scope of Data Science, what is needed to contribute to the community, and feel comfortable incorporating these techniques into your work moving forward.
 
-    describe the field of Data Science at large and its emerging sub-fields
-    communicate Data Science products
-    avoid the negative outcomes associated with ML/AI bias
-    demonstrate effective techniques for displaying data visually
-    articulate the advantages and disadvantages of certain machine learning modeling approaches
-    select appropriate machine learning models given problems and data types
-    how to evaluate machine learning models
+    Describe the field of Data Science at large and its emerging sub-fields
+    Communicate Data Science products
+    Avoid the negative outcomes associated with ML/AI bias
+    Articulate the advantages and disadvantages of certain machine learning modeling approaches
+    Select appropriate machine learning models given problems and data types
+    How to evaluate machine learning models
 
 The course will move rather quickly and can be demanding at times. However, if we all work together to support each other you’ll be amazed how much you learn at the end of the semester!
 
@@ -76,8 +73,6 @@ On any given week, the course will require reviewing short video lectures and co
     submitting well-annotated code to include summary information in report form. This is an open-ended project designed to allow 
     groups to choose a topic of interest from the semester to explore deeper and share with the class.
     
- 
-
 ## Tech Stack
 
     R/Rstudio - You'll need to have the software loaded and ready to go day one. 
@@ -88,7 +83,8 @@ On any given week, the course will require reviewing short video lectures and co
 
 
 ## Materials That Will Aid in Your Learning: 
-Essentially a Starter Machine Learning Library. I will use all of these references at difference points during the class, but not heavily rely on anything but the free texts. Applied Predictive Learning is a theory and code review for much of what is in the CARET package. It's very good but also expensive. Everything else is either free or can be found for around 15 dollars. If you can master what is in books F through I, you'll be well on your way to being a highly capable Data Scientist. In order of importance I would list them in reverse I-F. 
+
+The books below are essentially a starter Machine Learning Library. I will use all of these references at difference points during the class, but not heavily rely on anything but the free options. Applied Predictive Learning is a theory and code review for much of what is in the CARET package. It's a very good book but also expensive. Everything else is either free or can be found for around 15 dollars. If you can master what is in books F through I, you'll be well on your way to being a highly capable Data Scientist. In order of importance I would list them in reverse, I-F. 
 
 * A. [Weapons of Math Destruction](https://www.amazon.com/Weapons-Math-Destruction-Increases-Inequality/dp/0553418815)
 * B. [Evaluating Machine Learning Models – O’Reilly Digital via UVA Library](https://www.oreilly.com/library/view/temporary-access/)<br>
