@@ -10,9 +10,9 @@ Location: In-Person!
 
 Brian's Office Hours: Tuesday, 2:00 - 4:00
 
-Office Hours Zoom: https://virginia.zoom.us/j/98266832283?pwd=ODlkR2xFSUMyeFhmcWtEV2pVRHY0QT09
+Office Hours Zoom: [click here to join](https://virginia.zoom.us/j/98266832283?pwd=ODlkR2xFSUMyeFhmcWtEV2pVRHY0QT09)
 
-Course Materials: https://github.com/UVADS/DS-4001
+Course Materials: [Practice of Data Science Repo](https://github.com/UVADS/DS-4001)
 
 Subject Area and Catalog Number: Data Science, DS 3001
 
