@@ -38,8 +38,6 @@ I am also aware that students come from different backgrounds and have a variety
 
 Throughout the course, we will endeavor to “live the life of a data scientist” allowing you to not only be directly taught but gain a sense of what it would be like to be working as a data scientist.  You’ll be asked to discover new knowledge and share it with your peers and learn how to use the larger ecosystem of data science to your benefit.  
 
- 
-
 ## What you’ll learn along the way
 
 Data Science is incredibly broad and dynamic. The topics below are designed to reinforce this perspective and help you understand the field’s core tenements and what is demanding from practicing data scientists.  The key outcome would be for you to gain a sense of the scope of Data Science, what is needed to contribute to the community, and feel comfortable incorporating these techniques into your work moving forward.
@@ -93,16 +91,16 @@ On any given week, the course will require reviewing short video lectures and co
 ## Materials That Will Aid in Your Learning: Essentially a Starter Machine Learning
 Library. I will use all of these references at difference points during the class, but not heavily rely on more expensive books. Most notably Applied Predictive Learning is essentially a theory and content review of the CARET package. It's very good but also expensive. Everything else is either free or can be found for around 15 dollars. 
 
-A. [Weapons of Math Destruction](https://www.amazon.com/Weapons-Math-Destruction-Increases-Inequality/dp/0553418815)
-B. [Evaluating Machine Learning Models – O’Reilly Digital via UVA Library](https://www.oreilly.com/library/view/temporary-access/)
+* A. [Weapons of Math Destruction](https://www.amazon.com/Weapons-Math-Destruction-Increases-Inequality/dp/0553418815)
+* B. [Evaluating Machine Learning Models – O’Reilly Digital via UVA Library](https://www.oreilly.com/library/view/temporary-access/)
  The below texts (C-E) are all available here:[https://bookdown.org/](https://bookdown.org/)
-C. R for Data Science 
-D. Text Mining with R
-E. R Markdown: The Definitive Guide
-F. Machine Learning with R – Posted in Collab
-G. [Applied Predictive Learning, Kuh and Johnson](http://appliedpredictivemodeling.com/toc) - Expensive but very good
-H. [Machine Learning Engineering](http://www.mlebook.com/wiki/doku.php)- Free PDF Version
-I. [Mathematics for Machine Learning](https://mml-book.github.io/)Free PDF Version
+ * C. R for Data Science 
+ * D. Text Mining with R
+ * E. R Markdown: The Definitive Guide
+ * F. Machine Learning with R – Posted in Collab
+ * G. [Applied Predictive Learning, Kuh and Johnson](http://appliedpredictivemodeling.com/toc) - Expensive but very good
+* H. [Machine Learning Engineering](http://www.mlebook.com/wiki/doku.php)- Free PDF Version
+* I. [Mathematics for Machine Learning](https://mml-book.github.io/)Free PDF Version
 
 
 ## Schedule of Topics 

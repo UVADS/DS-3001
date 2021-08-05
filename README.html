@@ -435,6 +435,9 @@ summary {
 <p>The course centers on lab-based work and employs a team-based pedagogy, meaning much of the work in the course can and should be completed in collaboration with your classmates. Though very applied, we also include theoretical content and will have discussion sessions depending on the topic for any given week. Much of the class is also “flipped” meaning lecture is limited and practice is emphasized.</p>
 <p>I am also aware that students come from different backgrounds and have a variety of skillsets that they bring to the class. There will be plenty of opportunities for those that would like to take advantage of extra discussions during office hours, TA support sessions, and team-based work that is designed in such a way that we can all learn from each other.</p>
 <p>Throughout the course, we will endeavor to “live the life of a data scientist” allowing you to not only be directly taught but gain a sense of what it would be like to be working as a data scientist. You’ll be asked to discover new knowledge and share it with your peers and learn how to use the larger ecosystem of data science to your benefit.</p>
+<style type="text/css">
+    ol { list-style-type: upper-alpha; }
+</style>
 </div>
 <div id="what-youll-learn-along-the-way" class="section level2">
 <h2>What you’ll learn along the way</h2>
@@ -478,16 +481,20 @@ Github - Code collaborations in Lab Groups
 Collab - Submission of assignments and class-wide communications
 Discord - link to be generated</code></pre>
 </div>
-<div id="materials-that-will-aid-in-your-learning" class="section level2">
-<h2>Materials That Will Aid in Your Learning</h2>
-<pre><code>A. Weapons of Math Destruction: Amazon
-The below texts (B-E) are all available here: https://bookdown.org/
-B. Evaluating Machine Learning Models – O’Reilly Digital via UVA Library
-C. R for Data Science 
-D. Text Mining with R
-E. R Markdown: The Definitive Guide
-F. Machine Learning with R – Posted in Collab
-G. [Applied Predictive Learning, Kuh and Johnson](http://appliedpredictivemodeling.com/toc) - Expensive but very good </code></pre>
+<div id="materials-that-will-aid-in-your-learning-essentially-a-starter-machine-learning" class="section level2">
+<h2>Materials That Will Aid in Your Learning: Essentially a Starter Machine Learning</h2>
+<p>Library. I will use all of these references at difference points during the class, but not heavily rely on more expensive books. Most notably Applied Predictive Learning is essentially a theory and content review of the CARET package. It’s very good but also expensive. Everything else is either free or can be found for around 15 dollars.</p>
+<ul>
+<li>A. <a href="https://www.amazon.com/Weapons-Math-Destruction-Increases-Inequality/dp/0553418815">Weapons of Math Destruction</a></li>
+<li>B. <a href="https://www.oreilly.com/library/view/temporary-access/">Evaluating Machine Learning Models – O’Reilly Digital via UVA Library</a> The below texts (C-E) are all available here:<a href="https://bookdown.org/">https://bookdown.org/</a></li>
+<li>C. R for Data Science</li>
+<li>D. Text Mining with R</li>
+<li>E. R Markdown: The Definitive Guide</li>
+<li>F. Machine Learning with R – Posted in Collab</li>
+<li>G. <a href="http://appliedpredictivemodeling.com/toc">Applied Predictive Learning, Kuh and Johnson</a> - Expensive but very good</li>
+<li>H. <a href="http://www.mlebook.com/wiki/doku.php">Machine Learning Engineering</a>- Free PDF Version</li>
+<li>I. <a href="https://mml-book.github.io/">Mathematics for Machine Learning</a>Free PDF Version</li>
+</ul>
 </div>
 <div id="schedule-of-topics" class="section level2">
 <h2>Schedule of Topics</h2>
@@ -535,35 +542,35 @@ G. [Applied Predictive Learning, Kuh and Johnson](http://appliedpredictivemodeli
 <td align="center">Week 4</td>
 <td align="center">How to share nicely</td>
 <td align="center">Knitr and rmarkdown</td>
-<td align="center">Rmarkdown article reviews</td>
+<td align="center"><a href="https://github.com/UVADS/DS-4001/blob/main/04_knitr_Comms/knitr_lab.md">Rmarkdown article reviews</a></td>
 <td align="center">Rmarkdown: The definitive guide: Sections I and II Knit R Reference Guide</td>
 </tr>
 <tr class="odd">
 <td align="center">Week 5</td>
 <td align="center">Machine Learning Bootcamp</td>
 <td align="center">Key ML Methods</td>
-<td align="center">Pre-processing,Training,Testing</td>
 <td align="center">ML Methods Lab</td>
+<td align="center">H: Chapter 1 and 2</td>
 </tr>
 <tr class="even">
 <td align="center">Week 6</td>
 <td align="center">Let’s gather together… but separately</td>
-<td align="center">Overview of Clustering Kmeans - (hint it’s all about Data Vis)</td>
-<td align="center">- NBA Scout for the worst team in the league</td>
+<td align="center">Overview of Clustering Kmeans</td>
+<td align="center"><a href="https://github.com/UVADS/DS-4001/blob/main/06_Clustering/clustering_lab_overview.Rmd">NBA Scout for the worst team in the league</a></td>
 <td align="center">F. Chapter 1 and Chapter 9</td>
 </tr>
 <tr class="odd">
 <td align="center">Week 7</td>
 <td align="center">Computers can read…well kind of</td>
 <td align="center">Text Mining – Bag of Words approaches</td>
-<td align="center">Count, Word Cloud, Sentiment, and LDA Newspaper sentiment</td>
+<td align="center"><a href="https://github.com/UVADS/DS-4001/blob/main/07_text_mining/text_lab.Rmd">Regional Climate Change Analysis</a></td>
 <td align="center">D. Sections 1 - 3</td>
 </tr>
 <tr class="even">
 <td align="center">Week 8</td>
 <td align="center">Machines really can learn</td>
-<td align="center">Introduction to ML: Prediction versus Classification - Unsupervised - Bias/Variance Tradeoff - KNN</td>
-<td align="center">Create your first ML algo via KNN</td>
+<td align="center">Introduction to ML: Prediction versus Classification: Unsupervised KNN</td>
+<td align="center"><a href="https://github.com/UVADS/DS-4001/blob/main/08_IntroML_KNN/knn_lab(1).Rmd">Create a Lazy ML Algo</a></td>
 <td align="center">F. Chapter 3</td>
 </tr>
 <tr class="odd">
@@ -576,23 +583,23 @@ G. [Applied Predictive Learning, Kuh and Johnson](http://appliedpredictivemodeli
 <tr class="even">
 <td align="center">Week 10</td>
 <td align="center">The key to ML: Knowing how bad your model really is…</td>
-<td align="center">- Metrics for Accuracy, Sensitivity, ROC, AUC -</td>
-<td align="center">Evaluation Lab</td>
-<td align="center"></td>
+<td align="center">- Metrics for Accuracy, Sensitivity, ROC, AUC, etc.</td>
+<td align="center"><a href="https://github.com/UVADS/DS-4001/blob/main/09_ML_Eval_Metrics/eval_lab.Rmd">Evaluation Lab</a></td>
+<td align="center">F. Chapter 11</td>
 </tr>
 <tr class="odd">
 <td align="center">Week 11</td>
-<td align="center">Nature’s Perfect ML analogy ML: Tree Methods</td>
-<td align="center">- Bias Discussion Decision Trees Classification</td>
-<td align="center">Decision Tree Lab</td>
-<td align="center"></td>
+<td align="center">Nature’s Perfect ML analogy: Tree Based Methods</td>
+<td align="center">Classification: Decision Trees</td>
+<td align="center"><a href="https://github.com/UVADS/DS-4001/blob/main/11_DT/In_Class_Decision_Tree.Rmd">Predicting Income for Big Brother</a></td>
+<td align="center">F. Chapter 5</td>
 </tr>
 <tr class="even">
 <td align="center">Week 12</td>
 <td align="center">Wisdom of the Crowd ML: Tree Methods Cont.</td>
 <td align="center">Random Forrest - Sampling Matters - XGBoost - Bonus Lecture</td>
-<td align="center"></td>
-<td align="center"></td>
+<td align="center"><a href="https://github.com/UVADS/DS-4001/tree/main/12_Ensemble_RF">Lab: TBD</a></td>
+<td align="center">F. Chapter 11</td>
 </tr>
 <tr class="odd">
 <td align="center">Week 13</td>
@@ -604,16 +611,16 @@ G. [Applied Predictive Learning, Kuh and Johnson](http://appliedpredictivemodeli
 <tr class="even">
 <td align="center">Week 14</td>
 <td align="center">Do the next right thing…ethics</td>
-<td align="center">- Bias in AI Discussion -Simple methods for identifying bias - Protected Classes</td>
+<td align="center">Bias in AI Discussion -Simple methods for identifying bias - Protected Classes</td>
 <td align="center">Protected class example - KNN</td>
-<td align="center"></td>
+<td align="center">Weapons of Math Destruction</td>
 </tr>
 <tr class="odd">
 <td align="center">Week 15</td>
 <td align="center">Break - No Class</td>
 <td align="center"></td>
 <td align="center"></td>
-<td align="center">Weapons of Math Destruction Ethical Reflection Due</td>
+<td align="center">Ethical Reflection Due</td>
 </tr>
 <tr class="even">
 <td align="center">Week 16</td>
