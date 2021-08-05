@@ -90,16 +90,19 @@ On any given week, the course will require reviewing short video lectures and co
 
  
 
-## Materials That Will Aid in Your Learning
+## Materials That Will Aid in Your Learning: Essentially a Starter Machine Learning
+Library. I will use all of these references at difference points during the class, but not heavily rely on more expensive books. Most notably Applied Predictive Learning is essentially a theory and content review of the CARET package. It's very good but also expensive. Everything else is either free or can be found for around 15 dollars. 
 
-    A. Weapons of Math Destruction: Amazon
-    The below texts (B-E) are all available here: https://bookdown.org/
-    B. Evaluating Machine Learning Models – O’Reilly Digital via UVA Library
-    C. R for Data Science 
-    D. Text Mining with R
-    E. R Markdown: The Definitive Guide
-    F. Machine Learning with R – Posted in Collab
-   G. [Applied Predictive Learning, Kuh and Johnson](http://appliedpredictivemodeling.com/toc) - Expensive but very good 
+A. [Weapons of Math Destruction](https://www.amazon.com/Weapons-Math-Destruction-Increases-Inequality/dp/0553418815)
+B. [Evaluating Machine Learning Models – O’Reilly Digital via UVA Library](https://www.oreilly.com/library/view/temporary-access/)
+ The below texts (C-E) are all available here:[https://bookdown.org/](https://bookdown.org/)
+C. R for Data Science 
+D. Text Mining with R
+E. R Markdown: The Definitive Guide
+F. Machine Learning with R – Posted in Collab
+G. [Applied Predictive Learning, Kuh and Johnson](http://appliedpredictivemodeling.com/toc) - Expensive but very good
+H. [Machine Learning Engineering](http://www.mlebook.com/wiki/doku.php)- Free PDF Version
+I. [Mathematics for Machine Learning](https://mml-book.github.io/)Free PDF Version
 
 
 ## Schedule of Topics 
@@ -112,8 +115,8 @@ On any given week, the course will require reviewing short video lectures and co
 | Week 2 	|  Getting back up to “coding speed” 	| 'Dataframing' with tidyverse functions  	| [- Group Case Study - Questions + PsuedoCode + Code + Functions  = High Quality Data Science](https://github.com/UVADS/DS-4001/blob/main/02_R_function_basics/Class%20II%20Assignment.Rmd)  	| References in C 	|
 | Week 3 	| I'm Committed Version Control:  GitHub	|  	|[GitHub Lab](https://github.com/UVADS/DS-4001/blob/main/03_Github/Github%20Lab.md)  	|  	|
 | Week 4 	| How to share nicely  	| Knitr and rmarkdown 	| [Rmarkdown article reviews](https://github.com/UVADS/DS-4001/blob/main/04_knitr_Comms/knitr_lab.md) 	|  Rmarkdown: The definitive guide: Sections I and II Knit R Reference Guide 	|
-| Week 5 	| Machine Learning Bootcamp 	| Key ML Methods 	| Pre-processising,Training,Testing	| ML Methods Lab 	|
-|  Week 6	| Let's gather together... but separately 	| Overview of Clustering Kmeans -  (hint it's all about Data Vis) 	| [NBA Scout for the worst team in the league](https://github.com/UVADS/DS-4001/blob/main/06_Clustering/clustering_lab_overview.Rmd)|  F. Chapter 1 and Chapter 9  |
+| Week 5 | Machine Learning Bootcamp | Key ML Methods 	| ML Methods Lab| H: Chapter 1 and 2 |  
+|  Week 6	| Let's gather together... but separately 	| Overview of Clustering Kmeans 	| [NBA Scout for the worst team in the league](https://github.com/UVADS/DS-4001/blob/main/06_Clustering/clustering_lab_overview.Rmd)|  F. Chapter 1 and Chapter 9  |
 | Week 7| Computers can read…well kind of 	| Text Mining – Bag of Words approaches 	| [Regional Climate Change Analysis](https://github.com/UVADS/DS-4001/blob/main/07_text_mining/text_lab.Rmd) | D. Sections 1 - 3 	|
 | Week 8 | Machines really can learn 	| Introduction to ML: Prediction versus Classification: Unsupervised KNN  	| [Create a Lazy ML Algo](https://github.com/UVADS/DS-4001/blob/main/08_IntroML_KNN/knn_lab(1).Rmd)  | F. Chapter 3 	|
 | Week 9 | Reinforcement Lab	| Let's Put these Skills to Use!	| Case Study: Prof Loreto Alonzi	|  	|
@@ -121,7 +124,7 @@ On any given week, the course will require reviewing short video lectures and co
 | Week 11 	| Nature's Perfect ML analogy: Tree Based Methods  	| Classification: Decision Trees  	| [Predicting Income for Big Brother](https://github.com/UVADS/DS-4001/blob/main/11_DT/In_Class_Decision_Tree.Rmd)	| F. Chapter 5 	|
 |  Week 12 | Wisdom of the Crowd ML: Tree Methods Cont. 	| Random Forrest    - Sampling Matters  - XGBoost - Bonus Lecture 	|  [Lab: TBD](https://github.com/UVADS/DS-4001/tree/main/12_Ensemble_RF)	| F. Chapter 11 	|
 |  Week 13 	| Reinforcment Lab	| Time to think on your own!	| Case Study: Prof Rafael Alvarado 	|  |
-|  Week 14 | Do the next right thing…ethics 	| - Bias in AI Discussion -Simple methods for identifying bias   - Protected Classes 	| Protected class example - KNN  	|   Weapons of Math Destruction	|
+|  Week 14 | Do the next right thing…ethics 	|  Bias in AI Discussion -Simple methods for identifying bias   - Protected Classes 	| Protected class example - KNN  	|   Weapons of Math Destruction	|
 | Week 15 | Break - No Class	|  	| 	|  Ethical Reflection Due	|
 | Week 16	| Final Projects	|  	|  	|  	|
 
