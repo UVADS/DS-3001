@@ -80,20 +80,18 @@ On any given week, the course will require reviewing short video lectures and co
 
 ## Tech Stack
 
-    Rstudio - You'll need to have the software loaded and ready to go day one. 
-    Zoom - Virtual Meetings
-    Github - Code collaborations in Lab Groups
+    R/Rstudio - You'll need to have the software loaded and ready to go day one. 
+    Zoom - Virtual Option for Office Hours
+    Github - Almost all course materials and collaberation for lab assignemtns
     Collab - Submission of assignments and class-wide communications
     Discord - link to be generated
 
- 
 
-## Materials That Will Aid in Your Learning: Essentially a Starter Machine Learning
-Library. I will use all of these references at difference points during the class, but not heavily rely on more expensive books. Most notably Applied Predictive Learning is essentially a theory and content review of the CARET package. It's very good but also expensive. Everything else is either free or can be found for around 15 dollars. 
+## Materials That Will Aid in Your Learning: Essentially a Starter Machine Learning Library. I will use all of these references at difference points during the class, but not heavily rely on anything but the free texts. Applied Predictive Learning is a theory and code review for much of what is in the CARET package. It's very good but also expensive. Everything else is either free or can be found for around 15 dollars. If you can master what is in books F through I, you'll be well on your way to being a highly capable Data Scientist. In order of importance I would list them in reverse I-F. 
 
 * A. [Weapons of Math Destruction](https://www.amazon.com/Weapons-Math-Destruction-Increases-Inequality/dp/0553418815)
 * B. [Evaluating Machine Learning Models – O’Reilly Digital via UVA Library](https://www.oreilly.com/library/view/temporary-access/)<br>
- The below texts (C-E) are all available here:[https://bookdown.org/](https://bookdown.org/)
+ Texts C-E below are all available here: [https://bookdown.org/](https://bookdown.org/)
  * C. R for Data Science 
  * D. Text Mining with R
  * E. R Markdown: The Definitive Guide
