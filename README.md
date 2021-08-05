@@ -79,8 +79,8 @@ On any given week, the course will require reviewing short video lectures and co
     Zoom - Virtual Option for Office Hours
     Github - Almost all course materials and collaberation for lab assignemtns
     Collab - Submission of assignments and class-wide communications
-    Discord - link to be generated
-
+    Discord - Low latency comms for groups and class. 
+* [Discord Invite Click](https://discord.gg/854a5xGB) 
 
 ## Materials That Will Aid in Your Learning: 
 
@@ -95,7 +95,7 @@ The books below are essentially a starter Machine Learning Library. I will use a
  * F. Machine Learning with R – Posted in Collab
  * G. [Applied Predictive Learning, Kuh and Johnson](http://appliedpredictivemodeling.com/toc) - Expensive but very good
 * H. [Machine Learning Engineering](http://www.mlebook.com/wiki/doku.php)- Free PDF Version
-* I. [Mathematics for Machine Learning](https://mml-book.github.io/)Free PDF Version
+* I. [Mathematics for Machine Learning](https://mml-book.github.io/) Free PDF Version
 
 
 ## Schedule of Topics 
