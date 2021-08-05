@@ -92,7 +92,7 @@ On any given week, the course will require reviewing short video lectures and co
 Library. I will use all of these references at difference points during the class, but not heavily rely on more expensive books. Most notably Applied Predictive Learning is essentially a theory and content review of the CARET package. It's very good but also expensive. Everything else is either free or can be found for around 15 dollars. 
 
 * A. [Weapons of Math Destruction](https://www.amazon.com/Weapons-Math-Destruction-Increases-Inequality/dp/0553418815)
-* B. [Evaluating Machine Learning Models – O’Reilly Digital via UVA Library](https://www.oreilly.com/library/view/temporary-access/)
+* B. [Evaluating Machine Learning Models – O’Reilly Digital via UVA Library](https://www.oreilly.com/library/view/temporary-access/)<br>
  The below texts (C-E) are all available here:[https://bookdown.org/](https://bookdown.org/)
  * C. R for Data Science 
  * D. Text Mining with R
