@@ -397,9 +397,17 @@ varImp(wine_mdl)
 ```
 
 
-Next we need to use the "tune" dataset to optimize our model, then once we are 
-confident that we've got the best model we see how it performs on the test set.  
+Next we need to use the "tune" dataset to optimize our model, then once we are confident that we've got the best model we see how it performs on the test set.
+
+"C5.0 constructs decision trees in two phases. A large tree is first grown to fit the data closely and is then `pruned' by removing parts that are predicted to have a relatively high error rate. This pruning process is first applied to every sub-tree to decide whether it should be replaced by a leaf or sub-branch, and then a global stage looks at the performance of the tree as a whole." - https://www.rulequest.com/see5-unix.html#SOFT
+
+The process above is referred to as pessimistic pruning, as it's centered on 
+whether a tree should be pruned or not. See page 381 Applied Predictive Modeling
 ```{r}
+Winnowing 
+-g
+-c
+-m
 
 ```
 

@@ -114,8 +114,8 @@ The books below are essentially a starter Machine Learning Library. I will use a
 | Week 8 | Machines really can learn 	| Introduction to ML: Prediction versus Classification: Unsupervised KNN  	| [Create a Lazy ML Algo](https://github.com/UVADS/DS-4001/blob/main/08_IntroML_KNN/knn_lab(1).Rmd)  | F. Chapter 3 	|
 | Week 9 | Reinforcement Lab	| Let's Put these Skills to Use!	| Case Study: Prof Loreto Alonzi	|  	|
 | Week 10	| The key to ML: Knowing how bad your model really is… 	| - Metrics for Accuracy, Sensitivity, ROC, AUC, etc. 	| [Evaluation Lab](https://github.com/UVADS/DS-4001/blob/main/09_ML_Eval_Metrics/eval_lab.Rmd)|All of B. and G.- Chapter 11 |
-| Week 11 	| Nature's Perfect ML analogy: Tree Based Methods  	| Classification: Decision Trees  	| [Predicting Income for Big Brother](https://github.com/UVADS/DS-4001/blob/main/11_DT/In_Class_Decision_Tree.Rmd)	| F. Chapter 5 and G. Chapter 14 	|
-|  Week 12 | Wisdom of the Crowd ML: Tree Methods Cont. 	| Random Forrest    - Sampling Matters  - XGBoost - Bonus Lecture 	|  [Lab: TBD](https://github.com/UVADS/DS-4001/tree/main/12_Ensemble_RF)	| F. Chapter 11 	|
+| Week 11 	| Nature's Perfect ML analogy: Tree Based Methods  	| Classification: Decision Trees  	| [Predicting Income for Big Brother](https://github.com/UVADS/DS-4001/blob/main/11_DT/In_Class_Decision_Tree.Rmd)	| F. Chapter 5 and G. Chapter 14.1-14.3 	|
+|  Week 12 | Wisdom of the Crowd ML: Tree Methods Cont. 	| Random Forrest and C5.0 Boosting   - Sampling Matters  	|  [Lab: TBD](https://github.com/UVADS/DS-4001/tree/main/12_Ensemble_RF)	| F. Chapter 11 and G. 14.4-14.8 	|
 |  Week 13 	| Reinforcment Lab	| Time to think on your own!	| Case Study: Prof Rafael Alvarado 	|  |
 |  Week 14 | Do the next right thing…ethics 	|  Bias in AI Discussion -Simple methods for identifying bias   - Protected Classes 	| Protected class example - KNN  	|   Weapons of Math Destruction	|
 | Week 15 | Break - No Class	|  	| 	|  Ethical Reflection Due	|
