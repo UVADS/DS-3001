@@ -262,7 +262,7 @@ roc(tree_example$PREGNANT, ifelse(tree_example_fitted_prob[,'not_preg'] >= .25,0
 set.seed(1)
 tree_example_tree_cp2 = rpart(PREGNANT~.,                         #<- formula, response variable ~ predictors,
                                                                #   "." means "use all other variables in data"
-                           method = "class",	                 #<- specify method, use "class" for tree
+                           method = "class",	                 #<- specify metlhod, use "class" for tree
                            parms = list(split = "gini"),       #<- method for choosing tree split
                            data = tree_example,             #<- data used
                            control = rpart.control(maxdepth = 7))  #<- includes depth zero, the control for additional options (could use CP, 0.01 is the default)
