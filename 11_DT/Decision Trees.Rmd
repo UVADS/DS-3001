@@ -354,8 +354,8 @@ fitControl <- trainControl(method = "repeatedcv",
 # repeats - number of times the CV is repeated, here it's 5 take the average of
 # those 5 repeats
 
-# Choose the features and classes
 
+# Choose the features and classes
 
 features <- train[,c(-12,-13)]#dropping 12 and 13. 12 essentially predicts 13 
 #perfectly and 13 is our target variable
@@ -396,8 +396,20 @@ varImp(wine_mdl)
 
 ```
 
+
+Next we need to use the "tune" dataset to optimize our model, then once we are 
+confident that we've got the best model we see how it performs on the test set.  
+```{r}
+
+```
+
+
+
+
+
 Let's use the model to predict and the evaluate the performance
 ```{r}
+
 wine_predict = predict(wine_mdl,test_w, type= "raw")
 
 View(as_tibble(wine_predict))
