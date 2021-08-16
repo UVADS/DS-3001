@@ -79,8 +79,9 @@ On any given week, the course will require reviewing short video lectures and co
     Zoom - Virtual Option for Office Hours
     Github - Almost all course materials and collaberation for lab assignemtns
     Collab - Submission of assignments and class-wide communications
-    Discord - Low latency comms for groups and class. 
-* [Discord Invite Click](https://discord.gg/854a5xGB) 
+    Discord - Low latency comms for groups and class.
+
+*[Discord Invite Click](https://discord.gg/854a5xGB) 
 
 ## Materials That Will Aid in Your Learning: 
 
