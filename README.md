@@ -38,7 +38,7 @@ Throughout the course, we will endeavor to “live the life of a data scientist�
 
 ## What you’ll learn along the way
 
-Data Science is incredibly broad and dynamic. The topics below are designed to reinforce this perspective and help you understand the field’s core tenements and what is demanding from practicing data scientists.  The key outcome would be for you to gain a sense of the scope of Data Science, what is needed to contribute to the community, and feel comfortable incorporating these techniques into your work moving forward.
+Data Science is incredibly broad and dynamic. The topics below are designed to reinforce this perspective and help you understand the field’s core tenements and what is demanded from practicing data scientists.  The key outcome would be for you to gain a sense of the scope of Data Science, what is needed to contribute to the community, and feel comfortable incorporating these techniques into your work moving forward.
 
     Describe the field of Data Science at large and its emerging sub-fields
     Communicate Data Science products
