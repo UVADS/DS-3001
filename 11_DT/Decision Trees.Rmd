@@ -90,12 +90,15 @@ View(tree_example_long_form)
 #Build  the model using rpart and CART Algo (Gini Index - Binary Tree)
 ```{r}
 # In order for this decision tree algorithm to run, 
-# all the variables will need to be turned into factors. Make sure your variables are classified correctly. 
+# all the variables will need to be turned into factors. 
+#Make sure your variables are classified correctly. 
 
 
 tree_example = lapply(tree_example, function(x) as.factor(x))
 
-#This is a handy reference on apply(), lapply(), sapply() all essentially designed to avoid for loops, especially in combination with (function (x))
+#This is a handy reference on apply(), lapply(), sapply() are 
+#all essentially designed to avoid for loops, especially in combination 
+#with (function (x))
 
 #https://www.r-bloggers.com/using-apply-sapply-lapply-in-r/
 
@@ -161,11 +164,14 @@ cptable_ex$opt <- cptable_ex$`rel error`+ cptable_ex$xstd
 
 View(cptable_ex)
 
-#Ok so let's compare the cptable_ex, the cpplot and the decision tree plot, they all covered around 8ish splits of the tree or a cp of .014ish. Print out skips splits that result in terminal leaf nodes for some reason, so makes it a little hard to interpret 
+# Ok so let's compare the cptable_ex, the cpplot and the decision tree plot, 
+# they all covered around 8ish splits of the tree or a cp of .014ish. 
+# Print out skips splits that result in terminal leaf nodes for 
+# some reason, so makes it a little hard to interpret 
 
 rpart.plot(tree_example_tree_gini, type =4, extra = 101)
 
-#Shows the reduction in error provided by include the variable 
+# Shows the reduction in error provided by including a given variable 
 tree_example_tree_gini$variable.importance
 
 ```
@@ -206,7 +212,11 @@ table(tree_example_fitted_model)
 #We can also just use the confusion matrix
 
 library(caret)
-confusionMatrix(as.factor(tree_example_fitted_model), as.factor(tree_example$PREGNANT), positive = "preg", dnn=c("Prediction", "Actual"), mode = "sens_spec")
+confusionMatrix(as.factor(tree_example_fitted_model), 
+                as.factor(tree_example$PREGNANT), 
+                positive = "preg", 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
 
 table(tree_example$PREGNANT)
 
@@ -227,7 +237,7 @@ sum(preg_conf_matrix)
 # 2000
 
 # Let's use these values in 1 calculation.
-preg_error_rate = sum(preg_conf_matrix[row(preg_conf_matrix) != col(preg_conf_matrix)]) / sum(preg_conf_matrix)
+preg_error_rate = sum(preg_conf_matrix[row(preg_conf_matrix) != col(preg_conf_matrix)])/ sum(preg_conf_matrix)
 
 
 paste0("Hit Rate/True Error Rate:", preg_error_rate * 100, "%")
@@ -260,12 +270,11 @@ roc(tree_example$PREGNANT, ifelse(tree_example_fitted_prob[,'not_preg'] >= .25,0
 #We can also prune the tree to make it less complex 
 ```{r}
 set.seed(1)
-tree_example_tree_cp2 = rpart(PREGNANT~.,                         #<- formula, response variable ~ predictors,
-                                                               #   "." means "use all other variables in data"
-                           method = "class",	                 #<- specify metlhod, use "class" for tree
-                           parms = list(split = "gini"),       #<- method for choosing tree split
-                           data = tree_example,             #<- data used
-                           control = rpart.control(maxdepth = 7))  #<- includes depth zero, the control for additional options (could use CP, 0.01 is the default)
+tree_example_tree_cp2 = rpart(PREGNANT~.,#<- formula, response variable ~ predictors,"." means "use all other variables in data"
+                           method = "class", #<- specify method, use "class" for tree
+                           parms = list(split = "gini"),#<- method for choosing tree split
+                           data = tree_example,#<- data used
+                           control = rpart.control(maxdepth = 7)) #<- includes depth zero, the control for additional options (could use CP, 0.01 is the default)
 
 ?rpart.control
 
@@ -312,7 +321,7 @@ winequality$text_rank <- fct_collapse(winequality$text_rank,
 Splitting the Data
 ```{r}
 #There is not a easy way to create 3 partitions using the createDataPartitions
-#so we are going to use it twice. 
+#so we are going to use it twice. Mostly because we want to stratify on the variable we are working to predict. What does that mean?  
 part_index_1 <- caret::createDataPartition(winequality$text_rank,
                                            times=1,
                                            p = 0.70,
@@ -320,17 +329,17 @@ part_index_1 <- caret::createDataPartition(winequality$text_rank,
                                            list=FALSE)
 
 train <- winequality[part_index_1, ]
-tune_and_val <- winequality[-part_index_1, ]
+tune_and_test <- winequality[-part_index_1, ]
 
 #The we need to use the function again to create the tuning set 
 
-tune_and_val_index <- createDataPartition(tune_and_val$text_rank,
+tune_and_test_index <- createDataPartition(tune_and_test$text_rank,
                                            p = .5,
                                            list = FALSE,
                                            times = 1)
 
-tune <- tune_and_val[tune_and_val_index, ]
-test <- tune_and_val[-tune_and_val_index, ]
+tune <- tune_and_test[tune_and_test_index, ]
+test <- tune_and_test[-tune_and_test_index, ]
 
 
 dim(train)
@@ -370,9 +379,9 @@ grid <- expand.grid(.winnow = c(TRUE,FALSE),
 
 #expand.grid - series of options that are available for model training
 
-#winnow - whether to reduce the feature space - actually a pretty good StackExchange post on winnowing: Works remove unimportant features but it doesn't always work.
-#in the above we are 
+#winnow - whether to reduce the feature space -  Works remove unimportant features but it doesn't always work, in the above we are winnowing.  
 
+#Actually a pretty good StackExchange post on winnowing:
 #https://stats.stackexchange.com/questions/83913/understanding-the-output-of-c5-0-classification-model-using-the-caret-package
 
 #trails - number of boosting iterations to try, 1 indicates a single model 
@@ -385,7 +394,8 @@ wine_mdl <- train(x=features,
                 method="C5.0",
                 verbose=TRUE)
 
-wine_mdl
+wine_mdl #provides us the hyperparameters that were selected throught the grid
+#search process. 
 
 View(wine_mdl$pred)
 
@@ -397,12 +407,20 @@ varImp(wine_mdl)
 ```
 
 
-Next we need to use the "tune" dataset to optimize our model, then once we are confident that we've got the best model we see how it performs on the test set.
+Next we need to use the "tune" dataset to optimize our model, then once 
+we are confident that we've got the best model we see how it 
+performs on the test set.
 
-"C5.0 constructs decision trees in two phases. A large tree is first grown to fit the data closely and is then `pruned' by removing parts that are predicted to have a relatively high error rate. This pruning process is first applied to every sub-tree to decide whether it should be replaced by a leaf or sub-branch, and then a global stage looks at the performance of the tree as a whole." - https://www.rulequest.com/see5-unix.html#SOFT
+"C5.0 constructs decision trees in two phases. A large tree is first grown 
+to fit the data closely and is then `pruned' by removing parts that are 
+predicted to have a relatively high error rate (winnowing, as a example). 
+This pruning process is first applied to every sub-tree to decide whether 
+it should be replaced by a leaf or sub-branch, and then a global stage 
+looks at the performance of the tree as a whole." - https://www.rulequest.com/see5-unix.html#SOFT
 
 The process above is referred to as pessimistic pruning, as it's centered on 
-whether a tree should be pruned or not. See page 381 Applied Predictive Modeling
+whether a tree should be pruned or not. 
+See page 381 Applied Predictive Modeling for more details 
 ```{r}
 Winnowing 
 -g
@@ -410,8 +428,6 @@ Winnowing
 -m
 
 ```
-
-
 
 
 
@@ -425,8 +441,10 @@ View(as_tibble(wine_predict))
 
 #Lets use the confusion matrix
 
-confusionMatrix(as.factor(wine_predict), as.factor(test_w$text_rank), 
-                dnn=c("Prediction", "Actual"), mode = "sens_spec")
+confusionMatrix(as.factor(wine_predict), 
+                as.factor(test_w$text_rank), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
 
 table(test_w$text_rank)
 
