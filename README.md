@@ -38,15 +38,15 @@ Throughout the course, we will endeavor to “live the life of a data scientist�
 
 ## What you’ll learn along the way
 
-Data Science is incredibly broad and dynamic. The topics below are designed to reinforce this perspective and help you understand the field’s core tenements and what is demanded from practicing data scientists.  The key outcome would be for you to gain a sense of the scope of Data Science, what is needed to contribute to the community, and feel comfortable incorporating these techniques into your work moving forward.
+Data Science is incredibly broad and dynamic. The topics below are designed to reinforce this perspective and help you understand the field’s core tenements and what is demanded from practicing data scientists.  The key is for you to gain a sense of the scope of Data Science, what is needed to contribute to the community, and feel comfortable incorporating these techniques into your work moving forward. Specific learning objectives are below:
 
-    Describe the field of Data Science at large and its emerging sub-fields
+    Be able to describe the field of Data Science and its emerging sub-fields
     Gain experience working in teams to solve Data Science problems
-    Communicate Data Science products
-    Avoid the negative outcomes associated with ML/AI bias
-    Articulate the advantages and disadvantages of certain machine learning modeling approaches
-    Select appropriate machine learning models given problems and data types
-    How to evaluate machine learning models
+    Gain experience communicating Data Science products
+    Articulate the advantages and disadvantages of selected ML approaches
+    Be able to select appropriate ML models given problems and data types
+    Understand the importance of and methods for evaluating ML models
+    Understand the negative outcomes associated with ML/AI bias and how they can be avoided
 
 The course will move rather quickly and can be demanding at times. However, if we all work together to support each other you’ll be amazed how much you learn at the end of the semester!
 
@@ -56,23 +56,27 @@ The course will move rather quickly and can be demanding at times. However, if w
 On any given week, the course will require reviewing short video lectures and completing readings prior to coming to class.  These lectures and readings will then be implemented in the lab portion of the course which will be conducted during the scheduled class period.  Lab sessions will include a variety of activities but mostly be centered on team-oriented coding assignments.  Students can also use lab sessions to work on mid-term and final projects when needed.
 
     Ethical data scientist reflection (15%) – Based on in-class discussion and readings 
-    students will write a personal reflection of how ethics and data science interact and how we all can think 
-    about these concerns moving forward. This is critical to the work of a data scientist as the models we 
-    build have the potential to impact the lives of thousands of people so we must use caution and constraint whenever possible.
+    students will write a personal reflection of how ethics and data science interact and 
+    how we all can think about these concerns moving forward. This is critical to the work of 
+    a data scientist as the models we build have the potential to impact the lives of thousands 
+    of people so we must use caution and constraint whenever possible.
     
-    Quizzes (15%) – Short occasional (5 or 6) quizzes, will be auto-graded, so you will get instant feedback. In order 
-    to ensure we are all meeting the learning objectives from week to week short quizzes will be given. You will be allowed 
-    as many chances to complete the quiz as needed and they will be open note however students are to work independently.  
-    (To be completed Independent unless otherwise stated)
+    Quizzes (15%) – Short occasional (5 or 6) quizzes, will be auto-graded, so you will get instant 
+    feedback. In order to ensure we are all meeting the learning objectives from week to week short 
+    quizzes will be given. You will be allowed as many chances to complete the quiz as needed and 
+    they will be open note however students are to work independently. 
     
-    Labs (45%) – On most weeks we will have in-class labs/assignments. These are designed to allow you to practice the skills 
-    being presented in class. While they should be submitted individually you are encouraged to work with your peers as much of the
-    best learning can come from your peers. You’ll need to create publishable markdown documents for every lab and submit them along 
+    Labs (45%) – On most weeks we will have in-class labs/assignments. These are designed to allow you 
+    to practice the skills being presented in class. While they should be submitted individually you are 
+    encouraged to work with your peers as much of the best learning can come from your peers. 
+    You’ll need to create publishable markdown documents for every lab and submit them along 
     with the raw code file and link each week (Groups).   
    
-    Final project (25%) – The course will culminate in a final project that will involve working with a dataset of your choice, giving a presentation, 
-    submitting well-annotated code to include summary information in report form. This is an open-ended project designed to allow 
-    groups to choose a topic of interest from the semester to explore deeper and share with the class.
+    Final project (25%) – The course will culminate in a final project that will involve 
+    working with a dataset of your choice, giving a presentation, submitting well-annotated 
+    code to include summary information in report form. This is an open-ended project 
+    designed to allow groups to choose a topic of interest from the semester to
+    explore deeper and share with the class.
     
 ## Tech Stack
 
