@@ -1,0 +1,60 @@
+---
+title: "KNN_lab_2"
+author: "Brian Wright"
+date: "8/17/2021"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+```
+
+
+I think this will work need to drop a bunch of columns but not too bad. Try to predict something to do with % graduation. 
+
+Instructions:
+The data is messy and you have a degrees of freedom problem, as in, you have too
+many features. Using the readme and your groups intuition to reduce the number of variables down to around 20ish. 
+
+Engineer the target variable using the grad_150_percentile into a binary variable. Use the distribution looking for natural breaks points or other intuitions from your group. You can also search for publications that elude to 
+what a high quality 6 year graduation rate might be.
+
+
+```{r}
+url <- "https://query.data.world/s/yd5wiazzlj7aahmn4x37y7zq5pyh2h"
+
+grad_data <- read_csv(url)
+
+View(grad_data)
+
+# readme for the dataset - https://data.world/databeats/college-completion/workspace/file?filename=README.txt
+
+#Pretty large number of features, need to trim this down
+dim(grad_data_2)
+
+#This will allow us to pull column numbers for sub-setting  
+column_index <- tibble(colnames(grad_data))
+
+x <- 40:56 #create a list so we don't have to type 16 numbers out
+
+#Most of these columns have a good number of missing values or are not useful.  
+grad_data_1 <- grad_data[ ,c(-28,-10,-11,-12,-x,-29,-37,-61,-57)]
+
+column_index <- tibble(colnames(grad_data_1))
+
+View(column_index)
+
+View(grad_data_2)
+
+grad_data_2 <- grad_data_1[ ,c(-7,-12,-13,-15,-16,-19,-22,-24,-30,-33,-34,-35,-36)]
+
+
+
+```
+
