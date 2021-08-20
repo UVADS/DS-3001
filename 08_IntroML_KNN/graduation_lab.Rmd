@@ -13,6 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 library(tidyverse)
+library(mice)
 ```
 
 
@@ -22,8 +23,17 @@ Instructions:
 The data is messy and you have a degrees of freedom problem, as in, you have too
 many features. Using the readme and your groups intuition to reduce the number of variables down to around 20ish. 
 
+Ensure the variables are classified correctly. Hint: they are not. 
+
+Ensure that the factor variables are created correctly. Hint: they are not, 
+might need to change Null and "x" to 0 and 1, as a example.
+
+Once you've got down to a reasonable number of variables and cleaned up the variable classifications take a look at the patterns for missing data using the mice package and decide as a group how to handle missing values. See if some patterns seem to appear. 
+
 Engineer the target variable using the grad_150_percentile into a binary variable. Use the distribution looking for natural breaks points or other intuitions from your group. You can also search for publications that elude to 
 what a high quality 6 year graduation rate might be.
+
+Build and optimize a kNN model to predict your engineering target variable. 
 
 
 ```{r}
@@ -52,8 +62,34 @@ View(column_index)
 
 View(grad_data_2)
 
-grad_data_2 <- grad_data_1[ ,c(-7,-12,-13,-15,-16,-19,-22,-24,-30,-33,-34,-35,-36)]
+#Dropped a bunch more that appeared to be repeats or not predictive 
+grad_data_2 <- grad_data_1[ ,c(-1,-3,-4,-7,-9,-12,-13,-15,-16,-19,-22,-24,-30,-33,-34,-35,-36)]
 
+
+
+#convert several variables to factors 
+x <- c("level","control","hbcu")
+grad_data_2[,x] <- lapply(grad_data_2[,x], as.factor)
+#convert several variables to numbers 
+x <- c("med_sat_value","grad_100_value","grad_100_percentile","grad_150_value","grad_150_percentile","retain_value","cohort_size")
+grad_data_2[,x] <- lapply(grad_data_2[,x], as.numeric)
+
+str(grad_data_2)
+mice_imputes = mice(grad_data_2, m=5, maxit = 10)
+
+mice_imputes$method
+
+grad_data_3 <- complete(mice_imputes,5)
+
+View(grad_data_3)
+
+
+
+```
+Let's take a look at the missing data 
+
+```{r}
+md.pattern(grad_data_2)
 
 
 ```
