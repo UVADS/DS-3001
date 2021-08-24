@@ -2,7 +2,7 @@
 
 Your Practice of Data Science Tour Guides: 
 
-* Brian Wright, Ph.D., Office: Dell I 
+* Brian Wright, Ph.D., Office: Dell I 103b
 * Email: brianwright@virginia.edu
 * TA: Anna Baglione ab5bt@virginia.edu
 * Peer Mentors: Izzy Shehan iws4kc@virginia.edu and Brittany Nguyen bhn4bf@virginia.edu 
