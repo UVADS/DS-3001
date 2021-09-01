@@ -2,17 +2,17 @@
 
 Your Practice of Data Science Tour Guides: 
 
-* Brian Wright, Ph.D., Office: Dell II 
+* Brian Wright, Ph.D., Office: Dell I 103b
 * Email: brianwright@virginia.edu
 * TA: Anna Baglione ab5bt@virginia.edu
-* Peer Mentors: Izzy Shehan iws4kc@virginia.edu and Brittany Nguyen bhn4bf@virginia.edu 
+* Peer Mentors: Izzy Shehan iws4kc@virginia.edu, Brittany Nguyen bhn4bf@virginia.edu and Jasmine Dogu ejd5mm@virginia.edu
 * Location: In-Person! Maury Hall 115
 
-Brian's Office Hours(In person or Virtual): Tuesday, 2:00 - 4:00
+Brian's Office Hours(In person or Virtual): Tuesday, 2 - 4:00pm and virtually Friday from 9 to 11:00am or by appointment if needed
 
-Office Hours Zoom: [click here to join](https://virginia.zoom.us/j/98266832283?pwd=ODlkR2xFSUMyeFhmcWtEV2pVRHY0QT09)
+Office Hours Zoom: Dell I or [click here to join](https://virginia.zoom.us/j/98404956714?pwd=Kys5Z3doMXdJMTBYb0FhYXJMYTU4UT09)
 
-Course Materials: [Practice of Data Science Repo](https://github.com/UVADS/DS-4001)
+Course Materials: [Practice of Data Science Repo](https://github.com/UVADS/DS-3001)
 
 Subject Area and Catalog Number: Data Science, DS 3001
 
@@ -86,7 +86,7 @@ On any given week, the course will require reviewing short video lectures and co
     Collab - Submission of assignments and class-wide communications
     Discord - Low latency comms for groups and class.
 
-**[Discord Invite Click](https://discord.gg/854a5xGB)**
+**[Discord Invite Click](https://discord.gg/vDzgbWBW)**
 
 ## Materials That Will Aid in Your Learning: 
 
@@ -111,7 +111,7 @@ The books below are essentially a starter Machine Learning Library. I will use a
 | Week 	| Theme 	| Topics 	| Lab 	| Reading/Repo (Prior to Class) 	|
 |:---:	|:---:	|:---:	|:---:	|:---:	|
 | Week 1 	| What is this “Data Science” that you speak of and tech stack 	| - Assessment - Videos: DS Overview and History 	| - Find DS Dream Job - Create your first project,  load the dataset, visualize using the code provided what questions could this data answer? 	|  Synchronous: Short Lab  	|
-| Week 2 	|  Getting back up to “coding speed” 	| 'Dataframing' with tidyverse functions  	| [- Group Case Study - Questions + PsuedoCode + Code + Functions  = High Quality Data Science](https://github.com/UVADS/DS-4001/blob/main/02_R_function_basics/Class%20II%20Assignment.Rmd)  	| References in C 	|
+| Week 2 	|  Getting back up to “coding speed” 	| 'Dataframing' with tidyverse functions  	| [- Group Case Study - Questions + PsuedoCode + Code + Functions  = High Quality Data Science](https://github.com/UVADS/DS-4001/blob/main/02_R_function_basics/Class%20II%20Assignment.Rmd)  	| "Program" Chapter in C 	|
 | Week 3 	| I'm Committed Version Control:  GitHub	|  	|[GitHub Lab](https://github.com/UVADS/DS-4001/blob/main/03_Github/Github%20Lab.md)  	|  	|
 | Week 4 	| How to share nicely  	| Knitr and rmarkdown 	| [Rmarkdown article reviews](https://github.com/UVADS/DS-4001/blob/main/04_knitr_Comms/knitr_lab.md) 	|  Rmarkdown: The definitive guide: Sections I and II Knit R Reference Guide 	|
 | Week 5 | Machine Learning Bootcamp | Key ML Methods 	| ML Methods Lab| H: Chapter 1 and 2 |  
