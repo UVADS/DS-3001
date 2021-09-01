@@ -33,7 +33,7 @@ group-by-group.
 
 For this assignment you can use any or all of the datasets I 
 provided or choose three of your own!  I would like you to compose 
-a question for each dataset that requires at a minimum three "levels" 
+two questions for each dataset that requires at a minimum three "levels" 
 of pseudocode and use dplyr functions to solve the statements. Also create 
 functions for each of your  questions.  Information or the actual 
 data for the datasets can be found through the links below. In summary for
