@@ -21,6 +21,6 @@ into the main branch.
 
 7. Have separate Rscript or Rmarkdown files for each visualization. 
 
-8. Submit to collab the URL for the orginal(origin) repo. 
+8. Submit to the link to the repo in which you approved the pull requests. 
 
   
