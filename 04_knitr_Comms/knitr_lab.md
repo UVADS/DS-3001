@@ -18,4 +18,5 @@ areas of application, author information, etc.
 
 8. Publish the results to Rpubs
 
-9. Submit the link from Rpubs and the code file to collab - individually
+9. Submit the link from Rpubs, the HTML file, images used and 
+the code file to collab - individually
