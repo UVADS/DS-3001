@@ -21,17 +21,16 @@ library(tidyverse)
 library(knitr)
 library(plotly)
 library(DT)
-
 ```
 
 
-<img src="bd.png" alt="drawing" width="500"/>
+<img src="bd.png" alt="big data image" width="500" height="300">
 
 Date that [article](https://www.smartdatacollective.com/5-excellent-big-data-tools-for-fostering-a-digital-workplace/) was published: **January 29, 2020**
 
 ### Summary of Article
 The Big Data article emphasizes big data tools that could *improve* workspace resources in any company. 
-```{r tools, eval=FALSE}
+```{r tools, eval=TRUE,echo=TRUE}
 tools_to_improve <- c("Virtual Personal Assistants", "Workload Automation Software", "Enterprise Social Networks", "Cloud Computing Technologies", "Modern Corporate Intranets ")
 tools_to_improve
 ```
@@ -39,7 +38,7 @@ In the world of data, big data is the topic that is on everyone's mind. Thus, it
 
 ### Basic Article Stats
 ```{r, message=FALSE, echo=FALSE}
-library(knitr)
+
 stat <- data.frame("Article Views" = 2351, "Article Shares" = 71, "Article Likes on FB" = 576)
 kable(stat)
 ```
@@ -72,7 +71,6 @@ string
 1. [3 Ways Big Data is Bringing SEO Out of the Stone Age](https://www.smartdatacollective.com/3-ways-big-data-is-bringing-seo-out-of-stone-age/)
 2. [Harnessing Big Data to Write A Fantastic Research Paper](https://www.smartdatacollective.com/harnessing-big-data-to-write-fantastic-research-paper/)
 3. [5 Incredible Ways Big Data Has Made VPNs Powerful Privacy Tools](https://www.smartdatacollective.com/5-incredible-ways-big-data-has-made-vpns-powerful-privacy-tools/)
-
 
 
 #### Social Media 

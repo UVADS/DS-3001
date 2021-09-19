@@ -394,7 +394,7 @@ wine_mdl <- train(x=features,
                 method="C5.0",
                 verbose=TRUE)
 
-wine_mdl #provides us the hyperparameters that were selected throught the grid
+wine_mdl #provides us the hyperparameters that were selected through the grid
 #search process. 
 
 View(wine_mdl$pred)
