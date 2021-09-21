@@ -36,7 +36,8 @@ library(caret)
 
 # Inference versus Prediction 
 
-# Independent Business Metric 
+# Independent Business Metric - Assuming that higher ratings results in higher sales, can we predict which new cereals that enter the market over the next year will perform the best?   
+
 ```
 
 
@@ -144,6 +145,7 @@ View(cereal_1h)
 # Divide up our data into three parts, Training, Tuning, and Test
 
 #There is not a easy way to create 3 partitions using the createDataPartitions
+
 #so we are going to use it twice. Mostly because we want to stratify on the variable we are working to predict. What does that mean?  
 
 #clean up our dataset a bit by dropping the original ranking variable and the cereal name which we can't really use. 
@@ -218,7 +220,6 @@ cereal_mdl <- train(x=features,
 
 cereal_mdl
 
-
 ```
 
 Tune and Evaluation 
@@ -231,6 +232,7 @@ confusionMatrix(as.factor(cereal_predict),
                 mode = "sens_spec")
 
 varImp(cereal_mdl)
+
 plot(cereal_mdl)
 
 
@@ -238,20 +240,41 @@ grid <- expand.grid(.winnow = c(TRUE,FALSE),
                     .trials=c(20,30,40), 
                     .model=c("tree","rules"))
 set.seed(1984)
-cereal_mdl_s <- train(x=features,
+cereal_mdl_tune <- train(x=features,
                 y=target$rating_f,
                 tuneGrid=grid,
                 trControl=fitControl,
                 method="C5.0",
                 verbose=TRUE)
 
-cereal_mdl_s
+cereal_mdl_tune
 cereal_mdl
-#
 
-plot(cereal_mdl_s)
+plot(cereal_mdl_tune)
+
+# Want to evaluation again with the tune data using the new model 
+
+cereal_predict_tune = predict(cereal_mdl_tune,tune,type= "raw")
+
+confusionMatrix(as.factor(cereal_predict_tune), 
+                as.factor(tune$rating_f), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
+
+
 ```
 
+Test 
+
+```{r}
+cereal_predict_test = predict(cereal_mdl_tune,test,type= "raw")
+
+confusionMatrix(as.factor(cereal_predict_test), 
+                as.factor(tune$rating_f), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
+
+```
 
 
 
