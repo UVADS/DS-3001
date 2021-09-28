@@ -2,7 +2,7 @@
 ##### CLUSTERING: FINDING PATTERNS IN YOUR DATA ####
 #============================================================
 
-#### Slide 31: Step 1: load packages and data ####
+#### Slide 21: Step 1: load packages and data ####
 
 # Install packages.
 install.packages("e1071")     #<- package used to run clustering analysis
@@ -23,7 +23,7 @@ library(help = "e1071")#<- learn about all the functionality of the package,
 
 #==================================================================================
 
-#### Slide 32: Step 1: load packages and data ####
+#### Slide 22: Step 1: load packages and data ####
 
 house_votes_Dem = read_csv("data/house_votes_Dem.csv")
 
@@ -38,7 +38,7 @@ table(house_votes_Rep$party.labels)
 View(house_votes_Rep)
 #==================================================================================
 
-#### Slide 33: Step 2: run k-means ####
+#### Slide 23: Step 2: run k-means ####
 
 # Define the columns to be clustered by sub-setting the data.
 # Placing the vector of columns after the comma inside the 
@@ -63,7 +63,7 @@ head(kmeans_obj_Dem)
 
 #==================================================================================
 
-#### Slide 38: Step 3: visualize plot ####
+#### Slide 28: Step 3: visualize plot ####
 
 # Tell R to read the cluster labels as factors so that ggplot2 
 # (the graphing package) can read them as category labels instead of 
@@ -79,7 +79,7 @@ View(party_labels_Dem)
 
 #==================================================================================
 
-#### Slide 39: Step 3: visualize plot ####
+#### Slide 29: Step 3: visualize plot ####
 
 View(house_votes_Dem)
 View(party_clusters_Dem)
@@ -98,7 +98,7 @@ ggplot(house_votes_Dem, aes(x = aye,
 
 #==================================================================================
 
-#### Slide 42: Step 5: validate results ####
+#### Slide 32: Step 5: validate results ####
 
 ggplot(house_votes_Dem, aes(x = aye, 
                             y = nay,
@@ -127,7 +127,7 @@ ggsave("US House Votes for Dem Bills.png",
        units = "in")
 #==================================================================================
 
-#### Slide 45: Clustering vs. visualizing ####
+#### Slide 35: Clustering vs. visualizing ####
 
 # We can visualize votes in 3D with the following code.
 # View our data.
@@ -164,7 +164,7 @@ dev.off()
 
 #==================================================================================
 
-#### Slide 50: How good is the clustering? ####
+#### Slide 41: How good is the clustering? ####
 
 # Inter-cluster variance,
 # "betweenss" is the sum of the distances between points 
@@ -181,7 +181,7 @@ denom_Dem = kmeans_obj_Dem$totss
 
 #==================================================================================
 
-#### Slide 53: Elbow method: measure variance ####
+#### Slide 43: Elbow method: measure variance ####
 
 # Run an algorithm with 3 centers.
 set.seed(1)
@@ -199,7 +199,7 @@ denom_Dem3 = kmeans_obj_Dem$totss
 
 #==================================================================================
 
-#### Slide 55: Automating a step we want to repeat ####
+#### Slide 45: Automating a step we want to repeat ####
 
 # The function explained_variance wraps our code for calculating 
 # the variance explained by clustering.
@@ -217,7 +217,7 @@ explained_variance = function(data_in, k){
 
 #==================================================================================
 
-#### Slide 56: automating a step we want to repeat ####
+#### Slide 46: automating a step we want to repeat ####
 
 # Recall the variable we are using for the data that we're clustering.
 View(clust_data_Dem)
@@ -235,7 +235,7 @@ View(elbow_data_Dem)
 
 #==================================================================================
 
-#### Slide 57: Elbow method: plotting the graph ####
+#### Slide 47: Elbow method: plotting the graph ####
 
 # Plotting data.
 ggplot(elbow_data_Dem, 
@@ -249,14 +249,14 @@ ggplot(elbow_data_Dem,
 
 #==================================================================================
 
-#### Slide 61: NbClust: k by majority vote ####
+#### Slide 50: NbClust: k by majority vote ####
 
 # Install packages.
 #install.packages("NbClust") if needed
 library(NbClust)
 
 # Run NbClust.
-nbclust_obj_Dem = NbClust(data = clust_data_Dem, method = "kmeans")
+(nbclust_obj_Dem = NbClust(data = clust_data_Dem, method = "kmeans"))
 
 # View the output of NbClust.
 nbclust_obj_Dem
@@ -266,7 +266,7 @@ View(nbclust_obj_Dem$Best.nc)
 
 #==================================================================================
 
-#### Slide 65: NbClust: k by majority vote ####
+#### Slide 54: NbClust: k by majority vote ####
 
 # Subset the 1st row from Best.nc and convert it 
 # to a data frame so ggplot2 can plot it.
