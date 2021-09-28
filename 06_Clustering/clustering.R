@@ -11,6 +11,10 @@ install.packages("e1071")     #<- package used to run clustering analysis
 library(e1071)
 library(tidyverse)
 library(plotly)
+library(htmltools)
+library(devtools)
+
+#library(installr)
 
 
 
@@ -28,12 +32,15 @@ View(house_votes_Dem)
 str(house_votes_Dem)
 table(house_votes_Dem$party.labels)
 
+house_votes_Rep = read_csv("data/house_votes_Rep.csv")
 
+table(house_votes_Rep$party.labels)
+View(house_votes_Rep)
 #==================================================================================
 
 #### Slide 33: Step 2: run k-means ####
 
-# Define the columns to be clustered by subsetting the data.
+# Define the columns to be clustered by sub-setting the data.
 # Placing the vector of columns after the comma inside the 
 # brackets tells R that you are selecting columns.
 clust_data_Dem = house_votes_Dem[, c("aye", "nay", "other")]
@@ -65,7 +72,6 @@ party_clusters_Dem = as.factor(kmeans_obj_Dem$cluster)
 
 # What does the kmeans_obj look like?
 View(party_clusters_Dem)
-View(as.data.frame(party_clusters_Dem))
 
 # Set up labels for our data so that we can compare Democrats and Republicans.
 party_labels_Dem = house_votes_Dem$party.labels
@@ -139,10 +145,19 @@ house_votes_color_Dem = inner_join(house_votes_Dem, party_color3D_Dem)
 
 View(house_votes_color_Dem)
 
+house_votes_color_Dem$Last.Name <- gsub("[^[:alnum:]]", "", house_votes_color_Dem$Last.Name)
+
 # Use plotly to do a 3d imaging 
 
-fig <- plot_ly(house_votes_color_Dem,type = "scatter3d",mode="markers", x = ~aye, y = ~nay, z = ~other, color = ~color, 
-               colors = c('#0C4B8E','#BF382A'), text = ~paste('Representative:', Last.Name))
+fig <- plot_ly(house_votes_color_Dem,type = "scatter3d",
+               mode="markers", 
+               x = ~aye, 
+               y = ~nay, 
+               z = ~other, 
+               color = ~color, 
+               colors = c('#0C4B8E','#BF382A'), 
+               text = ~paste('Representative:',Last.Name))
+
 
 fig
 dev.off()
@@ -214,7 +229,6 @@ explained_var_Dem = sapply(1:10, explained_variance, data_in = clust_data_Dem)
 View(explained_var_Dem)
 
 
-
 # Data for ggplot2.
 elbow_data_Dem = data.frame(k = 1:10, explained_var_Dem)
 View(elbow_data_Dem)
@@ -262,6 +276,9 @@ View(freq_k_Dem)
 
 # Check the maximum number of clusters suggested.
 max(freq_k_Dem)
+
+#essentially resets the plot viewer back to default
+dev.off()
 
 # Plot as a histogram.
 ggplot(freq_k_Dem,

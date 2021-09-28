@@ -47,12 +47,13 @@ library(caret)
 cereal <- read_csv("~/git_3001/DS-3001/data/cereal.csv")
 View(cereal)
 attach(cereal)#is this a good idea? 
-describe(cereal)
+describe(calories)
 ?scale
 str(cereal)
 
 
-(sodium_c <- scale(cereal$sodium, center = TRUE, scale = FALSE))#center but not standardized 
+(sodium_c <- scale(cereal$sodium, center = TRUE, scale = FALSE))#center but not standardized
+
 (sodium_sc <- scale(cereal$sodium, center = TRUE, scale = TRUE))#center and standardized 
 #min-max scaling, placing the numbers between 0 and 1. 
 
@@ -67,7 +68,9 @@ normalize <- function(x){
 # However, before we can apply this we need to make sure our data classes are correct. 
 
 (column_index <- tibble(colnames(cereal)))
-#table(vitamins)
+
+str(cereal)
+table(vitamins)
 #What about mfr and type?
 table(mfr)#we should collapse this factor, it has way too many categories G,K and everyone else. Usually don't want more than 5 categories  
 
@@ -77,7 +80,7 @@ cereal$mfr <- fct_collapse(cereal$mfr,
                         other = c("A","N","P","Q","R")
                         )
 column_index
-table(name)
+table(type)
 
 #Looks like columns 2,3,12 and 13 need to be converted to factors
 cereal[,c(2,3,12,13)] <- lapply(cereal[,c(2,3,12,13)], as.factor)
@@ -111,9 +114,8 @@ View(cereal_1h)
 
 
 ### Baseline/Prevalance 
-
 ```{r}
-#Essential the target to which we are trying to better with our model. 
+#Essentially the target to which we are trying to out perform with our model. 
 describe(cereal_1h$rating)
 (box <- boxplot(cereal_1h$rating, horizontal = TRUE)) 
 box$stats
@@ -126,18 +128,16 @@ fivenum(cereal$rating)
 str(cereal_1h)
 View(cereal_1h)
 #So no let's check the prevalence 
-(prevalence <- table(cereal$rating_f)[[2]]/length(cereal$rating_f))
-
-
+(prevalence <- table(cereal_1h$rating_f)[[2]]/length(cereal_1h$rating_f))
+table(cereal_1h$rating_f)
 
 ```
 
 ![](Boxplot.png)
 
 ### Initial Model Building: Decision Tree Style  
-
 ```{r}
-# Training, Evaluation, Tune, Evaluation, Test, Evaluation
+# Training|Evaluation, Tune|Evaluation, Test|Evaluation
 # Divide up our data into three parts, Training, Tuning, and Test
 
 #There is not a easy way to create 3 partitions using the createDataPartitions
@@ -170,11 +170,9 @@ tune_and_test_index <- createDataPartition(tune_and_test$rating_f,
 tune <- tune_and_test[tune_and_test_index, ]
 test <- tune_and_test[-tune_and_test_index, ]
 
-
 dim(train)
 dim(tune)
 dim(test)
-
 
 ```
 
@@ -188,12 +186,13 @@ Setting up the cross validation
 fitControl <- trainControl(method = "repeatedcv",
                           number = 10,
                           repeats = 5, 
-                          returnResamp="all") 
+                          returnResamp="all",
+                          savePredictions = 'final') 
 
 # number - number of folds
 # repeats - number of times the CV is repeated, here it's 5 take the average of
 # those 5 repeats
-
+# returnResamp - essential verbose, save all of the sampling data
 
 # Choose the features and classes
 
@@ -205,7 +204,9 @@ fitControl <- trainControl(method = "repeatedcv",
 features <- train[,-"rating_f"]
 target <- train[,"rating_f"]
 
-str(target)
+View(target)
+
+str(features)
 
 set.seed(1984)
 cereal_mdl <- train(x=features,
@@ -215,7 +216,6 @@ cereal_mdl <- train(x=features,
                 verbose=TRUE)
 
 cereal_mdl
-
 ```
 
 Tune and Evaluation 
@@ -251,6 +251,8 @@ plot(cereal_mdl_tune)
 # Want to evaluation again with the tune data using the new model 
 
 cereal_predict_tune = predict(cereal_mdl_tune,tune,type= "raw")
+
+cereal_predict_tune
 
 confusionMatrix(as.factor(cereal_predict_tune), 
                 as.factor(tune$rating_f), 
