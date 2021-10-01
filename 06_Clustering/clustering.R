@@ -290,7 +290,108 @@ ggplot(freq_k_Dem,
        y = "Number of Votes",
        title = "Cluster Analysis")
 
+#===============================================================================
 
+# Now we are going to build a simple decision tree using the clusters as a feature
+
+# reminder this is our model, using 3 clusters 
+kmeans_obj_Dem = kmeans(clust_data_Dem, centers = 3, algorithm = "Lloyd")
+
+# this is the output of the model. 
+kmeans_obj_Dem$cluster
+
+house_votes_Dem$clusters <- kmeans_obj_Dem$cluster
+View(house_votes_Dem)
+
+# Do some data preparation
+# drop the name variable, won't be helpful
+tree_data <- house_votes_Dem[,-1]
+str(tree_data)
+# change 1 and 5 to factors
+tree_data[,c(1,5)] <- lapply(tree_data[,c(1,5)], as.factor)
+# do we need to normalize? 
+
+
+# Split 
+train_index <- createDataPartition(tree_data$party.labels,
+                                           p = .7,
+                                           list = FALSE,
+                                           times = 1)
+train <- tree_data[train_index,]
+tune_and_test <- tree_data[-train_index, ]
+
+#The we need to use the function again to create the tuning set 
+
+tune_and_test_index <- createDataPartition(tune_and_test$party.labels,
+                                           p = .5,
+                                           list = FALSE,
+                                           times = 1)
+
+tune <- tune_and_test[tune_and_test_index, ]
+test <- tune_and_test[-tune_and_test_index, ]
+
+dim(tune)
+
+# Create our features and target for training of the model. 
+
+features <- as.data.frame(train[,-1])
+target <- train$party.labels
+
+
+set.seed(1980)
+party_dt <- train(x=features,
+                    y=target,
+                    method="rpart")
+
+# This is more or less a easy target but the clusters are very predictive. 
+party_dt
+varImp(party_dt)
+
+# Let's predict and see how we did. 
+dt_predict_1 = predict(party_dt,tune,type= "raw")
+
+confusionMatrix(as.factor(dt_predict_1), 
+                as.factor(tune$party.labels), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
+
+#======================================================================== 
+# let's experiment and see how we would do without the clusters. 
+
+tree_data_nc <- tree_data[,-5]
+str(tree_data_nc)
+
+train_index <- createDataPartition(tree_data$party.labels,
+                                   p = .7,
+                                   list = FALSE,
+                                   times = 1)
+train <- tree_data_nc[train_index,]
+tune_and_test <- tree_data_nc[-train_index, ]
+
+#Then we need to use the function again to create the tuning set 
+
+tune_and_test_index <- createDataPartition(tune_and_test$party.labels,
+                                           p = .5,
+                                           list = FALSE,
+                                           times = 1)
+
+tune <- tune_and_test[tune_and_test_index, ]
+test <- tune_and_test[-tune_and_test_index, ]
+
+#Generate the features and target once again
+features <- as.data.frame(train[,-1])
+target <- train$party.labels
+
+set.seed(1980)
+party_dt <- train(x=features,
+                  y=target,
+                  method="rpart")
+
+# This is more or less a easy target but the clusters are very predictive. 
+party_dt
+varImp(party_dt)
+
+#didn't really make a huge difference, what could we have done differently? 
 #==================================================================================
 
 #Now you try with the Republican Data and a NBA Stat Example 
