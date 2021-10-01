@@ -214,9 +214,6 @@ cereal_mdl <- train(x=features,
                 trControl=fitControl,
                 method="C5.0",
                 verbose=TRUE)
-?updateR
-
-
 cereal_mdl
 ```
 
@@ -239,7 +236,7 @@ grid <- expand.grid(.winnow = c(TRUE,FALSE),
                     .model=c("tree","rules"))
 set.seed(1984)
 cereal_mdl_tune <- train(x=features,
-                y=target$rating_f,
+                y=target,
                 tuneGrid=grid,
                 trControl=fitControl,
                 method="C5.0",
@@ -270,7 +267,7 @@ Test
 cereal_predict_test = predict(cereal_mdl_tune,test,type= "raw")
 
 confusionMatrix(as.factor(cereal_predict_test), 
-                as.factor(tune$rating_f), 
+                as.factor(test$rating_f), 
                 dnn=c("Prediction", "Actual"), 
                 mode = "sens_spec")
 
