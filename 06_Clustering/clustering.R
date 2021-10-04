@@ -14,10 +14,6 @@ library(plotly)
 library(htmltools)
 library(devtools)
 
-#library(installr)
-
-
-
 library(help = "e1071")#<- learn about all the functionality of the package,
 #   be well informed about what you're doing
 
@@ -73,10 +69,6 @@ party_clusters_Dem = as.factor(kmeans_obj_Dem$cluster)
 # What does the kmeans_obj look like?
 View(party_clusters_Dem)
 
-# Set up labels for our data so that we can compare Democrats and Republicans.
-party_labels_Dem = house_votes_Dem$party.labels
-View(party_labels_Dem)
-
 #==================================================================================
 
 #### Slide 29: Step 3: visualize plot ####
@@ -102,7 +94,7 @@ ggplot(house_votes_Dem, aes(x = aye,
 
 ggplot(house_votes_Dem, aes(x = aye, 
                             y = nay,
-                            color = party_labels_Dem,  #<- tell R how to color 
+                            color = party.labels,  #<- tell R how to color 
                             #   the data points
                             shape = party_clusters_Dem)) + 
   geom_point(size = 6) +
@@ -143,22 +135,27 @@ View(party_color3D_Dem)
 # Join the new data frame to our house_votes_Dem data set.
 house_votes_color_Dem = inner_join(house_votes_Dem, party_color3D_Dem)
 
-View(house_votes_color_Dem)
+house_votes_color_Dem$clusters <- (party_clusters_Dem)
+
+str(house_votes_color_Dem)
 
 house_votes_color_Dem$Last.Name <- gsub("[^[:alnum:]]", "", house_votes_color_Dem$Last.Name)
 
 # Use plotly to do a 3d imaging 
 
-fig <- plot_ly(house_votes_color_Dem,type = "scatter3d",
-               mode="markers", 
+fig <- plot_ly(house_votes_color_Dem, 
+               type = "scatter3d",
+               mode="markers",
+               symbol = ~clusters,
                x = ~aye, 
                y = ~nay, 
-               z = ~other, 
-               color = ~color, 
+               z = ~other,
+               color = ~color,
                colors = c('#0C4B8E','#BF382A'), 
-               text = ~paste('Representative:',Last.Name))
+               text = ~paste('Representative:',Last.Name,
+                             "Party:",party.labels))
 
-
+color = c('#0C4B8E','#BF382A')
 fig
 dev.off()
 
