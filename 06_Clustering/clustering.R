@@ -292,6 +292,7 @@ ggplot(freq_k_Dem,
 # Now we are going to build a simple decision tree using the clusters as a feature
 
 # reminder this is our model, using 3 clusters 
+set.seed(1)
 kmeans_obj_Dem = kmeans(clust_data_Dem, centers = 3, algorithm = "Lloyd")
 
 # this is the output of the model. 
@@ -308,7 +309,7 @@ str(tree_data)
 tree_data[,c(1,5)] <- lapply(tree_data[,c(1,5)], as.factor)
 # do we need to normalize? 
 
-
+library(caret)
 # Split 
 train_index <- createDataPartition(tree_data$party.labels,
                                            p = .7,
@@ -328,6 +329,7 @@ tune <- tune_and_test[tune_and_test_index, ]
 test <- tune_and_test[-tune_and_test_index, ]
 
 dim(tune)
+dim(test)
 
 # Create our features and target for training of the model. 
 
