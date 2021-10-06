@@ -72,7 +72,7 @@ normalize <- function(x){
 str(cereal)
 table(vitamins)
 #What about mfr and type?
-table(mfr)#we should collapse this factor, it has way too many categories G,K and everyone else. Usually don't want more than 5 categories  
+table(cereal$mfr)#we should collapse this factor, it has way too many categories G,K and everyone else. Usually don't want more than 5 categories  
 
 cereal$mfr <- fct_collapse(cereal$mfr,
                            G="G", #New to Old
@@ -81,7 +81,7 @@ cereal$mfr <- fct_collapse(cereal$mfr,
                         )
 column_index
 table(type)
-
+table(mfr)
 #Looks like columns 2,3,12 and 13 need to be converted to factors
 cereal[,c(2,3,12,13)] <- lapply(cereal[,c(2,3,12,13)], as.factor)
 
@@ -202,7 +202,7 @@ fitControl <- trainControl(method = "repeatedcv",
 
 ```{r}
 features <- train[,-"rating_f"]
-target <- train[,"rating_f"]
+target <- train$rating_f
 
 View(target)
 
@@ -210,11 +210,10 @@ str(features)
 
 set.seed(1984)
 cereal_mdl <- train(x=features,
-                y=target$rating_f,
+                y=target,
                 trControl=fitControl,
                 method="C5.0",
                 verbose=TRUE)
-
 cereal_mdl
 ```
 
@@ -237,7 +236,7 @@ grid <- expand.grid(.winnow = c(TRUE,FALSE),
                     .model=c("tree","rules"))
 set.seed(1984)
 cereal_mdl_tune <- train(x=features,
-                y=target$rating_f,
+                y=target,
                 tuneGrid=grid,
                 trControl=fitControl,
                 method="C5.0",
@@ -268,7 +267,7 @@ Test
 cereal_predict_test = predict(cereal_mdl_tune,test,type= "raw")
 
 confusionMatrix(as.factor(cereal_predict_test), 
-                as.factor(tune$rating_f), 
+                as.factor(test$rating_f), 
                 dnn=c("Prediction", "Actual"), 
                 mode = "sens_spec")
 

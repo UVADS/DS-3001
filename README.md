@@ -114,15 +114,14 @@ The books below are essentially a starter Machine Learning Library. I will use a
 | Week 2 	|  Getting back up to “coding speed” 	| 'Dataframing' with tidyverse functions  	| [- Group Case Study - Questions + PsuedoCode + Code + Functions  = High Quality Data Science](https://github.com/UVADS/DS-4001/blob/main/02_R_function_basics/Class%20II%20Assignment.Rmd)  	| "Program" Chapter in C 	|
 | Week 3 	| I'm Committed Version Control:  GitHub	|  	|[GitHub Lab](https://github.com/UVADS/DS-4001/blob/main/03_Github/Github%20Lab.md)  	|  	|
 | Week 4 	| How to share nicely  	| Knitr and rmarkdown 	| [Rmarkdown article reviews](https://github.com/UVADS/DS-4001/blob/main/04_knitr_Comms/knitr_lab.md) 	|  Rmarkdown: The definitive guide: Sections I and II Knit R Reference Guide 	|
-| Week 5 | Machine Learning Bootcamp | Key ML Methods 	| ML Methods Lab| H: Chapter 1 and 2 |  
-|  Week 6	| Let's gather together... but separately 	| Overview of Clustering Kmeans 	| [NBA Scout for the worst team in the league](https://github.com/UVADS/DS-4001/blob/main/06_Clustering/clustering_lab_overview.Rmd)|  F. Chapter 1 and Chapter 9  |
-| Week 7| Computers can read…well kind of 	| Text Mining – Bag of Words approaches 	| [Regional Climate Change Analysis](https://github.com/UVADS/DS-4001/blob/main/07_text_mining/text_lab.Rmd) | D. Sections 1 - 3 	|
-| Week 8 | Machines really can learn 	| Introduction to ML: Prediction versus Classification: Unsupervised KNN  	| [Create a Lazy ML Algo](https://github.com/UVADS/DS-4001/blob/main/08_IntroML_KNN/knn_lab(1).Rmd)  | F. Chapter 3 	|
-| Week 9 | Reinforcement Lab	| Let's Put these Skills to Use!	| Case Study: Loreto Alonzi, PhD	|  	|
+| Week 5 and 6 | Machine Learning Boot Camp | Key ML Methods 	| ML Methods Lab| H: Chapter 1 and 2 |  
+|  Week 7	| Let's gather together... but separately 	| Overview of Clustering Kmeans 	| [NBA Scout for the worst team in the league](https://github.com/UVADS/DS-4001/blob/main/06_Clustering/clustering_lab_overview.Rmd)|  F. Chapter 1 and Chapter 9  |
+| Week 8| Computers can read…well kind of 	| Text Mining – Bag of Words approaches 	| [Regional Climate Change Analysis](https://github.com/UVADS/DS-4001/blob/main/07_text_mining/text_lab.Rmd) | D. Sections 1 - 3 	|
+| Week 9 | Machines really can learn 	| Introduction to ML: Unsupervised KNN  	| [Create a Lazy ML Algo](https://github.com/UVADS/DS-4001/blob/main/08_IntroML_KNN/knn_lab(1).Rmd)  | F. Chapter 3 	|
 | Week 10	| The key to ML: Knowing how bad your model really is… 	| - Metrics for Accuracy, Sensitivity, ROC, AUC, etc. 	| [Evaluation Lab](https://github.com/UVADS/DS-4001/blob/main/09_ML_Eval_Metrics/eval_lab.Rmd)|All of B. and G.- Chapter 11 |
-| Week 11 	| Nature's Perfect ML analogy: Tree Based Methods  	| Classification: Decision Trees  	| [Predicting Income for Big Brother](https://github.com/UVADS/DS-4001/blob/main/11_DT/In_Class_Decision_Tree.Rmd)	| F. Chapter 5 and G. Chapter 14.1-14.3 	|
-|  Week 12 | Wisdom of the Crowd ML: Tree Methods Cont. 	| Random Forrest and C5.0 Boosting   - Sampling Matters  	|  [Lab: TBD](https://github.com/UVADS/DS-4001/tree/main/12_Ensemble_RF)	| F. Chapter 11 and G. 14.4-14.8 	|
-|  Week 13 	| Reinforcment Lab	| Time to think on your own!	| Case Study: Prof Rafael Alvarado 	|  |
+| Week 11 | Reinforcement Lab	| Let's Put these Skills to Use!	| Case Study: Loreto Alonzi, PhD	|  	|
+| Week 12 	| Nature's Perfect ML analogy: Tree Based Methods  	| Classification: Decision Trees  	| [Predicting Income for Big Brother](https://github.com/UVADS/DS-4001/blob/main/11_DT/In_Class_Decision_Tree.Rmd)	| F. Chapter 5 and G. Chapter 14.1-14.3 	|
+|  Week 13 | Wisdom of the Crowd ML: Tree Methods Cont. 	| Random Forrest and C5.0 Boosting   - Sampling Matters  	|  [Lab: TBD](https://github.com/UVADS/DS-4001/tree/main/12_Ensemble_RF)	| F. Chapter 11 and G. 14.4-14.8 	|
 |  Week 14 | Do the next right thing…ethics 	|  Bias in AI Discussion -Simple methods for identifying bias   - Protected Classes 	| Protected class example - KNN  	|   Weapons of Math Destruction	|
 | Week 15 | Break - No Class	|  	| 	|  Ethical Reflection Due	|
 | Week 16	| Final Projects	|  	|  	|  	|
