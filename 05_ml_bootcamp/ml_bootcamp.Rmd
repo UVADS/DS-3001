@@ -44,7 +44,7 @@ library(caret)
 ### Scale/Center/Normalizing
 
 ```{r}
-cereal <- read_csv("~/git_3001/DS-3001/data/cereal.csv")
+cereal <- read_csv("C:/Users/Maddie/OneDrive/Desktop/3YEAR/Forked-DS-3001/data/cereal.csv")
 View(cereal)
 attach(cereal)#is this a good idea? 
 describe(cereal)
@@ -205,6 +205,7 @@ fitControl <- trainControl(method = "repeatedcv",
 features <- train[,-"rating_f"]
 target <- train[,"rating_f"]
 
+
 str(target)
 
 set.seed(1984)
@@ -256,7 +257,6 @@ confusionMatrix(as.factor(cereal_predict_tune),
                 as.factor(tune$rating_f), 
                 dnn=c("Prediction", "Actual"), 
                 mode = "sens_spec")
-
 
 ```
 

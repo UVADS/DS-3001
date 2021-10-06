@@ -1,0 +1,640 @@
+---
+title: "Lab 5"
+author: "Madeleine Ashby"
+date: "9/26/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Dataset 1
+Dataset = [winequality-red-1]("https://query.data.world/s/upbidgt5y4n6gudp3pl35uqcw7rr6x")
+
+```{r, include=FALSE}
+library(tidyverse)
+library(psych)
+library(mltools)
+library(data.table)
+library(caret)
+options(warn=-1)
+```
+
+## Phase 1
+Machine Learning Question:
+How can we predict the average quality of red wine?
+
+Independent Business Metric: Assuming that higher quality results in higher sales, can we predict which new red wines that enter the market over the next year will perform the best?
+
+## Phase 2
+### Scale/Center/Normalizing
+```{r}
+#Read in dataset
+wines <- read.csv("https://query.data.world/s/upbidgt5y4n6gudp3pl35uqcw7rr6x", header=TRUE, stringsAsFactors=FALSE)
+
+str(wines)
+#we can see that all of the variables are numeric, so we just need to normalize using the min-max scaler function.
+
+normalize <- function(x){
+ (x - min(x)) / (max(x) - min(x))
+}
+
+numerics <- names(select_if(wines, is.numeric))
+wines[numerics] <- as_tibble(lapply(wines[numerics], normalize))
+str(wines)
+#now we can see the normalized values!  we do not need to one-hot encode for this dataset as there are no factor/character variables.
+
+```
+
+### Baseline/Prevalance 
+```{r}
+describe(wines$quality) 
+
+(box <- boxplot(wines$quality, horizontal = TRUE)) 
+box$stats
+fivenum(wines$quality)
+#making a predictor!
+(wines$quality_f <- cut(wines$quality,c(-1,.6,1),labels = c(0,1)))
+(prevalence <- 1 - table(wines$quality_f)[[2]]/length(wines$quality_f))
+
+```
+
+## Phase 3
+### Initial Model Building: Decision Tree Style
+```{r}
+#data partitioning
+#drop 'quality' column
+wines <- wines[, -12]
+str(wines)
+part_index_1 <- caret::createDataPartition(wines$quality_f,
+                                           times=1,
+                                           p = 0.70,
+                                           groups=1,
+                                           list=FALSE)
+
+train <- wines[part_index_1,]
+tune_and_test <- wines[-part_index_1, ]
+
+tune_and_test_index <- createDataPartition(tune_and_test$quality_f,
+                                           p = .5,
+                                           list = FALSE,
+                                           times = 1)
+
+tune <- tune_and_test[tune_and_test_index, ]
+test <- tune_and_test[-tune_and_test_index, ]
+
+dim(train)
+dim(tune)
+dim(test)
+```
+
+#### Cross Validation
+```{r}
+fitControl <- trainControl(method = "repeatedcv",
+                          number = 10,
+                          repeats = 5, 
+                          returnResamp="all") 
+
+# number - number of folds
+# repeats - number of times the CV is repeated, here it's 5 take the average of
+# those 5 repeats
+
+# Choose the features and classes
+
+```
+
+#### Training & Evaluation
+```{r}
+features <- train[,-c(13)]
+#target <- data.frame(as.numeric(as.character(train[,13])))
+target <- data.frame(quality_f = train[,"quality_f"])
+
+?train
+
+str(target)
+
+set.seed(1984)
+wines_mdl <- train(x=features,
+                y=target[,"quality_f"],
+                trControl=fitControl,
+                method="C5.0",
+                verbose=TRUE)
+
+wines_mdl
+
+```
+Evaluate the model built by the training data (keep in mind the prevalance):
+The model built by the training data shows an accuracy of 1.  Our prevalence was found to be 0.8643, so this means that our model is useful in predicting the performance of new red wines in the market.
+
+### Tune and Evaluation 
+```{r}
+
+wines_predict = predict(wines_mdl,tune,type= "raw")
+
+confusionMatrix(as.factor(wines_predict), 
+                as.factor(tune$quality_f), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
+
+varImp(wines_mdl)
+
+plot(wines_mdl)
+
+
+grid <- expand.grid(.winnow = c(TRUE,FALSE), 
+                    .trials=c(20,30,40), 
+                    .model=c("tree","rules"))
+set.seed(1984)
+wines_mdl_tune <- train(x=features,
+                y=target$quality_f,
+                tuneGrid=grid,
+                trControl=fitControl,
+                method="C5.0",
+                verbose=TRUE)
+
+wines_mdl_tune
+wines_mdl
+
+plot(wines_mdl_tune)
+
+# Want to evaluation again with the tune data using the new model 
+
+wines_predict_tune = predict(wines_mdl_tune,tune,type= "raw")
+
+confusionMatrix(as.factor(wines_predict_tune), 
+                as.factor(tune$quality_f), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
+
+
+```
+Explore variable importance measures:
+The varImp dataframe shows that the quality variable was found to reduce error and was included in each model created.
+
+
+### Test 
+```{r}
+wines_predict_test = predict(wines_mdl_tune,test,type= "raw")
+
+confusionMatrix(as.factor(wines_predict_test), 
+                as.factor(test$quality_f), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
+
+```
+Evaluate using the confusion matrix function - did the model perform better or worse than the training version?
+The confusion matrix shows that the model performed about the same as the training version because they both had an accuracy of 1.
+
+## Summary
+Write a summary of your findings. What do you know now that you didn't when you started? What items are you concerned about?
+
+After exploring this dataset and using c5.0 to build models to train, tune, and evaluate, I found that this model was very accurate and thus useful in predicting the success of new wines that may be entering the market in the next year.  However, I am a little concerned about this model because the accuracy right off the bat was 1, and this seems like there may not be enough data to actually train and test it thoroughly.  Through debugging this code I learned about data partitioning and how the models are actually built using c5.0.
+
+
+# Dataset 2
+Dataset = [netflix]("https://data.world/alex-salgado/netflix/workspace/file?agentid=chasewillden&datasetid=netflix-shows&filename=netflix.xlsx")
+
+```{r, include=FALSE}
+library(tidyverse)
+library(psych)
+library(mltools)
+library(data.table)
+library(caret)
+library(httr)
+library(readxl)
+```
+
+## Phase 1
+Machine Learning Question:
+How can we predict the user rating for a Netflix movie?
+
+Independent Business Metric: Assuming that a higher user rating will affect the number of views a Netflix movie gets, can we predict which new Netflix movies that are produced over the next year will perform the best?
+
+## Phase 2
+### Scale/Center/Normalizing
+```{r}
+#Read in dataset
+GET("https://query.data.world/s/os2idmbigqcekbj5hrw2fzf6m6epsj", write_disk(tf <- tempfile(fileext = ".xlsx")))
+netflix <- read_excel(tf)
+
+netflix[netflix == "NA" ] <- NA
+netflix <- na.exclude(netflix)
+
+str(netflix)
+
+#drop columns we don't really need
+netflix<-netflix[, -c(7)]
+str(netflix)
+#fix variable types
+netflix[,c(3)] <- lapply(netflix[,c(3)], as.factor)
+netflix$`user rating score` <- as.numeric(netflix$`user rating score`)
+
+#table(netflix$rating) #let's collapse this
+netflix$rating <- fct_collapse(netflix$rating,
+                           PG="PG", #New to Old
+                           TV14="TV-14",
+                           TVMA="TV-MA",
+                           G="G",
+                        other = c("NR","PG-13","R","TV-G","TV-PG", 
+                                  "TV-Y", "TV-Y7", "TV-Y7-FV")
+                        )
+
+#table(netflix$ratingLevel)
+#Parents strongly cautioned. May be unsuitable for children ages 14 and under., For mature audiences.  May not be suitable for children 17 and under., General Audiences. Suitable for all ages., Suitable for all ages.
+
+netflix$ratingLevel <- fct_collapse(netflix$ratingLevel,
+                           ParentsCautioned="Parents strongly cautioned. May be unsuitable for children ages 14 and under.", #New to Old
+                           Mature="For mature audiences.  May not be suitable for children 17 and under.",
+                           SuitableAllAges="General Audiences. Suitable for all ages.",
+                           SuitableAllAges="Suitable for all ages.",
+                           group_other = TRUE
+                        )
+str(netflix)
+
+#normalize
+normalize <- function(x){
+ (x - min(x)) / (max(x) - min(x))
+}
+
+netflix$`user rating score` <- normalize(netflix$`user rating score`)
+netflix$ratingDescription <- normalize(netflix$ratingDescription)
+
+str(netflix)
+#now we can see the normalized values!
+
+
+```
+
+### One-hot encoding
+```{r}
+# Next let's one-hot encode those factor variables/character 
+
+#?one_hot
+
+netflix_1h <- one_hot(as.data.table(netflix),cols = "auto",sparsifyNAs = TRUE,naCols = TRUE,dropCols = TRUE,dropUnusedLevels = TRUE) 
+describe(netflix_1h)
+str(netflix_1h)
+```
+
+### Baseline/Prevalance 
+```{r}
+#describe(netflix_1h$`user rating score`) 
+
+(box <- boxplot(netflix_1h$`user rating score`, horizontal = TRUE)) 
+box$stats
+fivenum(netflix_1h$`user rating score`)
+#making a predictor!
+(netflix_1h$`user rating score` <- cut(netflix_1h$`user rating score`,c(-1,.909,1),labels = c(0,1)))
+(prevalence <- 1 - table(netflix_1h$`user rating score`)[[2]]/length(netflix_1h$`user rating score`))
+
+```
+
+## Phase 3
+### Initial Model Building: Decision Tree Style
+```{r}
+#drop cols 1 & 11
+netflix_1h <- netflix_1h[, -c(1,11)]
+
+#data partitioning
+part_index_1 <- caret::createDataPartition(netflix_1h$`user rating score`,
+                                           times=1,
+                                           p = 0.70,
+                                           groups=1,
+                                           list=FALSE
+                                           )
+#help(createDataPartition)
+train <- netflix_1h[part_index_1,]
+tune_and_test <- netflix_1h[-part_index_1, ]
+
+tune_and_test_index <- createDataPartition(tune_and_test$`user rating score`,
+                                           p = .5,
+                                           list = FALSE,
+                                           times = 1)
+
+tune <- tune_and_test[tune_and_test_index, ]
+test <- tune_and_test[-tune_and_test_index, ]
+
+dim(train)
+dim(tune)
+dim(test)
+```
+
+#### Cross Validation
+```{r}
+fitControl <- trainControl(method = "repeatedcv",
+                          number = 10,
+                          repeats = 5, 
+                          returnResamp="all") 
+
+# number - number of folds
+# repeats - number of times the CV is repeated, here it's 5 take the average of
+# those 5 repeats
+
+# Choose the features and classes
+
+```
+
+#### Training & Evaluation
+```{r}
+features <- train[,-c(11)]
+#target <- train[, "user rating score"]
+target <- data.frame(`user rating score` = train[,11])
+
+set.seed(1984)
+netflix_mdl <- train(x=features,
+                y=target[,"user.rating.score"],
+                trControl=fitControl,
+                method="C5.0",
+                verbose=TRUE)
+
+netflix_mdl
+
+```
+Evaluate the model built by the training data (keep in mind the prevalance):
+The prevalence was calculated to be 0.7422, and the accuracy of the model built by the training data is approximately 0.74.  This means that the model is not actually that useful in predicting the success of a netflix movie, because it will provide no real advantage to just guessing based on prevalence.
+
+
+### Tune and Evaluation 
+```{r}
+
+netflix_predict = predict(netflix_mdl,tune,type= "raw")
+
+confusionMatrix(as.factor(netflix_predict), 
+                as.factor(tune$`user rating score`), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
+
+varImp(netflix_mdl)
+
+plot(netflix_mdl)
+
+
+grid <- expand.grid(.winnow = c(TRUE,FALSE), 
+                    .trials=c(20,30,40), 
+                    .model=c("tree","rules"))
+set.seed(1984)
+netflix_mdl_tune <- train(x=features,
+                y=target$user.rating.score,
+                tuneGrid=grid,
+                trControl=fitControl,
+                method="C5.0",
+                verbose=TRUE)
+
+netflix_mdl_tune
+netflix_mdl
+
+plot(netflix_mdl_tune)
+
+# Want to evaluation again with the tune data using the new model 
+
+netflix_predict_tune = predict(netflix_mdl_tune,tune,type= "raw")
+
+confusionMatrix(as.factor(netflix_predict_tune), 
+                as.factor(tune$`user rating score`), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
+
+
+```
+Explore the variable importance measures, what do the results tell you?
+The variable importance measures show that releaseyear was a variable used in every model, rating_other was used in 86.85% of models, and rating_PG was used in 65.76% of models because these three variables proved to be useful in reducing error.
+
+
+### Test 
+```{r}
+netflix_predict_test = predict(netflix_mdl_tune,test,type= "raw")
+
+confusionMatrix(as.factor(netflix_predict_test), 
+                as.factor(test$`user rating score`), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
+
+```
+Evaluate using the confusion matrix function - did the model perform better or worse than the training version?
+The test model did perform slightly better than the training version - the accuracy of the training model was approximately 0.74, while the accuracy of the test model was approximately 0.76.
+
+## Summary
+Write a summary of your findings. What do you know now that you didn't when you started? What items are you concerned about?
+
+I found that the netflix model was not very useful in predicting the success (rating) of a movie based on the attributes (genre, description, etc) given in this dataset.  Not only was the training model accuracy approximately equal to the prevalence, but the confusion matrix for the test data proved to be less accurate than the confusion matrix for the tune data.  This is not what we want to obtain when developing a stable model.  That being said, if I wanted to improve the model, I would probably need a different data set because the data provided is not good at answering the question I was asking.
+
+
+# Dataset 3
+Dataset = [ramen]("https://data.world/ian/ramen-ratings")
+
+```{r, include=FALSE}
+library(tidyverse)
+library(psych)
+library(mltools)
+library(data.table)
+library(caret)
+library(httr)
+library(readxl)
+```
+
+## Phase 1
+Machine Learning Question:
+How can we predict how well-liked a ramen will be?
+
+Independent Business Metric: Assuming that higher rating results in higher sales, can we predict which new Ramens that enter the market over the next year will perform the best?
+
+## Phase 2
+### Scale/Center/Normalizing
+```{r}
+#Read in dataset
+GET("https://query.data.world/s/q6uw5pouwzvhm3smmkrxihp7xulhzx", write_disk(tf <- tempfile(fileext = ".xlsx")))
+ramen <- read_excel(tf)
+
+#column "TopTen" doesn't have any values, so we can just drop the column.
+ramen <- ramen[, -(7)]
+ramen[ramen == "NR" ] <- NA
+ramen[ramen == "Unrated"] <- NA
+ramen <- na.exclude(ramen)
+str(ramen)
+
+#table(ramen$Brand)
+# collapse Brand into Maruchan, Nissin, Nongshim, other
+
+ramen$Brand <- fct_collapse(ramen$Brand,
+                           Maruchan="Maruchan", #New to Old
+                           Nissin="Nissin",
+                           Nongshim="Nongshim",
+                           group_other = TRUE
+)
+
+#change variables to be correct type
+ramen[,c(4)] <- lapply(ramen[,c(4)], as.factor)
+ramen$Stars <- as.numeric(ramen$Stars)
+
+str(ramen)
+#normalize numerics
+
+normalize <- function(x){
+ (x - min(x, na.rm=TRUE)) / (max(x, na.rm=TRUE) - min(x, na.rm=TRUE))
+}
+
+ramen$Stars <- normalize(ramen$Stars)
+
+str(ramen)
+#now we can see the normalized values!
+
+
+```
+
+### One-hot encoding
+```{r}
+# Next let's one-hot encode those factor variables/character 
+
+ramen_1h <- one_hot(as.data.table(ramen),cols = "auto",sparsifyNAs = TRUE,naCols = TRUE,dropCols = TRUE,dropUnusedLevels = TRUE) 
+describe(ramen_1h)
+str(ramen_1h)
+```
+
+### Baseline/Prevalance 
+```{r} 
+
+(box <- boxplot(ramen_1h$Stars, horizontal = TRUE)) 
+box$stats
+fivenum(ramen_1h$Stars)
+#making a predictor!
+(ramen_1h$Stars <- cut(ramen_1h$Stars,c(-1,9.916006e-05,1),labels = c(0,1), na.rm=TRUE))
+(prevalence <- 1 - table(ramen_1h$Stars)[[2]]/length(ramen_1h$Stars))
+
+```
+
+## Phase 3
+### Initial Model Building: Decision Tree Style
+```{r}
+#drop cols 1, 6, 15
+ramen_1h <- ramen_1h[, -c(1,6, 15)]
+
+#data partitioning
+part_index_1 <- caret::createDataPartition(ramen_1h$Stars,
+                                           times=1,
+                                           p = 0.70,
+                                           groups=1,
+                                           list=FALSE
+                                           )
+#help(createDataPartition)
+train <- ramen_1h[part_index_1,]
+tune_and_test <- ramen_1h[-part_index_1, ]
+
+tune_and_test_index <- createDataPartition(tune_and_test$Stars,
+                                           p = .5,
+                                           list = FALSE,
+                                           times = 1)
+
+tune <- tune_and_test[tune_and_test_index, ]
+test <- tune_and_test[-tune_and_test_index, ]
+
+dim(train)
+dim(tune)
+dim(test)
+```
+
+#### Cross Validation
+```{r}
+fitControl <- trainControl(method = "repeatedcv",
+                          number = 10,
+                          repeats = 5, 
+                          returnResamp="all") 
+
+# number - number of folds
+# repeats - number of times the CV is repeated, here it's 5 take the average of
+# those 5 repeats
+
+# Choose the features and classes
+
+```
+
+#### Training & Evaluation
+```{r}
+features <- train[,-c(13)]
+#target <- train[, "user rating score"]
+target <- data.frame(`user rating score` = train[,13])
+
+
+
+str(target)
+
+set.seed(1984)
+ramen_mdl <- train(x=features,
+                y=target[,"Stars"],
+                trControl=fitControl,
+                method="C5.0",
+                verbose=TRUE
+                )
+
+ramen_mdl
+
+```
+Evaluate the model built by the training data (keep in mind the prevalance):
+The prevalence was found to be 0.7660, and the accuracy of the model built by the training data was found to be 0.7653.  This means that the model is actually slightly worse in predicting than just using the prevalence would be, so we should change some things in our process to improve the model (this may include adding more features among other things).
+
+### Tune and Evaluation 
+```{r}
+
+ramen_predict = predict(ramen_mdl,tune,type= "raw")
+
+confusionMatrix(as.factor(ramen_predict), 
+                as.factor(tune$Stars), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
+
+#varImp(ramen_mdl)
+
+plot(ramen_mdl)
+
+
+grid <- expand.grid(.winnow = c(TRUE,FALSE), 
+                    .trials=c(20,30,40), 
+                    .model=c("tree","rules"))
+set.seed(1984)
+ramen_mdl_tune <- train(x=features,
+                y=target$Stars,
+                tuneGrid=grid,
+                trControl=fitControl,
+                method="C5.0",
+                verbose=TRUE)
+
+ramen_mdl_tune
+ramen_mdl
+
+plot(ramen_mdl_tune)
+
+# Want to evaluation again with the tune data using the new model 
+
+ramen_predict_tune = predict(ramen_mdl_tune,tune,type= "raw")
+
+confusionMatrix(as.factor(ramen_predict_tune), 
+                as.factor(tune$Stars), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
+
+
+```
+Explore the variable importance measures, what do the results tell you? 
+I got an error when creating my ramen_mdl that said "there were missing values in resampled performance measures.  Stackoverflow says that this error happens when "the model doesn't converge in some cross-validation folds the predictions get zero variance. As a result, the metrics like RMSE or Rsquared can't be calculated so they become NAs. Sometimes there are parameters you can tune for better convergence."  This error led to an error in parsing the model output when I tried to run VarImp, so I'm sure if some features could be tuned then I could get the VarImp, and my interpretation would be similar to those above, where 100 means the variable was helpful in reducing error and would thus be found in 100% of the models created (as the number decreases, it is found in fewer models).
+
+### Test 
+```{r}
+ramen_predict_test = predict(ramen_mdl_tune,test,type= "raw")
+
+confusionMatrix(as.factor(ramen_predict_test), 
+                as.factor(test$Stars), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
+
+```
+
+Evaluate using the confusion matrix function - did the model perform better or worse than the training version?
+The model performed the same as the training version as the accuracy for both was 0.766.
+
+
+## Summary
+Write a summary of your findings. What do you know now that you didn't when you started? What items are you concerned about 
+
+I found that the  ramen model was not very useful in predicting the respective success over the next year because the prevalence and accuracy were approximately equal for the training model.  That being said, the data I chose to train my model with does not serve its purpose properly.  I either need to change my question and see if the dataset better answers that new question, or I need to change my dataset to see if the new dataset will better answer my question.
+
+# Overall Summary
+Having completed this lab, I certainly know a lot more than when I started.  After attending multiple office hour sessions, I finally understand what prevalence is and how to interpret the models that I created in the above code. However, I am still a little concerned about the process of training, tuning, and testing and how that all works together.  I am also slightly confused on the specifics of how to fix/improve models, considering that two of mine were average at best.
