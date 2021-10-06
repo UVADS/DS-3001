@@ -53,8 +53,7 @@ worked for the datasets?
 ```
 
 ```{r}
-#Using the recommended number of cluster compare the quality of the model 
-#with 2 clusters 
+#Using the recommended number of cluster compare the output to the elbow chart method
 ```
 
 
@@ -79,8 +78,7 @@ players are under or over paid, generally.
 - Provide a well commented and clean (knitted) report of your findings that can 
 be presented to your GM. Include a rationale for variable selection, details 
 on your approach and a overview of the results with supporting visualizations. 
-- Create a new repo for this assignment either for yourself and 
-submit the link along with your knitted report. 
+ 
 
 Hints:
 
