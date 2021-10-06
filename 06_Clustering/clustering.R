@@ -4,18 +4,16 @@
 
 #### Slide 21: Step 1: load packages and data ####
 
-# Install packages.
-install.packages("e1071")     #<- package used to run clustering analysis
-
 # Load libraries.
-library(e1071)
+#library(e1071)
 library(tidyverse)
 library(plotly)
 library(htmltools)
 library(devtools)
+library(caret)
+library(NbClust)
 
-library(help = "e1071")#<- learn about all the functionality of the package,
-#   be well informed about what you're doing
+
 
 #==================================================================================
 
@@ -155,7 +153,7 @@ fig <- plot_ly(house_votes_color_Dem,
                text = ~paste('Representative:',Last.Name,
                              "Party:",party.labels))
 
-color = c('#0C4B8E','#BF382A')
+
 fig
 dev.off()
 
@@ -309,7 +307,7 @@ str(tree_data)
 tree_data[,c(1,5)] <- lapply(tree_data[,c(1,5)], as.factor)
 # do we need to normalize? 
 
-library(caret)
+
 # Split 
 train_index <- createDataPartition(tree_data$party.labels,
                                            p = .7,
@@ -360,6 +358,7 @@ confusionMatrix(as.factor(dt_predict_1),
 tree_data_nc <- tree_data[,-5]
 str(tree_data_nc)
 
+
 train_index <- createDataPartition(tree_data$party.labels,
                                    p = .7,
                                    list = FALSE,
@@ -389,6 +388,20 @@ party_dt <- train(x=features,
 # This is more or less a easy target but the clusters are very predictive. 
 party_dt
 varImp(party_dt)
+
+dt_predict_1 = predict(party_dt,tune,type= "raw")
+
+confusionMatrix(as.factor(dt_predict_1), 
+                as.factor(tune$party.labels), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
+
+dt_predict_t = predict(party_dt,test,type= "raw")
+
+confusionMatrix(as.factor(dt_predict_t), 
+                as.factor(test$party.labels), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
 
 #didn't really make a huge difference, what could we have done differently? 
 #==================================================================================
