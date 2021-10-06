@@ -13,6 +13,8 @@ library(tidyverse)
 library(plotly)
 library(htmltools)
 library(devtools)
+library(NbClust)
+library(caret)
 
 library(help = "e1071")#<- learn about all the functionality of the package,
 #   be well informed about what you're doing
