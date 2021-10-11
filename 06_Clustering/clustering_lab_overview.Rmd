@@ -53,7 +53,13 @@ worked for the datasets?
 ```
 
 ```{r}
-#Using the recommended number of cluster compare the output to the elbow chart method
+#Using the recommended number of cluster compare the output to the elbow chart method, assuming it's different. 
+```
+
+```{r}
+# What differences and similarities did you see between how the clustering 
+# worked for the datasets? What do these patterns suggest about the           # differences between republican versus  
+
 ```
 
 
