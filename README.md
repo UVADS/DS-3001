@@ -2,15 +2,15 @@
 
 Your Practice of Data Science Tour Guides: 
 
-* Brian Wright, Ph.D., Office: Dell I 103b
+* Brian Wright, Ph.D., Office: Elson room 165
 * Email: brianwright@virginia.edu
 * TA: Anna Baglione ab5bt@virginia.edu
 * Peer Mentors: Izzy Shehan iws4kc@virginia.edu, Brittany Nguyen bhn4bf@virginia.edu and Jasmine Dogu ejd5mm@virginia.edu
 * Location: In-Person! Maury Hall 115
 
-Brian's Office Hours(In person or Virtual): Tuesday, 2 - 4:00pm and virtually Friday from 9 to 10:00am or by appointment if needed
+Brian's Office Hours(In person (Elson room 165) or Virtual): Tuesday, 2 - 4:00pm and virtually Friday from 9 to 10:00am or by appointment if needed
 
-Office Hours Zoom: Dell I or [click here to join](https://virginia.zoom.us/j/98404956714?pwd=Kys5Z3doMXdJMTBYb0FhYXJMYTU4UT09)
+Office Hours Zoom:[click here to join](https://virginia.zoom.us/j/98404956714?pwd=Kys5Z3doMXdJMTBYb0FhYXJMYTU4UT09)
 
 Course Materials: [Practice of Data Science Repo](https://github.com/UVADS/DS-3001)
 
