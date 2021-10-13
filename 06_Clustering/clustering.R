@@ -19,14 +19,14 @@ library(NbClust)
 
 #### Slide 22: Step 1: load packages and data ####
 
-house_votes_Dem = read_csv("data/house_votes_Dem.csv")
+house_votes_Dem = read_csv("C:/Users/Maddie/OneDrive/Desktop/3YEAR/Forked-DS-3001/06_Clustering/house_votes_Dem.csv")
 
 # What does the data look like?
 View(house_votes_Dem)
 str(house_votes_Dem)
-table(house_votes_Dem$party.labels)
+table(house_votes_Dem$party.labels) #we can see that there are 229 Republicans & 198 Democrats
 
-house_votes_Rep = read_csv("data/house_votes_Rep.csv")
+house_votes_Rep = read_csv("C:/Users/Maddie/OneDrive/Desktop/3YEAR/Forked-DS-3001/06_Clustering/house_votes_Rep.csv")
 
 table(house_votes_Rep$party.labels)
 View(house_votes_Rep)
@@ -40,10 +40,14 @@ View(house_votes_Rep)
 clust_data_Dem = house_votes_Dem[, c("aye", "nay", "other")]
 View(clust_data_Dem)
 
+
+# this week, we do NOT need to normalize the data.  the yay nay and other are all on the same scale (already normalized)
+
 # Run an algorithm with 2 centers.
 # kmeans uses a different starting data point each time it runs.
 # Make the results reproducible with the set.seed() function.
-set.seed(1)
+
+set.seed(1) #chooses random start location for later comparison
 kmeans_obj_Dem = kmeans(clust_data_Dem, centers = 2, 
                         algorithm = "Lloyd")   #<- there are several ways of implementing k-means, see the help menu for a full list
 
@@ -54,6 +58,13 @@ kmeans_obj_Dem
 # View the results of each output of the kmeans function.
 head(kmeans_obj_Dem)
 
+# interpreting output
+# between SS / total SS = 71.9%
+# gives the total ratio of the within & between variance that is accounted for by the 2 clusters
+# we want to maximize this value!!
+# within_SS is the distance between points within the cluster
+# between_SS is the distance between the two clusters
+
 
 #==================================================================================
 
@@ -63,6 +74,7 @@ head(kmeans_obj_Dem)
 # (the graphing package) can read them as category labels instead of 
 # continuous variables (numeric variables).
 party_clusters_Dem = as.factor(kmeans_obj_Dem$cluster)
+
 
 # What does the kmeans_obj look like?
 View(party_clusters_Dem)
@@ -110,7 +122,7 @@ ggplot(house_votes_Dem, aes(x = aye,
 
 
 # Save your graph. For Windows, use setwd("C:/file path")
-
+setwd("C:/Users/Maddie/OneDrive/Desktop/3YEAR/Forked-DS-3001/06_Clustering/")
 ggsave("US House Votes for Dem Bills.png", 
        width = 10, 
        height = 5.62, 
@@ -130,13 +142,16 @@ party_color3D_Dem = data.frame(party.labels = c("Democrat", "Republican"),
 View(party_color3D_Dem)
 
 
-# Join the new data frame to our house_votes_Dem data set.
+# (inner) Join the new data frame to our house_votes_Dem data set.
+# when you inner join, they do not need the same dimensions, but you need the same column name!
 house_votes_color_Dem = inner_join(house_votes_Dem, party_color3D_Dem)
 
+#adds the cluster column
 house_votes_color_Dem$clusters <- (party_clusters_Dem)
 
-str(house_votes_color_Dem)
+View(house_votes_color_Dem)
 
+#removes characters that aren't going to be parseable
 house_votes_color_Dem$Last.Name <- gsub("[^[:alnum:]]", "", house_votes_color_Dem$Last.Name)
 
 # Use plotly to do a 3d imaging 
@@ -148,13 +163,17 @@ fig <- plot_ly(house_votes_color_Dem,
                x = ~aye, 
                y = ~nay, 
                z = ~other,
-               color = ~color,
+               color = ~color, # ~ means "identify just this variable and use all layers (plotly)
                colors = c('#0C4B8E','#BF382A'), 
                text = ~paste('Representative:',Last.Name,
                              "Party:",party.labels))
 
 
 fig
+# "other" portion that is used to cluster is not used much (the data is quite flat)
+
+
+# sets graphics settings back to default
 dev.off()
 
 #==================================================================================
@@ -191,6 +210,7 @@ denom_Dem3 = kmeans_obj_Dem$totss
 # Variance accounted for by clusters.
 (var_exp_Dem3 = num_Dem3 / denom_Dem3)
 
+#with 3 clusters, we go from 71.9% to 79.5%.  3 clusters = better!!!
 
 #==================================================================================
 
@@ -221,7 +241,7 @@ View(clust_data_Dem)
 #sapply() takes a vector, lapply() takes a dataframe
 explained_var_Dem = sapply(1:10, explained_variance, data_in = clust_data_Dem)
 
-View(explained_var_Dem)
+explained_var_Dem
 
 
 # Data for ggplot2.
@@ -242,6 +262,7 @@ ggplot(elbow_data_Dem,
   ylab('Inter-cluster Variance / Total Variance') + 
   theme_light()
 
+#elbow graph! ^^^ DONT OVERFIT THE DATA!!!!
 #==================================================================================
 
 #### Slide 50: NbClust: k by majority vote ####

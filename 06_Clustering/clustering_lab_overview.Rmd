@@ -1,75 +1,225 @@
 ---
 title: "Clustering Lab"
-author: "Brian Wright"
+author: "Madeleine Ashby"
 date: "9/20/2020"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(plotly)
+library(htmltools)
+library(devtools)
+library(caret)
+library(NbClust)
 ```
 
 Goal: Know how to make decisions and answer questions using clustering. 
 
-Repeat the clustering process only using the Rep house votes dataset
-- What differences and similarities did you see between how the clustering 
-worked for the datasets?
+Repeat the clustering process only using the Rep house votes dataset. What differences and similarities did you see between how the clustering worked for the datasets?
+
+There were both similarities and differences. Firstly, the most prominent similarity is that both datasets only used 2 centers for clustering.  Another similarity would be that the ratio of the within & between variance accounted for by the 2 clusters was high for both datasets.
+The differences were more noticeable. There was a slight difference between the elbow graphs for both datasets in that the Democratic elbow graph showed that 3 clusters may have been a better choice than 2 clusters, while the Republican elbow graph showed that 2 clusters was the optimal choice. Another difference I found between the two datasets was in the first set of plots created.  The Democratic plot appeared to have more overlap - there were blue points in the Republican cluster and there were more outliers.  In the Republican plot, there were far fewer outliers and even fewer miscolored points.  This suggests that party line voting was more present for Republican-introduced bills.
+
 
 ```{r}
 #Select the variables to be included in the cluster 
+house_votes_Rep = read_csv("C:/Users/Maddie/OneDrive/Desktop/3YEAR/Forked-DS-3001/06_Clustering/house_votes_Rep.csv")
+table(house_votes_Rep$party.labels)
+View(house_votes_Rep)
+
+# Define the columns to be clustered by sub-setting the data.
+# Placing the vector of columns after the comma inside the 
+# brackets tells R that you are selecting columns.
+clust_data_Rep = house_votes_Rep[, c("aye", "nay", "other")]
+
 
 ```
 
 ```{r}
 #Run the clustering algo with 2 centers
+set.seed(1) #chooses random start location for later comparison
+kmeans_obj_Rep = kmeans(clust_data_Rep, centers = 2, 
+                        algorithm = "Lloyd")   #<- there are several ways of implementing
+
 ```
 
 ```{r}
 #View the results
+kmeans_obj_Rep
+
+#ratio = 79.5%
 ```
 
 ```{r}
 #Visualize the output
+party_clusters_Rep = as.factor(kmeans_obj_Rep$cluster)
+
+
+ggplot(house_votes_Rep, aes(x = aye, 
+                            y = nay,
+                            color = party.labels,  #<- tell R how to color 
+                            #   the data points
+                            shape = party_clusters_Rep)) + 
+  geom_point(size = 6) +
+  ggtitle("Aye vs. Nay votes for Republican-introduced bills") +
+  xlab("Number of Aye Votes") +
+  ylab("Number of Nay Votes") +
+  scale_shape_manual(name = "Cluster", 
+                     labels = c("Cluster 1", "Cluster 2"),
+                     values = c("1", "2")) +
+  scale_color_manual(name = "Party",         #<- tell R which colors to use and
+                     #   which labels to include in the legend
+                     labels = c("Democratic", "Republican"),
+                     values = c("blue", "red")) +
+  theme_light()
 ```
 
 ```{r}
 #Evaluate the quality of the clustering 
+
+# Inter-cluster variance,
+# "betweenss" is the sum of the distances between points 
+# from different clusters.
+num_Rep = kmeans_obj_Rep$betweenss
+
+# Total variance, "totss" is the sum of the distances
+# between all the points in the data set.
+denom_Rep = kmeans_obj_Rep$totss
+
+# Variance accounted for by clusters.
+(var_exp_Rep = num_Rep / denom_Rep)
+
 ```
 
 ```{r}
 #Use the function we created to evaluate several different number of clusters
+explained_variance = function(data_in, k){
+  
+  # Running the kmeans algorithm.
+  set.seed(1)
+  kmeans_obj = kmeans(data_in, centers = k, algorithm = "Lloyd", iter.max = 30)
+  
+  # Variance accounted for by clusters:
+  # var_exp = intercluster variance / total variance
+  var_exp = kmeans_obj$betweenss / kmeans_obj$totss
+  var_exp  
+}
+
+explained_var_Rep = sapply(1:10, explained_variance, data_in = clust_data_Rep)
+explained_var_Rep
+
 ```
 
 ```{r}
 #Create a elbow chart of the output 
+elbow_data_Rep = data.frame(k = 1:10, explained_var_Rep)
+
+ggplot(elbow_data_Rep, 
+       aes(x = k,  
+           y = explained_var_Rep)) + 
+  geom_point(size = 4) +           #<- sets the size of the data points
+  geom_line(size = 1) +            #<- sets the thickness of the line
+  xlab('k') + 
+  ylab('Inter-cluster Variance / Total Variance') + 
+  theme_light()
+
+#looks like 2 clusters is best based on elbow plot
+
 ```
 
 ```{r}
 #Use NbClust to select a number of clusters
+(nbclust_obj_Rep = NbClust(data = clust_data_Rep, method = "kmeans"))
+
+# View the output of NbClust.
+nbclust_obj_Rep
+
+# View the output that shows the number of clusters each method recommends.
+View(nbclust_obj_Rep$Best.nc)
+
 ```
 
 ```{r}
 #Display the results visually 
+freq_k_Rep = nbclust_obj_Rep$Best.nc[1,]
+freq_k_Rep = data.frame(freq_k_Rep)
+View(freq_k_Rep)
+
+# Check the maximum number of clusters suggested.
+max(freq_k_Rep)
+
+#essentially resets the plot viewer back to default
+#dev.off()
+
+# histogram plot
+ggplot(freq_k_Rep,
+       aes(x = freq_k_Rep)) +
+  geom_bar() +
+  scale_x_continuous(breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(breaks = seq(0, 12, by = 1)) +
+  labs(x = "Number of Clusters",
+       y = "Number of Votes",
+       title = "Cluster Analysis")
+
+
 ```
 
 ```{r}
 #Using the recommended number of cluster compare the quality of the model 
 #with 2 clusters 
+
+#The recommended number of clusters using the elbow graph and nbclust was 2, so the two models will be equivalent.
+
+
 ```
 
 
 ```{r}
 #Bonus: Create a 3d version of the output
+party_color3D_Rep = data.frame(party.labels = c("Democrat", "Republican"),
+                               color = c("blue", "red"))
+
+#View(party_color3D_Rep)
+
+
+# (inner) Join the new data frame to our house_votes_Dem data set.
+# when you inner join, they do not need the same dimensions, but you need the same column name!
+house_votes_color_Rep = inner_join(house_votes_Rep, party_color3D_Rep)
+
+#adds the cluster column
+house_votes_color_Rep$clusters <- (party_clusters_Rep)
+
+#View(house_votes_color_Rep)
+
+#removes characters that aren't going to be parseable
+house_votes_color_Rep$Last.Name <- gsub("[^[:alnum:]]", "", house_votes_color_Rep$Last.Name)
+
+# Use plotly to do a 3d imaging 
+
+fig <- plot_ly(house_votes_color_Rep, 
+               type = "scatter3d",
+               mode="markers",
+               symbol = ~clusters,
+               x = ~aye, 
+               y = ~nay, 
+               z = ~other,
+               color = ~color, # ~ means "identify just this variable and use all layers (plotly)
+               colors = c('#0C4B8E','#BF382A'), 
+               text = ~paste('Representative:',Last.Name,
+                             "Party:",party.labels))
+
+
+fig
+
 ```
 
 In a separate Rmarkdown document work through a similar process 
 with the NBA data (nba2020-21 and nba_salaries_21), merge them together. 
 
-You are a scout for the worst team in the NBA, probably the Wizards. Your 
-general manager just heard about Data Science and thinks it can solve all the
-teams problems!!! She wants you to figure out a way to find players that are 
-high performing but maybe not highly paid that you can steal to get the team 
-to the playoffs! 
+You are a scout for the worst team in the NBA, probably the Wizards. Your general manager just heard about Data Science and thinks it can solve all the teams problems!!! She wants you to figure out a way to find players that are high performing but maybe not highly paid that you can steal to get the team to the playoffs! 
 
 Details: 
 
@@ -85,6 +235,12 @@ submit the link along with your knitted report.
 Hints:
 
 - Salary is the variable you are trying to understand 
+  - don't include it in your clustering process though
+    - figure out if the other performance variables cluster, independent of salary
+    - use TWO variables that are highly correlated with salary
+        - party affiliation is the equivalent here
+            - we used colors to represent this, so we want to color by salary!
+            
 - You can include numerous performance variables in the clustering but when 
 interpreting you might want to use graphs that include variables that are the 
 most correlated with Salary
@@ -94,9 +250,9 @@ better
 - Use good coding practices, comment heavily, indent, don't use for loops unless
 totally necessary and create modular sections that align with some outcome. If 
 necessary create more than one script,list/load libraries at the top and don't 
-include libraries that aren't used. 
-  
+include libraries that aren't used.
 
+submit : original Rmd and html files for both!
 
 
 
