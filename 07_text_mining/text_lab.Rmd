@@ -11,21 +11,16 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Congratulations you've successfully transferred from being a NBA 'quant' scout to a consultant specializing in US national sentiment! You've been hired by a non-profit in secret to track the level of support nationally and regionally for the Climate Change issues. The goal is to get a general idea of patterns associated with articles being written on the broad topic of Climate Change (you can also choose to select a sub-topic). In doing so your data science team has decided to explore periodicals from around the country in a effort to track the relative positive or negative sentiment and word frequencies. Luckily you have access to a world class library search engine call LexusNexus (NexusUni) that provides access to newspapers from around the country dating back decades. You'll first need to decided what words you want to track and what time might be interesting to begin your search. 
 
-You'll need to select several newspapers from different regions in the country limiting the search to 100 articles from each paper, run sentiment analysis with each newspaper serving as a corpus and then compare the level of positive or negative connotation associated with the outcomes. Also, work through tf-idf on each corpus (newspapers) and compare the differences between the distributions (5 to 6 newspapers should be fine)
+You'll need to select several newspapers from different regions in the country limiting the search to 100 articles from each paper, run sentiment analysis with each newspaper serving as a corpus and then compare the level of positive or negative connotation associated with the outcomes. Also, work through tf*idf on each corpus (newspapers) and compare the differences between the distributions (5 to 6 newspapers should be fine)
 
 Your main goal (and the goal of all practicing data scientists!) is to translate this information into action. What patterns do you see, why do you believe this to be the case? What additional information might you want? Be as specific as possible, but keep in mind this is an initial exploratory effort...more analysis might be needed...but the result can and should advise the next steps you present to the firm. 
 
 
 Please submit a cleanly knitted HTML file describing in detail the steps you 
-took along the way, the results of your analysis and most importantly the implications/next steps you would recommend.  You will report your final 
-results and recommendations next week in class. This will be 5 minutes per group. 
+took along the way, the results of your analysis and most importantly the implications/next steps you would recommend. A selected few of you will report your final results and recommendations next week in class (5 minutes per group) 
 
 You will need also need to try to collaborate within your group via a GitHub repo, if you choose it would be fine to assign 1 or 2 regions/newspapers per group member, that can then be added to the repo individually. Create a main repo, everyone should work in this repo and submit independently using forking/pull requests. Select a repo owner that sets up access (read access) for the week, we will rotate owners next week. 
 Also, submit a link to your the GitHub repo (every group member can submit the same link). 
-
-
-Rstudio Guidance on Git and Github (Including Branching/Pull Requests): https://r-pkgs.org/git.html#git-branch
-
 
 Here is the link to the database search via the UVA Library that should lead you to LexusNexus (Now Nexas Uni)
 https://guides.lib.virginia.edu/az.php?a=l
