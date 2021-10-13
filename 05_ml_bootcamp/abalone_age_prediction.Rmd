@@ -1,0 +1,248 @@
+---
+title: "ml_bootcamp"
+author: "Adriel Kim"
+date: "9/29/2020"
+output:
+  html_document:
+    toc: TRUE
+    theme: journal
+    toc_float: TRUE
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=FALSE}
+library(tidyverse)
+library(psych)
+library(mltools)
+library(data.table)
+library(caret)
+```
+[caret documentation](http://topepo.github.io/caret/index.html)
+
+
+## Phase I
+[Abalone_Data_Dictionary](https://data.world/uci/abalone)
+
+```{r}
+#Working to developed a model than can predict number of rings of abalone based on various physical measurements
+
+# Inference versus Prediction 
+
+# Independent Business Metric - Assuming that older abalone are more valuable, can we determine the number of rings abalone has based on various physical measurements? 
+```
+
+## Phase II 
+
+### Scale/Center/Normalizing
+
+```{r}
+abalone <- read_csv("abalone.data.csv")
+View(abalone)
+attach(abalone)#is this a good idea? 
+describe(abalone)
+?scale
+str(abalone)
+
+normalize <- function(x){
+ (x - min(x)) / (max(x) - min(x))
+}
+
+
+
+(column_index <- tibble(colnames(abalone)))
+
+
+column_index
+
+#Column 1 is sex, a categorical attribute
+abalone[,c(1)] <- lapply(abalone[,c(1)], as.factor)
+
+str(abalone)
+
+#Now we can move forward in normalizing the numeric values, create a index based on numeric columns: 
+
+abc <- names(select_if(abalone, is.numeric))# select function to find the numeric variables 
+
+#Use lapply to normalize the numeric values 
+
+abalone[abc] <- as_tibble(lapply(abalone[abc], normalize))
+
+str(abalone)
+
+```
+
+### One-hot Encoding 
+[ML Tools One-Hot Overview](https://www.rdocumentation.org/packages/mltools/versions/0.3.5/topics/one_hot)
+
+```{r}
+
+
+abalone_1h <- one_hot(as.data.table(abalone),cols = "auto",sparsifyNAs = TRUE,naCols = TRUE,dropCols = TRUE,dropUnusedLevels = TRUE) 
+View(abalone_1h)
+```
+
+### Baseline/Prevalance 
+
+```{r}
+#Essential the target to which we are trying to better with our model. 
+describe(abalone_1h$Rings)
+(box <- boxplot(abalone_1h$Rings, horizontal = TRUE)) 
+box$stats
+fivenum(abalone$Rings)
+?fivenum#thanks Tukey!
+
+#added this a predictor versus replacing the numeric version
+#upper 25% is considered "old"
+(abalone_1h$Rings_f <- cut(abalone_1h$Rings,c(-1,.35,1),labels = c(0,1)))
+
+str(abalone_1h)
+View(abalone_1h)
+#So no let's check the prevalence 
+(prevalence <- table(abalone_1h$Rings_f)[[2]]/length(abalone_1h$Rings_f))
+
+```
+
+### Initial Model Building: Decision Tree Style  
+
+```{r}
+# Training, Evaluation, Tune, Evaluation, Test, Evaluation
+# Divide up our data into three parts, Training, Tuning, and Test
+
+#There is not a easy way to create 3 partitions using the createDataPartitions
+
+#so we are going to use it twice. Mostly because we want to stratify on the variable we are working to predict. What does that mean?  
+
+#clean up our dataset a bit by dropping the original ranking variable and the abalone name which we can't really use. 
+
+abalone_dt <- within(abalone_1h, rm(Rings))#abalone_1h[,c("Rings")]
+
+
+view(abalone_dt)
+
+part_index_1 <- caret::createDataPartition(abalone_dt$Rings_f,
+                                           times=1,
+                                           p = 0.70,
+                                           groups=1,
+                                           list=FALSE)
+View(part_index_1)
+dim(abalone_dt)
+
+train <- abalone_dt[part_index_1,]
+tune_and_test <- abalone_dt[-part_index_1, ]
+
+#The we need to use the function again to create the tuning set 
+
+tune_and_test_index <- createDataPartition(tune_and_test$Rings_f,
+                                           p = .5,
+                                           list = FALSE,
+                                           times = 1)
+
+tune <- tune_and_test[tune_and_test_index, ]
+test <- tune_and_test[-tune_and_test_index, ]
+
+
+dim(train)
+dim(tune)
+dim(test)
+
+```
+#### Using Caret package to fit a C5.0 version of a decision tree
+Setting up the cross validation
+[Caret_Documentation](http://topepo.github.io/caret/train-models-by-tag.html#Tree_Based_Model)
+```{r}
+#Cross validation process 
+
+fitControl <- trainControl(method = "repeatedcv",
+                          number = 10,
+                          repeats = 5, 
+                          returnResamp="all") 
+
+# number - number of folds
+# repeats - number of times the CV is repeated, here it's 5 take the average of
+# those 5 repeats
+
+
+# Choose the features and classes
+
+```
+#### Training and Evaluation 
+
+```{r}
+features <- train[,c(1,2,3,4,5,6,7,8,9,10)]
+view(features)
+target <- train[,"Rings_f"]
+
+
+str(target)
+
+set.seed(1984)
+abalone_mdl <- train(x=features,
+                y=target$Rings_f,
+                trControl=fitControl,
+                method="C5.0",
+                verbose=TRUE)
+
+abalone_mdl
+
+```
+
+Tune and Evaluation 
+```{r}
+abalone_predict = predict(abalone_mdl,tune,type= "raw")
+
+confusionMatrix(as.factor(abalone_predict), 
+                as.factor(tune$Rings_f), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
+
+varImp(abalone_mdl)
+
+plot(abalone_mdl)
+
+
+grid <- expand.grid(.winnow = c(TRUE,FALSE), 
+                    .trials=c(20,30,40), 
+                    .model=c("tree","rules"))
+set.seed(1984)
+abalone_mdl_tune <- train(x=features,
+                y=target$Rings_f,
+                tuneGrid=grid,
+                trControl=fitControl,
+                method="C5.0",
+                verbose=TRUE)
+
+abalone_mdl_tune
+abalone_mdl
+
+plot(abalone_mdl_tune)
+
+# Want to evaluation again with the tune data using the new model 
+
+abalone_predict_tune = predict(abalone_mdl_tune,tune,type= "raw")
+
+confusionMatrix(as.factor(abalone_predict_tune), 
+                as.factor(tune$Rings_f), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
+
+
+```
+
+Test 
+
+```{r}
+view(test)
+view(tune)
+abalone_predict_test = predict(abalone_mdl_tune,test,type= "raw")
+
+confusionMatrix(as.factor(abalone_predict_test), 
+                as.factor(test$Rings_f), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
+
+```

@@ -21,7 +21,7 @@ library(help = "e1071")#<- learn about all the functionality of the package,
 
 #### Slide 32: Step 1: load packages and data ####
 
-house_votes_Dem = read_csv("data/house_votes_Dem.csv")
+house_votes_Dem = read.csv("data/house_votes_Dem.csv")
 
 # What does the data look like?
 View(house_votes_Dem)
@@ -32,6 +32,8 @@ table(house_votes_Dem$party.labels)
 #==================================================================================
 
 #### Slide 33: Step 2: run k-means ####
+
+#NOTE: Normalization is not necessary because data is already on the same scale
 
 # Define the columns to be clustered by subsetting the data.
 # Placing the vector of columns after the comma inside the 
