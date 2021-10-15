@@ -1,0 +1,279 @@
+---
+title: "Clustering Lab - NBA Data"
+author: "Aishwarya Gavili"
+date: "10/11/2021"
+output:
+  html_document:
+    toc: yes
+    theme: journal
+    toc_float: yes
+  pdf_document:
+    toc: yes
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=FALSE}
+#install packages 
+
+library(tidyverse)
+library(plotly)
+library(htmltools)
+library(devtools)
+library(caret)
+library(NbClust)
+library(corrplot)
+library(psych)
+library(mltools)
+library(data.table)
+
+```
+
+# Reading in Data
+```{r, message=FALSE}
+#Read in datasets 
+nba_salaries_21 <- read_csv("/Users/aishgav/Desktop/ds3001/DS-3001-gitrepo/data/nba_salaries_21.csv")
+nba2020_21 <- read_csv("/Users/aishgav/Desktop/ds3001/DS-3001-gitrepo/data/nba2020-21.csv")
+```
+
+# Data cleaning
+```{r, echo = T, results = 'hide'}
+#merge data frames
+nba <- merge(nba_salaries_21, nba2020_21,by="Player")
+colnames(nba)[colnames(nba) == '2020-21'] <- 'Salary'
+```
+
+```{r, echo = T, results = 'hide'}
+#standardize data (only numerical columns)
+nba <- na.omit(nba)
+(nba[,-c(1,3, 5)] <- scale(nba[,-c(1,3, 5)], center = TRUE, scale = TRUE))
+
+nba$Player <- gsub("[^[:alnum:]]", "", nba$Player) #take special characters out of Player name--to avoid can't parse string error
+```
+
+# Correlation Plots and Cluster Variable decisions
+
+To choose out the variables I wanted to include in the cluster, I created a correlation matrix of all the numerical columns in the data set.  I then found that GS (Games started), FG (Field goals), FGA (Field Goal Attempts), 2P (2-Point Field Goals), FT (free throws), PTS (Points), and AST (assists).  When considering performance, I thought that points made was a good indication of how well a player performed in their career.  Then, when choosing a second variable, I initially had tried to find other variables that were strongly correlated with salary and weren't strongly correlated with PTS to avoid the clusters forming a linear pattern.  However, this was difficult to achieve as all the variables strongly correlated with salary were also strongly correlated with PTS, as seen from the correlation plot.  I then found that utilizing all strongly correlated variables achieved the lowest intercluster variance and highest model variance proportion/percentage.  For this reason, I used all strongly correlated variables with salary in determining my cluster.  
+
+```{r}
+#Checking which variables have highest correlation with salary
+
+num_cols <- unlist(lapply(nba, is.numeric))   #get list of numeric columns
+nba_num <- nba[ , num_cols]
+nba.cor = cor(nba_num, use="pairwise.complete.obs") #calculate correlation coefficients for each variable 
+corrplot(nba.cor) #plot correlation matrix 
+
+#Select the variables to be included in the cluster 
+
+clust_data_nba = nba[, c("TOV", "PTS", "AST","FTA", "FT", "2P", "2PA", "FG", "FGA", "GS")] 
+
+```
+
+# Running K-means (k = 2)
+```{r, echo = T, results = 'hide'}
+#Run the clustering Algo with 2 centers
+set.seed(1)
+kmeans_obj_nba_2 = kmeans(clust_data_nba, centers = 2, 
+                        algorithm = "Lloyd") 
+#View the results
+head(kmeans_obj_nba_2)
+```
+
+# Visualizing Clusters (k = 2)
+```{r}
+#Visualize the output
+nba_clusters = as.factor(kmeans_obj_nba_2$cluster)
+
+ggplot(clust_data_nba, aes(x = TOV, 
+                            y = PTS,
+                            shape = nba_clusters)) + 
+  geom_point(size = 6) +
+  ggtitle("PTS vs. TOV for NBA Players between 2020-2021") +
+  xlab("Number of Turnovers") +
+  ylab("Number of Points") +
+  scale_shape_manual(name = "Cluster", 
+                     labels = c("Cluster 1", "Cluster 2"),
+                     values = c("1", "2")) +
+  theme_light()
+```
+
+
+# Variance Calculation (k = 2)
+With two clusters, the variance explained the model resulted in around 57.51063 % with two clusters.  From our calculations it's evident that the inter cluster variance is about half the total variance, meaning the data points within each cluster have minimal differences and the datapoints between each cluster is very different.
+To acheive the lowest variance, I had to experiment with different variables I would be basing my clusters on.  Eventually, I found that using all the strongly correlated variables to Salary yielded the highest model variance proportion/percentage.  However, a variance of ~57.7% is not that great, for this reason I changed the cluster size to 4 to yield a better variance.  This is done in sections below.  
+
+```{r}
+#Evaluate the quality of the clustering by finding the proportion between the inter cluster variance and variance between clusters
+
+num_nba2 = kmeans_obj_nba_2$betweenss
+denom_nba2 = kmeans_obj_nba_2$totss
+(var_exp_nba2 = num_nba2 / denom_nba2)
+
+num_nba2
+denom_nba2
+
+#The variance explained by the model is 57.71063%
+
+```
+
+```{r , include=FALSE}
+#Use the function we created to evaluate several different number of clusters
+
+explained_variance = function(data_in, k){
+  
+  # Running the kmeans algorithm.
+  set.seed(1)
+  kmeans_obj = kmeans(data_in, centers = k, algorithm = "Lloyd", iter.max = 30)
+  
+  # Variance accounted for by clusters:
+  # var_exp = intercluster variance / total variance
+  var_exp = kmeans_obj$betweenss / kmeans_obj$totss
+  var_exp  
+}
+
+explained_var_nba = sapply(1:10, explained_variance, data_in = clust_data_nba)
+
+```
+
+
+# Choosing optimal cluster number
+
+From the elbow plot, it is seen that the ratio between inter-cluster variance and total variance jumps between 1 cluster to 2 clusters.  However, when evaluating the intercluster variance/Total Variance, 4 clusters seems to be where that value is the highest and is also were the elbow of the plot seems to concave down.  For this reason, I decided that 4 clusters would optimal cluster number. Similarly in the NbClust analysis, the cluster number of 4 is where the elbow appears for the Dindex Value plots.  From the cluster analysis, 4 clusters also had the lowest frequency and count.  
+
+
+## Elbow Plot
+```{r}
+#Create a elbow chart of the output to choose which cluster number is the most optimal 
+
+elbow_data_nba = data.frame(k = 1:10, explained_var_nba)
+
+# Plotting data. 
+ggplot(elbow_data_nba, 
+       aes(x = k,  
+           y = explained_var_nba)) + 
+  geom_point(size = 4) +           #<- sets the size of the data points
+  geom_line(size = 1) +            #<- sets the thickness of the line
+  xlab('k') + 
+  ylab('Inter-cluster Variance / Total Variance') + 
+  theme_light()
+
+
+```
+
+```{r, message=FALSE}
+#Use NbClust to select a number of clusters
+(nbclust_obj_nba = NbClust(data = clust_data_nba, method = "kmeans"))
+
+```
+
+
+```{r ,include=FALSE}
+#Display the results visually 
+# Subset the 1st row from Best.nc and convert it 
+# to a data frame so ggplot2 can plot it.
+freq_k_nba = nbclust_obj_nba$Best.nc[1,]
+freq_k_nba = data.frame(freq_k_nba)
+#View(freq_k_Rep)
+
+# Check the maximum number of clusters suggested.
+max(freq_k_nba)
+
+#essentially resets the plot viewer back to default
+# dev.off()
+
+
+```
+
+## Cluster Analysis Histogram
+```{r}
+# Plot as a histogram.
+ggplot(freq_k_nba,
+       aes(x = freq_k_nba)) +
+  geom_bar() +
+  scale_x_continuous(breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(breaks = seq(0, 12, by = 1)) +
+  labs(x = "Number of Clusters", 
+       # y = "Performance", #what is this in context of nba?
+       title = "Cluster Analysis")
+```
+
+
+# K-means with 4 clusters
+## Running K-means 
+```{r, echo = T, results = 'hide'}
+#Run the clustering Algo with 2 centers
+set.seed(1)
+kmeans_obj_nba_4 = kmeans(clust_data_nba, centers = 4, 
+                        algorithm = "Lloyd") 
+```
+
+```{r, echo = T, results = 'hide'}
+#View the results
+head(kmeans_obj_nba_4)
+```
+
+## Variance Calculation (k = 4)
+The explained variance for 4 clusters is 78.92691%.  This is significantly higher than the explained variance given by 2 clusters. 
+
+```{r}
+
+#Variance calculation for 4 clusters
+num_nba4 = kmeans_obj_nba_4$betweenss
+denom_nba4 = kmeans_obj_nba_4$totss
+(var_exp_nba4 = num_nba4 / denom_nba4)
+
+num_nba4
+denom_nba4
+
+#The variance explained by the model is 78.92691%
+```
+
+
+## Visualizing Clusters (k = 4)
+```{r}
+#Visualize the output
+nba_clusters_4 = as.factor(kmeans_obj_nba_4$cluster)
+
+ggplot(nba, aes(x = TOV, 
+                            y = PTS,
+                           color = Salary,
+                            shape = nba_clusters_4)) + 
+  geom_point(size = 6) +
+  ggtitle("PTS vs. TOV for NBA Players between 2020-2021") +
+  xlab("Number of Turnovers") +
+  ylab("Number of Points") +
+  scale_shape_manual(name = "Cluster", 
+                     labels = c("Cluster 1", "Cluster 2", "Cluster 3", "Cluster 4"),
+                     values = c("1", "2", "3", "4")) +
+  theme_light()
+```
+
+
+## 3D plot (k = 4)
+
+```{r}
+fig <- plot_ly(nba, 
+               type = "scatter3d",
+               mode="markers",
+               symbol = ~nba_clusters_4,
+               x = ~TOV, #number of turnovers
+               y = ~PTS, #points
+               z = ~MP, #minutes played
+               color = ~Salary,
+               # colors = c('#0C4B8E','#BF382A'), 
+               text = ~paste('Player:',Player,
+                             "Salary:",Salary))
+
+fig
+```
+
+
+# Observations/Conclusions
+By looking at the 3D plot for 4 clusters, to look for players who were underpaid or overpaid I had to take into account players whose salaries that didn't match up with their performance.  More specifically, for underpaid players I looked for players who had high performance but were paid less and for overpaid players I looked for players who had low performance and were paid a lot.  This entailed looking where the number of turnovers, minutes played, and points scored were the highest.  An example of a player who is underpaid is Trae Young, whose performance matches Steph Curry's but whose salary is less than 3x Stepen Curry's salary (standardized).  This is also denoted by the fact that the data point for Trae Young falls into the highest ranges for the performance metrics but is dark purple, indicating a salary on the lower end of the spectrum.  Similarly, an example of a player who is overpaid is James Harden as he has a Salary that is close to that of Steph Curry's but has a performance that matches Hassan Whiteside.  Graphically, this is evident as James Harden's data point is the only yellow data point in a cluster of dark purple data points in the lower ranges of the performance metrics.  This being said, the three players that would be the best for the team are Trae Young, Luka Doni, and Julius Randle.  This is because all three of these players have good performance but are not paid enough for it.  They also all belong to cluster 3, which is the cluster that holds most of the players with the best performance based on the MP, TOV, and PTS metrics. 
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

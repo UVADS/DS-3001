@@ -1,0 +1,260 @@
+---
+title: 'ML BOOTCAMP Dataset #2'
+author: "Aishwarya Gavili"
+date: "9/28/2021"
+output:
+  html_document:
+    toc: TRUE
+    theme: journal
+    toc_float: TRUE
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=FALSE}
+library(tidyverse)
+library(psych)
+library(mltools)
+library(data.table)
+library(caret)
+library(plyr)
+```
+
+## Phase I
+[Weather in Szeged, Hungry (2006-2016)](https://www.kaggle.com/budincsevity/szeged-weather)
+
+```{r}
+#Working to developed a model than can  predict temperature given humidity.  More specifically, aiming to see if humidity is only present in warmer weather and warmer climates. 
+
+
+
+#Assuming we are able to optimizing and make recommendations how does this translate into a business context?
+
+#It is known that temperature determines humidity, but this analysis explores whether humidity can predict temperature.  If a relationship is found, we can potentially add another metric for weather services around the world in predicting daily temperatures. 
+
+# Inference versus Prediction 
+
+# Independent Business Metric -Is there a relationship between humidity and temperature? What about between humidity and apparent temperature? Can you predict the apparent temperature given the humidity?
+
+```
+
+## Phase II 
+
+### Scale/Center/Normalizing
+
+```{r}
+weather <- read.csv("/Users/aishgav/Downloads/weatherHistory.csv", header=TRUE, stringsAsFactors=TRUE)
+# weather <- weather[1:2000, ]
+
+weather<- sample_n(weather, 1500)
+attach(weather)#is this a good idea?
+describe(weather)
+?scale
+str(weather)
+(weather[,-c(1,2,3, 12)] <- scale(weather[,-c(1,2,3, 12)], center = TRUE, scale = TRUE)) #center and standardized
+# 
+(column_index <- tibble(colnames(weather)))
+
+normalize <- function(x){
+ (x - min(x)) / (max(x) - min(x))
+}
+
+
+abc <- names(select_if(weather, is.numeric))# select function to find the numeric variables
+
+weather[abc] <- as_tibble(lapply(weather[abc], normalize))
+
+#drop na columns and Date/Time column because not using time-series regression
+weather<- weather[,-c(1,10)]
+
+str(weather)
+describe(weather)
+
+```
+### One-hot Encoding 
+[ML Tools One-Hot Overview](https://www.rdocumentation.org/packages/mltools/versions/0.3.5/topics/one_hot)
+
+```{r}
+# Next let's one-hot encode those factor variables/character 
+
+?one_hot
+
+weather_1h <- one_hot(as.data.table(weather),cols = "auto",sparsifyNAs = TRUE,naCols = TRUE,dropCols = TRUE,dropUnusedLevels = TRUE)
+
+```
+
+
+### Baseline/Prevalance 
+
+```{r}
+#Essential the target to which we are trying to better with our model. 
+describe(weather_1h$Temperature..C.)
+(box <- boxplot(weather_1h$Temperature..C., horizontal = TRUE))
+box$stats
+fivenum(weather_1h$Temperature..C.)
+?fivenum
+#
+# #added this a predictor versus replacing the numeric version
+(weather_1h$Temperature..C._f <- cut(weather_1h$Temperature..C.,c(-1,0.6418755,1),labels = c(0,1)))
+#
+str(weather_1h)
+weather_1h
+# #So no let's check the prevalence
+(prevalence <- table(weather_1h$Temperature..C._f)[[2]]/length(weather_1h$Temperature..C._f))
+
+```
+
+
+### Initial Model Building: Decision Tree Style  
+
+```{r}
+# Training, Evaluation, Tune, Evaluation, Test, Evaluation
+# Divide up our data into three parts, Training, Tuning, and Test
+
+#There is not a easy way to create 3 partitions using the createDataPartitions
+
+#so we are going to use it twice. Mostly because we want to stratify on the variable we are working to predict. What does that mean?  
+
+#clean up our dataset a bit by dropping the original ranking variable and the cereal name which we can't really use. 
+
+weather_dt <- weather_1h[,-c("Temperature..C.")]
+# view(weather_dt)
+
+part_index_1 <- caret::createDataPartition(weather_dt$Temperature..C._f,
+                                           times=1,
+                                           p = 0.70,
+                                           groups=1,
+                                           list=FALSE)
+View(part_index_1)
+dim(weather_dt)
+
+train <- weather_dt[part_index_1,]
+tune_and_test <- weather_dt[-part_index_1, ]
+
+#The we need to use the function again to create the tuning set 
+
+tune_and_test_index <- createDataPartition(tune_and_test$Temperature..C._f,
+                                           p = .5,
+                                           list = FALSE,
+                                           times = 1)
+
+tune <- tune_and_test[tune_and_test_index, ]
+test <- tune_and_test[-tune_and_test_index, ]
+
+
+dim(train)
+dim(tune)
+dim(test)
+
+
+```
+
+
+#### Using Caret package to fit a C5.0 version of a decision tree
+Setting up the cross validation
+[Caret_Documentation](http://topepo.github.io/caret/train-models-by-tag.html#Tree_Based_Model)
+```{r}
+#Cross validation process 
+
+fitControl <- trainControl(method = "repeatedcv",
+                          number = 10,
+                          repeats = 5, 
+                          returnResamp="all") 
+
+# number - number of folds
+# repeats - number of times the CV is repeated, here it's 5 take the average of
+# those 5 repeats
+
+
+# Choose the features and classes
+
+```
+
+
+#### Training and Evaluation 
+
+```{r}
+features <- train[,-"Temperature..C._f"]
+target <- train[,"Temperature..C._f"]
+
+str(target)
+
+set.seed(1984)
+weather_mdl <- train(x=features,
+                y=target$Temperature..C._f,
+                trControl=fitControl,
+                method="C5.0",
+                verbose=TRUE)
+
+weather_mdl
+
+```
+
+
+
+
+
+Tune and Evaluation and Test
+```{r}
+weather_predict = predict(weather_mdl,tune,type= "raw")
+
+confusionMatrix(as.factor(weather_predict), 
+                as.factor(tune$Temperature..C._f), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
+
+varImp(weather_mdl)
+
+plot(weather_mdl)
+
+
+grid <- expand.grid(.winnow = c(TRUE,FALSE), 
+                    .trials=c(20,30,40), 
+                    .model=c("tree","rules"))
+set.seed(1984)
+weather_mdl_tune <- train(x=features,
+                y=target$Temperature..C._f,
+                tuneGrid=grid,
+                trControl=fitControl,
+                method="C5.0",
+                verbose=TRUE)
+
+weather_mdl_tune
+weather_mdl
+
+plot(weather_mdl_tune)
+
+# Want to evaluation again with the tune data using the new model 
+
+weather_predict_tune = predict(weather_mdl_tune,tune,type= "raw")
+
+confusionMatrix(as.factor(weather_predict_tune), 
+                as.factor(tune$Temperature..C._f), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
+
+
+
+```
+
+
+#### Test 
+
+```{r}
+weather_predict_test = predict(weather_mdl_tune,test,type= "raw")
+
+confusionMatrix(as.factor(weather_predict_test), 
+                as.factor(test$Temperature..C._f), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
+
+```
+
+#### Summary/Findings
+
+Through the analysis above, my goal was to find out what features were the best in predicting temperature, humidity in particular.  However, I ran into some major issues with this data set as my model accuracy was 100%.  Initially, I thought I had over fit the data by forgetting to drop the factorized target variable, however that wasn't the case.  Consequently, I came to the conclusion that there is something systematically wrong with my model.  I'm not too sure if it's the way I standardized the data or even split my training and testing sets.  For variable importance, I was getting unusual results as another temperature column called 'Apparent Temperature' had the highest importance, while everything else had zero importance.  A plausible reason for this is 'Apparent Temperature' feature could have been a column identical to the target column. Similar to the first data set, I encountered system errors with loading certain packages and wasn't too sure on how to approach tuning as I am not too familiar with the C50 model.
+
