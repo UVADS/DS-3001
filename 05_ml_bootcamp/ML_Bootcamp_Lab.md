@@ -1,4 +1,4 @@
-Goal: Build three pipelines using Kaggle Datasets 
+Goal: Build three pipelines using three different datasets 
 
 Step one: Choose three datasets from [Data.World](https://data.world/)
 
@@ -11,7 +11,7 @@ Step two: Work through the steps outlined in the examples to include the followi
     * collapse factor levels as needed
     * one-hot encoding factor variables 
     * normalize the continous variables
-    * drop uneeded variables
+    * drop unneeded variables
     * create target variable if needed
   * Calculate the prevalance 
   * Create the necessary data partitions (Train,Tune,Test)
