@@ -30,7 +30,7 @@ save.image("tidytext.RData")
 
 animal_house <- tibble(text= "Over? Did you say ‘over?!’ Nothing is over until we decide it is! Was it over when the Germans bombed Pearl Harbor? Hell no!And it ain’t over now. ‘Cause when the goin’ gets tough…the tough get goin’! Who’s with me? Let’s go! Come on! What the heck happened to the Delta I used to know? Where’s the spirit? Where’s the guts, huh? ‘Ooh, we’re afraid to go with you Bluto, we might get in trouble.’ Well just kiss my ass from now on! Not me! I’m not gonna take this. Wormer, he’s a dead man! Marmalard, dead! Niedermeyer.")
 
-View(animal_house)
+# View(animal_house)
 
 #The first line indicates that we are creating a new data frame called animal_house, starting, which has one variable named text.
 
@@ -40,7 +40,7 @@ ah_word <- animal_house %>%
 
 str(ah_word)
 
-View(ah_word)
+# View(ah_word)
 
 #If we want to tokenize by some other structure use the token option
 
@@ -54,7 +54,7 @@ View(ah_sentence)
 ah_ngrams <- animal_house %>%
   unnest_tokens(sentence, text, token = "ngrams", n=3)
 
-View(ah_ngrams)
+# View(ah_ngrams)
 
 #We can also use the count() function to start to get an idea on frequencies of used words in our text
 
@@ -63,7 +63,7 @@ ah_count <- ah_word %>%
 
 ah_count$word <- as.factor(ah_count$word)  
 
-View(ah_count)
+# View(ah_count)
 #Quick plot 
 
 ggplot(
@@ -77,12 +77,12 @@ ggplot(
 
 #We can also remove stop words, such as "the", "a", "and" essentially the most commonly used words in the English language. Most text packages have a vector list of stop words. This is true of tidytext = stop_words, there's 1,149 of them. We can pass this into our original word tokenization and use a join to remove the stop words.  
 
-View(stop_words)
+# View(stop_words)
 
 ah_word_sw <- ah_word %>%
       anti_join(stop_words)
 
-View(ah_word_sw)#We can see now the stop words are removed from our list. 
+# View(ah_word_sw)#We can see now the stop words are removed from our list. 
 
 #So let's generate our plot again, probably will look very different. 
 

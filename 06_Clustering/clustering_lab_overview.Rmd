@@ -1,7 +1,7 @@
 ---
-title: "Clustering Lab"
-author: "Brian Wright"
-date: "9/20/2020"
+title: "Clustering Lab - Republican Votes Data"
+author: "Aishwarya Gavili"
+date: "10/12/2020"
 output: html_document
 ---
 
@@ -9,6 +9,17 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r}
+#install packages 
+
+library(tidyverse)
+library(plotly)
+library(htmltools)
+library(devtools)
+library(caret)
+library(NbClust)
+
+```
 Goal: Know how to make decisions and answer questions using clustering. 
 
 Repeat the clustering process only using the Rep house votes dataset
@@ -16,46 +27,198 @@ Repeat the clustering process only using the Rep house votes dataset
 worked for the datasets?
 
 ```{r}
+#Read in data 
+house_votes_Rep = read_csv("/Users/aishgav/Desktop/ds3001/DS-3001-gitrepo/data/house_votes_Rep.csv")
+```
+
+```{r}
 #Select the variables to be included in the cluster 
+
+clust_data_Rep = house_votes_Rep[, c("aye", "nay", "other")] 
 
 ```
 
 ```{r}
 #Run the clustering algo with 2 centers
+set.seed(1)
+kmeans_obj_Rep = kmeans(clust_data_Rep, centers = 2, 
+                        algorithm = "Lloyd") 
 ```
 
 ```{r}
 #View the results
+head(kmeans_obj_Rep)
+
 ```
 
 ```{r}
 #Visualize the output
+party_clusters_Rep = as.factor(kmeans_obj_Rep$cluster)
+
+ggplot(house_votes_Rep, aes(x = aye, 
+                            y = nay,
+                            shape = party_clusters_Rep)) + 
+  geom_point(size = 6) +
+  ggtitle("Aye vs. Nay votes for Republican-introduced bills") +
+  xlab("Number of Aye Votes") +
+  ylab("Number of Nay Votes") +
+  scale_shape_manual(name = "Cluster", 
+                     labels = c("Cluster 1", "Cluster 2"),
+                     values = c("1", "2")) +
+  theme_light()
 ```
 
 ```{r}
 #Evaluate the quality of the clustering 
+
+#This is for 2 clusters
+num_Rep = kmeans_obj_Rep$betweenss
+denom_Rep = kmeans_obj_Rep$totss
+(var_exp_Rep = num_Rep / denom_Rep)
+
+#The variance explained by the model is 79.52%
+
 ```
 
 ```{r}
 #Use the function we created to evaluate several different number of clusters
+
+explained_variance = function(data_in, k){
+  
+  # Running the kmeans algorithm.
+  set.seed(1)
+  kmeans_obj = kmeans(data_in, centers = k, algorithm = "Lloyd", iter.max = 30)
+  
+  # Variance accounted for by clusters:
+  # var_exp = intercluster variance / total variance
+  var_exp = kmeans_obj$betweenss / kmeans_obj$totss
+  var_exp  
+}
+
+explained_var_Rep = sapply(1:10, explained_variance, data_in = clust_data_Rep)
+
 ```
 
 ```{r}
 #Create a elbow chart of the output 
+
+elbow_data_Rep = data.frame(k = 1:10, explained_var_Rep)
+
+# Plotting data.
+ggplot(elbow_data_Rep, 
+       aes(x = k,  
+           y = explained_var_Rep)) + 
+  geom_point(size = 4) +           #<- sets the size of the data points
+  geom_line(size = 1) +            #<- sets the thickness of the line
+  xlab('k') + 
+  ylab('Inter-cluster Variance / Total Variance') + 
+  theme_light()
+
+
 ```
 
 ```{r}
 #Use NbClust to select a number of clusters
+
+(nbclust_obj_Rep = NbClust(data = clust_data_Rep, method = "kmeans"))
+nbclust_obj_Rep
+View(nbclust_obj_Rep$Best.nc)
+
 ```
 
 ```{r}
 #Display the results visually 
+# Subset the 1st row from Best.nc and convert it 
+# to a data frame so ggplot2 can plot it.
+freq_k_Rep = nbclust_obj_Rep$Best.nc[1,]
+freq_k_Rep = data.frame(freq_k_Rep)
+#View(freq_k_Rep)
+
+# Check the maximum number of clusters suggested.
+max(freq_k_Rep)
+
+#essentially resets the plot viewer back to default
+#dev.off()
+
+# Plot as a histogram.
+ggplot(freq_k_Rep,
+       aes(x = freq_k_Rep)) +
+  geom_bar() +
+  scale_x_continuous(breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(breaks = seq(0, 12, by = 1)) +
+  labs(x = "Number of Clusters",
+       y = "Number of Votes",
+       title = "Cluster Analysis")
+```
+```{r}
+#Run the clustering algo with 3 centers
+set.seed(1)
+kmeans_obj_Rep_3 = kmeans(clust_data_Rep, centers = 3, 
+                        algorithm = "Lloyd") 
+
+```
+
+```{r}
+#Evaluate the quality of the clustering for 3 clusters
+
+num_Rep_3 = kmeans_obj_Rep_3$betweenss
+denom_Rep_3 = kmeans_obj_Rep_3$totss
+(var_exp_Rep_3 = num_Rep_3 / denom_Rep_3)
+
+#The explained variance of the model is 84.62368%
+```
+```{r}
+party_clusters_Rep_3 = as.factor(kmeans_obj_Rep_3$cluster)
 ```
 
 ```{r}
 #Using the recommended number of cluster compare the quality of the model 
 #with 2 clusters 
+
+#When comparing the explained variance between 4 clusters and 2 clusters, 4 clusters had a higher explained variance (79.52% vs 84.62368%). This is also seen in the elbow plot as the explained variance increases as the number of clusters increase, meaning the inter cluster variance or differences decrease as we increase the number of clusters. Graphically, as seen below, increasing the cluster number to 3 helped with dealing with outliers that originally belonged to cluster 2 that identified as both Democratic and Republican.  More specifically, these outliers made up the third cluster.  In the context of this data set, this cluster could represent votes from an independent party. 
+
+
+
+ggplot(house_votes_Rep, aes(x = aye, 
+                            y = nay,
+                            color = party.labels,  #<- tell R how to color 
+                            #   the data points
+                            shape = party_clusters_Rep)) + 
+  geom_point(size = 6) +
+  ggtitle("Aye vs. Nay votes for Republican-introduced bills") +
+  xlab("Number of Aye Votes") +
+  ylab("Number of Nay Votes") +
+  scale_shape_manual(name = "Cluster", 
+                     labels = c("Cluster 1", "Cluster 2"),
+                     values = c("1", "2")) +
+  scale_color_manual(name = "Party",         #<- tell R which colors to use and
+                     #   which labels to include in the legend
+                     labels = c("Democratic","Republican"),
+                     values = c("blue", "red")) +
+  theme_light()
+
+
+ggplot(house_votes_Rep, aes(x = aye, 
+                            y = nay,
+                            # color = party.labels,  #<- tell R how to color 
+                            #   the data points
+                            shape = party_clusters_Rep_3)) + 
+  geom_point(size = 6) +
+  ggtitle("Aye vs. Nay votes for Republican-introduced bills") +
+  xlab("Number of Aye Votes") +
+  ylab("Number of Nay Votes") +
+  scale_shape_manual(name = "Cluster", 
+                     labels = c("Cluster 1", "Cluster 2", "3"),
+                     values = c("1", "2", "3")) +
+  # scale_color_manual(name = "Party",         #<- tell R which colors to use and
+  #                    #   which labels to include in the legend
+  #                    labels = c("Democratic","Republican"),
+  #                    values = c("blue", "red")) + 
+  
+  theme_light()
+
 ```
+
 
 
 ```{r}

@@ -44,7 +44,7 @@ library(caret)
 ### Scale/Center/Normalizing
 
 ```{r}
-cereal <- read_csv("~/git_3001/DS-3001/data/cereal.csv")
+cereal <- read_csv("~/Desktop/ds3001/DS-3001-gitrepo/data/cereal.csv")
 View(cereal)
 attach(cereal)#is this a good idea? 
 describe(cereal)
