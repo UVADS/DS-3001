@@ -69,6 +69,8 @@ head(kmeans_obj_Dem)
 # Tell R to read the cluster labels as factors so that ggplot2 
 # (the graphing package) can read them as category labels instead of 
 # continuous variables (numeric variables).
+
+kmeans_obj_Dem
 party_clusters_Dem = as.factor(kmeans_obj_Dem$cluster)
 
 # What does the kmeans_obj look like?
@@ -96,7 +98,10 @@ ggplot(house_votes_Dem, aes(x = aye,
 #==================================================================================
 
 #### Slide 32: Step 5: validate results ####
+<<<<<<< HEAD
 #adding a new variable, using color to tell party label
+=======
+>>>>>>> 01350f48c332c1549ce991b567e6a0b7c50ecaa5
 
 ggplot(house_votes_Dem, aes(x = aye, 
                             y = nay,
@@ -149,6 +154,14 @@ house_votes_color_Dem$Last.Name <- gsub("[^[:alnum:]]", "", house_votes_color_De
 
 #gsub("REGULAR EXPRESSION") ^^^^, only leave in this string so string should only have alpha numeric terms
 
+<<<<<<< HEAD
+=======
+house_votes_color_Dem$clusters <- (party_clusters_Dem)
+
+View(house_votes_color_Dem)
+>>>>>>> 01350f48c332c1549ce991b567e6a0b7c50ecaa5
+
+house_votes_color_Dem$Last.Name <- gsub("[^[:alnum:]]", "", house_votes_color_Dem$Last.Name)
 
 # Use plotly to do a 3d imaging 
 
@@ -202,7 +215,20 @@ denom_Dem3 = kmeans_obj_Dem$totss
 # Variance accounted for by clusters.
 (var_exp_Dem3 = num_Dem3 / denom_Dem3)
 
+<<<<<<< HEAD
 #variance is now higher, there's a third group of outliers that don't align with 2 particular centroids
+=======
+#Might be a helpful look to compare to just a normal variance calculation:
+# s2=∑ni=1(xi− x¯)2/(n−1) = variance equation for var()
+
+total.var <- var(clust_data_Dem$aye)+var(clust_data_Dem$nay)+var(clust_data_Dem$other)
+
+total.var.km <- (kmeans_obj_Dem$betweenss+kmeans_obj_Dem$tot.withinss)/(427-1)
+
+# Numbers are the same. 
+total.var
+total.var.km
+>>>>>>> 01350f48c332c1549ce991b567e6a0b7c50ecaa5
 
 
 #==================================================================================
@@ -239,7 +265,6 @@ explained_var_Dem = sapply(1:10, explained_variance, data_in = clust_data_Dem)
 
 View(explained_var_Dem)
 #total variance for each on of those clustering points
-
 
 # Data for ggplot2.
 elbow_data_Dem = data.frame(k = 1:10, explained_var_Dem)
@@ -287,6 +312,8 @@ freq_k_Dem = nbclust_obj_Dem$Best.nc[1,]
 freq_k_Dem = data.frame(freq_k_Dem)
 View(freq_k_Dem)
 
+nbclust_obj_Dem$Best.nc
+
 # Check the maximum number of clusters suggested.
 max(freq_k_Dem)
 
@@ -325,6 +352,10 @@ str(tree_data)
 tree_data[,c(1,5)] <- lapply(tree_data[,c(1,5)], as.factor)
 # do we need to normalize? 
 
+<<<<<<< HEAD
+=======
+str(tree_data)
+>>>>>>> 01350f48c332c1549ce991b567e6a0b7c50ecaa5
 
 # Split 
 train_index <- createDataPartition(tree_data$party.labels,

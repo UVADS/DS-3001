@@ -1,0 +1,267 @@
+---
+title: 'ML BOOTCAMP Dataset #3'
+author: "Aishwarya Gavili"
+date: "9/28/2021"
+output:
+  html_document:
+    toc: yes
+    theme: journal
+    toc_float: yes
+  pdf_document:
+    toc: yes
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=FALSE}
+library(tidyverse)
+library(psych)
+library(mltools)
+library(data.table)
+library(caret)
+library(plyr)
+```
+
+## Phase I
+[comm in Szeged, Hungry (2006-2016)](https://www.kaggle.com/budincsevity/szeged-comm)
+
+```{r}
+#Working to developed a model than can  predict customer ratings for an international e-commerce company.
+
+#Assuming we are able to optimizing and make recommendations how does this translate into a business context?
+
+#This analysis and predictions made below help e-commerce vendors learn how to cater to customers and generate the most revenue while maintaining highest customer satisfaction.
+
+# Inference versus Prediction 
+
+# Independent Business Metric -Assuming higher discounts, lower costs, and greater purchase history leads to higher customer ratings, can we predict the ratings new customers will give for products they have never bought?
+
+```
+
+
+## Phase II 
+
+### Scale/Center/Normalizing
+
+```{r}
+comm <- read.csv("/Users/aishgav/Desktop/ecommerce.csv", header=TRUE, stringsAsFactors=TRUE)
+
+comm<- comm[,-c(1)] #drop id column 
+attach(comm)#is this a good idea?
+describe(comm)
+?scale
+str(comm)
+(comm[,-c(1,2, 7, 8, 11)] <- scale(comm[,-c(1,2, 7, 8, 11)], center = TRUE, scale = TRUE)) #center and standardized
+# #
+(column_index <- tibble(colnames(comm)))
+
+normalize <- function(x){
+ (x - min(x)) / (max(x) - min(x))
+}
+
+
+abc <- names(select_if(comm, is.numeric))# select function to find the numeric variables
+
+comm[abc] <- as_tibble(lapply(comm[abc], normalize))
+
+
+str(comm)
+describe(comm)
+
+```
+
+### One-hot Encoding 
+[ML Tools One-Hot Overview](https://www.rdocumentation.org/packages/mltools/versions/0.3.5/topics/one_hot)
+
+```{r}
+# Next let's one-hot encode those factor variables/character 
+
+?one_hot
+
+comm_1h <- one_hot(as.data.table(comm),cols = "auto",sparsifyNAs = TRUE,naCols = TRUE,dropCols = TRUE,dropUnusedLevels = TRUE)
+
+```
+
+### Baseline/Prevalance 
+
+```{r}
+#Essential the target to which we are trying to better with our model. 
+describe(comm_1h$Customer_rating)
+(box <- boxplot(comm_1h$Customer_rating, horizontal = TRUE))
+box$stats
+fivenum(comm_1h$Customer_rating)
+ ?fivenum
+
+#added this a predictor versus replacing the numeric version
+(comm_1h$Customer_rating_f <- cut(comm_1h$Customer_rating,c(-1,0.75,1),labels = c(0,1)))
+#
+str(comm_1h)
+comm_1h
+# #So no let's check the prevalence
+(prevalence <- table(comm_1h$Customer_rating_f)[[2]]/length(comm_1h$Customer_rating_f))
+
+```
+
+
+### Initial Model Building: Decision Tree Style  
+
+```{r}
+# Training, Evaluation, Tune, Evaluation, Test, Evaluation
+# Divide up our data into three parts, Training, Tuning, and Test
+
+#There is not a easy way to create 3 partitions using the createDataPartitions
+
+#so we are going to use it twice. Mostly because we want to stratify on the variable we are working to predict. What does that mean?  
+
+#clean up our dataset a bit by dropping the original ranking variable and the comm name which we can't really use. 
+
+comm_dt <- comm_1h[,-c("Customer_rating")]
+# view(comm_dt)
+
+part_index_1 <- caret::createDataPartition(comm_dt$Customer_rating_f,
+                                           times=1,
+                                           p = 0.70,
+                                           groups=1,
+                                           list=FALSE)
+View(part_index_1)
+dim(comm_dt)
+
+train <- comm_dt[part_index_1,]
+tune_and_test <- comm_dt[-part_index_1, ]
+
+#The we need to use the function again to create the tuning set 
+
+tune_and_test_index <- createDataPartition(tune_and_test$Customer_rating_f,
+                                           p = .5,
+                                           list = FALSE,
+                                           times = 1)
+
+tune <- tune_and_test[tune_and_test_index, ]
+test <- tune_and_test[-tune_and_test_index, ]
+
+
+dim(train)
+dim(tune)
+dim(test)
+
+
+```
+
+#### Using Caret package to fit a C5.0 version of a decision tree
+Setting up the cross validation
+[Caret_Documentation](http://topepo.github.io/caret/train-models-by-tag.html#Tree_Based_Model)
+```{r}
+#Cross validation process 
+
+fitControl <- trainControl(method = "repeatedcv",
+                          number = 10,
+                          repeats = 5, 
+                          returnResamp="all") 
+
+# number - number of folds
+# repeats - number of times the CV is repeated, here it's 5 take the average of
+# those 5 repeats
+
+
+# Choose the features and classes
+
+```
+
+
+#### Training and Evaluation 
+
+```{r}
+features <- train[,-"Customer_rating_f"]
+target <- train[,"Customer_rating_f"]
+
+str(target)
+
+set.seed(1984)
+comm_mdl <- train(x=features,
+                y=target$Customer_rating_f,
+                trControl=fitControl,
+                method="C5.0",
+                verbose=TRUE)
+
+comm_mdl
+
+```
+
+Tune and Evaluation and Test
+```{r}
+comm_predict = predict(comm_mdl,tune,type= "raw")
+
+confusionMatrix(as.factor(comm_predict), 
+                as.factor(tune$Customer_rating_f), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
+
+varImp(comm_mdl)
+
+plot(comm_mdl)
+
+
+grid <- expand.grid(.winnow = c(TRUE,FALSE), 
+                    .trials=c(20,30,40), 
+                    .model=c("tree","rules"))
+set.seed(1984)
+comm_mdl_tune <- train(x=features,
+                y=target$Customer_rating_f,
+                tuneGrid=grid,
+                trControl=fitControl,
+                method="C5.0",
+                verbose=TRUE)
+
+comm_mdl_tune
+comm_mdl
+
+# plot(comm_mdl_tune)
+
+# Want to evaluation again with the tune data using the new model 
+
+comm_predict_tune = predict(comm_mdl_tune,tune,type= "raw")
+
+confusionMatrix(as.factor(comm_predict_tune), 
+                as.factor(tune$Customer_rating_f), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
+
+
+
+```
+
+```{r}
+plot(comm_mdl_tune)
+```
+
+
+#### Test
+
+```{r}
+comm_predict_test = predict(comm_mdl_tune,test,type= "raw")
+
+confusionMatrix(as.factor(comm_predict_test), 
+                as.factor(test$Customer_rating_f), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
+
+```
+
+
+#### Summary/Findings
+
+Through the analysis above, my goal was to find out what features were the best in predicting customer ratings on an e-commerce platform.  With this data set, for some reason the function for finding features of the most importance could not parse the model output.  Consequently, I was not able to find the features that predicted customer ratings the best.  The model also had a relatively low accuracy (~50%), and definitely needs some hyper parameter tuning.  Similar to the first data set, I encountered system errors with loading certain packages and wasn't too sure on how to approach tuning as I am not too familiar with the C50 model.
+
+
+
+
+
+
+
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

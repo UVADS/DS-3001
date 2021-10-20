@@ -172,6 +172,7 @@ party_clusters_Rep_3 = as.factor(kmeans_obj_Rep_3$cluster)
 ```
 
 ```{r}
+<<<<<<< HEAD
 #Using the recommended number of cluster compare the quality of the model 
 #with 2 clusters 
 
@@ -216,6 +217,14 @@ ggplot(house_votes_Rep, aes(x = aye,
   #                    values = c("blue", "red")) + 
   
   theme_light()
+=======
+#Using the recommended number of cluster compare the output to the elbow chart method, assuming it's different. 
+```
+
+```{r}
+# What differences and similarities did you see between how the clustering 
+# worked for the datasets? What do these patterns suggest about the           # differences between republican versus  
+>>>>>>> 01350f48c332c1549ce991b567e6a0b7c50ecaa5
 
 ```
 
@@ -242,16 +251,14 @@ players are under or over paid, generally.
 - Provide a well commented and clean (knitted) report of your findings that can 
 be presented to your GM. Include a rationale for variable selection, details 
 on your approach and a overview of the results with supporting visualizations. 
-- Create a new repo for this assignment either for yourself or for the group and 
-submit the link along with your knitted report. 
+ 
 
 Hints:
 
 - Salary is the variable you are trying to understand 
 - You can include numerous performance variables in the clustering but when 
 interpreting you might want to use graphs that include variables that are the 
-most correlated with Salary, also might be a good way to select variables to
-include
+most correlated with Salary
 - You'll need to standardize the variables before performing the clustering
 - Be specific about why you selected the players that you did, more detail is 
 better
