@@ -17,7 +17,7 @@ library(tidyverse)
 library(tidytext)
 #install.packages("ggwordcloud")
 library(ggwordcloud)
-install.packages("gutenbergr") 
+#install.packages("gutenbergr") 
 library(gutenbergr)
 #install.packages('textdata')
 library(textdata)
@@ -34,9 +34,11 @@ View(animal_house)
 
 #The first line indicates that we are creating a new data frame called animal_house, starting, which has one variable named text.
 
-
+#tokenizing the text column and naming the column word
+#unnest_tokens tokenizes by spaces
 ah_word <- animal_house %>%
-  unnest_tokens(word, text)
+  unnest_tokens(word, text) 
+
 
 str(ah_word)
 
@@ -52,7 +54,7 @@ View(ah_sentence)
 #Another option is to analyze the paragraph by ngrams, essentially multiple letter combination
 
 ah_ngrams <- animal_house %>%
-  unnest_tokens(sentence, text, token = "ngrams", n=3)
+  unnest_tokens(sentence, text, token = "ngrams", n=3) #separates into groups of 3 words b/c n=3
 
 View(ah_ngrams)
 
@@ -81,6 +83,7 @@ View(stop_words)
 
 ah_word_sw <- ah_word %>%
       anti_join(stop_words)
+#anti-join removes all similar attributes
 
 View(ah_word_sw)#We can see now the stop words are removed from our list. 
 
@@ -113,102 +116,104 @@ gutenberg_works(str_detect(title, "Kennedy"))
 eng_gut %>%
   filter(str_detect(title, "Kennedy"))
 
-kennedy_inag <- gutenberg_download(3, mirror="http://mirrors.xmission.com/gutenberg/") #had to use a new mirror as the default mirror was down, list of mirrors is here: https://www.gutenberg.org/MIRRORS.ALL
+kennedy_inaug <- gutenberg_download(3, mirror="http://mirrors.xmission.com/gutenberg/") #had to use a new mirror as the default mirror was down, list of mirrors is here: https://www.gutenberg.org/MIRRORS.ALL
 
 #Let's take a look at the speech from 1961
-View(kennedy_inag)
+View(kennedy_inaug)
 
 #Looks like we have some extra info there at the top so let's remove those rows.
 
-kennedy_inag <- kennedy_inag[13:143, ]
+kennedy_inaug <- kennedy_inaug[13:143, ]
 
-kennedy_inag <- kennedy_inag %>%
+kennedy_inaug <- kennedy_inaug %>%
   unnest_tokens(word, text)%>%
   anti_join(stop_words)%>%
   count(word, sort=TRUE)
 
-View(kennedy_inag)
+View(kennedy_inaug)
 
 #Let's pull in Trump's inauguration speech and compare the differences. 
+#kennedy's speech is centered on global politics, trump's speech is centered on American politics.
 
+trump_inaug <- read_lines("C:/Users/Maddie/OneDrive/Desktop/3YEAR/Forked-DS-3001/data/trump_inag.txt")
 
-trump_inag <- read_lines("trump_inag.txt")
+trump_inaug <- tibble(trump_inaug)
+View(trump_inaug)
 
-trump_inag <- tibble(trump_inag)
-View(trump_inag)
+trump_inaug$trump_inaug <- as.character(trump_inaug$trump_inaug)
 
-trump_inag$trump_inag <- as.character(trump_inag$trump_inag)
+View(trump_inaug)
 
-View(trump_inag)
-
-trump_inag <- trump_inag %>%
-  unnest_tokens(word, trump_inag)%>%
+trump_inaug <- trump_inaug %>%
+  unnest_tokens(word, trump_inaug)%>%
   anti_join(stop_words)%>% 
   count(word, sort=TRUE)
 
-View(trump_inag)
+View(trump_inaug)
 
 #Biden's speech
 
-biden_inag <- read_lines("biden_inag.txt")
+biden_inaug <- read_lines("C:/Users/Maddie/OneDrive/Desktop/3YEAR/Forked-DS-3001/data/biden_inag.txt")
 
-biden_inag <- tibble(biden_inag)
-View(biden_inag)
+biden_inaug <- tibble(biden_inaug)
+View(biden_inaug)
 
-biden_inag$biden_inag <- as.character(biden_inag$biden_inag)
+biden_inaug$biden_inaug <- as.character(biden_inaug$biden_inaug)
 
-biden_inag <- biden_inag %>%
-  unnest_tokens(word, biden_inag)%>%
+biden_inaug <- biden_inaug %>%
+  unnest_tokens(word, biden_inaug)%>%
   anti_join(stop_words)%>% 
   count(word, sort=TRUE)
 
-View(biden_inag)
+View(biden_inaug)
 
 ```
 
-Ok, now that we have our word frequencies let's do some analysis. We will compare the three speeches using sentiment analysis to see if the generally align or not. 
+Ok, now that we have our word frequencies let's do some analysis. We will compare the three speeches using sentiment analysis to see if they generally align or not. 
 
 ```{r}
 #helps with the sentiment analysis, using package "textdata"
 
 get_sentiments('afinn')# we see a list of words and there classification, 2,467 - not really that many overall. 
+# afinn gives words a range based on their association
+# negative value means negative association :(
 
 get_sentiments('nrc')# looks like a good amount more 13,891, but as we can see words are classified in several different categories. 
 
 get_sentiments('bing')# looks like a good amount more 6,776, but as we can see just negative and positive. 
 
-kenn_sentiment_affin <- kennedy_inag %>%
+kenn_sentiment_affin <- kennedy_inaug %>%
   inner_join(get_sentiments("afinn"))#using a inner join to match words and add the sentiment variable
 
-kenn_sentiment_nrc <- kennedy_inag %>%
+kenn_sentiment_nrc <- kennedy_inaug %>%
   inner_join(get_sentiments("nrc"))
 
-kenn_sentiment_bing <- kennedy_inag %>%
+kenn_sentiment_bing <- kennedy_inaug %>%
   inner_join(get_sentiments("bing"))
 
 View(kenn_sentiment_bing)
 
 #Walk through the same process for Trump 
 
-trump_sentiment_afinn <- trump_inag %>%
+trump_sentiment_afinn <- trump_inaug %>%
   inner_join(get_sentiments("afinn"))
   
-trump_sentiment_nrc <- trump_inag %>%
+trump_sentiment_nrc <- trump_inaug %>%
   inner_join(get_sentiments("nrc"))
 
-trump_sentiment_bing <- trump_inag %>%
+trump_sentiment_bing <- trump_inaug %>%
   inner_join(get_sentiments("bing"))
 
 View(trump_sentiment_afinn)
 
 #again for Biden
-biden_sentiment_afinn <- biden_inag %>%
+biden_sentiment_afinn <- biden_inaug %>%
   inner_join(get_sentiments("afinn"))
   
-biden_sentiment_nrc <- biden_inag %>%
+biden_sentiment_nrc <- biden_inaug %>%
   inner_join(get_sentiments("nrc"))
 
-biden_sentiment_bing <- biden_inag %>%
+biden_sentiment_bing <- biden_inaug %>%
   inner_join(get_sentiments("bing"))
 
 View(biden_sentiment_nrc)
@@ -260,17 +265,17 @@ ggplot(data = biden_sentiment_afinn,
 #below uses the ggwordcloud package
 
 set.seed(42)
-ggplot(kennedy_inag[1:50,], aes(label = word, size = n)
+ggplot(kennedy_inaug[1:50,], aes(label = word, size = n)
        ) +
   geom_text_wordcloud() +
   theme_minimal()
 
-ggplot(trump_inag[1:50,], aes(label = word, size = n)
+ggplot(trump_inaug[1:50,], aes(label = word, size = n)
        ) +
   geom_text_wordcloud() +
   theme_minimal()
 
-ggplot(biden_inag[1:50,], aes(label = word, size = n)
+ggplot(biden_inaug[1:50,], aes(label = word, size = n)
        ) +
   geom_text_wordcloud() +
   theme_minimal()
@@ -281,30 +286,39 @@ ggplot(biden_inag[1:50,], aes(label = word, size = n)
 term frequency - inverse document frequency tf-idf. Here we are going to treat
 each of our speeches as a document in a corpus and explore the relative 
 importance of words to these speeches as compared to the overall corpus. 
+
+- term freq = how many times the word shows up in all of the speeches
+- doc freq = how many times the word shows up in an individual document (each speech)
+
+corpus = collection of text (in this case, the three speeches)
+
+
 ```{r}
 #need to the raw data again
 
-kennedy_inag_raw <- gutenberg_download(3, mirror="http://mirrors.xmission.com/gutenberg/")
+kennedy_inaug_raw <- gutenberg_download(3, mirror="http://mirrors.xmission.com/gutenberg/")
 
-trump_inag_raw <- as.tibble(read_lines("trump_inag.txt"))
+trump_inaug_raw <- as.tibble(read_lines("C:/Users/Maddie/OneDrive/Desktop/3YEAR/Forked-DS-3001/data/trump_inag.txt"))
+
+biden_inaug_raw <- as.tibble(read_lines("C:/Users/Maddie/OneDrive/Desktop/3YEAR/Forked-DS-3001/data/biden_inag.txt"))
 
 data_prep <- function(x,y,z){
   i <- as_tibble(t(x))
   ii <- unite(i,"text",y:z,remove = TRUE,sep = "")
 }
 
-kennedy_inag_bag <- data_prep(kennedy_inag_raw[13:143,2],'V1','V131')
+kennedy_inaug_bag <- data_prep(kennedy_inaug_raw[13:143,2],'V1','V131')
 
-View(kennedy_inag_bag)
+View(kennedy_inaug_bag)
 
-biden_inag_bag <- data_prep(biden_inag_raw,'V1','V425')
+biden_inaug_bag <- data_prep(biden_inaug_raw,'V1','V425')
 
-trump_inag_bag <- data_prep(trump_inag_raw,'V1','V149')
+trump_inaug_bag <- data_prep(trump_inaug_raw,'V1','V149')
 
 president <- c("Kennedy","Biden","Trump")
 
 
-tf_idf_text <- tibble(president,text=t(tibble(kennedy_inag_bag,biden_inag_bag,trump_inag_bag,.name_repair = "universal")))
+tf_idf_text <- tibble(president,text=t(tibble(kennedy_inaug_bag,biden_inaug_bag,trump_inaug_bag,.name_repair = "universal")))
 
 View(tf_idf_text)
 
@@ -317,11 +331,11 @@ total_words <- word_count %>%
   group_by(president) %>% 
   summarize(total = sum(n))
 
-inag_words <- left_join(word_count, total_words)
+inaug_words <- left_join(word_count, total_words)
 
-View(inag_words)
+View(inaug_words)
 
-inag_words <- inag_words %>%
+inaug_words <- inaug_words %>%
   bind_tf_idf(word, president, n)
 
 
