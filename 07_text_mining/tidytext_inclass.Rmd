@@ -21,8 +21,7 @@ library(ggwordcloud)
 library(gutenbergr)
 #install.packages('textdata')
 library(textdata)
-setwd("/cloud/project/tidytext")
-save.image("tidytext.RData")
+#save.image("tidytext.RData")
 
 ```
 
@@ -137,15 +136,25 @@ View(kennedy_inaug)
 
 trump_inaug <- read_lines("C:/Users/Maddie/OneDrive/Desktop/3YEAR/Forked-DS-3001/data/trump_inag.txt")
 
+<<<<<<< HEAD
 trump_inaug <- tibble(trump_inaug)
 View(trump_inaug)
+=======
+trump_inag <- read_lines("data/trump_inag.txt")
+>>>>>>> 4c415c50ad01a8555c6c6bb6e576ee4305bee2ca
 
 trump_inaug$trump_inaug <- as.character(trump_inaug$trump_inaug)
 
 View(trump_inaug)
 
+<<<<<<< HEAD
 trump_inaug <- trump_inaug %>%
   unnest_tokens(word, trump_inaug)%>%
+=======
+
+trump_inag <- trump_inag %>%
+  unnest_tokens(word, trump_inag)%>%
+>>>>>>> 4c415c50ad01a8555c6c6bb6e576ee4305bee2ca
   anti_join(stop_words)%>% 
   count(word, sort=TRUE)
 
@@ -153,7 +162,11 @@ View(trump_inaug)
 
 #Biden's speech
 
+<<<<<<< HEAD
 biden_inaug <- read_lines("C:/Users/Maddie/OneDrive/Desktop/3YEAR/Forked-DS-3001/data/biden_inag.txt")
+=======
+biden_inag <- read_lines("data/biden_inag.txt")
+>>>>>>> 4c415c50ad01a8555c6c6bb6e576ee4305bee2ca
 
 biden_inaug <- tibble(biden_inaug)
 View(biden_inaug)
@@ -182,7 +195,13 @@ get_sentiments('nrc')# looks like a good amount more 13,891, but as we can see w
 
 get_sentiments('bing')# looks like a good amount more 6,776, but as we can see just negative and positive. 
 
+<<<<<<< HEAD
 kenn_sentiment_affin <- kennedy_inaug %>%
+=======
+get_sentiments('afinn')
+
+kenn_sentiment_affin <- kennedy_inag %>%
+>>>>>>> 4c415c50ad01a8555c6c6bb6e576ee4305bee2ca
   inner_join(get_sentiments("afinn"))#using a inner join to match words and add the sentiment variable
 
 kenn_sentiment_nrc <- kennedy_inaug %>%
@@ -191,7 +210,7 @@ kenn_sentiment_nrc <- kennedy_inaug %>%
 kenn_sentiment_bing <- kennedy_inaug %>%
   inner_join(get_sentiments("bing"))
 
-View(kenn_sentiment_bing)
+View(kenn_sentiment_affin)
 
 #Walk through the same process for Trump 
 
@@ -264,8 +283,13 @@ ggplot(data = biden_sentiment_afinn,
 
 #below uses the ggwordcloud package
 
+<<<<<<< HEAD
 set.seed(42)
 ggplot(kennedy_inaug[1:50,], aes(label = word, size = n)
+=======
+
+ggplot(kennedy_inag[1:50,], aes(label = word, size = n)
+>>>>>>> 4c415c50ad01a8555c6c6bb6e576ee4305bee2ca
        ) +
   geom_text_wordcloud() +
   theme_minimal()
@@ -296,20 +320,34 @@ corpus = collection of text (in this case, the three speeches)
 ```{r}
 #need to the raw data again
 
+<<<<<<< HEAD
 kennedy_inaug_raw <- gutenberg_download(3, mirror="http://mirrors.xmission.com/gutenberg/")
 
 trump_inaug_raw <- as.tibble(read_lines("C:/Users/Maddie/OneDrive/Desktop/3YEAR/Forked-DS-3001/data/trump_inag.txt"))
 
 biden_inaug_raw <- as.tibble(read_lines("C:/Users/Maddie/OneDrive/Desktop/3YEAR/Forked-DS-3001/data/biden_inag.txt"))
+=======
+kennedy_inag_raw_1 <- gutenberg_download(3, mirror="http://mirrors.xmission.com/gutenberg/")
+
+View(kennedy_inag_raw_1)
+trump_inag_raw <- as.tibble(read_lines("data/trump_inag.txt"))
+
+biden_inag_raw <- as.tibble(read_lines("data/biden_inag.txt"))
+
+>>>>>>> 4c415c50ad01a8555c6c6bb6e576ee4305bee2ca
 
 data_prep <- function(x,y,z){
-  i <- as_tibble(t(x))
+  i <- as_tibble(t(x))#transposing the data set
   ii <- unite(i,"text",y:z,remove = TRUE,sep = "")
 }
 
 kennedy_inaug_bag <- data_prep(kennedy_inaug_raw[13:143,2],'V1','V131')
 
+<<<<<<< HEAD
 View(kennedy_inaug_bag)
+=======
+View(biden_inag_bag)
+>>>>>>> 4c415c50ad01a8555c6c6bb6e576ee4305bee2ca
 
 biden_inaug_bag <- data_prep(biden_inaug_raw,'V1','V425')
 
@@ -325,20 +363,26 @@ View(tf_idf_text)
 word_count <- tf_idf_text %>%
   unnest_tokens(word, text) %>%
   count(president, word, sort = TRUE)
-
+View(word_count)
 
 total_words <- word_count %>% 
   group_by(president) %>% 
   summarize(total = sum(n))
 
+<<<<<<< HEAD
 inaug_words <- left_join(word_count, total_words)
 
 View(inaug_words)
+=======
+inag_words
+
+inag_words <- inner_join(word_count, total_words)
+>>>>>>> 4c415c50ad01a8555c6c6bb6e576ee4305bee2ca
 
 inaug_words <- inaug_words %>%
   bind_tf_idf(word, president, n)
 
-
+View(inag_words)
 
 
 ```
