@@ -13,14 +13,21 @@ Congratulations you've successfully transferred from being a NBA 'quant' scout t
 
 You'll need to select several newspapers from different regions in the country limiting the search to 100 articles from each paper, run sentiment analysis with each newspaper serving as a corpus and then compare the level of positive or negative connotation associated with the outcomes. Also, work through tf*idf on each corpus (newspapers) and compare the differences between the distributions (5 to 6 newspapers should be fine)
 
+Region(if you're using one newspaper then the newspaper=corpus) = Corpus
+Documents = Individual newspapers 
+
 Your main goal (and the goal of all practicing data scientists!) is to translate this information into action. What patterns do you see, why do you believe this to be the case? What additional information might you want? Be as specific as possible, but keep in mind this is an initial exploratory effort...more analysis might be needed...but the result can and should advise the next steps you present to the firm. 
 
 
 Please submit a cleanly knitted HTML file describing in detail the steps you 
 took along the way, the results of your analysis and most importantly the implications/next steps you would recommend. A selected few of you will report your final results and recommendations next week in class (5 minutes per group) 
 
-You will need also need to try to collaborate within your group via a GitHub repo, if you choose it would be fine to assign 1 or 2 regions/newspapers per group member, that can then be added to the repo individually. Create a main repo, everyone should work in this repo and submit independently using forking/pull requests. Select a repo owner that sets up access (read access) for the week, we will rotate owners next week. 
+You will need also need to try to collaborate within your group via a GitHub repo, if you choose it would be fine to assign 1 or 2 regions/newspapers per group member, that can then be added to the repo individually. Create a main repo, everyone should work in this repo and submit independently. Select a repo owner that sets up access (read access) for the week, we will rotate owners next week. 
+
 Also, submit a link to your the GitHub repo (every group member can submit the same link). 
 
 Here is the link to the database search via the UVA Library that should lead you to LexusNexus (Now Nexas Uni)
 https://guides.lib.virginia.edu/az.php?a=l
+
+Tips - You need to pull all the newspapers together into one text bag to do regional sentiment and word clouds but to do TF-IDF they need to remain separate. 
+Do the regional analysis in separate documents then just pull the results out into a collaberative separate .rmd file. 
