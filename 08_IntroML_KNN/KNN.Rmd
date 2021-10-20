@@ -284,7 +284,7 @@ table(iris_test_car$Species)#looks like we mis-classified 3 virginica as versico
 # In Class Exercise 
 ```{r}
 
-# Using the bank dataset build a kNN model with your groups recommended k value and compare to the one we built in class using the tuning data. Then use the test data and see have the model preforms. 
+# Using the bank dataset build a kNN model with your groups recommended k value and compare to the example from above, use the tuning data. Then use the test data and see how the model preforms. 
 
 # Also think about this questions, given what you know about kNN do you really need to do a robust training effort? 
 
