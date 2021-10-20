@@ -4,18 +4,16 @@
 
 #### Slide 21: Step 1: load packages and data ####
 
-# Install packages.
-install.packages("e1071")     #<- package used to run clustering analysis
-
 # Load libraries.
-library(e1071)
+#library(e1071)
 library(tidyverse)
 library(plotly)
 library(htmltools)
 library(devtools)
+library(caret)
+library(NbClust)
 
-library(help = "e1071")#<- learn about all the functionality of the package,
-#   be well informed about what you're doing
+
 
 #==================================================================================
 
@@ -64,6 +62,8 @@ head(kmeans_obj_Dem)
 # Tell R to read the cluster labels as factors so that ggplot2 
 # (the graphing package) can read them as category labels instead of 
 # continuous variables (numeric variables).
+
+kmeans_obj_Dem
 party_clusters_Dem = as.factor(kmeans_obj_Dem$cluster)
 
 # What does the kmeans_obj look like?
@@ -137,7 +137,7 @@ house_votes_color_Dem = inner_join(house_votes_Dem, party_color3D_Dem)
 
 house_votes_color_Dem$clusters <- (party_clusters_Dem)
 
-str(house_votes_color_Dem)
+View(house_votes_color_Dem)
 
 house_votes_color_Dem$Last.Name <- gsub("[^[:alnum:]]", "", house_votes_color_Dem$Last.Name)
 
@@ -155,7 +155,7 @@ fig <- plot_ly(house_votes_color_Dem,
                text = ~paste('Representative:',Last.Name,
                              "Party:",party.labels))
 
-color = c('#0C4B8E','#BF382A')
+
 fig
 dev.off()
 
@@ -192,6 +192,17 @@ denom_Dem3 = kmeans_obj_Dem$totss
 
 # Variance accounted for by clusters.
 (var_exp_Dem3 = num_Dem3 / denom_Dem3)
+
+#Might be a helpful look to compare to just a normal variance calculation:
+# s2=∑ni=1(xi− x¯)2/(n−1) = variance equation for var()
+
+total.var <- var(clust_data_Dem$aye)+var(clust_data_Dem$nay)+var(clust_data_Dem$other)
+
+total.var.km <- (kmeans_obj_Dem$betweenss+kmeans_obj_Dem$tot.withinss)/(427-1)
+
+# Numbers are the same. 
+total.var
+total.var.km
 
 
 #==================================================================================
@@ -271,6 +282,8 @@ freq_k_Dem = nbclust_obj_Dem$Best.nc[1,]
 freq_k_Dem = data.frame(freq_k_Dem)
 View(freq_k_Dem)
 
+nbclust_obj_Dem$Best.nc
+
 # Check the maximum number of clusters suggested.
 max(freq_k_Dem)
 
@@ -309,7 +322,8 @@ str(tree_data)
 tree_data[,c(1,5)] <- lapply(tree_data[,c(1,5)], as.factor)
 # do we need to normalize? 
 
-library(caret)
+str(tree_data)
+
 # Split 
 train_index <- createDataPartition(tree_data$party.labels,
                                            p = .7,
@@ -360,6 +374,7 @@ confusionMatrix(as.factor(dt_predict_1),
 tree_data_nc <- tree_data[,-5]
 str(tree_data_nc)
 
+
 train_index <- createDataPartition(tree_data$party.labels,
                                    p = .7,
                                    list = FALSE,
@@ -389,6 +404,20 @@ party_dt <- train(x=features,
 # This is more or less a easy target but the clusters are very predictive. 
 party_dt
 varImp(party_dt)
+
+dt_predict_1 = predict(party_dt,tune,type= "raw")
+
+confusionMatrix(as.factor(dt_predict_1), 
+                as.factor(tune$party.labels), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
+
+dt_predict_t = predict(party_dt,test,type= "raw")
+
+confusionMatrix(as.factor(dt_predict_t), 
+                as.factor(test$party.labels), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
 
 #didn't really make a huge difference, what could we have done differently? 
 #==================================================================================
