@@ -4,6 +4,7 @@ Welcome to Pete's session. Today we are going to have some fun.
 ## A little about Pete
 1. PhD in particle physics
 2. Lead of Research Computing for the School of Data Science
+3. LPA2A@virginia.edu
 
 ## Goals for Today
 * You learn something
@@ -16,6 +17,6 @@ Welcome to Pete's session. Today we are going to have some fun.
 
 # PR details
 1. fork this repo: https://github.com/alonzi/DS-4001
-2. create a file called [uvaNetID].py (eg for me: lpa2a.py)
+2. create a file called [uvaNetID].py (eg for me: LPA2A.py)
 3. the file must contain one thing you haven't done before aka something you learned today in this session
   
