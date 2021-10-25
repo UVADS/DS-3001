@@ -95,7 +95,7 @@ The books below are essentially a starter Machine Learning Library. I will use a
 * A. [Weapons of Math Destruction](https://www.amazon.com/Weapons-Math-Destruction-Increases-Inequality/dp/0553418815)
 * B. [Evaluating Machine Learning Models – O’Reilly Digital via UVA Library](https://www.oreilly.com/library/view/temporary-access/)<br>
  Texts C-E below are all available here: [https://bookdown.org/](https://bookdown.org/)
- * C. R for Data Science 
+ * C. [R for Data Science](https://r4ds.had.co.nz/) 
  * D. Text Mining with R
  * E. R Markdown: The Definitive Guide
  * F. Machine Learning with R – Posted in Collab
