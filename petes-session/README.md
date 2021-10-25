@@ -19,4 +19,6 @@ Welcome to Pete's session. Today we are going to have some fun.
 1. fork this repo: https://github.com/alonzi/DS-3001
 2. create a file called [uvaNetID].R in the folder petes-session (eg for me: petes-session/LPA2A.R)
 3. the file must contain one thing you haven't done before aka something you learned today in this session
+4. submit your pull request (don't forget to explain it in the PR itself)
+5. stick with it, your assignment isn't complete until I merge the PR, we will have discussions in the comments
   
