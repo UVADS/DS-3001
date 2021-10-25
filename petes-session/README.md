@@ -17,6 +17,6 @@ Welcome to Pete's session. Today we are going to have some fun.
 
 # PR details
 1. fork this repo: https://github.com/alonzi/DS-4001
-2. create a file called [uvaNetID].R (eg for me: LPA2A.R)
+2. create a file called [uvaNetID].R in the folder petes-session (eg for me: petes-session/LPA2A.R)
 3. the file must contain one thing you haven't done before aka something you learned today in this session
   
