@@ -16,6 +16,6 @@ Welcome to Pete's session. Today we are going to have some fun.
 
 # PR details
 1. fork this repo: https://github.com/alonzi/DS-4001
-2. create a file called <<youruvanetidusername>>.py (eg for me: lpa2a.py)
+2. create a file called [uvaNetID].py (eg for me: lpa2a.py)
 3. the file must contain one thing you haven't done before aka something you learned today in this session
   
