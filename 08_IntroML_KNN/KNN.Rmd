@@ -9,95 +9,106 @@ editor_options:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-getwd()
+
 ```
 
 ```{r}
-bank_data = read.csv("bank.csv", #<- name of the data set.
-                     check.names = FALSE, #<- don't change column names.
-                     stringsAsFactors = FALSE)#<- don't convert the numbers and characters to factors.
+library(caret)
+library(tidyverse)
+library(class)
+library(plotly)
+```
+
+
+```{r}
+bank_data = read_csv("data/bank.csv")
 
 # Check the structure and view the data.
-str(bank_data)
+table(bank_data$`signed up`)
+
+#check for missing data
+
+bank_data <- bank_data[complete.cases(bank_data),]
 
 #Scale the features we will be using for classification 
 bank_data[, c("age","duration","balance")] <- lapply(bank_data[, c("age","duration","balance")],function(x) scale(x))
 
+bank_data$`signed up` <- as.factor(bank_data$`signed up`)
+
 str(bank_data)
 ```
+
 
 
 ```{r}
 # Let's run the kNN algorithm on our banking data. 
 # Check the composition of labels in the data set. 
-table(bank_data$`signed up`)
-table(bank_data$`signed up`)[2] / sum(table(bank_data$`signed up`))
+table(bank_data$`signed up`)[2] / sum(table(bank_data$`signed up`))table(bank_data$`signed up`)
 
 # This means that at random, we have an 11.6% chance of correctly picking
 # out a subscribed individual. Let's see if kNN can do any better.
 
-# Let's split the data into a training and a test set.
-# Sample 80% of our know data as training and 20% as test.
-set.seed(1982)
-bank_data_train_rows = sample(1:nrow(bank_data),#<- from 1 to the number of 
-                                                     #rows in the data set
-                              round(0.8 * nrow(bank_data), 0),  #<- multiply the 
-                                                                #   number of rows
-                                                                #   by 0.8 and round
-                                                                #   the decimals
-                              replace = FALSE)#<- don't replace the numbers
 
-head(bank_data_train_rows)
 
-# Let's check to make sure we have 80% of the rows. 
-length(bank_data_train_rows) / nrow(bank_data)
+part_index_1 <- createDataPartition(bank_data$`signed up`,
+                                           times=1,
+                                           p = 0.70,
+                                           groups=1,
+                                           list=FALSE)
+View(part_index_1)
 
-bank_data_train = bank_data[bank_data_train_rows, ] #<- select the rows identified in the bank_data_train_rows data
+train <- bank_data[part_index_1,]
+tune_and_test <- bank_data[-part_index_1, ]
 
-str(bank_data_test)
-                                                    
-bank_data_test = bank_data[-bank_data_train_rows, ]  #<- select the rows that weren't
-                                                     #   identified in the
-                                                     #   bank_data_train_rows data
+#The we need to use the function again to create the tuning set 
 
-# Check the number of rows in each set.
-nrow(bank_data_train)
-nrow(bank_data_test)
+tune_and_test_index <- createDataPartition(tune_and_test$`signed up`,
+                                           p = .5,
+                                           list = FALSE,
+                                           times = 1)
+
+tune <- tune_and_test[tune_and_test_index, ]
+test <- tune_and_test[-tune_and_test_index, ]
+
+dim(train)
+dim(tune)
+dim(test)
 
 ```
-Train the classifier 
+## Train the classifier 
 
 ```{r}
-# Let's train the classifier for k = 3. 
-# Install the "class" package that we'll use to run kNN.
-# Take some time to learn about all its functionality.
-install.packages("class") 
-library(class)
-library(help = "class")  
+# Let's train the classifier for k = 3 using the class package. 
+
 
 # k-Nearest Neighbor is a randomized algorithm, so make sure to
 # use set.seed() to make your results repeatable.
 set.seed(1982)
-bank_3NN <-  knn(train = bank_data_train[, c("age", "balance", "duration")],#<- training set cases
-               test = bank_data_test[, c("age", "balance", "duration")],    #<- test set cases
-               cl = bank_data_train[, "signed up"],#<- category for true classification
+bank_3NN <-  knn(train = train[, c("age", "balance", "duration")],#<- training set cases
+               test = tune[, c("age", "balance", "duration")],    #<- test set cases
+               cl = train$`signed up`,#<- category for true classification
                k = 3,#<- number of neighbors considered
                use.all = TRUE,
                prob = TRUE) #<- control ties between class assignments If true, all distances equal to the kth largest are included
 
+
+
 # View the output.
 str(bank_3NN)
-length(bank_3NN)
 table(bank_3NN)
+length(bank_3NN)
+
+
 ```
-Compare to the original data
+
+## Compare to the original data
 
 ```{r}
 # How does the kNN classification compare to the true class?
 # Let's take a look at the confusion matrix by combining the 
 # predictions from bank_3NN to the original data set.
 kNN_res = table(bank_3NN,
-                bank_data_test$`signed up`)
+                tune$`signed up`)
 kNN_res
 sum(kNN_res)  #<- the total is all the test examples
 
@@ -111,30 +122,18 @@ kNN_acc = sum(kNN_res[row(kNN_res) == col(kNN_res)]) / sum(kNN_res)
 
 kNN_acc
 
-# An 87.0% accuracy rate is pretty good but keep in mind the baserate is roughly 89/11, so we have more or less a 90% chance of guessing right if we don't know anything about the customer, but the negative outcomes we don't really care about, this models value is being able to id sign ups when they are actually sign ups. This requires us to know are true possitive rate, or Sensitivity or Recall. (Ya, that's annoying.) So let's dig a little deeper.    
+# An 87.0% accuracy rate is pretty good but keep in mind the baserate is roughly 89/11, so we have more or less a 90% chance of guessing right if we don't know anything about the customer, but the negative outcomes we don't really care about, this models value is being able to id sign ups when they are actually sign ups. This requires us to know are true positive rate, or Sensitivity or Recall. (Ya, that's annoying.) So let's dig a little deeper.    
 
-table(bank_data_test$`signed up`)
+confusionMatrix(as.factor(bank_3NN), as.factor(tune$`signed up`), positive = "1", dnn=c("Prediction", "Actual"), mode = "sens_spec")
 
-library(caret)
-confusionMatrix(as.factor(bank_3NN), as.factor(bank_data_test$`signed up`), positive = "1", dnn=c("Prediction", "Actual"), mode = "sens_spec")
-
-#So our ability to "predict" sign up customers has more than doubled to 27% so that's  good but still pretty bad overall. This means that out of 10 sign ups, we really only classifiy 3 correctly. This is fairly typical when we have a unbalanced dataset. Which is why in this case we would want to tune this model on TPR (Sensitivity), to get it has high as possible while sacrificying Specificity or Precision.  Similar to a medical diagnosis example, where we would rather produce false possitives as compared to false negatives, predict more of those with cancer that don't have it as compared to missing anyone that actually has cancer.      
+#So our ability to "predict" sign up customers has more than doubled to 26% so that's  good but still pretty bad overall. This means that out of 10 sign ups, we really only classify 3 correctly. This is fairly typical when we have a unbalanced dataset. Which is why in this case we would want to tune this model on TPR (Sensitivity), to get it has high as possible while sacrificing Specificity or Precision.  Similar to a medical diagnosis example, where we would rather produce false positives as compared to false negatives, predict more of those with cancer that don't have it as compared to missing anyone that actually has cancer.      
 
 #Reference for confusion matrix: https://www.rdocumentation.org/packages/caret/versions/6.0-86/topics/confusionMatrix 
 
-install.packages("scatterplot3d")
-library(scatterplot3d)
-
-attach(bank_data)
-tdplot <- scatterplot3d(age, balance, duration, pch = `signed up`)
-
-tdplot
-
-dev.off()
-
-
 ```
-Selecting the correct "k"
+
+
+## Selecting the correct "k"
 ```{r}
 # How does "k" affect classification accuracy? Let's create a function
 # to calculate classification accuracy based on the number of "k."
@@ -164,20 +163,20 @@ chooseK = function(k, train_set, val_set, train_class, val_class){
 # to a function without running a for() loop! Returns a matrix.
 knn_different_k = sapply(seq(1, 21, by = 2),  #<- set k to be odd number from 1 to 21
                          function(x) chooseK(x, 
-                                             train_set = bank_data_train[, c("age", "balance", "duration")],
-                                             val_set = bank_data_test[, c("age", "balance", "duration")],
-                                             train_class = bank_data_train[, "signed up"],
-                                             val_class = bank_data_test[, "signed up"]))
+                          train_set = train[, c("age", "balance", "duration")],
+                          val_set = tune[, c("age", "balance", "duration")],
+                          train_class = train$`signed up`,
+                          val_class = tune$`signed up`))
 
 
 
-#A bit more of a explination...
+#A bit more of a explanation...
 seq(1,21, by=2)#just creates a series of numbers
 sapply(seq(1, 21, by=2), function(x) x+1)#sapply returns a new vector using the series of numbers and some calculation that is repeated over the vector of numbers 
 
 
 # Reformating the results to graph
-str(knn_different_k)
+View(knn_different_k)
 class(knn_different_k)#matrix 
 head(knn_different_k)
 
@@ -185,8 +184,6 @@ knn_different_k = data.frame(k = knn_different_k[1,],
                              accuracy = knn_different_k[2,])
 
 # Plot accuracy vs. k.
-install.packages("ggplot2")
-library(ggplot2)
 
 ggplot(knn_different_k,
        aes(x = k, y = accuracy)) +
@@ -198,13 +195,12 @@ ggplot(knn_different_k,
 # improvement trails off.
 
 ```
+(In Class continue from here)
 
-
-
-Real quick - let's also look at a multi-class example using the iris dataset
+## Real quick - let's also look at a multi-class example using the iris dataset
 
 ```{r}
-library(class)
+
 #For this example we are going to use the IRIS dataset in R
 str(iris)
 #first we want to scale the data so KNN will operate correctly
@@ -231,7 +227,7 @@ iris.trainLabels <- iris[iris_sample==1, 5]
 iris.testLabels <- iris[iris_sample==2, 5]
 #So now we will deploy our model 
 
-iris_pred <- class::knn(train = iris_training, test = iris_test, cl=iris.trainLabels, k=3, prob = TRUE)#probabilities are a percentage of points per class for each point, (kNN equals 4 for example and 3 of 4 are blue then 75% chance of being blue)
+iris_pred <- knn(train = iris_training, test = iris_test, cl=iris.trainLabels, k=3, prob = TRUE)#probabilities are a percentage of points per class for each point, (kNN equals 4 for example and 3 of 4 are blue then 75% chance of being blue)
 
 View(iris_pred)
 
@@ -245,13 +241,12 @@ IRISPREDCross <- CrossTable(iris.testLabels, iris_pred, prop.chisq = FALSE)
 #You can also use caret for KNN, but it's not as specialized as the above, but but does have some additional capabilities for evaluation. 
 
 ```
-Example with Caret using 10-k cross-validation 
+
+## Example with Caret using 10-k cross-validation 
 
 ```{r}
-library(caret)
 
 set.seed(1981)
-
 scalediris$Species <- iris$Species #adding back in the label for caret
 
 iris_training_car <- scalediris[iris_sample==1, 1:5]  
@@ -280,10 +275,21 @@ iris_pred #gives a character predicted value for each row.
 
 confusionMatrix(iris_pred, iris_test_car$Species)
 
-table(iris_test_car$Species)#looks like we misclassified 3 verginica as versicolor
+table(iris_test_car$Species)#looks like we mis-classified 3 virginica as versicolor
+
+
 
 ```
 
 
+# In Class Exercise 
+```{r}
+
+# Using the bank dataset build a kNN model with your groups recommended k value and compare to the example from above, use the tuning data. Then use the test data and see how the model preforms. 
+
+# Also think about this questions, given what you know about kNN do you really need to do a robust training effort? 
+
+
+```
 
 

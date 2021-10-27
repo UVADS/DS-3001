@@ -17,12 +17,11 @@ library(tidyverse)
 library(tidytext)
 #install.packages("ggwordcloud")
 library(ggwordcloud)
-install.packages("gutenbergr") 
+#install.packages("gutenbergr") 
 library(gutenbergr)
 #install.packages('textdata')
 library(textdata)
-setwd("/cloud/project/tidytext")
-save.image("tidytext.RData")
+#save.image("tidytext.RData")
 
 ```
 
@@ -132,14 +131,13 @@ View(kennedy_inag)
 #Let's pull in Trump's inauguration speech and compare the differences. 
 
 
-trump_inag <- read_lines("trump_inag.txt")
+trump_inag <- read_lines("data/trump_inag.txt")
 
 trump_inag <- tibble(trump_inag)
 View(trump_inag)
 
 trump_inag$trump_inag <- as.character(trump_inag$trump_inag)
 
-View(trump_inag)
 
 trump_inag <- trump_inag %>%
   unnest_tokens(word, trump_inag)%>%
@@ -150,7 +148,7 @@ View(trump_inag)
 
 #Biden's speech
 
-biden_inag <- read_lines("biden_inag.txt")
+biden_inag <- read_lines("data/biden_inag.txt")
 
 biden_inag <- tibble(biden_inag)
 View(biden_inag)
@@ -177,6 +175,8 @@ get_sentiments('nrc')# looks like a good amount more 13,891, but as we can see w
 
 get_sentiments('bing')# looks like a good amount more 6,776, but as we can see just negative and positive. 
 
+get_sentiments('afinn')
+
 kenn_sentiment_affin <- kennedy_inag %>%
   inner_join(get_sentiments("afinn"))#using a inner join to match words and add the sentiment variable
 
@@ -186,7 +186,7 @@ kenn_sentiment_nrc <- kennedy_inag %>%
 kenn_sentiment_bing <- kennedy_inag %>%
   inner_join(get_sentiments("bing"))
 
-View(kenn_sentiment_bing)
+View(kenn_sentiment_affin)
 
 #Walk through the same process for Trump 
 
@@ -259,7 +259,7 @@ ggplot(data = biden_sentiment_afinn,
 
 #below uses the ggwordcloud package
 
-set.seed(42)
+
 ggplot(kennedy_inag[1:50,], aes(label = word, size = n)
        ) +
   geom_text_wordcloud() +
@@ -284,18 +284,22 @@ importance of words to these speeches as compared to the overall corpus.
 ```{r}
 #need to the raw data again
 
-kennedy_inag_raw <- gutenberg_download(3, mirror="http://mirrors.xmission.com/gutenberg/")
+kennedy_inag_raw_1 <- gutenberg_download(3, mirror="http://mirrors.xmission.com/gutenberg/")
 
-trump_inag_raw <- as.tibble(read_lines("trump_inag.txt"))
+View(kennedy_inag_raw_1)
+trump_inag_raw <- as.tibble(read_lines("data/trump_inag.txt"))
+
+biden_inag_raw <- as.tibble(read_lines("data/biden_inag.txt"))
+
 
 data_prep <- function(x,y,z){
-  i <- as_tibble(t(x))
+  i <- as_tibble(t(x))#transposing the data set
   ii <- unite(i,"text",y:z,remove = TRUE,sep = "")
 }
 
 kennedy_inag_bag <- data_prep(kennedy_inag_raw[13:143,2],'V1','V131')
 
-View(kennedy_inag_bag)
+View(biden_inag_bag)
 
 biden_inag_bag <- data_prep(biden_inag_raw,'V1','V425')
 
@@ -311,20 +315,20 @@ View(tf_idf_text)
 word_count <- tf_idf_text %>%
   unnest_tokens(word, text) %>%
   count(president, word, sort = TRUE)
-
+View(word_count)
 
 total_words <- word_count %>% 
   group_by(president) %>% 
   summarize(total = sum(n))
 
-inag_words <- left_join(word_count, total_words)
+inag_words
 
-View(inag_words)
+inag_words <- inner_join(word_count, total_words)
 
 inag_words <- inag_words %>%
   bind_tf_idf(word, president, n)
 
-
+View(inag_words)
 
 
 ```

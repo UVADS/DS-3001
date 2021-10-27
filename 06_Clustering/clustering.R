@@ -284,6 +284,8 @@ freq_k_Dem = nbclust_obj_Dem$Best.nc[1,]
 freq_k_Dem = data.frame(freq_k_Dem)
 View(freq_k_Dem)
 
+nbclust_obj_Dem$Best.nc
+
 # Check the maximum number of clusters suggested.
 max(freq_k_Dem)
 
