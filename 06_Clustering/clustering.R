@@ -99,7 +99,7 @@ ggplot(house_votes_Dem, aes(x = aye,
                             color = party.labels,  #<- tell R how to color 
                             #   the data points
                             shape = party_clusters_Dem)) + 
-  geom_point(size = 6) +
+  geom_point(size = 4) +
   ggtitle("Aye vs. Nay votes for Democrat-introduced bills") +
   xlab("Number of Aye Votes") +
   ylab("Number of Nay Votes") +

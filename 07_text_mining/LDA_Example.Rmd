@@ -1,6 +1,6 @@
 ---
 title: "demo_schema"
-author: "Brian Wright"
+author: "Adriel Kim"
 date: "8/8/2020"
 output: html_document
 editor_options: 

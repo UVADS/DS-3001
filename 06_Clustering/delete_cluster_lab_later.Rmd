@@ -1,0 +1,206 @@
+---
+title: "Clustering Lab NBA"
+author: "Peter Shin"
+date: "10/18/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Goal: Know how to make decisions and answer questions using clustering. 
+
+Repeat the clustering process only using the Rep house votes dataset
+- What differences and similarities did you see between how the clustering 
+worked for the datasets?
+
+
+```{r, echo=FALSE, include=FALSE }
+# Load libraries.
+#library(e1071)
+library(tidyverse)
+library(ggplot2)
+library(plotly)
+library(htmltools)
+library(devtools)
+library(caret)
+library(NbClust)
+```
+
+```{r}
+nba = read_csv("../data/nba2020-21.csv")
+
+# What does the data look like?
+# View(nba)
+# str(nba)
+
+nba_salaries = read_csv("../data/nba_salaries_21.csv")
+
+# View(nba_salaries)
+# str(nba_salaries)
+
+nbadf <- merge(nba,nba_salaries, by="Player")
+nbadf <- na.omit(nbadf)
+names(nbadf)[30] <- 'Salary'
+View(nbadf)
+
+```
+
+
+
+```{r}
+#Select the variables to be included in the cluster 
+clust_data_nba = nbadf[, c('PTS', 'BLK','STL', 'AST', 'TRB')]
+
+```
+
+```{r}
+#Run the clustering algo with 2 centers
+set.seed(1) # for reproduceability
+kmeans_obj_nba = kmeans(clust_data_nba, centers = 2, algorithm = "Lloyd")
+
+kmeans_obj_nba
+```
+
+```{r}
+#View the results
+head(kmeans_obj_nba)
+```
+
+```{r}
+#Visualize the output
+
+var_clusters_nba = as.factor(kmeans_obj_nba$cluster)
+
+# What does the kmeans_obj look like?
+View(var_clusters_nba)
+
+#==================================================================================
+
+#### Slide 29: Step 3: visualize plot ####
+
+ggplot(nbadf, aes(x = Salary,
+                            y = AST,
+                            #   the data points
+                            
+                            shape = var_clusters_nba)) +
+  geom_point(size = 6) +
+  ggtitle("Salary vs Assists for NBA players in 2020-21 Season") +
+  xlab("Salary") +
+  ylab("Assists") +
+  scale_shape_manual(name = "Cluster",
+                     labels = c("Cluster 1", "Cluster 2"), #, "Cluster 3"),
+                     values = c("1", "2"))#, "3"))
+
+```
+
+```{r}
+#Evaluate the quality of the clustering 
+
+explained_variance = function(data_in, k) {
+  # Running k-means algorithm
+  set.seed(1)
+  kmeans_obj = kmeans(data_in, centers = k,
+                      algorithm = "Lloyd")
+  # Variance accounted for by clusters
+  var_exp = kmeans_obj$betweenss / kmeans_obj$totss
+  var_exp
+}
+
+```
+
+```{r}
+#Use the function we created to evaluate several different number of clusters
+
+explained_var_nba = sapply(1:10, explained_variance, data_in = clust_data_nba)
+
+explained_var_nba
+
+#Data for ggplot2
+
+elbow_data_nba = data.frame(k = 1:10, explained_var_nba)
+View(elbow_data_nba)
+
+```
+
+```{r}
+#Create a elbow chart of the output 
+
+# Plotting data.
+ggplot(elbow_data_nba, 
+       aes(x = k,  
+           y = explained_var_nba)) + 
+  geom_point(size = 4) +           #<- sets the size of the data points
+  geom_line(size = 1) +            #<- sets the thickness of the line
+  xlab('k') + 
+  ylab('Inter-cluster Variance / Total Variance') + 
+  theme_light()
+```
+
+```{r}
+#Use NbClust to select a number of clusters
+
+library(NbClust)
+
+# Run NbClust.
+(nbclust_obj_nba = NbClust(data = clust_data_nba, method = "kmeans"))
+
+# View the output of NbClust.
+nbclust_obj_nba
+
+ # *******************************************************************
+ # * Among all indices:
+ # * 12 proposed 2 as the best number of clusters
+ # * 4 proposed 3 as the best number of clusters
+ # * 1 proposed 5 as the best number of clusters
+ # * 1 proposed 6 as the best number of clusters
+ # * 2 proposed 7 as the best number of clusters
+ # * 1 proposed 13 as the best number of clusters
+ # * 1 proposed 14 as the best number of clusters
+ # * 1 proposed 15 as the best number of clusters
+ #
+ #                    ***** Conclusion *****
+ #
+ # * According to the majority rule, the best number of clusters is  2
+#
+#
+ # *******************************************************************
+
+# View the output that shows the number of clusters each method recommends.
+View(nbclust_obj_nba$Best.nc)
+
+# Subset the 1st row from Best.nc and convert it 
+# to a data frame so ggplot2 can plot it.
+freq_k_nba = nbclust_obj_nba$Best.nc[1,]
+freq_k_nba = data.frame(freq_k_nba)
+View(freq_k_nba)
+
+# Check the maximum number of clusters suggested.
+max(freq_k_nba)
+
+```
+
+```{r}
+#Display the results visually 
+
+ggplot(freq_k_nba,
+       aes(x = freq_k_nba)) +
+  geom_bar() +
+  scale_x_continuous(breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(breaks = seq(0, 12, by = 1)) +
+  labs(x = "Number of Clusters",
+       y = "Number of Votes",
+       title = "Cluster Analysis")
+
+```
+
+
+When compared with the values of 3 clusters versus 2 clusters, it was shown that the three clusters had averages that were definitely distinct from one another. The variables I chose to examine the clusters were all positive variables meaning that the greater the values, the more it means to the team. Therefore, the three clusters were distinct in that most of the variables for cluster 1 was middle (representing average players), most of the variables for cluster 2 was the lowest (representing the least effective players), and most of the variables for cluster 3 was the highest (representing the most effective players). However, using 2 clusters, two clusters are also are distinct from one another in that cluster 1, all values are higher which means that cluster 1 represents the top 50% of the players. 
+To interpret this data, I took some research to find out that the most commonly used metrics for measuring a player's worth were points, assists, rebounds, steals, and blocks. Among these it can be seen that the ratio for assists is the greatest among all of the variables when comparing the clusters, so I focused that as the greatest difference between a top 50% player versus a bottom 50% player. When doing so, it can be seen in the graph that there are clearly 3 players who stand out in the lower range of the salary that excels at assisting. These players from first to last are Trae Young, Luka Doncic, and De'Aaron Fox. These players excel at making their teams better through assisting and also have the smallest impact on the salary cap.
+When done with 3 clusters those same 3 players show up with each of them being in cluster 3 which as mentioned before represented the most effective players in the data.
+
+
+
+
+
