@@ -13,7 +13,7 @@ Congratulations you've successfully transferred from being a NBA 'quant' scout t
 
 You'll need to select several newspapers from different regions in the country limiting the search to 100 articles from each paper, run sentiment analysis with each newspaper serving as a corpus and then compare the level of positive or negative connotation associated with the outcomes. Also, work through tf-idf on each corpus (newspapers) and compare the differences between the distributions (5 to 6 newspapers should be fine)
 
-Your main goal (and the goal of all practicing data scientists!) is to translate this information into action. What patterns do you see, why do you believe this to be the case? What additional information might you want? Be as specific as possible, but keep in mind this is an initial exploratory effort...more analysis might be needed...but the result can and should advise the next steps you present to the firm. 
+Your main goal (and the goal of all practicing data scientists!) is to translate this information into action. What patterns do you see, why do you believe this to be the case? What additional information might you want? Be as specific as possible, but keep in mind this is an initial exploratory effort...more analysis might be needed...but the result can and should advise the next steps you present to the firm.
 
 
 Please submit a cleanly knitted HTML file describing in detail the steps you 

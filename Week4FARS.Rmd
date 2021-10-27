@@ -1,0 +1,251 @@
+---
+title: "Fatality Analysis Report"
+author: "Kara"
+date: "9/23/2021"
+output: 
+  html_document:
+    toc: TRUE
+    theme: journal
+    toc_float: TRUE
+---
+
+```{r setup, include=FALSE, cache=TRUE, warning=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r, include=FALSE, echo=FALSE}
+library(tidyverse)
+library(psych)
+library(mltools)
+library(data.table)
+library(caret)
+library(readxl)
+library(DT)
+library(knitr)
+```
+
+### Data Set: [FARS Data](https://www.kaggle.com/nhtsa/2015-traffic-fatalities?select=docs)
+
+### ML Question:
+* Can information on accident conditions predict the victims sex?
+
+### Business Metric:
+* This could help driving educators tailor their lessons to different demographics and hopefully prevent future fatal accidents from occurring.
+
+```{r, message=FALSE, echo=FALSE, results='hide', warning=FALSE} 
+far <-read_csv("~/R/DS-3001/person.csv")
+far <- na.omit(far)
+far <- far[c("SEX","SEAT_POS","INJ_SEV","DRINKING","DRUGS","EJECTION")]
+far <- far[!(far$SEX == "8"|far$SEX == "9"),]
+
+far <- sample_n(far,1000)
+
+far <- lapply(far,as.factor)
+
+# Collapsing levels: reducing from 28 to 5 more concentrated
+far$SEAT_POS <- fct_collapse(far$SEAT_POS,
+                          "11" = "11",
+                          "13" = "13",
+                          "2Seat" = c("21","22","23"
+                                      ,"28","29"),
+                         "3Seat"=c("31","32","33"
+                                   ,"38","39"),
+                         other = c("0","12","18",
+                                   "19","41","42",
+                                   "43","48","49",
+                                   "50","51","52",
+                                   "53","54","55","98","99")
+                        )
+# NOTE: I am choosing not to normalize any of the data, because the only numeric data in the data set are individual's ages and therefore we do not need to worry about scale influences
+str(far)
+```
+
+```{r, echo=FALSE,results='hide'}
+# One-hot Encoding 
+# Next let's one-hot encode those factor variables/character 
+far_1h <- one_hot(as.data.table(far),cols = c("SEAT_POS","INJ_SEV","DRINKING","DRUGS","EJECTION"),sparsifyNAs = TRUE,naCols = TRUE,dropCols = TRUE,dropUnusedLevels = TRUE) 
+view(far_1h)
+```
+### Prevalence:
+Percentage Breakdown of Men and Women
+```{r, echo = FALSE,cache=TRUE}
+# Prevalence value:
+# 1 is male and 2 is female
+prevalence <- table(far_1h$SEX)[[1]]/length(far_1h$SEX)
+
+stat <- data.frame("Men" = prevalence*100 , "Women" = (1-prevalence)*100)
+kable(stat)
+```
+
+
+```{r, echo=FALSE}
+# Training, Evaluation, Tune, Evaluation, Test, Evaluation
+# Divide up our data into three parts, Training, Tuning, and Test
+
+#There is not a easy way to create 3 partitions using the createDataPartitions
+
+#so we are going to use it twice. Mostly because we want to stratify on the variable we are working to predict. What does that mean?  
+
+#clean up our dataset a bit by dropping the original ranking variable and the cereal name which we can't really use. 
+
+far_dt <- far_1h
+
+part_index_1 <- caret::createDataPartition(far_dt$SEX,
+                                           times=1,
+                                           p = 0.70,
+                                           groups=1,
+                                           list=FALSE)
+train <- far_dt[part_index_1,]
+tune_and_test <- far_dt[-part_index_1,]
+
+#The we need to use the function again to create the tuning set 
+
+tune_and_test_index <- createDataPartition(tune_and_test$SEX,
+                                           p = .5,
+                                           list = FALSE,
+                                           times = 1)
+
+tune <- tune_and_test[tune_and_test_index, ]
+test <- tune_and_test[-tune_and_test_index, ]
+
+```
+
+### Partitioned Data:
+```{r, echo=FALSE}
+stat <- data.frame("Train" = nrow(train), "Test" = nrow(test), "Tune" = nrow(tune))
+kable(stat)
+
+```
+
+```{r, echo=FALSE, cache=TRUE}
+#Cross validation process 
+
+fitControl <- trainControl(method = "repeatedcv",
+                          number = 10,
+                          repeats = 5, 
+                          returnResamp="all") 
+
+# number - number of folds
+# repeats - number of times the CV is repeated, here it's 5 take the average of
+# those 5 repeats
+
+
+# Choose the features and classes
+
+```
+
+### Train:
+Trained machine learning model:
+```{r,message=FALSE, echo=FALSE,cache=TRUE}
+features <- train[,-"SEX"]
+target <- train[,"SEX"]
+
+set.seed(1984)
+suppressWarnings(far_mdl <- train(x=features,
+                y=target$SEX,
+                trControl=fitControl,
+                method="C5.0",
+                verbose=TRUE))
+
+plot(far_mdl)
+```
+
+### Tune and evaluate
+Testing the machine learning model against tune data set using a confusion matrix:
+```{r, echo=FALSE,cache=TRUE}
+far_predict = predict(far_mdl,tune,type= "raw")
+
+first <- confusionMatrix(as.factor(far_predict), 
+                as.factor(tune$SEX), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
+first
+```
+
+```{r, echo=FALSE,cache=TRUE}
+variables <- varImp(far_mdl)
+
+grid <- expand.grid(.winnow = c(TRUE,FALSE), 
+                    .trials=c(20,30,40), 
+                    .model=c("tree","rules"))
+```
+Developing a new model:
+```{r, echo=FALSE,cache=TRUE}
+# retraining model
+set.seed(1984)
+suppressWarnings(far_mdl_tune <- train(x=features,
+                y=target$SEX,
+                tuneGrid=grid,
+                trControl=fitControl,
+                method="C5.0",
+                verbose=TRUE))
+plot(far_mdl_tune)
+```
+
+Evaluating the retrained model:
+```{r, echo=FALSE,cache=TRUE}
+
+# Want to evaluation again with the tune data using the new model 
+
+far_predict_tune = predict(far_mdl_tune,tune,type= "raw")
+
+second <- confusionMatrix(as.factor(far_predict_tune), 
+                as.factor(tune$SEX), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
+second
+
+```
+
+
+### Testing
+Evaluating the tuned model against test data set:
+
+```{r, echo=FALSE,cache=TRUE}
+far_predict_test = predict(far_mdl_tune,test,type= "raw")
+
+third <- confusionMatrix(as.factor(far_predict_test), 
+                as.factor(test$SEX), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
+third
+```
+
+#### Summary{.tabset}
+
+##### Discussion of Data Processing
+
+* First the columns of "SEX", "SEAT_POS", "INJ_SEV", "DRINKING", "DRUGS", and "EJECTION" were selected as the features of interest.
+
+* Next, because "SEAT_POS" contained 28 factor levels it was reduced to 5 levels by combining seat positions. "11" and "13" were maintained because they were the most prevalent. Next the categories "2Seat" and "3Seat" were created because of the proximity of the seat positions to each other. The remaining categories were placed in the "other" category.
+
+* The data selected contained no numeric values; therefore, all columns were one hot encoded and did not require normalization. The prevalence of men and women in the data set were then calculated to use as a baseline for model accuracy comparisons.
+
+* Data was then partitioned into 3 groups: train, tune, and test. Two models were created (test and tune models) and their accuracy was evaluated using a confusion matrix. The tuned model was then applied to the test data and its performance was re-evaluated to see if the model was able to perform well on unseen data.
+
+
+##### Stats
+
+* Tuning the model improved the its accuracy from 66.67% to 68.67%. The tuning approach used was a grid search in which for each hyper-parameter all combinations of values are evaluated. Through this tuning, the program found the best combination of values to increase the model's accuracy.
+
+* Unlike the wine data set, this model did not test as well as the training and tuning phases. The accuracy for the tune and test data sets was higher than the test data set (65.77%). The decreased accuracy for the test data could indicate that the model is overfitting for the training data meaning it did not generalize well when applied to the test data set. This is also emphasized by the fact that the model's accuracy is less than the data's prevalence of 65.8%. 
+
+##### Key Takeaways
+
+* The main factors influencing the model were the injury severity and the seating position.
+
+* Seat position 11 corresponds to the driver's seat and INJ_SEV_3 corresponds to "suspected serious injury" according to the [FARS User Manual](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwjj76D63J3zAhXBGVkFHaTdAFcQFnoECA0QAQ&url=https%3A%2F%2Fcrashstats.nhtsa.dot.gov%2FApi%2FPublic%2FPublication%2F812827&usg=AOvVaw2kBo3WCqgJeqBX3k-swr6r). This is interesting as it could correlate with men often being in the driver's seat.
+
+* Because these factors are not controllable like alcohol or drug use, this insight does not help with our business metric of improving driver's education resources.
+
+```{R, echo=FALSE}
+plot(variables)
+```
+
+##### Concerns
+
+* The tuned model only tested with an accuracy of 65.77% which is only slightly below the data set prevalence of 65.80% meaning the model is worse at predicting sex than if it randomly guessed. 
+
+* Because of the skewed nature of the data set (twice the number of men as women) it could affect the model's performance. In the future, this could be alleviated by selecting equal amounts of men and women from the overall data set to train the model with, especially since the original data set is quite large.
+
+* The data set contains over 80,000 entries; however, my computer is unable to handle such a large data set so I reduced the number of rows to 1,000. Despite the rows being randomly selected, selecting a subset of the data could lead to inaccuracies in the model as each subset may have different statistical properties. 

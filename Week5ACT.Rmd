@@ -1,0 +1,76 @@
+---
+title: "ACT scores"
+author: "Kara"
+date: "9/23/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=FALSE}
+library(tidyverse)
+library(psych)
+library(mltools)
+library(data.table)
+library(caret)
+library(readxl)
+```
+
+Phase I
+
+[ACT_Data_Dictionary](https://data.world/education/california-act-report-1999-2000)
+
+## Phase II
+
+### Scaling/Center/Normalizing
+
+```{r, message=FALSE} 
+act <-read_excel("~/R/DS-3001/Copy of ACT Report 1999-2000.xls") 
+str(act)
+
+act[,c(1,2,3)] <- lapply(act[,c(1,2,3)],as.factor)
+
+act %>% mutate(County = fct_lump(County, n = 5))
+
+act[,c(8,9,10)]<- lapply(act[,c(8,9,10)],as.numeric)
+act <- na.omit(act)
+view(act)
+
+normalize <-function(x){
+  (x-min(x))/(max(x)-min(x))
+}
+
+norm <-names(select_if(act, is.numeric))
+act[norm]<-as_tibble(lapply(act[norm],normalize))
+str(act)
+```
+### One-hot Encoding 
+
+```{r}
+# Next let's one-hot encode those factor variables/character 
+
+?one_hot
+
+act_1h <- one_hot(as.data.table(act),cols = "auto",sparsifyNAs = TRUE,naCols = TRUE,dropCols = TRUE,dropUnusedLevels = TRUE) 
+View(act_1h)
+```
+
+```{r}
+describe(act_1h$AverageScore)
+(box <- boxplot(act_1h$`Average
+                Score`, horizontal = TRUE)) 
+box$stats
+fivenum(act$`Average
+Score`)
+?fivenum#thanks Tukey!
+
+#added this a predictor versus replacing the numeric version
+#(cereal_1h$rating_f <- cut(cereal_1h$rating,c(-1,.43,1),labels = c(0,1)))
+
+str(act_1h)
+#View(cereal_1h)
+#So no let's check the prevalence 
+#(prevalence <- table(cereal$rating_f)[[2]]/length(cereal$rating_f))
+```

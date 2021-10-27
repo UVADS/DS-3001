@@ -1,0 +1,234 @@
+---
+title: "Wine Quality"
+author: "Kara"
+date: "9/23/2021"
+output: 
+  html_document:
+    toc: TRUE
+    theme: journal
+    toc_float: TRUE
+---
+
+```{r setup, include=FALSE, cache=TRUE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r, include=FALSE, echo=FALSE}
+library(tidyverse)
+library(psych)
+library(mltools)
+library(data.table)
+library(caret)
+library(readxl)
+library(DT)
+library(knitr)
+```
+
+### Data Set: [Wine Data](https://data.world/nrippner/winequality/workspace/file?filename=wine.csv)
+
+### ML Question:
+* Given information on a wine can we determine if that wine is highly rated (higher star rating)?
+
+### Business Metric:
+* This information can inform the purchasing decisions of wine sellers and enable them to improve their customer's experience by purchasing only the best wines.
+
+```{r, message=FALSE, echo=FALSE, results='hide', cache=TRUE} 
+wine <-read_csv("~/R/DS-3001/Wine.csv") 
+wine <- na.omit(wine)
+wine[,c(12,13)] <- lapply(wine[,c(12,13)], as.factor)
+
+wine <- wine[!(wine$AcidIndex %in% c("15","16","17")),]
+wine$AcidIndex <- fct_collapse(wine$AcidIndex,
+                           "7" = "7", #New to Old
+                           "8" = "8",
+                        other = c("6","5","4","9","10","11","12","13","14","15","16","17")
+                        )
+
+normalize <-function(x){
+  (x-min(x))/(max(x)-min(x))
+}
+
+norm <-names(select_if(wine, is.numeric))
+wine[norm]<-as_tibble(lapply(wine[norm],normalize))
+```
+
+```{r, echo=FALSE,results='hide',cache=TRUE}
+# One-hot Encoding 
+# Next let's one-hot encode those factor variables/character 
+wine_1h <- one_hot(as.data.table(wine),cols = "auto",sparsifyNAs = TRUE,naCols = TRUE,dropCols = TRUE,dropUnusedLevels = TRUE) 
+
+```
+### Prevalence:
+```{r, echo = FALSE,cache=TRUE}
+# Prevalence value:
+
+#added this a predictor versus replacing the numeric version
+wine_1h$star_f <- cut(wine_1h$STARS,c(-1,.666,1),labels = c(0,1))
+
+#So no let's check the prevalence 
+prevalence <- table(wine_1h$star_f)[[1]]/length(wine_1h$star_f)
+stat <- data.frame("Prevalence" = prevalence)
+kable(stat)
+```
+
+
+```{r, echo=FALSE,cache=TRUE}
+# Training, Evaluation, Tune, Evaluation, Test, Evaluation
+# Divide up our data into three parts, Training, Tuning, and Test
+
+#There is not a easy way to create 3 partitions using the createDataPartitions
+
+#so we are going to use it twice. Mostly because we want to stratify on the variable we are working to predict. What does that mean?  
+
+#clean up our dataset a bit by dropping the original ranking variable and the cereal name which we can't really use. 
+
+wine_dt <- wine_1h[,-c("STARS")]
+
+part_index_1 <- caret::createDataPartition(wine_dt$star_f,
+                                           times=1,
+                                           p = 0.70,
+                                           groups=1,
+                                           list=FALSE)
+train <- wine_dt[part_index_1,]
+tune_and_test <- wine_dt[-part_index_1,]
+
+#The we need to use the function again to create the tuning set 
+
+tune_and_test_index <- createDataPartition(tune_and_test$star_f,
+                                           p = .5,
+                                           list = FALSE,
+                                           times = 1)
+
+tune <- tune_and_test[tune_and_test_index, ]
+test <- tune_and_test[-tune_and_test_index, ]
+
+```
+
+### Partitioned Data:
+```{r, echo=FALSE,cache=TRUE}
+stat <- data.frame("Train" = nrow(train), "Test" = nrow(test), "Tune" = nrow(tune))
+kable(stat)
+
+```
+
+```{r, echo=FALSE}
+#Cross validation process 
+
+fitControl <- trainControl(method = "repeatedcv",
+                          number = 10,
+                          repeats = 5, 
+                          returnResamp="all") 
+
+# number - number of folds
+# repeats - number of times the CV is repeated, here it's 5 take the average of
+# those 5 repeats
+
+
+# Choose the features and classes
+
+```
+
+### Train:
+Trained machine learning model:
+```{r,message=FALSE, echo=FALSE}
+features <- train[,-"star_f"]
+target <- train[,"star_f"]
+
+set.seed(1984)
+suppressWarnings(wine_mdl <- train(x=features,
+                y=target$star_f,
+                trControl=fitControl,
+                method="C5.0",
+                verbose=TRUE))
+
+plot(wine_mdl)
+```
+
+### Tune and evaluate
+Testing the machine learning model against tune data set using a confusion matrix:
+```{r, echo=FALSE}
+wine_predict = predict(wine_mdl,tune,type= "raw")
+
+first <- confusionMatrix(as.factor(wine_predict), 
+                as.factor(tune$star_f), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
+first
+```
+
+```{r, echo=FALSE}
+variables <- varImp(wine_mdl)
+
+grid <- expand.grid(.winnow = c(TRUE,FALSE), 
+                    .trials=c(20,30,40), 
+                    .model=c("tree","rules"))
+```
+Developing a new model:
+```{r, echo=FALSE}
+# retraining model
+set.seed(1984)
+suppressWarnings(wine_mdl_tune <- train(x=features,
+                y=target$star_f,
+                tuneGrid=grid,
+                trControl=fitControl,
+                method="C5.0",
+                verbose=TRUE))
+plot(wine_mdl_tune)
+```
+
+Evaluating the retrained model:
+```{r, echo=FALSE}
+
+# Want to evaluation again with the tune data using the new model 
+
+wine_predict_tune = predict(wine_mdl_tune,tune,type= "raw")
+
+second <- confusionMatrix(as.factor(wine_predict_tune), 
+                as.factor(tune$star_f), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
+second
+
+```
+
+
+### Testing
+Evaluating the tuned model against test data set:
+
+```{r, echo=FALSE}
+wine_predict_test = predict(wine_mdl_tune,test,type= "raw")
+
+third <- confusionMatrix(as.factor(wine_predict_test), 
+                as.factor(test$star_f), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
+third
+```
+
+#### Summary{.tabset}
+
+##### Discussion of Data Processing
+
+* First the columns of "LabelAppeal" and "AcidIndex" were transformed into factor variables as their values are not continuous. Next I collapsed levels within "AcidIndex" since levels "7" and "8" represented a majority of the data and the data contained 11 different levels.
+
+* Next the numeric values in the other columns were normalized to a 0 to 1 scale. The "STARS" numeric column was then used to create a factor variable column "star_f" with two levels 0 and 1, where 1 corresponds to the upper quartile. The "star_f" values were then used to calculate the prevalence of wines in the upper quartile and other factor columns were one hot encoded.
+
+* Data was then partitioned into 3 groups: train, tune, and test. Two models were created (test and tune models) and their accuracy was evaluated using a confusion matrix. The tuned model was then applied to the test data and its performance was re-evaluated to see if the model was able to perform well on unseen data.
+
+##### Stats
+
+* Surprisingly, tuning the data resulted in a decrease in the model's accuracy from 71.09% to 70.36%. This could indicate that the tuning procedure resulted in an overfitted model which was less able to generalize.
+
+* Despite the tuning test having a lower accuracy, the model had a higher accuracy (71.75%) when applied to the testing data set. The improved accuracy during testing could be because the model generalized well or because of different statistical properties in the training vs. testing data sets.
+
+##### Key Takeaways
+
+* A wine's label appeal is the most important factor in the machine learning model. This means that wine sellers should focus on wines with appealing labels.
+
+```{R, echo=FALSE}
+plot(variables)
+```
+
+##### Concerns
+
+* The data set's prevalence was 70.15% meaning the model is only slightly better at predicting wine quality (71.75%) than a random guess. 

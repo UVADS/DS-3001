@@ -5,7 +5,7 @@
 #### Slide 21: Step 1: load packages and data ####
 
 # Install packages.
-install.packages("e1071")     #<- package used to run clustering analysis
+#install.packages("e1071")     #<- package used to run clustering analysis
 
 # Load libraries.
 library(e1071)
@@ -14,8 +14,6 @@ library(plotly)
 library(htmltools)
 library(devtools)
 
-library(help = "e1071")#<- learn about all the functionality of the package,
-#   be well informed about what you're doing
 
 #==================================================================================
 
@@ -42,12 +40,17 @@ View(house_votes_Rep)
 clust_data_Dem = house_votes_Dem[, c("aye", "nay", "other")]
 View(clust_data_Dem)
 
+## do not need to normalize data - it is all on the same scale
+
 # Run an algorithm with 2 centers.
 # kmeans uses a different starting data point each time it runs.
 # Make the results reproducible with the set.seed() function.
 set.seed(1)
+## set seed because it is non-deterministic - we want it to start in the same place
 kmeans_obj_Dem = kmeans(clust_data_Dem, centers = 2, 
                         algorithm = "Lloyd")   #<- there are several ways of implementing k-means, see the help menu for a full list
+
+## llyod means that it will rely on the Euclidean distance
 
 # What did the kmeans function produce, 
 # what does the new variable kmeans_obj contain?
@@ -55,11 +58,20 @@ kmeans_obj_Dem
 
 # View the results of each output of the kmeans function.
 head(kmeans_obj_Dem)
-
+## Variance - will tell you how much of total variance is accounted for by the clusters
+## between_SS = variance between centroids
+## total_SS = ??
+## variance = between_ss/total_ss -> want to maximize this number 
 
 #==================================================================================
 
 #### Slide 28: Step 3: visualize plot ####
+
+## don't know correct number of clusters -> 2 methods
+## Nbclust and elbow method
+## output of clustering is a cluster object
+  ## objects have components eg. $ -> lists aspects of the objects 
+  ## for a cluster object you have category called "cluster"
 
 # Tell R to read the cluster labels as factors so that ggplot2 
 # (the graphing package) can read them as category labels instead of 
@@ -76,6 +88,7 @@ View(party_clusters_Dem)
 View(house_votes_Dem)
 View(party_clusters_Dem)
 
+## aes - aesthetic value, shape = clusters - why we see 1s and 2s
 ggplot(house_votes_Dem, aes(x = aye, 
                             y = nay,
                             shape = party_clusters_Dem)) + 
@@ -109,7 +122,7 @@ ggplot(house_votes_Dem, aes(x = aye,
                      labels = c("Republican", "Democratic"),
                      values = c("red", "blue")) +
   theme_light()
-
+## unsupervised learning is consumed visually 
 
 # Save your graph. For Windows, use setwd("C:/file path")
 
@@ -133,12 +146,18 @@ View(party_color3D_Dem)
 
 
 # Join the new data frame to our house_votes_Dem data set.
+## when you inner join - they do not need to be the same length - it creates a column
+## the created column will be either blue or red depending on Rep or Dem definitions
+## simply requires the "Dem" or "Rep" labels to "interlock"/ combine via a common column
 house_votes_color_Dem = inner_join(house_votes_Dem, party_color3D_Dem)
 
 house_votes_color_Dem$clusters <- (party_clusters_Dem)
 
 str(house_votes_color_Dem)
 
+## remove non-alphanumeric characters
+## gsub - grammar sub, substitutes some grammar in a specific way (eg. "")
+## regular expression - a way to account for certain string text (eg. code to pull out all as and ls)
 house_votes_color_Dem$Last.Name <- gsub("[^[:alnum:]]", "", house_votes_color_Dem$Last.Name)
 
 # Use plotly to do a 3d imaging 
@@ -150,8 +169,10 @@ fig <- plot_ly(house_votes_color_Dem,
                x = ~aye, 
                y = ~nay, 
                z = ~other,
+               ## because of inner join - we have all data we need and do not need to pass another
                color = ~color,
-               colors = c('#0C4B8E','#BF382A'), 
+               colors = c('#0C4B8E','#BF382A'),
+               ## hover text
                text = ~paste('Representative:',Last.Name,
                              "Party:",party.labels))
 

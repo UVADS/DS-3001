@@ -1,101 +1,199 @@
 ---
 title: "Clustering Lab"
-author: "Brian Wright"
-date: "9/20/2020"
+author: "Kara Koopman"
+date: "10/7/2021"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_knit$set(root.dir = '~/R/DS-3001')
 ```
 
-Goal: Know how to make decisions and answer questions using clustering. 
+```{r, echo=FALSE, include=FALSE}
+# Loading libraries
+library(e1071)
+library(tidyverse)
+library(plotly)
+library(htmltools)
+library(devtools)
 
-Repeat the clustering process only using the Rep house votes dataset
-- What differences and similarities did you see between how the clustering 
-worked for the datasets?
+# Loading the votes on Republican bills
+house_votes_Rep = read_csv("data/house_votes_Rep.csv")
 
-```{r}
-#Select the variables to be included in the cluster 
+# Select the "aye", "nay", and "other" columns to use for clustering
+clust_data_Rep = house_votes_Rep[, c("aye", "nay", "other")]
 
 ```
 
-```{r}
+```{r, echo=FALSE}
 #Run the clustering algo with 2 centers
+#creating a cluster object with the data we selected previously
+set.seed(1)
+kmeans_obj_Rep = kmeans(clust_data_Rep, centers = 2, 
+                        algorithm = "Lloyd")  
 ```
+### Clustered data
 
-```{r}
+Below is a summary of the clustering results. It shows the top few rows of data divided into either cluster 1 or 2. The results also include different sum of squares measurements which can be used to determine the quality of clustering. 
+
+```{r, echo=FALSE}
 #View the results
+head(kmeans_obj_Rep)
 ```
+### Visualization of Clustering Results
 
-```{r}
+```{r, echo = FALSE}
 #Visualize the output
+
+# Tell R to read the cluster labels as factors so that ggplot2 
+# (the graphing package) can read them as category labels instead of 
+# continuous variables (numeric variables).
+party_clusters_Rep = as.factor(kmeans_obj_Rep$cluster)
+
+ggplot(house_votes_Rep, aes(x = aye, 
+                            y = nay,
+                            color = party.labels,  #<- tell R how to color 
+                            #   the data points
+                            shape = party_clusters_Rep)) + 
+  geom_point(size = 4) +
+  ggtitle("Aye vs. Nay votes for Republican-introduced bills") +
+  xlab("Number of Aye Votes") +
+  ylab("Number of Nay Votes") +
+  scale_shape_manual(name = "Cluster", 
+                     labels = c("Cluster 1", "Cluster 2"),
+                     values = c("1", "2")) +
+  scale_color_manual(name = "Party",         #<- tell R which colors to use and
+                     #   which labels to include in the legend
+                     labels = c("Democrat", "Republican"),
+                     values = c("blue", "red")) +
+  theme_light()
 ```
 
-```{r}
+### Explained Variance: Quality of Clustering
+
+The variance explained by clustering can be used as a metric to determine the quality of clustering. It is determined using the following equation:
+
+```{r, echo = FALSE}
 #Evaluate the quality of the clustering 
+num_Rep = kmeans_obj_Rep$betweenss
+den_Rep = kmeans_obj_Rep$totss
+('explained variance = between sum of squares/total sum of squares')
+(var_exp_Rep = num_Rep / den_Rep*100)
 ```
 
-```{r}
+Clustering the house voting data by the three categories "aye", "nay", and "other" resulted in an explained variance of 79.5%. This is quite high, but 20% of the total variance of the data is still unexplained by clustering.
+
+```{r, echo = FALSE}
 #Use the function we created to evaluate several different number of clusters
-```
 
-```{r}
+#Function is used to evaluate different numbers of clusters
+explained_variance = function(data_in, k){
+  
+  # Running the kmeans algorithm.
+  set.seed(1)
+  kmeans_obj = kmeans(data_in, centers = k, algorithm = "Lloyd", iter.max = 30)
+  
+  # Variance accounted for by clusters:
+  # var_exp = intercluster variance / total variance
+  var_exp = kmeans_obj$betweenss / kmeans_obj$totss
+  var_exp  
+}
+
+#Now feed in a vector of 1 to 10 to test different numbers of clusters
+explained_var_Rep = sapply(1:10, explained_variance, data_in = clust_data_Rep)
+
+#Combine result of function with the k values in a data frame
+elbow_data_Rep = data.frame(k = 1:10, explained_var_Rep)
+```
+### Visualizing impact of clusters on explained variance
+
+```{r, echo = FALSE}
 #Create a elbow chart of the output 
-```
+# Plotting data.
+ggplot(elbow_data_Rep, 
+       aes(x = k,  
+           y = explained_var_Rep)) + 
+  geom_point(size = 4) +           #<- sets the size of the data points
+  geom_line(size = 1) +            #<- sets the thickness of the line
+  xlab('k') + 
+  ylab('Inter-cluster Variance / Total Variance') + 
+  theme_light()
 
-```{r}
+```
+While increasing the number of clusters increases the explained variance, past the 3rd cluster we experience diminishing returns. This means that we do not improve the explained variance significantly despite increasing our model's complexity substantially. 
+
+Another way to determine the ideal number of clusters is using the NbClust() function which generates multiple cluster models with the ideal number being the one that appears with the highest frequency.
+
+```{r, echo = FALSE, warning = FALSE, include = FALSE}
 #Use NbClust to select a number of clusters
+library(NbClust)
+
+# Run NbClust.
+nbclust_obj_Rep = NbClust(data = clust_data_Rep, method = "kmeans")
+
+freq_k_Rep = nbclust_obj_Rep$Best.nc[1,]
+freq_k_Rep = data.frame(freq_k_Rep)
+
 ```
 
-```{r}
+```{r, echo = FALSE}
 #Display the results visually 
+
+# Plot as a histogram.
+ggplot(freq_k_Rep,
+       aes(x = freq_k_Rep)) +
+  geom_bar() +
+  scale_x_continuous(breaks = seq(0, 15, by = 1)) +
+  scale_y_continuous(breaks = seq(0, 12, by = 1)) +
+  labs(x = "Number of Clusters",
+       y = "Number of Votes",
+       title = "Cluster Analysis")
 ```
 
 ```{r}
 #Using the recommended number of cluster compare the quality of the model 
 #with 2 clusters 
 ```
+### Elbow vs. Nbclust()
 
+Both the Elbow and Nbclust() methods recommend using 2 clusters. The elbow method shows going beyond two clusters does not dramatically improve the explained variance despite the increasing complexity. While the Nbclust() model does not show the associated diminishing returns it does return a "majority rule perspective". From the histogram we can see that a majority of the clustering models (12) chose 2 clusters to maximize the explained variance.
 
+### 3D visualization of data
 ```{r}
 #Bonus: Create a 3d version of the output
+party_color3D_Rep = data.frame(party.labels = c("Democrat", "Republican"),
+                               color = c("blue", "red"))
+
+house_votes_color_Rep = inner_join(house_votes_Rep, party_color3D_Rep)
+
+house_votes_color_Rep$clusters <- (party_clusters_Rep)
+
+## remove non-alphanumeric characters
+## gsub - grammar sub, substitutes some grammar in a specific way (eg. "")
+## regular expression - a way to account for certain string text (eg. code to pull out all as and ls)
+house_votes_color_Rep$Last.Name <- gsub("[^[:alnum:]]", "", house_votes_color_Rep$Last.Name)
+
+# Use plotly to do a 3d imaging 
+
+fig <- plot_ly(house_votes_color_Rep, 
+               type = "scatter3d",
+               mode="markers",
+               symbol = ~clusters,
+               x = ~aye, 
+               y = ~nay, 
+               z = ~other,
+               ## because of inner join - we have all data we need and do not need to pass another
+               color = ~color,
+               colors = c('#0C4B8E','#BF382A'),
+               ## hover text
+               text = ~paste('Representative:',Last.Name,
+                             "Party:",party.labels))
+
+color = c('#0C4B8E','#BF382A')
+fig
 ```
 
-In a separate Rmarkdown document work through a similar process 
-with the NBA data (nba2020-21 and nba_salaries_21), merge them together. 
-
-You are a scout for the worst team in the NBA, probably the Wizards. Your 
-general manager just heard about Data Science and thinks it can solve all the
-teams problems!!! She wants you to figure out a way to find players that are 
-high performing but maybe not highly paid that you can steal to get the team 
-to the playoffs! 
-
-Details: 
-
-- Determine a way to use clustering to estimate based on performance if 
-players are under or over paid, generally. 
-- Then select three players you believe would be best your team and explain why. 
-- Provide a well commented and clean (knitted) report of your findings that can 
-be presented to your GM. Include a rationale for variable selection, details 
-on your approach and a overview of the results with supporting visualizations. 
-- Create a new repo for this assignment either for yourself and 
-submit the link along with your knitted report. 
-
-Hints:
-
-- Salary is the variable you are trying to understand 
-- You can include numerous performance variables in the clustering but when 
-interpreting you might want to use graphs that include variables that are the 
-most correlated with Salary
-- You'll need to standardize the variables before performing the clustering
-- Be specific about why you selected the players that you did, more detail is 
-better
-- Use good coding practices, comment heavily, indent, don't use for loops unless
-totally necessary and create modular sections that align with some outcome. If 
-necessary create more than one script,list/load libraries at the top and don't 
-include libraries that aren't used. 
-  
 
 
 

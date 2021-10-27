@@ -1,0 +1,228 @@
+---
+title: "NBA Scout Lab"
+author: "Kara"
+date: "10/7/2021"
+output: html_document
+---
+## Goal
+
+Using NBA data sets containing player performance metric and salary information, I want to identify quality players who are currently being underpaid. Identifying such players will enable management to run a targeted recruiting campaign and hopefully gain the players necessary to reach the playoffs!
+
+## Methods
+
+I will cluster players based on their performance metrics and then evaluate the characteristics of the cluster groups to distinguish between "high" and "low" performing players. With this knowledge of cluster characteristics, I will then visualize the clusters and use a salary heat map to identify players within the high performing cluster who are lower paid.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Data description
+
+First, I loaded and then merged the two required data sets together by player name. Next I did some preliminary data cleaning by removing any special characters and NAs. I then normalized the numeric values, excluding the ages and salaries. After this initial cleaning, I decided to investigate how best to cluster my data.
+
+```{r, echo=FALSE, include=FALSE}
+# Loading libraries
+library(e1071)
+library(tidyverse)
+library(plotly)
+library(knitr)
+library(htmltools)
+library(devtools)
+library(NbClust)
+library(RColorBrewer)
+library(DT)
+
+# loading data sets
+nba1 <- read_csv("data/nba2020-21.csv")
+Salary <- read_csv("data/nba_salaries_21.csv")
+
+# merging data sets
+nba <- merge(nba1,Salary,by="Player")
+nba$Player<- gsub("[^[:alnum:]]", "", nba$Player)
+nba <- na.omit(nba, na.action="omit")
+
+
+```
+
+```{r, echo = FALSE}
+# creating a normalizing function to apply to numerical data
+normalize <- function(x){
+ (x - min(x)) / (max(x) - min(x))
+}
+
+nba[,c(5:29)] <- lapply(nba[,c(5:29)], normalize)
+```
+
+### Best Cluster Number?
+
+For my clusters, I decided to use all the normalized performance data (columns 5 to 29). Seeing as salary is the variable I am trying to understand it was excluded from the clustering. I also decided to exclude age as it was not a reflection of how "good" a player could be and in preliminary tests it resulted in lower explained variance values.
+
+The kmeans() clustering function in R takes requires a "centers" argument that determines the number of clusters, k, your data will be divided into. In order to determine the best k for this data set I applied the elbow method. This method uses the explained variance (a measure of cluster quality) for models with different k values to determine the point of diminishing returns. In other words, the turning point of the elbow method shows the point where increasing model complexity does not yield large returns in quality (a larger explained variance value).
+
+```{r, echo = FALSE}
+
+explained_variance = function(data_in, k){
+  
+  # Running the kmeans algorithm.
+  set.seed(1)
+  kmeans_obj = kmeans(data_in, centers = k, algorithm = "Lloyd", iter.max = 30)
+  
+  # Variance accounted for by clusters:
+  # var_exp = intercluster variance / total variance
+  var_exp = kmeans_obj$betweenss / kmeans_obj$totss
+  var_exp  
+}
+```
+
+Below is an elbow method curve showing the flattening off of explained variance for increasing k values. In my clustering model I decided to use k = 4 since it was the point in which the curve became much flatter and it yielded an expected variance of 61.7%.
+```{r, echo=FALSE, fig.align='center'}
+
+input1 = nba[,c(5:29)]
+
+explained_var_NBA = sapply(1:10, explained_variance, data_in = input1)
+elbow_data_NBA = data.frame(k = 1:10, explained_var_NBA)
+
+ggplot(elbow_data_NBA, 
+       aes(x = k,  
+           y = explained_var_NBA)) + 
+  geom_point(size = 4) +           #<- sets the size of the data points
+  geom_line(size = 1) +            #<- sets the thickness of the line
+  xlab('k') + 
+  ylab('Inter-cluster Variance / Total Variance') + 
+  theme_light()
+
+```
+
+### Characteristics of Clusters
+
+After clustering my data into 4 distinct groups, I wanted to determine what characteristics those clusters shared. I then created bar charts showing the average values of certain performance metrics for each cluster.
+
+#### Game Statistics
+```{r, echo = FALSE, warning=FALSE}
+set.seed(1)
+k1 = kmeans(input1, centers = 4, 
+                        algorithm = "Lloyd")
+
+# will use this to shape the clusters on our graph
+clustered1 = as.factor(k1$cluster)
+
+
+# adding a cluster object to the original data set
+nba$clusters <- k1$cluster
+
+grouped_df <- nba %>%
+ group_by(clusters) %>%
+ mutate('average' = mean(`2020-21`), 'difference' = `2020-21`-mean(`2020-21`))
+
+```
+
+```{R, echo=FALSE, fig.align='center'}
+grouped <- nba %>%
+ group_by(clusters) %>%
+ summarise_if(is.numeric, mean)
+
+grouped <- as.matrix(grouped)
+
+color = brewer.pal(4, name = "Blues")
+
+#evaluating characteristics of each cluster
+gamestat <- barplot(grouped[,c('MP','G','GS')],
+        beside = TRUE,
+        col = color,
+        legend.text = grouped[,1])
+```
+The game statistics show that clusters 1 and 2 on average have less playing time and are generally not starts compared to clusters 3 and 4. 
+
+#### Scoring Statistics
+```{r,echo=FALSE,fig.align='center'}
+scoring <- barplot(grouped[,c('PTS','2P','3P','FT')],
+                   beside = TRUE,
+                   col = color,
+                   legend.text = grouped[,1])
+```
+The scoring statistics show that group 3 is the primary scorer, out performing all clusters in each scoring category. Most importantly, cluster 3 is the primary points scorer. Additionally, group 2 is the lowest in all 4 categories. Combining the scoring knowledge with the game statistics, it seems as though cluster 2 represents low performing players.
+
+#### Defensive Statistics
+```{r,echo=FALSE, fig.align='center'}
+defensive <- barplot(grouped[,c('DRB','BLK')],
+                   beside = TRUE,
+                   col = color,
+                   legend.text = grouped[,1])
+```
+The defensive statistics now give us an insight into possible position divisions within the clusters. Cluster 4's higher defensive scores combined with their lower scoring numbers and large number of minutes played could indicate that these players are more defensive. It should be noted that cluster 3 is still very high performing, reemphasizing that these players are likely "stars".
+
+#### Salary Statistics
+```{r,echo=FALSE, fig.align='center'}
+salary <- barplot(grouped[,c('2020-21')],
+                   beside = TRUE,
+                   col = color,
+                   ylab = "Salary",
+                   xlab = "Clusters",
+                   legend.text = grouped[,1])
+```
+Now looking at how the clusters impact the average salary, we can see that cluster 3 has the highest paid individuals. This is another piece of evidence supporting the hypothesis that cluster 3 are "star" quality players. Therefore, we will want to find players that fall under this cluster 3 performance category but are paid below average.
+
+### Under or Over Paid?
+
+To determine if a player was under or overpaid I decided to subtract from each player's salary the mean salary of their cluster. I then made tables of the top three most underpaid players.
+
+#### Cluster 1 underpaid
+```{r, echo=FALSE}
+group1 <- grouped_df[grouped_df$clusters==1,]
+stat <-head(arrange(group1,difference),3)[,c('Player','difference')]
+kable(stat)
+```
+
+#### Cluster 2 underpaid
+```{r, echo=FALSE}
+group2 <- grouped_df[grouped_df$clusters==2,]
+stat <- head(arrange(group2,difference),3)[,c('Player','difference')]
+kable(stat)
+```
+
+#### Cluster 3 underpaid
+```{r, echo=FALSE}
+group3 <- grouped_df[grouped_df$clusters==3,]
+stat <-head(arrange(group3,difference),3)[,c('Player','difference')]
+kable(stat)
+```
+
+#### Cluster 4 underpaid
+```{r, echo=FALSE}
+group4 <- grouped_df[grouped_df$clusters==4,]
+stat <- head(arrange(group4,difference),3)[,c('Player','difference')]
+kable(stat)
+```
+
+
+### Visualizing Clusters and Salary
+
+Below is a graph showing the distribution of players and clusters in the 2D feature space of "PTS vs. MP". I chose this visualization as it is easy to distinguish cluster 3 (square marker) as these players are high in both minutes played and points scored. Having isolated cluster 3, the "star" cluster, it's clear that there are some players who have lower salaries and are colored blue/ dark purple. 
+
+Then choosing the darkest blue players in the middle of the cluster group 3 we can find three potential players to target; John Collins, Collin Sexton, and Alexander Shai Gilgeous. These players are the same players identified in the most underpaid table. 
+```{r, echo=FALSE}
+fig <- plot_ly(nba, 
+               type = "scatter",
+               mode="markers",
+               symbol = ~clustered1,
+               x = ~PTS, 
+               y = ~MP, 
+               ## because of inner join - we have all data we need and do not need to pass another
+               color = ~`2020-21`,
+               colors = c('#0000FF','#FF0000'),
+               ## hover text
+               text = ~paste('Player:',Player,
+                             "Salary:",`2020-21`))
+fig
+```
+### Identifying Players
+
+By clustering based on performance metrics, high performing players (cluster 3) were isolated from average and low performing players (cluster 1, 2, and 4). Then based on these cluster, underpaid players were identified both in the underpaid table and visually through the "MP vs. PTS" graph. Based on this analysis the three players that should be targeted are:
+
+1. John Collins
+2. Alexander Shai Gilgeous
+3. Collin Sexton 
+
+These players were selected because they are the most underpaid within cluster 3, the "star" player cluster, and therefore the most likely to leave their current teams. 
+
+

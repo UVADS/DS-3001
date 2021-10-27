@@ -1,0 +1,249 @@
+---
+title: "NY Test Scores"
+author: "Kara"
+date: "9/23/2021"
+output: 
+  html_document:
+    toc: TRUE
+    theme: journal
+    toc_float: TRUE
+---
+
+```{r setup, include=FALSE, cache=TRUE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r, include=FALSE, echo=FALSE}
+library(tidyverse)
+library(psych)
+library(mltools)
+library(data.table)
+library(caret)
+library(DT)
+library(knitr)
+```
+
+### Data Set: [Score Data](https://www.kaggle.com/nycopendata/high-schools)
+
+### ML Question:
+* Given demographic information on students can we predict the average Math SAT score?
+
+### Business Metric:
+* The school board could use this information to improve student testing performance. By identifying students who are more likely to score poorly, schools can preemptively provide these students with additional resources and hopefully improve testing outcomes.
+
+```{r, message=FALSE, echo=FALSE, results='hide',cache=TRUE} 
+score <- read_csv("~/R/DS-3001/scores.csv")
+score <- na.omit(score)
+score <- score[c("Borough","Student Enrollment","Percent White","Percent Black","Percent Hispanic","Percent Asian","Average Score (SAT Math)")]
+
+# removing "%" from data to eventually make it a numeric
+score$`Percent White` <- gsub("%","",as.character(score$`Percent White`))
+score$`Percent Black` <- gsub("%","",as.character(score$`Percent Black`))
+score$`Percent Hispanic` <- gsub("%","",as.character(score$`Percent Hispanic`))
+score$`Percent Asian` <- gsub("%","",as.character(score$`Percent Asian`))
+
+# only have one factor in this data set - it also only has 5 levels so there is no need to collpase 
+score$Borough <- as.factor(score$Borough)
+
+# converting character % values into numerics
+abc <- names(select_if(score, is.character))
+score[abc] <- lapply(score[abc], as.numeric)
+
+normalize <- function(x){
+ (x - min(x)) / (max(x) - min(x))
+}
+
+# normalizing numeric values in the data
+def <- names(select_if(score, is.numeric))
+score[def] <- lapply(score[def],normalize)
+```
+
+```{r, echo=FALSE,results='hide'}
+# One-hot Encoding 
+# Next let's one-hot encode those factor variables/character 
+score_1h <- one_hot(as.data.table(score),cols = "auto",sparsifyNAs = TRUE,naCols = TRUE,dropCols = TRUE,dropUnusedLevels = TRUE) 
+```
+### Prevalence:
+Percentage of Low Scoring Tests (values below lower hinge of data)
+```{r, echo = FALSE}
+# Prevalence value:
+# Making score into a two variable factor by cutting it at the lower hinge value
+# Low scores correspond to 1 and higher scores correspond to zero
+
+score_1h$sat_f <- cut(score_1h$`Average Score (SAT Math)`,c(0,0.158,1), labels = c(1,0))
+score_1h <- na.omit(score_1h)
+
+prevalence <- table(score_1h$sat_f)[[1]]/length(score_1h$sat_f)
+
+# displaying table with prevalence
+stat <- data.frame("Low" = (prevalence)*100) 
+
+kable(stat)
+```
+
+
+```{r, echo=FALSE, cache =TRUE}
+# Training, Evaluation, Tune, Evaluation, Test, Evaluation
+# Divide up our data into three parts, Training, Tuning, and Test
+
+#There is not a easy way to create 3 partitions using the createDataPartitions
+
+#so we are going to use it twice. Mostly because we want to stratify on the variable we are working to predict. What does that mean?  
+
+#clean up our dataset a bit by dropping the original ranking variable and the cereal name which we can't really use. 
+
+score_dt <- score_1h[,-"Average Score (SAT Math)"]
+
+part_index_1 <- caret::createDataPartition(score_dt$sat_f,
+                                           times=1,
+                                           p = 0.70,
+                                           groups=1,
+                                           list=FALSE)
+train <- score_dt[part_index_1,]
+tune_and_test <- score_dt[-part_index_1,]
+
+#The we need to use the function again to create the tuning set 
+
+tune_and_test_index <- createDataPartition(tune_and_test$sat_f,
+                                           p = .5,
+                                           list = FALSE,
+                                           times = 1)
+
+tune <- tune_and_test[tune_and_test_index, ]
+test <- tune_and_test[-tune_and_test_index, ]
+
+```
+
+### Partitioned Data:
+```{r, echo=FALSE, }
+#showing break down of data partitioning 
+stat <- data.frame("Train" = nrow(train), "Test" = nrow(test), "Tune" = nrow(tune))
+kable(stat)
+
+```
+
+```{r, echo=FALSE,  , }
+#Cross validation process 
+
+fitControl <- trainControl(method = "repeatedcv",
+                          number = 10,
+                          repeats = 5, 
+                          returnResamp="all") 
+
+# number - number of folds
+# repeats - number of times the CV is repeated, here it's 5 take the average of
+# those 5 repeats
+
+
+# Choose the features and classes
+
+```
+
+### Train:
+Trained machine learning model:
+```{r,message=FALSE, echo=FALSE, }
+features <- train[,-"sat_f"]
+target <- train[,"sat_f"]
+
+set.seed(1984)
+suppressWarnings(score_mdl <- train(x=features,
+                y=target$sat_f,
+                trControl=fitControl,
+                method="C5.0",
+                verbose=TRUE))
+
+plot(score_mdl)
+```
+
+### Tune and evaluate
+Testing the machine learning model against tune data set using a confusion matrix:
+```{r, echo=FALSE, }
+score_predict = predict(score_mdl,tune,type= "raw")
+
+first <- confusionMatrix(as.factor(score_predict), 
+                as.factor(tune$sat_f), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
+first
+```
+
+```{r, echo=FALSE, }
+variables <- varImp(score_mdl)
+
+grid <- expand.grid(.winnow = c(TRUE,FALSE), 
+                    .trials=c(20,30,40), 
+                    .model=c("tree","rules"))
+```
+Developing a new model:
+```{r, echo=FALSE, }
+# retraining model
+set.seed(1984)
+suppressWarnings(score_mdl_tune <- train(x=features,
+                y=target$sat_f,
+                tuneGrid=grid,
+                trControl=fitControl,
+                method="C5.0",
+                verbose=TRUE))
+plot(score_mdl_tune)
+```
+
+Evaluating the retrained model:
+```{r, echo=FALSE,}
+
+# Want to evaluation again with the tune data using the new model 
+
+score_predict_tune = predict(score_mdl_tune,tune,type= "raw")
+
+second <- confusionMatrix(as.factor(score_predict_tune), 
+                as.factor(tune$sat_f), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
+second
+
+```
+
+
+### Testing
+Evaluating the tuned model against test data set:
+
+```{r, echo=FALSE,}
+score_predict_test = predict(score_mdl_tune,test,type= "raw")
+
+third <- confusionMatrix(as.factor(score_predict_test), 
+                as.factor(test$sat_f), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
+third
+```
+
+#### Summary{.tabset}
+
+##### Discussion of Data Processing
+
+* First the columns of race, location (borough), and Math SAT score were selected as the features of interest. The data was then cleaned by removing NAs.
+
+* The 5 boroughs were transformed into factor types. Because the race data was represented by character % values these were transformed into numeric values and normalized on a 0 to 1 scale.
+
+* Features of type factor were then one hot encoded, the lower quartile prevalence was calculated, and a new factor variable was created with numeric Math SAT scores. The new factor column "sat_f" was created using the fucntion cut() which created two levels 1 and 0, with 1 corresponding to scores in the lower quartile.
+
+* Data was then partitioned into 3 groups: train, tune, and test. Two models were created (test and tune models) and their accuracy was evaluated using a confusion matrix. The tuned model was then applied to the test data and its performance was re-evaluated to see if the model was able to perform well on unseen data.
+
+##### Stats
+
+* Surprisingly, tuning the data did not improve the accuracy of the model (remained constant at 80.36%). This could indicate that the default parameters of the model where already optimized for the two data sets.
+
+* The model performed better on the test data set; 89.09% accuracy compared to 80.36%. A higher accuracy in the testing phase points to a more general model meaning it can capture patterns in data which it has not yet seen. 
+
+* Additionally, the accuracy of 89.09% is much higher than the prevalence of 74% (indicated by the 26% prevalence of the positive test case). This indicates that the model performs much better than a random guess.
+
+##### Key Takeaways
+
+* The key factors in determining the likelihood of a low score tend to be race and student enrollment. On the education board level, this information indicates the need to investigate the experiences of different demographics and how these experiences are affecting students' learning. Additionally, because student enrollment is one of the most important factors, the school board could look into creating a more homogeneous distribution of students to ensure all students have similar education opportunities.
+
+```{R, echo=FALSE}
+plot(variables, top =10)
+```
+
+##### Concerns:
+
+* While the model does indicate that race is an important factor in the model, it does not explain how or why race is impacting test scores. For example, race could impact test scores as a result of explicit racism within the school system or it could implicitly affect test score by reflecting the unequal access to test prep resources different races have due to their general socio-economic status.
