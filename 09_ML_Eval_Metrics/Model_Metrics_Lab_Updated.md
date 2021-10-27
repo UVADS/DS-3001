@@ -1,0 +1,31 @@
+## Metrics Evaluation Lab
+
+Throughout your early career as a data scientist you've built article summaries, 
+explored NBA talent, analyzed text on climate change news but you've suddenly realized you need to enhance your ability to assess the models you are building. 
+As the most important part about understanding any machine learning model 
+(or any model, really) is understanding it's weakness and or vulnerabilities. 
+
+In doing so you've decided to practice on datasets that are of interest to you, 
+and use a approach to which you are familiar, kNN. 
+
+Part 1. Select either as a lab group or individuals a dataset that is of interest to you/group. Define a question that can be answered using classification, specifically kNN, for the dataset. 
+
+Part 2. In consideration of all the metrics we discussed select a few key metrics
+that should be tracked given the question you are working to solve? 
+
+Part 3. Build a kNN model and evaluate the model at each stage of the process (training, tuning, testing) using the metrics discussed in class (Accuracy, TPR, FPR, F1, Kappa, LogLoss and ROC/AUC). Make sure to calculate the baserate or prevalence to provide a reference for some of these measures. Even though you are generating many of the metrics we discussed summarize the output of the key metrics you established in part 2. 
+
+Part 4. Is there consistency throughout the process or not? Also consider where miss-classification errors are occurring, is there a pattern? If so discuss this pattern and why you think this is the case. 
+
+Part 5. Based on your exploration in Part 3/4, change the threshold using the function provided, what differences do you see in the evaluation metrics? Speak specifically to the metrics that are best suited to address the question you are trying to answer. 
+
+Part 6. Summarize your findings focusing on recommendations on how you might 
+change your kNN model based on the results. Speak through your question, what does the evaluation outputs mean when answering the question you've proposed. 
+
+Recommendations for improvement might include gathering more data, adjusting the threshold, adding new features, changing your questions or maybe 
+that it's working fine at the current level and nothing should be done. 
+
+Regardless of the outcome, what should we be aware of when your model is deployed (online versus offline)? 
+
+Submit a .Rmd file along with the data used or access to the data sources to the 
+Collab site. You can work together with your groups but submit individually. 
