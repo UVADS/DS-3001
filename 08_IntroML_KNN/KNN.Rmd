@@ -38,11 +38,11 @@ str(bank_data)
 ```
 
 
+
 ```{r}
 # Let's run the kNN algorithm on our banking data. 
 # Check the composition of labels in the data set. 
-table(bank_data$`signed up`)
-table(bank_data$`signed up`)[2] / sum(table(bank_data$`signed up`))
+table(bank_data$`signed up`)[2] / sum(table(bank_data$`signed up`))table(bank_data$`signed up`)
 
 # This means that at random, we have an 11.6% chance of correctly picking
 # out a subscribed individual. Let's see if kNN can do any better.
@@ -244,7 +244,6 @@ IRISPREDCross <- CrossTable(iris.testLabels, iris_pred, prop.chisq = FALSE)
 
 ```{r}
 
-
 set.seed(1981)
 scalediris$Species <- iris$Species #adding back in the label for caret
 
@@ -275,6 +274,8 @@ iris_pred #gives a character predicted value for each row.
 confusionMatrix(iris_pred, iris_test_car$Species)
 
 table(iris_test_car$Species)#looks like we mis-classified 3 virginica as versicolor
+
+
 
 ```
 
