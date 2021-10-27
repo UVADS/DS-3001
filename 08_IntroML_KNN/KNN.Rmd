@@ -21,13 +21,12 @@ library(plotly)
 
 
 ```{r}
-bank_data = read_csv("data/bank.csv")
+bank_data = read_csv("C:/Users/Maddie/OneDrive/Desktop/3YEAR/Forked-DS-3001/08_IntroML_KNN/bank.csv")
 
 # Check the structure and view the data.
 table(bank_data$`signed up`)
 
-#check for missing data
-
+#check for missing data (takes out all rows w/ missing values)
 bank_data <- bank_data[complete.cases(bank_data),]
 
 #Scale the features we will be using for classification 
@@ -47,8 +46,6 @@ table(bank_data$`signed up`)[2] / sum(table(bank_data$`signed up`))
 
 # This means that at random, we have an 11.6% chance of correctly picking
 # out a subscribed individual. Let's see if kNN can do any better.
-
-
 
 part_index_1 <- createDataPartition(bank_data$`signed up`,
                                            times=1,
@@ -80,6 +77,7 @@ dim(test)
 ```{r}
 # Let's train the classifier for k = 3 using the class package. 
 
+# we are tuning the number of k!!! 
 
 # k-Nearest Neighbor is a randomized algorithm, so make sure to
 # use set.seed() to make your results repeatable.
@@ -91,7 +89,7 @@ bank_3NN <-  knn(train = train[, c("age", "balance", "duration")],#<- training s
                use.all = TRUE,
                prob = TRUE) #<- control ties between class assignments If true, all distances equal to the kth largest are included
 
-
+# k=3, so we have 3 potential outputs -> 1/3, 2/3, or 3/3
 
 # View the output.
 str(bank_3NN)
@@ -287,6 +285,17 @@ table(iris_test_car$Species)#looks like we mis-classified 3 virginica as versico
 # Using the bank dataset build a kNN model with your groups recommended k value and compare to the example from above, use the tuning data. Then use the test data and see how the model preforms. 
 
 # Also think about this questions, given what you know about kNN do you really need to do a robust training effort? 
+
+
+set.seed(1982)
+bank_3NN <-  knn(train = train[, c("age", "balance", "duration")],#<- training set cases
+               test = tune[, c("age", "balance", "duration")],    #<- test set cases
+               cl = train$`signed up`,#<- category for true classification
+               k = 6,#<- number of neighbors considered
+               use.all = TRUE,
+               prob = TRUE) #<- control ties between class assignments If true, all distances equal to the kth largest are included
+
+confusionMatrix(as.factor(bank_3NN), as.factor(tune$`signed up`), positive = "1", dnn=c("Prediction", "Actual"), mode = "sens_spec")
 
 
 ```
