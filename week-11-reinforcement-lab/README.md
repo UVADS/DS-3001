@@ -54,7 +54,8 @@ In part two we are going to rip into some data and explore. The overall goal is 
 1. Download the data (hint: click the link above, it should open a download)
 2. Un zip the data (hint: `tar -xzf game-data.MID.PremierDraft.tar.gz`)
 3. Make an abbreviated data file (hint: `head game_data_public.MID.PremierDraft.csv > data-summary.csv`)
-3. Load the data into a dataframe (hint: `df <- read_csv("data-summary.csv")`)
+4. Load the data into a dataframe (hint: `df <- read_csv("data-summary.csv")`)
+5. Chop that file down to size (hint: 
 4. Make a scatter plot of << insert two variables here >>
 5. do some clustering -- to what end
 6. Now explore, get creative
