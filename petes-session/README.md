@@ -13,11 +13,20 @@ Welcome to Pete's session. Today we are going to have some fun.
 
 ## Today's Dataset
 * We will be using a mystery dataset today: [mystery data](https://www.17lands.com/public_datasets)
-* **NB:** If you have already seen this data before please let me know.
+
+## Let's Get Started
+1. Download the data
+2. Un zip the data
+3. Load the data into a dataframe
+4. Make a scatter plot of << insert two variables here >>
+5. do some clustering -- to what end
+6. Now explore, get creative
+
+(tar,knn,why cluster, save 20 for show and tell)
 
 # PR details
 1. fork this repo: https://github.com/alonzi/DS-3001
-2. create a file called [uvaNetID].R in the folder petes-session (eg for me: petes-session/LPA2A.R)
+2. create a file called [uvaNetID].R in the folder petes-session (eg for me: petes-session/LPA2A.R) << this may go to knitr markdwon something >>
 3. the file must contain one thing you haven't done before aka something you learned today in this session
 4. submit your pull request (don't forget to explain it in the PR itself)
 5. stick with it, your assignment isn't complete until I merge the PR, we will have discussions in the comments
