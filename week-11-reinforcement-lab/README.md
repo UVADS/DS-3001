@@ -3,8 +3,9 @@ Welcome to week 11 where we will do a reinforcement lab.
 
 Let's take a look at the standard diagram (credit ref. [1])
 
-![]()
+![](https://github.com/alonzi/DS-3001/blob/a41a636f4cba7ad7869342056b8f3e90dc4507d8/week-11-reinforcement-lab/reinforcement.jpeg)
 
+Ok, that was a dad joke. Let's get to what we really mean, reinforcing the concepts from the past few weeks.
 
 ## A little about Pete
 1. PhD in particle physics
