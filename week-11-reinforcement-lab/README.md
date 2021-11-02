@@ -51,9 +51,10 @@ In part two we are going to rip into some data and explore. The overall goal is 
 * N.B.: if you look at the url you will note it comes from s3.amazonaws.com
 
 ## Let's Get Started
-1. Download the data
-2. Un zip the data
-3. Load the data into a dataframe
+1. Download the data (hint: click the link above, it should open a download)
+2. Un zip the data (hint: tar -xzf game-data.MID.PremierDraft.tar.gz)
+3. Make an abbreviated data file (hint: head game_data_public.MID.PremierDraft.csv > data-summary.csv)
+3. Load the data into a dataframe (
 4. Make a scatter plot of << insert two variables here >>
 5. do some clustering -- to what end
 6. Now explore, get creative
