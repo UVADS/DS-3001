@@ -42,7 +42,8 @@ All together: Tell the professor what you want to know, where do you want to rei
 As we move on to part 2, take a moment to reflect on all of this and as you work the lab, keep these ideas in mind.
 
 # Part 2: Explore
-In part two we are going to rip into some data and explore. The overall goal is to reinforce what you started to learn in the past few weeks. Keep your questions in mind as we go. (If you are savvy you can probably guess how we are going to finish up the class time today).
+In part two we are going to rip into some data and explore. The overall goal is to reinforce what you started to learn in the past few weeks. Keep your questions in mind as we go, let them guide you. If you want to take a scenic route because it will help to reinforce, do it. Remember the goal is reinforcement, not completion of some assignment (you can always finish it for homework).
+
 
 ## Today's Dataset
 * We will be using a mystery dataset today: [mystery data](https://www.17lands.com/public_datasets)
