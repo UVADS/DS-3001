@@ -46,7 +46,9 @@ In part two we are going to rip into some data and explore. The overall goal is 
 
 
 ## Today's Dataset
-* We will be using a mystery dataset today: [mystery data](https://www.17lands.com/public_datasets)
+* We will be using a mystery dataset today: [mystery data](https://17lands-public.s3.amazonaws.com/analysis_data/game_data/game-data.MID.PremierDraft.tar.gz)
+* Courtesy of 17 lands, ref [3]
+* N.B.: if you look at the url you will note it comes from s3.amazonaws.com
 
 ## Let's Get Started
 1. Download the data
@@ -69,3 +71,4 @@ In part two we are going to rip into some data and explore. The overall goal is 
 # Footnotes
 1. https://www.kdnuggets.com/2018/03/5-things-reinforcement-learning.html
 2. https://en.wikipedia.org/wiki/KWL_table#:~:text=The%20letters%20KWL%20are%20an,methods%20of%20teaching%20and%20learning.
+3. https://www.17lands.com/public_datasets
