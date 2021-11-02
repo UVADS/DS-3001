@@ -13,9 +13,32 @@ Ok, that was a dad joke, I couldn't help myself. That diagram is about Reinforce
 3. LPA2A@virginia.edu
 
 ## Goals for Today
-* You learn something
-* I learn something
-* Everyone makes a PR to this repo (details at end)
+* Reinforce your understanding of previous topics 
+* Everyone makes a PR to this repo (details at end, graded on completion)
+
+# Part 1 - Review and question
+The syllabus shows the past few weeks have focused on
+* Unsupervised KNN
+* Evalucation metrics
+
+## Exercise 1: What do you know?
+For this exercise we will work in your teams.
+
+1. There are 10 minutes on the clock
+2. Discuss what you know and note those things
+3. If you bump into something you know now write that down too in a different spot.
+
+All together: Tell the professor what you all wrote down
+
+## Exercise 2: What do you want to know?
+You get the drill, 10 mintues are on the clock.
+
+1. Discuss with your team what you want to know. Where are you shaky?
+
+All together: Tell the professor what you want to know, where do you want to reinforce
+
+# Part 2: Explore
+In part two we are going to rip into some data and explore. The overall goal is to reinforce what you started to learn in the past few weeks. Keep your questions in mind as we go. (If you are savvy you can probably guess how we are going to finish up the class time today).
 
 ## Today's Dataset
 * We will be using a mystery dataset today: [mystery data](https://www.17lands.com/public_datasets)
@@ -39,5 +62,5 @@ Ok, that was a dad joke, I couldn't help myself. That diagram is about Reinforce
   
   
 # Footnotes
-[1] https://www.kdnuggets.com/2018/03/5-things-reinforcement-learning.html
-[2] https://en.wikipedia.org/wiki/KWL_table#:~:text=The%20letters%20KWL%20are%20an,methods%20of%20teaching%20and%20learning.
+1. https://www.kdnuggets.com/2018/03/5-things-reinforcement-learning.html
+2. https://en.wikipedia.org/wiki/KWL_table#:~:text=The%20letters%20KWL%20are%20an,methods%20of%20teaching%20and%20learning.
