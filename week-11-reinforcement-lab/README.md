@@ -5,7 +5,7 @@ Let's take a look at the standard diagram (credit ref. [1])
 
 ![](https://github.com/alonzi/DS-3001/blob/a41a636f4cba7ad7869342056b8f3e90dc4507d8/week-11-reinforcement-lab/reinforcement.jpeg)
 
-Ok, that was a dad joke. Let's get to what we really mean, reinforcing the concepts from the past few weeks.
+Ok, that was a dad joke, I couldn't help myself. That diagram is about Reinforcement Learning. Let's get to what we really mean, reinforcing the concepts from the past few weeks. The way we are going to do that is review, question, explore. (also known as KWL ref. [2]).
 
 ## A little about Pete
 1. PhD in particle physics
@@ -40,3 +40,4 @@ Ok, that was a dad joke. Let's get to what we really mean, reinforcing the conce
   
 # Footnotes
 [1] https://www.kdnuggets.com/2018/03/5-things-reinforcement-learning.html
+[2] https://en.wikipedia.org/wiki/KWL_table#:~:text=The%20letters%20KWL%20are%20an,methods%20of%20teaching%20and%20learning.
