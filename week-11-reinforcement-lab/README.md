@@ -34,6 +34,7 @@ All together: Tell the professor what you all wrote down
 You get the drill, 10 mintues are on the clock.
 
 1. Discuss with your team what you want to know. Where are you shaky? Where would you like more time to practice?
+2. N.B.: This is tricky, you need to put yourself out there, trust your partners, be vulnerable.
 
 All together: Tell the professor what you want to know, where do you want to reinforce
 
