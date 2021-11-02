@@ -33,9 +33,12 @@ All together: Tell the professor what you all wrote down
 ## Exercise 2: What do you want to know?
 You get the drill, 10 mintues are on the clock.
 
-1. Discuss with your team what you want to know. Where are you shaky?
+1. Discuss with your team what you want to know. Where are you shaky? Where would you like more time to practice?
 
 All together: Tell the professor what you want to know, where do you want to reinforce
+
+## Reflect
+As we move on to part 2, take a moment to reflect on all of this and as you work the lab, keep these ideas in mind.
 
 # Part 2: Explore
 In part two we are going to rip into some data and explore. The overall goal is to reinforce what you started to learn in the past few weeks. Keep your questions in mind as we go. (If you are savvy you can probably guess how we are going to finish up the class time today).
