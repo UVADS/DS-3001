@@ -1,5 +1,10 @@
-# Pete's Session
-Welcome to Pete's session. Today we are going to have some fun.
+# Week 11: Reinforcement lab
+Welcome to week 11 where we will do a reinforcement lab.
+
+Let's take a look at the standard diagram (credit ref. [1])
+
+![]()
+
 
 ## A little about Pete
 1. PhD in particle physics
@@ -31,3 +36,6 @@ Welcome to Pete's session. Today we are going to have some fun.
 4. submit your pull request (don't forget to explain it in the PR itself)
 5. stick with it, your assignment isn't complete until I merge the PR, we will have discussions in the comments
   
+  
+# Footnotes
+[1] https://www.kdnuggets.com/2018/03/5-things-reinforcement-learning.html
