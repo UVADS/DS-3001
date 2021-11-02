@@ -246,7 +246,6 @@ IRISPREDCross <- CrossTable(iris.testLabels, iris_pred, prop.chisq = FALSE)
 
 ```{r}
 
-
 set.seed(1981)
 scalediris$Species <- iris$Species #adding back in the label for caret
 
@@ -277,6 +276,8 @@ iris_pred #gives a character predicted value for each row.
 confusionMatrix(iris_pred, iris_test_car$Species)
 
 table(iris_test_car$Species)#looks like we mis-classified 3 virginica as versicolor
+
+
 
 ```
 

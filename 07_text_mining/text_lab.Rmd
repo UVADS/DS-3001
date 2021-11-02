@@ -29,5 +29,7 @@ Also, submit a link to your the GitHub repo (every group member can submit the s
 Here is the link to the database search via the UVA Library that should lead you to LexusNexus (Now Nexas Uni)
 https://guides.lib.virginia.edu/az.php?a=l
 
-Tips - You need to pull all the newspapers together into one text bag to do regional sentiment and word clouds but to do TF-IDF they need to remain separate. 
-Do the regional analysis in separate documents then just pull the results out into a collaberative separate .rmd file. 
+Tips: 
+* You need to pull all the newspapers together into one text bag (cell) to do regional sentiment and word clouds but to do TF-IDF they need to remain separate. 
+
+* Do the regional analysis in separate documents then just pull the results out into a collaborative separate .rmd file. 
