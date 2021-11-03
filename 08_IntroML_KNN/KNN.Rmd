@@ -21,7 +21,7 @@ library(plotly)
 
 
 ```{r}
-bank_data = read_csv("data/bank.csv")
+bank_data = read_csv("/Users/aishgav/Desktop/ds3001/DS-3001-gitrepo/data/bank.csv")
 
 # Check the structure and view the data.
 table(bank_data$`signed up`)
@@ -30,7 +30,7 @@ table(bank_data$`signed up`)
 
 bank_data <- bank_data[complete.cases(bank_data),]
 
-#Scale the features we will be using for classification 
+#Scale the features we will be using for classification
 bank_data[, c("age","duration","balance")] <- lapply(bank_data[, c("age","duration","balance")],function(x) scale(x))
 
 bank_data$`signed up` <- as.factor(bank_data$`signed up`)
@@ -291,4 +291,90 @@ table(iris_test_car$Species)#looks like we mis-classified 3 virginica as versico
 
 ```
 
+```{r}
+# Let's train the classifier for k = 3 using the class package. 
 
+
+# k-Nearest Neighbor is a randomized algorithm, so make sure to
+# use set.seed() to make your results repeatable.
+set.seed(1982)
+bank_5NN <-  knn(train = train[, c("age", "balance", "duration")],#<- training set cases
+               test = tune[, c("age", "balance", "duration")],    #<- test set cases
+               cl = train$`signed up`,#<- category for true classification
+               k = 5,#<- number of neighbors considered
+               use.all = TRUE,
+               prob = TRUE) #<- control ties between class assignments If true, all distances equal to the kth largest are included
+
+
+
+# View the output.
+str(bank_5NN)
+table(bank_5NN)
+length(bank_5NN)
+```
+
+```{r}
+# How does the kNN classification compare to the true class?
+# Let's take a look at the confusion matrix by combining the 
+# predictions from bank_3NN to the original data set.
+kNN_res_new_k = table(bank_5NN,
+                tune$`signed up`)
+kNN_res_new_k
+sum(kNN_res_new_k)  #<- the total is all the test examples
+
+# Select the true positives and true negatives by selecting
+# only the cells where the row and column names are the same.
+kNN_res_new_k[row(kNN_res_new_k) == col(kNN_res_new_k)]
+
+# Calculate the accuracy rate by dividing the correct classifications
+# by the total number of classifications.
+kNN_acc_new_k = sum(kNN_res_new_k[row(kNN_res_new_k) == col(kNN_res_new_k)]) / sum(kNN_res_new_k)
+
+kNN_acc_new_k
+
+# An 87.0% accuracy rate is pretty good but keep in mind the baserate is roughly 89/11, so we have more or less a 90% chance of guessing right if we don't know anything about the customer, but the negative outcomes we don't really care about, this models value is being able to id sign ups when they are actually sign ups. This requires us to know are true positive rate, or Sensitivity or Recall. (Ya, that's annoying.) So let's dig a little deeper.    
+
+confusionMatrix(as.factor(bank_5NN), as.factor(tune$`signed up`), positive = "1", dnn=c("Prediction", "Actual"), mode = "sens_spec")
+
+#So our ability to "predict" sign up customers has more than doubled to 26% so that's  good but still pretty bad overall. This means that out of 10 sign ups, we really only classify 3 correctly. This is fairly typical when we have a unbalanced dataset. Which is why in this case we would want to tune this model on TPR (Sensitivity), to get it has high as possible while sacrificing Specificity or Precision.  Similar to a medical diagnosis example, where we would rather produce false positives as compared to false negatives, predict more of those with cancer that don't have it as compared to missing anyone that actually has cancer.      
+
+#Reference for confusion matrix: https://www.rdocumentation.org/packages/caret/versions/6.0-86/topics/confusionMatrix 
+```
+
+```{r}
+
+#as k increased, sensitivity got worse for positive class - ability to identify 1s got worse
+#adding more complexity doesn't help 
+#seems to learn negative class well - solution: chop out some of the negative class, that way you aren't repeating rows and giving fake data
+
+```
+
+```{r}
+#test data 
+
+kNN_res_new_k = table(bank_5NN,
+                test$`signed up`)
+kNN_res_new_k
+sum(kNN_res_new_k)  #<- the total is all the test examples
+
+# Select the true positives and true negatives by selecting
+# only the cells where the row and column names are the same.
+kNN_res_new_k[row(kNN_res_new_k) == col(kNN_res_new_k)]
+
+# Calculate the accuracy rate by dividing the correct classifications
+# by the total number of classifications.
+kNN_acc_new_k = sum(kNN_res_new_k[row(kNN_res_new_k) == col(kNN_res_new_k)]) / sum(kNN_res_new_k)
+
+kNN_acc_new_k
+
+# An 87.0% accuracy rate is pretty good but keep in mind the baserate is roughly 89/11, so we have more or less a 90% chance of guessing right if we don't know anything about the customer, but the negative outcomes we don't really care about, this models value is being able to id sign ups when they are actually sign ups. This requires us to know are true positive rate, or Sensitivity or Recall. (Ya, that's annoying.) So let's dig a little deeper.    
+
+confusionMatrix(as.factor(bank_5NN), as.factor(test$`signed up`), positive = "1", dnn=c("Prediction", "Actual"), mode = "sens_spec")
+
+
+
+
+
+
+
+```
