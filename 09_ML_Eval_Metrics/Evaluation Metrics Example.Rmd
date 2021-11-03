@@ -17,16 +17,18 @@ library(tidyverse)
 library(caret)
 library(RColorBrewer)
 library(ROCR)
-#install.packages("MLmetrics")
 library(MLmetrics)
 
 ```
 
 I should note that the labels on this dataset were completely anatomized so I had to guess (make up some of my own) at the labels. In terms of walking you through the process of exploring evaluation it really shouldn't have any impact. 
 
+Question:
+How can we predict whether people will be successful at repaying their loans based off the bank's acceptance of risk?
+
 ```{r}
 #Let's load in our data
-loan_data <- read_csv('data/japan_credit.csv')
+loan_data <- read_csv('C:/Users/Maddie/OneDrive/Desktop/3YEAR/Forked-DS-3001/09_ML_Eval_Metrics/japan_credit.csv')
 #Take a look
 View(loan_data)
 str(loan_data)
@@ -141,7 +143,7 @@ mean(xx$Accuracy)
 loan_tree$finalModel$variable.importance#This will tell us the most important variables in terms of reducing our model error...hahaha liking funfetti takes the cake!! As it should anyone that doesn't enjoy a nice piece of funfetti cake just can't be trusted. (calculated for each variable individually as the sum of the decrease in impurity, includes as a primary split and when it appears as a surrogate)
 
 
-coul <- brewer.pal(5, "Set2")
+coul <- brewer.pal(5, "Set2") #just a color setter
 barplot(loan_tree$finalModel$variable.importance, col=coul)#Totally unnecessary but couldn't help myself, funfetti barchart...
 
 loan_tree$finalModel
@@ -155,7 +157,7 @@ Now let's evaluate our model and replicate some of the evaluation metrics we've 
 loan_eval <-(predict(loan_tree,newdata = test))#generates 1s and 0s
 
 
-loan_eval_prob <- predict(loan_tree,newdata = test, type = "prob")#this gives us the predicted prob, we will need these later for the fairness evaluation
+loan_eval_prob <- predict(loan_tree,newdata = test, type = "prob")#this gives us the predicted prob, we will need these later for the fairness evaluation -- prob is raw probability
 View(loan_eval_prob)
 
 View(test$outcome)

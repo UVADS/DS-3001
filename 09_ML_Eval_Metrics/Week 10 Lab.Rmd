@@ -1,0 +1,207 @@
+---
+title: "Evaluation Metrics Lab"
+author: "Madeleine Ashby"
+date: "10/27/2021"
+output:
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+    theme: journal
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=FALSE}
+#Load necessary packages
+library(caret)
+library(tidyverse)
+library(class)
+library(plotly)
+library(RColorBrewer)
+library(ROCR)
+library(MLmetrics)
+```
+
+# I. Select Dataset, Define Question
+I will be using the [marketing_campaign.csv](https://www.kaggle.com/rodsaldanha/arketing-campaign) dataset.  This dataset was used for analysis for a marketing campaign and thus the data provides a variety of statistics on potential customers the campaign was sent out to.  I would assume that the data would have been used to decide whether or not the recipient would likely be interested in whatever the campaign was about.  However, I have decided to use this dataset as if I were working for a new dating app.  This means I'll be using information such as income, number of kids in the home, and amount of money spent on wine in order to predict whether a subject is single or in a relationship.
+
+Question: Given statistics on income, money spent on wine, and number of kids in the home, how can we predict whether people are single or in a relationship?
+
+
+# II Select Key Metrics
+I will be tracking the following metrics to evaluate my model:
+
+1. Accuracy
+
+2. False Positive Rate (FPR) and True Positive Rate (TPR)
+
+3. ROC / AUC 
+
+
+# III. Build kNN Model, Evaluate
+```{r}
+#Read in data
+marketing = read_delim("C:/Users/Maddie/OneDrive/Desktop/3YEAR/Forked-DS-3001/data/marketing_campaign.csv", 
+                       delim = "\t",
+                       escape_double = FALSE,
+                       trim_ws = TRUE)
+
+# Clean up data and prepare for kNN.
+# get rid of some of the columns
+marketing <- marketing[,3:20]
+
+# remove NAs
+marketing <- na.omit(marketing)
+
+# ensure that we have removed NAs
+table(is.na(marketing))
+marketing$Marital_Status <- recode(marketing$Marital_Status, 
+                            'Single' = 0, 
+                            'Divorced' = 0,
+                            'Together' = 1,
+                            'Married' = 1,
+                            'Widow' = 0,
+                            'Alone' = 0,
+                            'Absurd' = 0,
+                            'YOLO' = 0)
+
+# turn into factor
+marketing$Marital_Status <- as.factor(marketing$Marital_Status)
+
+# removing the date column 
+marketing <- marketing[,-6]
+
+# turn Education into a factor
+marketing$Education <- as.factor(marketing$Education)
+
+
+
+```
+
+```{r}
+# Data Partition for 80% training, 20% testing (no tuning data this week)
+split_index <- createDataPartition(marketing$Marital_Status, 
+                                   p = .8, #selects the split, 80% training 20% for test 
+                                  list = FALSE,
+                                  times = 1, 
+                                  groups = 1)
+train <- marketing[split_index,]
+test <- marketing[-split_index, ]
+
+```
+
+```{r}
+# Prevalence : 64.53%
+baserate = 1 - (sum(marketing$Marital_Status == 0) / nrow(marketing))
+print(baserate)
+
+
+# kNN
+set.seed(2000)
+#str(marketing)
+
+# https://datascience.stackexchange.com/questions/102285/new-classification-in-machine-learning-knn-model
+marketing_3NN <- train(Marital_Status~., #model formula everything used to classify outcome
+                   data=train, #use the training data
+                   method='knn',# indicates the use of knn model
+                   na.action = na.omit)#omitting the missing values
+
+marketing_3NN
+#marketing_3NN <-  knn(train = train[, c("Income", "Kidhome", "MntWines")],#<- training set cases
+ #              test = train [, c("Income", "Kidhome", "MntWines")],    #<- test set cases
+  #             cl = train$Marital_Status,#<- category for true classification
+   #            k = 3,#<- number of neighbors considered
+    #           use.all = TRUE,
+     #          prob = TRUE) #<- control ties between class assignments If true, all distances equal to the kth largest are included
+
+
+
+```
+## Evaluation Metrics
+We can evaluate our model by comparing each of the metrics to the baserate of 35%.
+```{r}
+market_eval <-(predict(marketing_3NN,newdata = test))
+
+market_eval_prob <- predict(marketing_3NN,newdata = test, type = "prob")
+
+market_eval_prob$test <- test$Marital_Status
+
+```
+
+```{r Accuracy / TPR / FPR / Kappa}
+# Accuracy, TPR (Sensitivity), FPR (Recall), & Kappa
+# We can obtain these values from a Confusion Matrix
+confusionMatrix(as.factor(market_eval), test$Marital_Status, positive = "1", dnn=c("Prediction", "Actual"), mode = "sens_spec")
+# Accuracy = 60%
+# Sensitivity = 81%, Recall = 81%
+# Kappa = 0.0136
+```
+
+```{r ROC  AUC}
+# ROC/AUC
+market_eval <- tibble(pred_class=market_eval, pred_prob=market_eval_prob$`1`,target=as.numeric(test$Marital_Status))
+pred <- prediction(market_eval$pred_prob,market_eval$target)
+
+perf <- performance(pred,"tpr","fpr")
+
+plot(perf, colorize=TRUE)
+abline(a=0, b= 1)
+
+perf_AUC <- performance(pred,"auc")
+print(perf_AUC@y.values)
+```
+
+``` {r F1}
+# F1
+pred_1 <- ifelse(market_eval_prob$`1` < 0.5, 0, 1)
+
+#View(pred_1)
+F1_Score(y_pred = as.factor(pred_1), y_true = as.factor(market_eval_prob$test), positive = "1") #causes an error
+
+```
+
+```{r LogLoss}
+# LogLoss
+LogLoss(as.numeric(market_eval$pred_prob), as.numeric(test$Marital_Status))
+```
+
+# IV. Miss-classification Errors
+Consider where miss-classification errors are occurring, is there a pattern? If so discuss this pattern and why you think this is the case.
+
+The Confusion Matrix above shows that the majority of this model's miss-classification errors are accounted for by false positives (there are 126 of these). This means that 126 people are being predicted as taken when they are actually single.  This is obviously problematic, as a dating app caters towards single people and if 126/443 people are being miss-classified in this way, that means that ~30% of the individuals identified in this dataset are wrongly identified in this way and thus the dating app is not able to develop and improve as well as if these individuals were correctly identified.  Moreover, there were also 53 false negatives, meaning that 53 people were predicted as single when they were actually taken.  This as a whole is problematic because it indicates the model's inability to distinguish between factors that affect each class and thus further proves its inadequacy for the purpose of this question.  This suggests two things, mainly: 1) that a new dataset is required to actually answer the question, or 2) that the variables chosen to predict in this model are not good predictors and new variables from this dataset should be chosen to better predict whether or not an individual is single.
+
+# V. Changing the Threshold
+```{r Adjust Threshold}
+adjust_thres <- function(x, y, z) {
+  #x=pred_probablities, y=threshold, z=test_outcome
+  thres <- as.factor(ifelse(x > y, 1,0))
+  confusionMatrix(thres, z, positive = "1", dnn=c("Prediction", "Actual"), mode = "everything")
+}
+
+adjust_thres(market_eval_prob$`1`,.3, test$Marital_Status)
+
+```
+
+# VI. Summary of Findings
+
+## Summary of Evaluation Metrics
+1. Accuracy
+
+The accuracy of the model was 60% (as shown in the confusion matrix).  At 60% accuracy, this means that the model correctly predicts 60% of single individuals being single & taken individuals being taken.  On the other hand, this means that 40% of the outcomes are mispredicted by this model.  In comparison to the calculated baserate (65%), this model is not very useful in predicting whether or not an individual is single or in a relationship.  This is because we could make better predictions by just guessing (and we'd be correct 65% of the time).
+
+2. TPR / FPR
+
+The Confusion Matrix also gives the Specificity and Sensitivity, which are values that can be used to obtain the false positive rate (FPR) and true positive rate (TPR); TPR is equal to the sensitivity, and FPR is equal to 1 - Specificity.  This means that the TPR is 81% and the FPR is 81%.  The true positive rate is the number of individuals that were predicted to be taken that were actually taken (in other words, the precision).  We want this to be as close to 1 as possible, so a TPR of 81% is relatively good.  The false positive rate is the number of individuals that were predicted to be taken but were actually single.  Naturally, we would want this number to be as close to 0 as possible.  Thus, a FPR of 81% is very bad.  This is evident right off the bat - it should raise concern when the sensitivity and specificity are so drastically different.
+
+3. ROC / AUC
+
+The ROC curve plots the true positive rate on the y-axis and the false positive rate on the x-axis.  This curve generates the area under the curve (AUC) as a percentage of the total graph under the curve; the AUC is indicative of performance.  So, when the ROC curve fits the x=y line, AUC = 0.5, and when the ROC curve goes all the way up the y-axis and then all the way across the x-axis, the AUC is 1.  The ROC curve created above shows a line that is very close to the y=x line, and the AUC was found to be 0.54.  According to the scale discussed in class, this is classified as a fail.  This means that the model fails to distinguish between classes.
+
+## Recommendations for Improvement
+Based on analysis of the above evaluation metrics, I think it is clear that the model I have created is not very effective in its prediction and does not help to answer my question.  One recommendation I have to improve the quality of this model would be to find a better dataset that provides more variables/statistics that would help predict a person's marital status.  For instance, this dataset contains a lot of data pertaining to a person's grocery spendings.  These statistics do not inherently imply anything significant about an individual's relationship status.  Additionally, when I calculated the baserate, it revealed that 65% of the subjects were taken, which was not great considering I am trying to target the single individuals in this dataset.  Another recommendation I have would be to adjust the threshold.  When I adjusted the threshold to 30%, the accuracy changed from 60% to 65%, meaning that the model is about as good as just guessing (which is better compared to being worse than just guessing).  In short, it is important that readers of this analysis understand that the model is rather inaccurate and will overestimate the number of single people and thus make it difficult to answer the question, in turn making it difficult to take what was learned and convert it to a business metric that will further the development of the dating application.
+
+
+
+
