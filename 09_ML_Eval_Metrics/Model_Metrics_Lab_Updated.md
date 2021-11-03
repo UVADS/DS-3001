@@ -25,6 +25,6 @@ Recommendations for improvement might include gathering more data, adjusting the
 Submit a .Rmd file along with the data used or access to the data sources to the Collab site. You can work together with your groups but submit individually. 
 
 Keys to Success: 
-* Thoughtfully creating a question that aligns with your dataset
+* Thoughtfully creating a question that aligns with your dataset and classification 
 * Using the evaluation metrics correctly - some require continuous probability outcomes (LogLoss) while others require binary predictions (pretty much all the rest).
-* Evaluation is not about the metrics per say, but what they mean, speaking through your question in light of the evaluation metrics is the primary objective of this lab. 
+* Evaluation is not about the metrics per say, but what they mean, speaking through your question in light of the evaluation metrics is the primary objective of this lab. Think of yourself as a "model detective" that works to leave no stone unturned!  
