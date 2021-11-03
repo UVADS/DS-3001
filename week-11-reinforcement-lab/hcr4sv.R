@@ -10,7 +10,7 @@ library(caret)
 library(NbClust)
 
 # read in data and create dataframe (df1)
-setwd("C:/School/UVA/! Third Year/Fall Term/DS 3001/DS-3001/week11-reinforcement")
+setwd("C:/School/UVA/! Third Year/Fall Term/DS 3001/DS-3001-work/week11-reinforcement")
 df <- read_csv("data-summary.csv")
 df1 <- select(df,main_colors,opp_colors,on_play,num_turns,won)
 
