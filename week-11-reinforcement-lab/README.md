@@ -53,17 +53,26 @@ In part two we are going to rip into some data and explore. The overall goal is 
 3. Make an abbreviated data file (hint: `head -n 1000 game_data_public.MID.PremierDraft.csv > data-summary.csv`)
 4. Load the data into a dataframe (hint: see scratch.R)
 5. Select relevant columns: main_colors,opp_colors,on_play,num_turns,won (hint: see scratch.R) 
-4. **Hard Step** compute two correlation metrics (hint: see scratch.R)
-5. Make scatter plot of the two correlation metrics (hint: see scratch.R)
+6. **Hard Step** compute two correlation metrics using the 271 features starting with 'deck_' (hint: see scratch.R lines 7-21)
+7. Make scatter plot of the two correlation metrics (hint: see scratch.R)
+8. Stare at this plot for a long time, note what thoughts arise
 
-(tar,knn,why cluster, save 20 for show and tell)
 
 ## Let's challenge ourselves
-Now explore, get creative, answer your questions, reinforce what you have learned.
+Now explore, get creative, answer your questions, reinforce what you have learned. From looking at the scatter plot you will have ideas emerge, follow where they lead.
+
+Ideas:
+* apply knn
+* why cluster? what are you learning from clustering
+* compare your clusters with other features in the dataset
+* use more ggplot features like `color` and `size` in `aes(...)`
 
 
 # Part 3: Reflect
+In teams
+1. In your teams reflect on what you have learned and reinforced
 
+All together: Tell the room what you have learned
 
 # PR details
 1. fork this repo: https://github.com/alonzi/DS-3001
