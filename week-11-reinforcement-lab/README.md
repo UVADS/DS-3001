@@ -49,7 +49,7 @@ In part two we are going to rip into some data and explore. The overall goal is 
 
 ## Let's Get Started
 1. Download the data (hint: click the link above, it should open a download)
-2. Un zip the data (hint: `tar -xzf game-data.MID.PremierDraft.tar.gz`)
+2. Unzip the data (hint: `tar -xzf game-data.MID.PremierDraft.tar.gz`)
 3. Make an abbreviated data file (hint: `head -n 1000 game_data_public.MID.PremierDraft.csv > data-summary.csv`)
 4. Load the data into a dataframe (hint: see scratch.R)
 5. Select relevant columns: main_colors,opp_colors,on_play,num_turns,won (hint: see scratch.R) 
