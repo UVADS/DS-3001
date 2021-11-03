@@ -43,26 +43,29 @@ In part two we are going to rip into some data and explore. The overall goal is 
 
 
 ## Today's Dataset
-* We will be using a mystery dataset today: [mystery data](https://17lands-public.s3.amazonaws.com/analysis_data/game_data/game-data.MID.PremierDraft.tar.gz)
+* We will be using a mystery dataset today: [mystery data](https://github.com/UVADS/DS-3001/blob/main/week-11-reinforcement-lab/data-frame.csv)
 * Courtesy of 17 lands, ref [3]
 * N.B.: if you look at the url you will note it comes from s3.amazonaws.com
 
 ## Exercise 3: Let's Get the Ball Rolling
+### Demo 
 1. Download the data (hint: click the link above, it should open a download)
 2. Unzip the data (hint: `tar -xzf game-data.MID.PremierDraft.tar.gz`)
 3. Make an abbreviated data file (hint: `head -n 1000 game_data_public.MID.PremierDraft.csv > data-summary.csv`)
 4. Load the data into a dataframe (hint: see scratch.R)
 5. Select relevant columns: main_colors,opp_colors,on_play,num_turns,won (hint: see scratch.R) 
-6. **Hardest Step:** compute two correlation metrics using the 271 features starting with 'deck_' (hint: see scratch.R lines 7-21, and ref [4] for extra credit)
-7. Make scatter plot of the two correlation metrics (hint: see scratch.R)
-8. Stare at this plot for a long time, note what thoughts arise
+7. **Hardest Step:** compute two correlation metrics using the 271 features starting with 'deck_' (hint: see scratch.R lines 7-21, and ref [4] for extra credit)
+### Start here
+8. Download data from [repo](https://github.com/UVADS/DS-3001/blob/main/week-11-reinforcement-lab/data-frame.csv)
+9. Make scatter plot of the two correlation metrics (hint: see scratch.R)
+10. Stare at this plot for a long time, note what thoughts arise
 
 
 ## Exercise 4: Challenge
 ![](https://github.com/alonzi/DS-3001/blob/1c4895d217dfc6decdfce5f4e7647b12f7610e45/week-11-reinforcement-lab/podracing.gif)
 
 Now explore, get creative, answer your questions, reinforce what you have learned. From looking at the scatter plot you will have ideas emerge, follow where they lead. This is where we get into the goal of today, answering our questions and reinforcing. Here are some ideas to help get you moving:
-* apply knn
+* apply knn or kmeans
 * why cluster? what are you learning from clustering
 * compare your clusters with other features in the dataset
 * use more ggplot features like `color` and `size` in `aes(...)`
@@ -76,7 +79,7 @@ All together: Tell the room what you have learned
 # Part 4: Clean up
 The final part of this assignment is to make a pull request
 1. fork this repo: https://github.com/alonzi/DS-3001
-2. create a file called [uvaNetID].R in the folder assignment-submissions (eg for me: assignment-submissions/LPA2A.R) << knitr rmarkdown whatever is ok too >>
+2. create a file called [uvaNetID].R in the folder assignment-submissions (eg for me: assignment-submissions/LPA2A.R)
 3. the file must contain one coding thing you haven't done before (aka something you learned today in this session)
 4. submit your pull request including
     1. your code
