@@ -47,13 +47,13 @@ In part two we are going to rip into some data and explore. The overall goal is 
 * Courtesy of 17 lands, ref [3]
 * N.B.: if you look at the url you will note it comes from s3.amazonaws.com
 
-## Let's Get Started
+## Exercise 3: Let's Get the Ball Rolling
 1. Download the data (hint: click the link above, it should open a download)
 2. Unzip the data (hint: `tar -xzf game-data.MID.PremierDraft.tar.gz`)
 3. Make an abbreviated data file (hint: `head -n 1000 game_data_public.MID.PremierDraft.csv > data-summary.csv`)
 4. Load the data into a dataframe (hint: see scratch.R)
 5. Select relevant columns: main_colors,opp_colors,on_play,num_turns,won (hint: see scratch.R) 
-6. **Hard Step** compute two correlation metrics using the 271 features starting with 'deck_' (hint: see scratch.R lines 7-21)
+6. **Hardest Step** compute two correlation metrics using the 271 features starting with 'deck_' (hint: see scratch.R lines 7-21)
 7. Make scatter plot of the two correlation metrics (hint: see scratch.R)
 8. Stare at this plot for a long time, note what thoughts arise
 
