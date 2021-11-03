@@ -130,7 +130,7 @@ loan_tree <- train(outcome~., #model formula everything used to classify outcome
                    na.action = na.omit)#omitting the missing values
                    
 loan_tree #let's take a look, pretty good, accuracy is at roughly 84%, not bad. Accuracy is (TP + TN)/(TP+TN+FP+FN). High level indicator of model efficiency. 
-
+typeof(loan_tree)
 loan_tree
 #Quick overview of how bootstrapping works. 
 xx <- tibble(loan_tree$resample)
@@ -151,10 +151,13 @@ loan_tree$finalModel
 Now let's evaluate our model and replicate some of the evaluation metrics we've been discussing. 
 ```{r}
 #First we need to do some predictions using the test data 
+View(test)
 
 loan_eval <-(predict(loan_tree,newdata = test))#generates 1s and 0s
+View(loan_eval)
+loan_tree
 
-
+#predict is polymorphic, meaning it doesn't care about the type of model passed into it
 loan_eval_prob <- predict(loan_tree,newdata = test, type = "prob")#this gives us the predicted prob, we will need these later for the fairness evaluation
 View(loan_eval_prob)
 
@@ -180,6 +183,7 @@ adjust_thres(loan_eval_prob$`1`,.60, test$outcome) #Not much changes here becaus
 
 loan_eval_prob$test <- test$outcome
 
+#notice that this model is probably relying too much on a single variable (fun-fetti) b/c distribution of probabilities is so consistent (underfitting)
 View(loan_eval_prob)
 
 (error = mean(loan_eval != test$outcome))#overall error rate, on average when does our prediction not match the actual, looks like around 15%, really just ok. 
@@ -193,6 +197,7 @@ ROC/AUC
 loan_eval <- tibble(pred_class=loan_eval, pred_prob=loan_eval_prob$`1`,target=as.numeric(test$outcome))
 
 str(loan_eval)
+View(loan_eval)
 
 pred <- prediction(loan_eval$pred_prob,loan_eval$target)
 View(pred)
