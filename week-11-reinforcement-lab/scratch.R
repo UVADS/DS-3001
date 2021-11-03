@@ -1,8 +1,10 @@
 library(tidyverse)
 
+# read in data and create dataframe
 df <- read_csv("data-summary.csv")
 df1 <- select(df,main_colors,opp_colors,on_play,num_turns,won)
 
+# feature engineering
 df2 <- select(df,"deck_Adeline, Resplendent Cathar":"deck_Wrenn and Seven")
 mat = data.matrix(df2)
 vec1 <- vector()
@@ -13,8 +15,8 @@ for(i in 1:nrow(mat) ){
   z<-cor( mat[47,] , mat[i,])
   vec3 <- c(vec3,z)
 }
-
 df1 <- df1 %>% mutate(cora = vec1)
 df1 <- df1 %>% mutate(corc = vec3)
 
+# make scatter plot
 ggplot(df1,aes(x=cora,y=corc))+geom_point()
