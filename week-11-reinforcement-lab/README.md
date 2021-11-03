@@ -76,7 +76,7 @@ All together: Tell the room what you have learned
 # Part 4: Clean up
 The final part of this assignment is to make a pull request
 1. fork this repo: https://github.com/alonzi/DS-3001
-2. create a file called [uvaNetID].R in the folder petes-session (eg for me: petes-session/LPA2A.R) << knitr rmarkdown whatever is ok too >>
+2. create a file called [uvaNetID].R in the folder assignment-submissions (eg for me: assignment-submissions/LPA2A.R) << knitr rmarkdown whatever is ok too >>
 3. the file must contain one coding thing you haven't done before (aka something you learned today in this session)
 4. submit your pull request (don't forget to explain it in the PR itself)
 5. stick with it, your assignment isn't complete until I merge the PR, we will have discussions in the comments
