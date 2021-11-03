@@ -1,14 +1,20 @@
-
 library(tidyverse)
 
 df <- read_csv("data-summary.csv")
+df1 <- select(df,main_colors,opp_colors,on_play,num_turns,won)
 
-df1 <- select(df,main_colors,opp_colors,on_play,num_turns,won,"deck_Adeline, Resplendent Cathar":"deck_Wrenn and Seven")
+df2 <- select(df,"deck_Adeline, Resplendent Cathar":"deck_Wrenn and Seven")
+mat = data.matrix(df2)
+vec1 <- vector()
+vec3 <- vector()
+for(i in 1:nrow(mat) ){
+  x<-cor( mat[1,] , mat[i,])
+  vec1 <- c(vec1,x)
+  z<-cor( mat[47,] , mat[i,])
+  vec3 <- c(vec3,z)
+}
 
-df2 <- mutate(df1,comp = c("deck_Adeline, Resplendent Cathar","deck_Wrenn and Seven"))
+df1 <- df1 %>% mutate(cora = vec1)
+df1 <- df1 %>% mutate(corc = vec3)
 
-
-df1[,c("deck_Adeline, Resplendent Cathar","deck_Wrenn and Seven")]
-
-
-# as.vector(as.matrix(df[,c("alpha", "gamma", "zeta")]))
+ggplot(df1,aes(x=cora,y=corc))+geom_point()
