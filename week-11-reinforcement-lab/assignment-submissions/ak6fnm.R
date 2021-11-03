@@ -18,7 +18,7 @@ ggplot(df1,aes(x=cora,y=corc, color=main_colors))+geom_point(aes(size=num_turns)
 
 table(df1["main_colors"]) #all the oclors
 
-kmeans = kmeans(df1[,c("num_turns","cora","corc")], centers = 5, 
+kmeans = kmeans(df1[,c("num_turns","cora","corc")], centers = 2, 
                         algorithm = "Lloyd")   #<- there are several ways of implementing k-means, see the help menu for a full list
 kmeans
 head(kmeans)
