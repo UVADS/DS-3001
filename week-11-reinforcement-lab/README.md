@@ -16,7 +16,7 @@ Ok, that was a dad joke, I couldn't help myself. That diagram is about Reinforce
 * Reinforce your understanding of previous topics 
 * Everyone makes a PR to this repo (details at end, graded on completion)
 
-# Part 1 - Review and question
+# Part 1: Review
 The syllabus shows the past few weeks have focused on
 * Unsupervised KNN
 * Evalucation metrics
@@ -28,7 +28,7 @@ For this exercise we will work in your teams.
 2. Discuss what you know and note those things
 3. If you bump into something you know now write that down too in a different spot.
 
-All together: Tell the professor what you all wrote down
+All together: Tell the room what you all wrote down
 
 ## Exercise 2: What do you want to know?
 You get the drill, 10 mintues are on the clock.
@@ -36,10 +36,7 @@ You get the drill, 10 mintues are on the clock.
 1. Discuss with your team what you want to know. Where are you shaky? Where would you like more time to practice?
 2. N.B.: This is tricky, you need to put yourself out there, trust your partners, be vulnerable.
 
-All together: Tell the professor what you want to know, where do you want to reinforce
-
-## Reflect
-As we move on to part 2, take a moment to reflect on all of this and as you work the lab, keep these ideas in mind.
+All together: Tell the room what you want to know, what questions do you want to answer, where do you want to reinforce?
 
 # Part 2: Explore
 In part two we are going to rip into some data and explore. The overall goal is to reinforce what you started to learn in the past few weeks. Keep your questions in mind as we go, let them guide you. If you want to take a scenic route because it will help to reinforce, do it. Remember the goal is reinforcement, not completion of some assignment (you can always finish it for homework).
@@ -53,14 +50,20 @@ In part two we are going to rip into some data and explore. The overall goal is 
 ## Let's Get Started
 1. Download the data (hint: click the link above, it should open a download)
 2. Un zip the data (hint: `tar -xzf game-data.MID.PremierDraft.tar.gz`)
-3. Make an abbreviated data file (hint: `head game_data_public.MID.PremierDraft.csv > data-summary.csv`)
-4. Load the data into a dataframe (hint: `df <- read_csv("data-summary.csv")`)
-5. Chop that file down to size (hint: 
-4. Make a scatter plot of << insert two variables here >>
-5. do some clustering -- to what end
-6. Now explore, get creative
+3. Make an abbreviated data file (hint: `head -n 1000 game_data_public.MID.PremierDraft.csv > data-summary.csv`)
+4. Load the data into a dataframe (hint: see scratch.R)
+5. Select relevant columns: main_colors,opp_colors,on_play,num_turns,won (hint: see scratch.R) 
+4. **Hard Step** compute two correlation metrics (hint: see scratch.R)
+5. Make scatter plot of the two correlation metrics (hint: see scratch.R)
 
 (tar,knn,why cluster, save 20 for show and tell)
+
+## Let's challenge ourselves
+Now explore, get creative, answer your questions, reinforce what you have learned.
+
+
+# Part 3: Reflect
+
 
 # PR details
 1. fork this repo: https://github.com/alonzi/DS-3001
