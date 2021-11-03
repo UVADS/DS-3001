@@ -18,8 +18,8 @@ Ok, that was a dad joke, I couldn't help myself. That diagram is about Reinforce
 
 # Part 1: Review
 The syllabus shows the past few weeks have focused on
-* Supervised KNN
-* Evalucation metrics
+* Supervised KNN or Kmeans
+* Evaluation metrics
 
 ## Exercise 1: What do you know?
 For this exercise we will work in your teams.
