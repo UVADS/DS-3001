@@ -18,7 +18,7 @@ Ok, that was a dad joke, I couldn't help myself. That diagram is about Reinforce
 
 # Part 1: Review
 The syllabus shows the past few weeks have focused on
-* Unsupervised KNN
+* Supervised KNN
 * Evalucation metrics
 
 ## Exercise 1: What do you know?
