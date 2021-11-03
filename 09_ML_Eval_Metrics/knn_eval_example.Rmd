@@ -1,0 +1,125 @@
+---
+title: "kNN_eval_example"
+author: "Brian Wright"
+date: "11/3/2021"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## load data
+
+```{r}
+bank_data = read_csv("data/bank.csv")
+```
+
+## clean the data 
+
+```{r}
+bank_data <- bank_data[complete.cases(bank_data),]
+
+bank_data$`signed up` <- as.factor(bank_data$`signed up`)
+```
+
+## kNN data prep
+
+```{r}
+#Scale the features we will be using for classification 
+bank_data[, c("age","duration","balance")] <- lapply(bank_data[, c("age","duration","balance")],function(x) scale(x))
+
+part_index_1 <- createDataPartition(bank_data$`signed up`,
+                                           times=1,
+                                           p = 0.70,
+                                           groups=1,
+                                           list=FALSE)
+
+train <- bank_data[part_index_1,]
+tune_and_test <- bank_data[-part_index_1, ]
+
+tune_and_test_index <- createDataPartition(tune_and_test$`signed up`,
+                                           p = .5,
+                                           list = FALSE,
+                                           times = 1)
+
+tune <- tune_and_test[tune_and_test_index, ]
+test <- tune_and_test[-tune_and_test_index, ]
+
+#Just going to use the training and tune data.
+```
+
+## Model Building 
+
+```{r}
+set.seed(1982)
+bank_3NN <-  knn(train = train[, c("age", "balance", "duration")],#<- training set cases
+               test = tune[, c("age", "balance", "duration")], #<- test set cases
+               cl = train$`signed up`,#<- category for true classification
+               k = 10,#<- number of neighbors considered
+               use.all = TRUE,
+               prob = TRUE)#creates the prob as a attribute of the output
+
+#note this is a vector of predication with the probabilities as a output, but we need to convert this to reflect the positive class.  
+str(bank_3NN)
+```
+
+## Evaluation Prep
+
+```{r}
+## Evaluation Examples 
+
+#Pulling out the probabilities  
+bank_prob_1 <- tibble(attr(bank_3NN, "prob"))
+
+#Prob that are mixed
+View(bank_prob_1)
+
+#Building a dataframe includes the columns 
+final_model <- tibble(k_prob=bank_prob_1$`attr(bank_3NN, "prob")`,pred=bank_3NN,target=tune$`signed up`)
+
+#Need to convert this to the likelihood to be in the poss class.
+final_model$pos_prec <- ifelse(final_model$pred == 0, 1-final_model$k_prob, final_model$k_prob)
+
+View(final_model)
+```
+
+## Evaluation Metrics 
+
+```{r}
+#input predications and original target
+confusionMatrix(final_model$pred, final_model$target, positive = "1", dnn=c("Prediction", "Actual"), mode = "sens_spec")
+
+#Use to adjust the threshold and produce new set of evaluation metrics
+adjust_thres <- function(x, y, z) {
+  #x=pred_probablities, y=threshold, z=test_outcome
+  thres <- as.factor(ifelse(x > y, 1,0))
+  confusionMatrix(thres, z, positive = "1", dnn=c("Prediction", "Actual"), mode = "everything")
+}
+
+adjust_thres(final_model$pos_prec,.35,final_model$target)
+
+#ROC and AUC curves 
+library(ROCR)
+pred <- prediction(final_model$pos_prec,final_model$target)
+View(pred)
+
+knn_perf <- performance(pred,"tpr","fpr")
+
+plot(knn_perf, colorize=TRUE)
+abline(a=0, b= 1)
+
+knn_perf_AUC <- performance(pred,"auc")
+
+print(knn_perf_AUC@y.values)
+
+#LogLoss
+library(MLmetrics)
+LogLoss(as.numeric(final_model$pos_prec), as.numeric(final_model$target))
+
+#F1Score
+F1_Score(y_pred = final_model$pred, y_true = final_model$target, positive = "1")
+```
+
