@@ -58,10 +58,8 @@ In part two we are going to rip into some data and explore. The overall goal is 
 8. Stare at this plot for a long time, note what thoughts arise
 
 
-## Let's challenge ourselves
-Now explore, get creative, answer your questions, reinforce what you have learned. From looking at the scatter plot you will have ideas emerge, follow where they lead.
-
-Ideas:
+## Exercise 4: Challenge
+Now explore, get creative, answer your questions, reinforce what you have learned. From looking at the scatter plot you will have ideas emerge, follow where they lead. This is where we get into the goal of today, answering our questions and reinforcing. Here are some ideas to help get you moving:
 * apply knn
 * why cluster? what are you learning from clustering
 * compare your clusters with other features in the dataset
