@@ -59,6 +59,7 @@ In part two we are going to rip into some data and explore. The overall goal is 
 
 
 ## Exercise 4: Challenge
+![](https://github.com/alonzi/DS-3001/blob/1c4895d217dfc6decdfce5f4e7647b12f7610e45/week-11-reinforcement-lab/podracing.gif)
 Now explore, get creative, answer your questions, reinforce what you have learned. From looking at the scatter plot you will have ideas emerge, follow where they lead. This is where we get into the goal of today, answering our questions and reinforcing. Here are some ideas to help get you moving:
 * apply knn
 * why cluster? what are you learning from clustering
