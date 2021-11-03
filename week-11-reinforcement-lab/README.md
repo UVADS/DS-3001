@@ -53,7 +53,7 @@ In part two we are going to rip into some data and explore. The overall goal is 
 3. Make an abbreviated data file (hint: `head -n 1000 game_data_public.MID.PremierDraft.csv > data-summary.csv`)
 4. Load the data into a dataframe (hint: see scratch.R)
 5. Select relevant columns: main_colors,opp_colors,on_play,num_turns,won (hint: see scratch.R) 
-6. **Hardest Step:** compute two correlation metrics using the 271 features starting with 'deck_' (hint: see scratch.R lines 7-21)
+6. **Hardest Step:** compute two correlation metrics using the 271 features starting with 'deck_' (hint: see scratch.R lines 7-21, and ref [4] for extra credit)
 7. Make scatter plot of the two correlation metrics (hint: see scratch.R)
 8. Stare at this plot for a long time, note what thoughts arise
 
@@ -78,11 +78,16 @@ The final part of this assignment is to make a pull request
 1. fork this repo: https://github.com/alonzi/DS-3001
 2. create a file called [uvaNetID].R in the folder assignment-submissions (eg for me: assignment-submissions/LPA2A.R) << knitr rmarkdown whatever is ok too >>
 3. the file must contain one coding thing you haven't done before (aka something you learned today in this session)
-4. submit your pull request (don't forget to explain it in the PR itself)
-5. stick with it, your assignment isn't complete until I merge the PR, we will have discussions in the comments
+4. submit your pull request including
+    1. your code
+    2. a description in the comment of the purpose of the code
+    3. a figure you generated (optional)
+    4. one thing you looked up after class that you were curious about
+6. stick with it, your assignment isn't complete until I merge the PR, we will have discussions in the comments
   
   
 # Footnotes
 1. https://www.kdnuggets.com/2018/03/5-things-reinforcement-learning.html
 2. https://en.wikipedia.org/wiki/KWL_table#:~:text=The%20letters%20KWL%20are%20an,methods%20of%20teaching%20and%20learning.
 3. https://www.17lands.com/public_datasets
+4. Extra Credit: This method is not optimized for R. It looks more like how someone would do it in old school python. For 25 points and the lead, refactor this code into a vectorized solution.
