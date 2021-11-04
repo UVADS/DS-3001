@@ -87,7 +87,7 @@ set.seed(1982)
 bank_3NN <-  knn(train = train[, c("age", "balance", "duration")],#<- training set cases
                test = tune[, c("age", "balance", "duration")],    #<- test set cases
                cl = train$`signed up`,#<- category for true classification
-               k = 3,#<- number of neighbors considered
+               k = 10,#<- number of neighbors considered
                use.all = TRUE,
                prob = TRUE) #<- control ties between class assignments If true, all distances equal to the kth largest are included
 
@@ -129,6 +129,48 @@ confusionMatrix(as.factor(bank_3NN), as.factor(tune$`signed up`), positive = "1"
 #So our ability to "predict" sign up customers has more than doubled to 26% so that's  good but still pretty bad overall. This means that out of 10 sign ups, we really only classify 3 correctly. This is fairly typical when we have a unbalanced dataset. Which is why in this case we would want to tune this model on TPR (Sensitivity), to get it has high as possible while sacrificing Specificity or Precision.  Similar to a medical diagnosis example, where we would rather produce false positives as compared to false negatives, predict more of those with cancer that don't have it as compared to missing anyone that actually has cancer.      
 
 #Reference for confusion matrix: https://www.rdocumentation.org/packages/caret/versions/6.0-86/topics/confusionMatrix 
+
+
+```
+
+```{r}
+bank_prob_1 <- tibble(attr(bank_3NN, "prob"))
+
+bank_prob_1
+
+final_model <- tibble(k_prob=bank_prob_1$`attr(bank_3NN, "prob")`,pred=bank_3NN,target=tune$`signed up`)
+
+#Need to convert this to the likelihood to be in the poss class.
+final_model$pos_prec <- ifelse(final_model$pred == 0, 1-final_model$k_prob, final_model$k_prob)
+View(final_model)
+
+confusionMatrix(final_model$pred, final_model$target, positive = "1", dnn=c("Prediction", "Actual"), mode = "sens_spec")
+
+adjust_thres <- function(x, y, z) {
+  #x=pred_probablities, y=threshold, z=test_outcome
+  thres <- as.factor(ifelse(x > y, 1,0))
+  confusionMatrix(thres, z, positive = "1", dnn=c("Prediction", "Actual"), mode = "everything")
+}
+
+adjust_thres(final_model$pos_prec,.35,final_model$target)
+
+library(ROCR)
+pred <- prediction(final_model$pos_prec,final_model$target)
+View(pred)
+
+knn_perf <- performance(pred,"tpr","fpr")
+
+plot(knn_perf, colorize=TRUE)
+abline(a=0, b= 1)
+
+knn_perf_AUC <- performance(pred,"auc")
+
+print(knn_perf_AUC@y.values)
+
+library(MLmetrics)
+LogLoss(as.numeric(final_model$pos_prec), as.numeric(final_model$target))
+
+F1_Score(y_pred = final_model$pred, y_true = final_model$target, positive = "1")
 
 ```
 
@@ -214,11 +256,11 @@ set.seed(1000)
 iris_sample <- sample(2, nrow(scalediris), replace=TRUE, prob=c(0.67, 0.33))
 #We then just need to use the new variable to create the test/train outputs, selecting the first four rows as they are the numeric data in the iris data set and we want to predict Species (https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/sample)
 
-View(iris)
+#View(iris)
 
-View(iris_training)
+#View(iris_training)
 
-View(iris_sample)
+#View(iris_sample)
 
 iris_training <- scalediris[iris_sample==1, 1:4]
 iris_test <- scalediris[iris_sample==2, 1:4]
@@ -229,9 +271,11 @@ iris.testLabels <- iris[iris_sample==2, 5]
 
 iris_pred <- knn(train = iris_training, test = iris_test, cl=iris.trainLabels, k=3, prob = TRUE)#probabilities are a percentage of points per class for each point, (kNN equals 4 for example and 3 of 4 are blue then 75% chance of being blue)
 
-View(iris_pred)
+str(iris_pred)
 
-View(attr(iris_pred, "prob"))
+xxxxx <- as.tibble(attr(iris_pred, "prob"))
+View(xxxxx)
+
 
 library(gmodels)
 IRISPREDCross <- CrossTable(iris.testLabels, iris_pred, prop.chisq = FALSE)
@@ -263,7 +307,7 @@ iris_knn <- train(Species~.,
                   trControl= trctrl,#cv method above, will select the optimal K
                   preProcess="scale") #already did this but helpful reference
 
-iris_knn#take a look
+iris_knn
 
 plot(iris_knn)#can also plot
 
@@ -278,6 +322,9 @@ confusionMatrix(iris_pred, iris_test_car$Species)
 table(iris_test_car$Species)#looks like we mis-classified 3 virginica as versicolor
 
 
+xxxxx <- as.tibble(attr(iris_pred, "prob"))
+
+View(xxxxx)
 
 ```
 
