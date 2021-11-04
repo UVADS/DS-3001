@@ -1,0 +1,68 @@
+---
+title: "ReinforcementLab"
+author: "Aishwarya Gavili"
+date: "11/3/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(tidyverse)
+library(plotly)
+library(htmltools)
+library(devtools)
+library(caret)
+library(NbClust)
+library(corrplot)
+library(psych)
+library(mltools)
+library(data.table)
+```
+
+```{r}
+# read in data and create dataframe (df1)
+df <- read_csv("/Users/aishgav/Desktop/ds3001/DS-3001-gitrepo/week-11-reinforcement-lab/data-frame.csv")
+df1 <- df[c("main_colors","opp_colors","on_play","num_turns","won")]
+
+# make scatter plot comparing new features
+ggplot(df,aes(x=cora,y=corc))+geom_point()
+```
+
+```{r}
+num_cols <- unlist(lapply(df, is.numeric))
+df_num <- df[ , num_cols]
+df.cor = cor(df_num, use="pairwise.complete.obs")
+corrplot(df.cor)
+```
+```{r}
+clust_data_df= df[, c("corc", "cora", "num_turns")] 
+```
+
+```{r}
+set.seed(1)
+kmeans_obj_df_3 = kmeans(clust_data_df, centers = 3, 
+                        algorithm = "Lloyd") 
+#View the results
+head(kmeans_obj_df_3)
+```
+```{r}
+#Visualize the output
+df_clusters = as.factor(kmeans_obj_df_3$cluster)
+
+ggplot(clust_data_df, aes(x = cora, 
+                            y = corc,
+                            shape = df_clusters)) + 
+  geom_point(size = 6) +
+  xlab("cora") +
+  ylab("corc") +
+  scale_shape_manual(name = "Cluster", 
+                     labels = c("Cluster 1", "Cluster 2", "Cluster 3"),
+                     values = c("1", "2", "3")) +
+  theme_light()
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
