@@ -1,0 +1,130 @@
+---
+title: "Lab 9"
+author: "Rachael Cooper"
+date: "11/3/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Import Mystery Data
+
+```{r}
+mys <- read.csv("/Users/rachael/Documents/School/Fall 2021/DS 3001/Lab9/mystery.csv")
+```
+
+```{r}
+library(tidyverse)
+library(tidyverse)
+library(plotly)
+
+# read in data and create dataframe (df1)
+df <- read_csv("/Users/rachael/Documents/School/Fall 2021/DS 3001/Lab9/data_summary.csv")
+df1 <- select(df,main_colors,opp_colors,on_play,num_turns,won)
+
+# feature engineering (cora,corc)
+df2 <- select(df,"deck_Adeline, Resplendent Cathar":"deck_Wrenn and Seven")
+mat = data.matrix(df2)
+vec1 <- vector()
+vec3 <- vector()
+for(i in 1:nrow(mat) ){
+  x<-cor( mat[1,] , mat[i,])
+  vec1 <- c(vec1,x)
+  z<-cor( mat[47,] , mat[i,])
+  vec3 <- c(vec3,z)
+}
+
+# add new features to dataframe
+df1 <- df1 %>% mutate(cora = vec1)
+df1 <- df1 %>% mutate(corc = vec3)
+
+# make scatter plot comparing new features
+ggplot(df1,aes(x=cora,y=corc))+geom_point()
+```
+```{r}
+library(NbClust)
+
+normalize <- function(x){
+ abs(x - min(x, na.rm = TRUE)) / abs(max(x, na.rm = TRUE) - min(x, na.rm = TRUE))
+}
+
+mys_num <- mys %>% select(num_turns, cora, corc)
+clust_data <- as_tibble(lapply(mys_num, normalize), na.rm = TRUE)
+clustered <- NbClust(clust_data, method = "kmeans")
+```
+
+The best number of clusters is 4.
+
+```{r}
+set.seed(1)
+kmeans_obj = kmeans(clust_data, centers = 4, algorithm = "Lloyd")
+kmeans_obj
+```
+
+```{r}
+
+explained_variance = function(data_in, k){
+  
+  # Running the kmeans algorithm.
+  set.seed(1)
+  kmeans_obj = kmeans(data_in, centers = k, algorithm = "Lloyd", iter.max = 100)
+  
+  # Variance accounted for by clusters:
+  # var_exp = intercluster variance / total variance
+  var_exp = kmeans_obj$betweenss / kmeans_obj$totss
+  var_exp  
+}
+
+# The sapply() function plugs in several values into our explained_variance function.
+# sapply() takes a vector, lapply() takes a dataframe
+# testing is being done here with 1 through 10 different clusters
+explained_var = sapply(1:10, explained_variance, data_in = clust_data)
+
+# Data for ggplot2.
+elbow_data = data.frame(k = 1:10, explained_var)
+# View(elbow_data_Rep)
+
+# Plotting data.
+ggplot(elbow_data, 
+       aes(x = k,  
+           y = explained_var)) + 
+  geom_point(size = 4) +           #<- sets the size of the data points
+  geom_line(size = 1) +            #<- sets the thickness of the line
+  xlab('k') + 
+  ylab('Inter-cluster Variance / Total Variance') + 
+  theme_light()
+
+```
+
+From both the elbow graph and the other graphs, the optimal number of clusters is 4, which is different to what seems like the optimal number of clusters from first looking at the data.
+
+```{r}
+clusters = as.factor(kmeans_obj$cluster)
+
+# An object has components to it --> associated with the algorithm
+# We care about the cluster variable of the object & turn it into a factor (2 levels)
+
+# aes() <- aesthetics
+p <- ggplot(mys_num, aes(x = cora, 
+                     y = corc,
+                     color = clusters)) + 
+  geom_point(size = 3) +
+  scale_shape_manual(name = "Cluster", 
+                     labels = c("Cluster 1", "Cluster 2", "Cluster 3", "Cluster 4", "Cluster 5"),
+                     values = c("1", "2", "3", "4", "5")) +
+  theme_light()
+
+p
+```
+
+```{r}
+ggplot(mys_num, aes(cora, corc, color = clusters)) + geom_area()
+```
+I was doing some googling about different plots you could possibly do. One of the ones that actually works is the area plot. An area plot one that is supposed to be similar to a line graph. It is supposed to be showing the rise and fall of various data series over time, however there was no time category, so I used random variables. However, the output of the graph is something that I had never done before and it was really interesting to see the outcome of different types of plots with the same data. 
+
+### Reflection
+
+From this lab, I have reinforced my learning about KMeans clustering. I remembered that there were different ways to determine which was the best number of clusters. For this lab, when first looking at the data, it appeared to be a clustering of 5 different clusters. However, after I went back through and reviewed the code that enables us to determine what actually was the best number of clusters, I was able to determine that 4 clusters was best. In addition, in the beginning, I forgot that I had to normalize my data, but after reviewing and seeing how the output was not what I was expecting, I went back through and fixed what I did. In addition, I reviewed my ggplot skills. I had never graphed anything in ggplot before this class, so it was super beneficial in redoing the clustering graphs and adding color to manipulate them. I hope in the future to be even more confident in creating more enlightening graphs and visuals. 
+
