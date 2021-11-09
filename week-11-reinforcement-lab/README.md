@@ -1,3 +1,6 @@
+# UPDATE: For the pull request homework: Don't worry if the PR can merge, go ahead and make the PR. That is sufficient for completion of the assignment.
+
+
 # Week 11: Reinforcement lab
 Welcome to week 11 where we will do a reinforcement lab.
 
