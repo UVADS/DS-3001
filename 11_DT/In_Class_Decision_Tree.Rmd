@@ -28,8 +28,7 @@ you remembered the excellent education provided
 to you at UVA in a undergrad data science course and have outline 
 20ish steps that will need to be undertaken to complete this task 
 (you can add more or combine if needed).  As always, you will need 
-to make sure to #comment your work heavily and render the results in 
-a clear report (knitted). 
+to make sure to #comment your work heavily. 
 
 
 ```{r}
@@ -42,8 +41,6 @@ View(xx)
 
 
  Footnotes: 
--	Some of the steps will not need to be repeated for the second model, 
-use your judgment
 -	You can add or combine steps if needed
 -	Also, remember to try several methods during evaluation and always be 
 mindful of how the model will be used in practice.
@@ -76,7 +73,7 @@ mindful of how the model will be used in practice.
 ```
 
 ```{r}
-#6 Split your data into test, validation and train. (70/15/15)
+#6 Split your data into test, tune, and train. (70/15/15)
 ```
 
 ```{r}
@@ -103,40 +100,39 @@ mindful of how the model will be used in practice.
 ```
 
 ```{r}
-#12 Generate, "by-hand", the hit rate and detection rate and compare the 
-# detection rate to your original baseline rate. How did your model work?
-```
-
-```{r}
-#13 Use the the confusion matrix function to check a variety of metrics 
+#12 Use the the confusion matrix function to check a variety of metrics 
 # and comment on the metric that might be best for this type of analysis given your question.  
 ```
 
 ```{r}
-#14 Generate a ROC and AUC output, interpret the results
+#13 Generate a ROC and AUC output, interpret the results
 ```
 
 ```{r}
-#15 Use the predict function to generate percentages, then select several 
+#14 Use the predict function to generate percentages, then select several 
 # different threshold levels using the confusion matrix function and 
 # interpret the results. What patterns did you notice, did the evaluation metrics change? 
 ```
 
 ```{r}
-#16 Based on your understanding of the model and data adjust several of the hyper-parameters via the built in control function in caret or build and try new features, does the model quality improve? If so how and why, if not, why not?
+#15 Based on your understanding of the model and data adjust several of the hyper-parameters via the built in train control function in caret or build and try new features, does the model quality improve? If so how and why, if not, why not?
+# Use this link: https://rdrr.io/cran/caret/man/trainControl.html to select changes,
+# you aren't expected to understand all these options but explore one or two and 
+# see what happens. 
+
 ```
 
 ```{r}
-#17 Once you are confident that your model is not improving, via changes 
+#16 Once you are confident that your model is not improving, via changes 
 # implemented on the training set and evaluated on the the validation set (item 16), predict with the test set and report a final evaluation of the model. Discuss the output in comparison with the previous evaluations.  
 ```
 
 ```{r}
-#18 Summarize what you learned along the way and make recommendations on how this could be used moving forward, being careful not to over promise. 
+#17 Summarize what you learned along the way and make recommendations on how this could be used moving forward, being careful not to over promise. 
 ```
 
 ```{r}
-#19 What was the most interesting or hardest part of this process and what questions do you still have? 
+#18 What was the most interesting or hardest part of this process and what questions do you still have? 
 ```
 
 

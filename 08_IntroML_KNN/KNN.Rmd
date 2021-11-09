@@ -133,7 +133,11 @@ confusionMatrix(as.factor(bank_3NN), as.factor(tune$`signed up`), positive = "1"
 
 ```
 
+
+## Evaluation Examples 
 ```{r}
+str(bank_3NN)
+
 bank_prob_1 <- tibble(attr(bank_3NN, "prob"))
 
 bank_prob_1
