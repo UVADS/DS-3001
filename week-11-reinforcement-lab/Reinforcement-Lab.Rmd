@@ -1,0 +1,92 @@
+---
+title: "reinforce"
+author: "Anna Stein"
+date: "11/3/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)  
+```
+
+```{r}
+url <- "https://raw.githubusercontent.com/ahs2aew/DS-3001/main/week-11-reinforcement-lab/data-frame.csv"
+reinforce_data <- read_csv(url)
+
+View(reinforce_data)
+```
+
+```{r}
+ggplot(reinforce_data,aes(x=cora,y=corc))+geom_point()
+```
+cora: how like the first deck the row is
+corc: how like the other deck (very different) the row is 
+
+
+
+what would clusters be based on? 
+- maybe 3 clusters
+     - high cora, low/medium corc
+     - mid cora and mid corc
+     - mid cora and higher corc 
+     
+```{r}
+clust_data_reinforce = data[,c("cora", "corc")]
+clust_data_reinforce # these are the columns we want to look at for the clustering 
+
+
+set.seed(1)
+kmeans_obj_reinforce = kmeans(clust_data_reinforce, centers = 2, 
+                        algorithm = "Lloyd") 
+kmeans_obj_reinforce
+```
+With 2 clusters, the variance explained is 45.5%. This is pretty low. We should see if we can get this higher if we have more clusters. 
+
+
+```{r}
+cor_clusters = as.factor(kmeans_obj_reinforce$cluster) # the cluster will be the factor: either 1 or 2
+View(as.data.frame(cor_clusters))
+
+# this tells us which cluster each point belongs to 
+```
+
+
+Visualize the clusters: 
+```{r}
+reinforce_plot= ggplot(reinforce_data, aes(x = cora, 
+                            y = corc,
+                            shape = cor_clusters)) + 
+  geom_point(size = 6) +
+  ggtitle("Title") +
+  xlab("Cora") +
+  ylab("Corc") +
+  scale_shape_manual(name = "Cluster", 
+                     labels = c("Cluster 1", "Cluster 2"),
+                     values = c("1", "2")) +
+  theme_light()
+```
+This looks weird - add more clusters?
+
+```{r}
+# save plot
+ggsave(
+  filename = 'Reinforce Plot',
+  plot = last_plot(),  
+  device = "png",
+  path = NULL,
+  scale = 1,
+  width = NA,
+  height = NA,
+  units = c("in", "cm", "mm", "px"),
+  dpi = 300,
+  limitsize = TRUE,
+  bg = NULL
+)
+```
+```{r}
+getwd()
+
+```
+
+
+
