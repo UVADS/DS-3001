@@ -36,7 +36,7 @@ and functions that build in the R version: https://www.rulequest.com/see5-unix.h
 CARET Example using C5.0: Use a new Dataset multi-class and doing three data
 partitions: Training, Tuning and Testing
 ```{r}
-library(rio)
+
 winequality <- read.csv("data/winequality-red-ddl.csv")
 View(winequality)
 #str(winequality)
@@ -126,6 +126,7 @@ grid <- expand.grid(.winnow = c(TRUE,FALSE),
 #trails - number of boosting iterations to try, 1 indicates a single model 
 #model - type of ml model
 
+set.seed(1984)
 wine_mdl <- train(x=features,
                 y=target,
                 method="C5.0",
@@ -156,10 +157,10 @@ View(as_tibble(wine_pred_tune))
 
 #Lets use the confusion matrix
 
-wine_eval <- confusionMatrix(as.factor(wine_pred_tune), 
+(wine_eval <- confusionMatrix(as.factor(wine_pred_tune), 
                 as.factor(tune$text_rank), 
                 dnn=c("Prediction", "Actual"), 
-                mode = "sens_spec")
+                mode = "sens_spec"))
 
 table(tune$text_rank)
 
@@ -191,8 +192,9 @@ f1 <- function(data, lev = NULL, model = NULL) {
   f1_val <- F1_Score(y_pred = data$pred, y_true = data$obs, positive = lev[1])
   c(F1 = f1_val)
 }
+#source: https://stackoverflow.com/questions/37666516/caret-package-custom-metric
 
-fitControl <- trainControl(method = "adaptive_cv",
+fitControl_2 <- trainControl(method = "LGOCV",
                           number = 10, 
                           returnResamp="all",
                           classProbs = TRUE,
@@ -200,7 +202,7 @@ fitControl <- trainControl(method = "adaptive_cv",
                           summaryFunction = f1) 
 
 # grid search, increasing the boosting rounds 
-grid <- expand.grid(.winnow = c(TRUE,FALSE), 
+grid_2 <- expand.grid(.winnow = c(TRUE,FALSE), 
                     .trials=c(10,15,20,25,30), 
                     .model="tree")
 
@@ -209,11 +211,12 @@ set.seed(1984)
 wine_mdl_2 <- train(x=features,
                 y=target,
                 method="C5.0",
-                tuneGrid=grid,
+                tuneGrid=grid_2,
                 metric="F1",
-                trControl=fitControl,
-                verbose=TRUE)
+                trControl=fitControl_2)
 
+
+wine_mdl
 wine_mdl_2
 
 # wine_mdl_rpart <- train(x=features,
@@ -246,26 +249,12 @@ wine_eval
 # Now give the changes we made above let's final the model and check the metrics
 # output on the test file. 
 
-```{r}
-iris <- tibble(iris)
-View(iris)
-
-mod1 <- C5.0(Species ~ ., data = iris)
-plot(mod1)
-plot(mod1, subtree = 3)
-```
-
-
 # Final Evaluation 
 ```{r}
 wine_pred_test = predict(wine_mdl_2,test, type= "raw")
 
 View(as_tibble(wine_pred_test))
 
-
-wine_mdl_2$modelInfo
-
-plot(wine_mdl,trail=20)
 
 #Lets use the confusion matrix
 
