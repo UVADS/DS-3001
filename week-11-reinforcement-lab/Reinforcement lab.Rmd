@@ -1,0 +1,91 @@
+---
+title: "Reinforcement Lab"
+author: "Tatev Gomtsyan"
+date: "11/3/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+###Part 1
+## Exercise 1:
+What we know:
+- text analysis 
+- concept of knn
+- concept of kmeans was easier to understand
+
+## Exercise 2:
+What we want to know:
+- how to use evaluation metrics (especially ROC/AUC)
+- training, tuning 
+- one-hot encoding?
+- decision tree
+- cross-validation 
+
+###Part 2: Explore 
+
+```{r}
+# Load libraries.
+#library(e1071)
+library(tidyverse)
+library(plotly)
+library(htmltools)
+library(devtools)
+library(caret)
+library(NbClust)
+
+```
+
+```{r}
+library(readr)
+url = "https://raw.githubusercontent.com/UVADS/DS-3001/main/week-11-reinforcement-lab/data-frame.csv"
+data = read_csv(url)
+View(data)
+
+ggplot(data, aes(x=cora, y=corc))+geom_point()
+```
+
+```{r}
+clust_data = data[, c("num_turns", "cora", "corc")]
+
+#running the algorithm with 2 centers
+set.seed(1)
+kmeans_obj_data = kmeans(clust_data, centers = 2, 
+                        algorithm = "Lloyd") 
+
+# What did the kmeans function produce, 
+# what does the new variable kmeans_obj contain?
+kmeans_obj_data
+
+# View the results of each output of the kmeans function.
+head(kmeans_obj_data)
+```
+```{r}
+kmeans_obj_data
+clusters = as.factor(kmeans_obj_data$cluster)
+
+# What does the kmeans_obj look like?
+View(clusters)
+```
+
+```{r}
+#Visualize the output
+
+View(data)
+View(clusters)
+
+ggplot(data, aes(x = cora, 
+                            y = corc,
+                            shape = clusters)) + 
+  geom_point(size = 6) +
+  ggtitle("Cora vs Corc") +
+  xlab("Cora") +
+  ylab("Corc") +
+  scale_shape_manual(name = "Cluster", 
+                     labels = c("Cluster 1", "Cluster 2"),
+                     values = c("1", "2")) +
+  theme_light()
+```
+
+
