@@ -49,6 +49,7 @@ winequality$text_rank <- fct_collapse(winequality$text_rank,
                                       poor = c("poor","poor-ish",""))
 table(winequality$text_rank)
 
+View(winequality)
 
 ```
 
