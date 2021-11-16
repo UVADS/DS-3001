@@ -11,7 +11,7 @@ editor_options:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
- 
+The goal of this lab is to optimize a Random Forest model using the same dataset from last week and then compare the results from the C5.0 method to the Random Forest method. The guidance this week is less prescriptive in terms of steps, so use the skills you have gained over the semester to build and evaluate the RF model and determine if the RF is a better approach or not. You will be graded on your model building, interpretation of the results and explanation of model selection. As always, rely on your teams but submit your own code. Lastly, there are likely several correct approaches involving a variety of different conclusions, just make sure your conclusions are supported by your approach.    
 
 The dataset below includes Census data on 32,000+ individuals with a variety of variables and a target variable for above or below 50k in salary. 
 
