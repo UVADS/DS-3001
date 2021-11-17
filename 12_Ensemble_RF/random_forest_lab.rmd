@@ -1,0 +1,83 @@
+---
+title: "Random_Forest_Lab"
+author: "Brian Wright"
+date: "11/16/2020"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+The goal of this lab is to optimize a Random Forest model using the same dataset from last week and then compare the results from the C5.0 method to the Random Forest method. The guidance this week is less prescriptive in terms of steps, so use the skills you have gained over the semester to build and evaluate the RF model and determine if the RF is a better approach or not. You will be graded on your model building, interpretation of the results and explanation of model selection. As always, rely on your teams but submit your own code. Lastly, there are likely several correct approaches involving a variety of different conclusions, just make sure your conclusions are supported by your approach.    
+
+The dataset below includes Census data on 32,000+ individuals with a variety of variables and a target variable for above or below 50k in salary. 
+
+Your goal is to build a Random Forest Classifier to be able to predict income levels above or below 50k. 
+
+```{r}
+url <- "https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data"
+
+census <- read_csv(url, col_names = FALSE)
+
+colnames(census) <- c("age","workclass","fnlwgt","education","education_num","marital_status","occupation","relationship","race","sex","capital_gain","capital_loss","hours_per_week","native_country","income")
+
+
+View(census)
+
+```
+
+
+Recode the target variable to set the above 50k to 1 and below to 0, should already
+be done. 
+```{r}
+
+```
+
+Ensure that the variables are correctly classified (should already be done)
+```{r}
+```
+
+Finish any other data prep (one-hot encode, reduce factor levels)
+```{r}
+
+```
+
+Create test, tune and training sets 
+```{r}
+
+```
+
+Calculate the initial mtry level 
+```{r}
+
+```
+
+Run the initial RF model with 500 trees 
+```{r}
+
+```
+
+
+Using the training and tune datasets tune the model in consideration of the number
+of trees, the number of variables to sample and the sample size that optimize the model
+output. 
+```{r}
+
+```
+
+Once a final model has been selected, evaluate the model using the test dataset
+```{r}
+
+```
+
+
+Summarize your findings as compared to the C5.0 model from last week. Think about the
+time the model took to train, the model evaluation output and if the patterns generally 
+between the two models are the same or different. What did you learn about the models or
+the data along the way? 
+```{r}
+
+```

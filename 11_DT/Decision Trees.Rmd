@@ -30,12 +30,255 @@ library(mlbench)
 ```
 
 
+Let's take a look at the caret method using C5.0, nice overview of C5.0 
+and functions that build in the R version: https://www.rulequest.com/see5-unix.html
+
+CARET Example using C5.0: Use a new Dataset multi-class and doing three data
+partitions: Training, Tuning and Testing
+```{r}
+
+winequality <- read.csv("data/winequality-red-ddl.csv")
+View(winequality)
+#str(winequality)
+table(winequality$text_rank)
+
+winequality$text_rank <- fct_collapse(winequality$text_rank,
+                                      ave=c("ave","average-ish"),
+                                      excellent = "excellent",
+                                      good = "good",
+                                      poor = c("poor","poor-ish",""))
+table(winequality$text_rank)
+
+View(winequality)
+
+```
+
+Splitting the Data
+```{r}
+#There is not a easy way to create 3 partitions using the createDataPartitions
+#so we are going to use it twice. Mostly because we want to stratify on the variable we are working to predict. What does that mean?  
+part_index_1 <- caret::createDataPartition(winequality$text_rank,
+                                           times=1,
+                                           p = 0.70,
+                                           groups=1,
+                                           list=FALSE)
+
+train <- winequality[part_index_1, ]
+tune_and_test <- winequality[-part_index_1, ]
+
+#The we need to use the function again to create the tuning set 
+
+tune_and_test_index <- createDataPartition(tune_and_test$text_rank,
+                                           p = .5,
+                                           list = FALSE,
+                                           times = 1)
+
+tune <- tune_and_test[tune_and_test_index, ]
+test <- tune_and_test[-tune_and_test_index, ]
+
+
+dim(train)
+dim(test)# these will be slightly off because the data set isn't perfectly even
+#buts its not a issue. 
+dim(tune)
+
+```
+
+
+
+```{r}
+# Choose the features and classes
+
+features <- train[,c(-12,-13)]#dropping 12 and 13. 12 essentially predicts 13 
+#perfectly and 13 is our target variable
+target <- train$text_rank
+
+str(features)
+str(target)
+
+#Cross validation process 
+
+fitControl <- trainControl(method = "repeatedcv",
+                          number = 10,
+                          repeats = 5, 
+                          returnResamp="all",
+                          classProbs = TRUE,
+                          allowParallel = TRUE) 
+
+# number - number of folds
+# repeats - number of times the CV is repeated, here it's 5 take the average of
+# those 5 repeats
+
+# Grid search options for each of the models available in CARET
+# http://topepo.github.io/caret/train-models-by-tag.html#tree-based-model
+
+grid <- expand.grid(.winnow = c(TRUE,FALSE), 
+                    .trials=c(1,5,10,15,20), 
+                    .model="tree")
+
+#expand.grid - series of options that are available for model training
+
+#winnow - whether to reduce the feature space -  Works to remove unimportant 
+#features but it doesn't always work, in the above we are winnowing.  
+
+#Actually a pretty good StackExchange post on winnowing:
+#https://stats.stackexchange.com/questions/83913/understanding-the-output-of-c5-0-classification-model-using-the-caret-package
+
+#trails - number of boosting iterations to try, 1 indicates a single model 
+#model - type of ml model
+
+set.seed(1984)
+wine_mdl <- train(x=features,
+                y=target,
+                method="C5.0",
+                tuneGrid=grid,
+                trControl=fitControl,
+                verbose=TRUE)
+
+wine_mdl #provides us the hyper-parameters that were selected through the grid
+# search process. 
+
+View(wine_mdl$pred)
+
+# visualize the re-sample distributions
+xyplot(wine_mdl,type = c("g", "p", "smooth"))
+
+varImp(wine_mdl)
+
+```
+
+
+Let's use the model to predict and the evaluate the performance
+```{r}
+
+wine_pred_tune = predict(wine_mdl,tune, type= "raw")
+
+View(as_tibble(wine_pred_tune))
+
+
+#Lets use the confusion matrix
+
+(wine_eval <- confusionMatrix(as.factor(wine_pred_tune), 
+                as.factor(tune$text_rank), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec"))
+
+table(tune$text_rank)
+
+(wine_pred_tune_p = predict(wine_mdl,tune,type= "prob"))
+
+```
+Next we need to use the "tune" dataset to optimize our model, then once 
+we are confident that we've got the best model we see how it 
+performs on the test set.
+
+"C5.0 constructs decision trees in two phases. A large tree is first grown 
+to fit the data closely and is then `pruned' by removing parts that are 
+predicted to have a relatively high error rate (winnowing, as a example). 
+This pruning process is first applied to every sub-tree to decide whether 
+it should be replaced by a leaf or sub-branch, and then a global stage 
+looks at the performance of the tree as a whole." - https://www.rulequest.com/see5-unix.html#SOFT
+
+The process above is referred to as pessimistic pruning, as it's centered on 
+whether a tree should be pruned or not. 
+See page 381 Applied Predictive Modeling for more details
+
+# Let's make some changes and see if we can improve
+
+```{r}
+#Cross Validation Process, changing method for CV and adding a different metric for optimization 
+
+library(MLmetrics)
+f1 <- function(data, lev = NULL, model = NULL) {
+  f1_val <- F1_Score(y_pred = data$pred, y_true = data$obs, positive = lev[1])
+  c(F1 = f1_val)
+}
+#source: https://stackoverflow.com/questions/37666516/caret-package-custom-metric
+
+fitControl_2 <- trainControl(method = "LGOCV",
+                          number = 10, 
+                          returnResamp="all",
+                          classProbs = TRUE,
+                          allowParallel = TRUE,
+                          summaryFunction = f1) 
+
+# grid search, increasing the boosting rounds 
+grid_2 <- expand.grid(.winnow = c(TRUE,FALSE), 
+                    .trials=c(10,15,20,25,30), 
+                    .model="tree")
+
+# training model
+set.seed(1984)
+wine_mdl_2 <- train(x=features,
+                y=target,
+                method="C5.0",
+                tuneGrid=grid_2,
+                metric="F1",
+                trControl=fitControl_2)
+
+
+wine_mdl
+wine_mdl_2
+
+# wine_mdl_rpart <- train(x=features,
+#                 y=target,
+#                 method="rpart",
+#                 trControl=fitControl)
+# rpart.plot(wine_mdl_2$finalModel)
+# 
+# wine_mdl_rpart
+
+```
+
+# Evaluation of model 2
+
+```{r}
+wine_pred_tune_2 = predict(wine_mdl_2,tune, type= "raw")
+
+
+#Lets use the confusion matrix
+
+(model_eval_2 <- confusionMatrix(as.factor(wine_pred_tune_2), 
+                as.factor(tune$text_rank), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec"))
+model_eval_2
+wine_eval
+
+```
+
+# Now give the changes we made above let's final the model and check the metrics
+# output on the test file. 
+
+# Final Evaluation 
+```{r}
+wine_pred_test = predict(wine_mdl_2,test, type= "raw")
+
+View(as_tibble(wine_pred_test))
+
+
+#Lets use the confusion matrix
+
+confusionMatrix(as.factor(wine_pred_test), 
+                as.factor(test$text_rank), 
+                dnn=c("Prediction", "Actual"), 
+                mode = "sens_spec")
+
+
+(wine_pred_tune_p = predict(wine_mdl,test,type= "prob"))
+```
+
+Example with rpart on a numerical dataset, which might work better with a rules
+based approach. 
+
+
 ```{r}
 tree_example <- tibble(import("data/pregnancy.csv", check.names= TRUE))
 
 describe(tree_example)
 View(tree_example)
 str(tree_example)
+
 #We want to build a classifier that can predict whether a shopper is pregnant based on the items they buy so we can direct-market to that customer if possible. 
 
 
@@ -296,161 +539,3 @@ View(cptable_ex_cp)
 dev.off()
 
 ```
-
-Now let's take a look at the caret method using C5.0, nice overview of C5.0 
-and functions that build in the R version: https://www.rulequest.com/see5-unix.html
-
-
-CARET Example using C5.0: Use a new Dataset multi-class and doing three data
-partitions: Training, Tuning and Testing
-```{r}
-
-winequality <- read_csv("data/winequality-red-ddl.csv")
-#View(winequality)
-#str(winequality)
-table(winequality$text_rank)
-
-winequality$text_rank <- fct_collapse(winequality$text_rank,
-                                      ave=c("ave","average-ish"),
-                                      excellent = "excellent",
-                                      good = "good",
-                                      poor = c("poor","poor-ish"))
-
-```
-
-Splitting the Data
-```{r}
-#There is not a easy way to create 3 partitions using the createDataPartitions
-#so we are going to use it twice. Mostly because we want to stratify on the variable we are working to predict. What does that mean?  
-part_index_1 <- caret::createDataPartition(winequality$text_rank,
-                                           times=1,
-                                           p = 0.70,
-                                           groups=1,
-                                           list=FALSE)
-
-train <- winequality[part_index_1, ]
-tune_and_test <- winequality[-part_index_1, ]
-
-#The we need to use the function again to create the tuning set 
-
-tune_and_test_index <- createDataPartition(tune_and_test$text_rank,
-                                           p = .5,
-                                           list = FALSE,
-                                           times = 1)
-
-tune <- tune_and_test[tune_and_test_index, ]
-test <- tune_and_test[-tune_and_test_index, ]
-
-
-dim(train)
-dim(test)# these will be slightly off because the data set isn't perfectly even
-#buts its not a issue. 
-dim(tune)
-
-```
-
-
-
-```{r}
-#Cross validation process 
-
-fitControl <- trainControl(method = "repeatedcv",
-                          number = 10,
-                          repeats = 5, 
-                          returnResamp="all") 
-
-# number - number of folds
-# repeats - number of times the CV is repeated, here it's 5 take the average of
-# those 5 repeats
-
-
-# Choose the features and classes
-
-features <- train[,c(-12,-13)]#dropping 12 and 13. 12 essentially predicts 13 
-#perfectly and 13 is our target variable
-target <- train$text_rank
-
-str(features)
-str(target)
-
-grid <- expand.grid(.winnow = c(TRUE,FALSE), 
-                    .trials=c(1,5,10,15,20), 
-                    .model="tree")
-
-#expand.grid - series of options that are available for model training
-
-#winnow - whether to reduce the feature space -  Works remove unimportant features but it doesn't always work, in the above we are winnowing.  
-
-#Actually a pretty good StackExchange post on winnowing:
-#https://stats.stackexchange.com/questions/83913/understanding-the-output-of-c5-0-classification-model-using-the-caret-package
-
-#trails - number of boosting iterations to try, 1 indicates a single model 
-#model - type of ml model
-
-wine_mdl <- train(x=features,
-                y=target,
-                tuneGrid=grid,
-                trControl=fitControl,
-                method="C5.0",
-                verbose=TRUE)
-
-wine_mdl #provides us the hyperparameters that were selected through the grid
-#search process. 
-
-View(wine_mdl$pred)
-
-# visualize the re-sample distributions
-xyplot(wine_mdl,type = c("g", "p", "smooth"))
-
-varImp(wine_mdl)
-
-```
-
-
-Next we need to use the "tune" dataset to optimize our model, then once 
-we are confident that we've got the best model we see how it 
-performs on the test set.
-
-"C5.0 constructs decision trees in two phases. A large tree is first grown 
-to fit the data closely and is then `pruned' by removing parts that are 
-predicted to have a relatively high error rate (winnowing, as a example). 
-This pruning process is first applied to every sub-tree to decide whether 
-it should be replaced by a leaf or sub-branch, and then a global stage 
-looks at the performance of the tree as a whole." - https://www.rulequest.com/see5-unix.html#SOFT
-
-The process above is referred to as pessimistic pruning, as it's centered on 
-whether a tree should be pruned or not. 
-See page 381 Applied Predictive Modeling for more details 
-```{r}
-Winnowing 
--g
--c
--m
-
-```
-
-
-
-Let's use the model to predict and the evaluate the performance
-```{r}
-
-wine_predict = predict(wine_mdl,test_w, type= "raw")
-
-View(as_tibble(wine_predict))
-
-
-#Lets use the confusion matrix
-
-confusionMatrix(as.factor(wine_predict), 
-                as.factor(test_w$text_rank), 
-                dnn=c("Prediction", "Actual"), 
-                mode = "sens_spec")
-
-table(test_w$text_rank)
-
-
-wine_predict_p = predict(wine_mdl,test_w, type= "prob")
-
-```
-
-

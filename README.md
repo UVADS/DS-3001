@@ -121,10 +121,10 @@ The books below are essentially a starter Machine Learning Library. I will use a
 | Week 10	| The key to ML: Knowing how bad your model really is… 	| - Metrics for Accuracy, Sensitivity, ROC, AUC, etc. 	| [Evaluation Lab](https://github.com/UVADS/DS-3001/blob/main/09_ML_Eval_Metrics/Model_Metrics_Lab_Updated.md)|All of B. and G.- Chapter 11 |
 | Week 11 | Reinforcement Lab	| Let's Put these Skills to Use!	| Case Study: Loreto Alonzi, PhD	|  	|
 | Week 12 	| Nature's Perfect ML analogy: Tree Based Methods  	| Classification: Decision Trees  	| [Predicting Income for Big Brother](https://github.com/UVADS/DS-4001/blob/main/11_DT/In_Class_Decision_Tree.Rmd)	| F. Chapter 5 and G. Chapter 14.1-14.3 	|
-|  Week 13 | Wisdom of the Crowd ML: Tree Methods Cont. 	| Random Forrest and C5.0 Boosting   - Sampling Matters  	|  [Lab: TBD](https://github.com/UVADS/DS-4001/tree/main/12_Ensemble_RF)	| F. Chapter 11 and G. 14.4-14.8 	|
-|  Week 14 | Do the next right thing…ethics 	|  Bias in AI Discussion -Simple methods for identifying bias   - Protected Classes 	| Protected class example - KNN  	|   Weapons of Math Destruction	|
-| Week 15 | Break - No Class	|  	| 	|  Ethical Reflection Due	|
-| Week 16	| Final Projects	|  	|  	|  	|
+|  Week 13 | Wisdom of the crowd|   Random Forest Overview	| Lab	| 	|
+|  Week 14 | Break- No Class	|   	| 	|   	|
+| Week 15 | Do the next right thing…ethics |  Bias in AI Discussion -Simple methods for identifying bias   - Protected Classes	| Ethical Reflections 	| Weapons of Math Destruction  	|
+| Week 16 - Exam Week	| Final Projects Presentations	|  	| Ethical Reflection Due 	|  	|
 
 ## A few Policies that will Govern the Class
 
