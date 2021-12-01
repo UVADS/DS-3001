@@ -24,13 +24,13 @@ library(DT)
 library(plotly)
 ```
 
-Ok let's take a look at some of these fairness measures in action. We are going to train a decision tree on a data set focused on Japanese Loan Approval to see if gender and sex play a role in the approval of the loans. 
+Ok let's take a look at some of these fairness measures in action. We are going to train a decision tree on a data set focused on Japanese Loan Approval to see if gender and race play a role in the approval of the loans. 
 
-I should note that the labels on this dataset were completely anonymized so I had to guess (make up some of my own) at the labels. In terms of walking you through the process of measuring fairness it really shouldn't have any impact. 
+I should note that the labels on this dataset were completely random so I had to guess (make up some of my own) at the labels. In terms of walking you through the process of measuring fairness it really shouldn't have any impact. 
 
 ```{r}
 #Let's load in our data
-loan_data <- read_csv('japan_credit.csv')
+loan_data <- read_csv('data/japan_credit.csv')
 #Take a look
 View(loan_data)
 str(loan_data)
@@ -87,8 +87,6 @@ str(loan_data)
 loan_pred <- loan_data[ , c(-3,-5)] 
 head(loan_pred)
 
-
-
 ```
 So now we can create our decision tree, then we will see if its "fair" to the gender and race variables. We are going to use the caret package to grow our tree, this is a heavily used ml package in R
 
@@ -117,7 +115,8 @@ table(test$outcome)
 
 loan_tree <- train(outcome~., #model formula everything used to classify outcome
                    data=train_data, #use the training data
-                   method='rpart',# indicates the use of tree based model
+                   method='rpart',
+                   cp=.0000001,
                    na.action = na.omit)#omitting the missing values
                    
 loan_tree#let's take a look, pretty good accuracy is at roughly 84%, not bad. Accuracy is (TP + TN)/(P+N). High level indicator of model efficiency. 
@@ -125,7 +124,7 @@ loan_tree$finalModel$variable.importance#This will tell us the most important va
 
 loan_tree$finalModel
 
-loan_plot <- rpart.plot(loan_tree$finalModel, type =4, extra = 101)
+loan_plot <- rpart.plot(loan_tree$finalModel, type =2, extra = 101)
 
 loan_plot
 
@@ -141,7 +140,7 @@ loan_eval_prob <- predict(loan_tree,newdata = test, type = "prob")#this gives us
 
 View(loan_eval_prob)
 
-View(test$outcome)
+head(test$outcome, 50)
 
 table(loan_eval,test$outcome)#essentially the confusion matrix, though we can make a fancy one using caret built in functions
 
@@ -161,7 +160,7 @@ length(loan_eval)
 Now let's check the fairness
 
 ```{r}
-#first we are going to equality of odds or "proportional parity" and equal opportunity "equal odds" as defined by this package, but we need create a new data frame that includes our set of predicted values and the percentage values associated with each outcome. We will add this to our test set.  
+#first we are going to do equality of odds or "proportional parity" and equal opportunity "equal odds" as defined by this package, but we need create a new data frame that includes our set of predicted values and the percentage values associated with each outcome. We will add this to our test set.  
 
 table(test$gender)
 
@@ -174,7 +173,7 @@ dpp <- prop_parity(data = fair_eval_data,
                    group="gender",#protected class
                    probs = "prob",
                    preds = "predicted",
-                   cutoff = .5,#threshold
+                   cutoff = .50,#threshold
                    base = "m")#reference level 
 
 
@@ -196,7 +195,7 @@ eqo_loan <- equal_odds(data = fair_eval_data,
            group   = "gender",
            probs   = "prob", 
            preds   = "predicted",
-           cutoff = 0.5, 
+           cutoff = 0.50, 
            base   = "m")
 
 eqo_loan$Metric #This is interesting because here it seems the roles are slightly reversed. 
