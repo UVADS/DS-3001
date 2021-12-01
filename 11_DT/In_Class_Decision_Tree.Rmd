@@ -34,9 +34,13 @@ to make sure to #comment your work heavily.
 ```{r}
 url <- "http://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data"
 
-xx <- readr::read_csv(url)
+xx <- readr::read_csv(url,col_names=names)
 
 View(xx)
+```
+
+```{r}
+names <- c("age","workclass","fnlwgt","education","education-num","marital-status","occupation","relationship","race","sex","capital-gain","capital-loss","hours-per-week","native-country", "salary")
 ```
 
 

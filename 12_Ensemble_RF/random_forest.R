@@ -44,7 +44,7 @@ randomForest(formula,             #<- A formula to solve for when using random f
              maxnodes = NULL,     #<- Maximum number of terminal nodes trees in the forest can have. 
              importance = TRUE,   #<- Should importance of predictors be assessed?, TRUE
              localImp = FALSE,    #<- Should casewise importance measures be computed? (Setting this to TRUE will override importance.)
-             proximity = TRUE,    #<- Should a proximity measure between rows be calculated?
+             proximity = FALSE,    #<- Should a proximity measure between rows be calculated?
              norm.votes = TRUE,   #<- If TRUE (default), the final result of votes are expressed as fractions. If FALSE, raw vote counts are returned (useful for combining results from different runs).
              do.trace = FALSE,    #<- If set to TRUE, give a more verbose output as randomForest is run.
              keep.forest = TRUE,  #<- If set to FALSE, the forest will not be retained in the output object. If xtest is given, defaults to FALSE.
@@ -69,14 +69,17 @@ randomForest(formula,             #<- A formula to solve for when using random f
 # use to test out the quality of our model.  
 str(pregnancy)
 # First create a vector of numbers we'll sample.
-pregnancy = import("pregnancy.csv", check.names = TRUE, stringsAsFactors = FALSE)
-pregnancy_factors = as.data.frame(apply(pregnancy,                 #<- the data set to apply the function to
+pregnancy = import("data/pregnancy.csv", check.names = TRUE, stringsAsFactors = TRUE)
+
+pregnancy_factors = as.tibble(apply(pregnancy,                 #<- the data set to apply the function to
                           2,                         #<- for each column
                           function(x) as.factor(x)))  #<- change each variable to factor
 str(pregnancy_factors)
 
 sample_rows = 1:nrow(pregnancy_factors)
 sample_rows
+
+View(pregnancy_factors)
 
 # sample() is a randomized function, use set.seed() to make your results reproducible.
 set.seed(1984) #sample(x, size, replace = FALSE, prob = NULL)
@@ -90,7 +93,8 @@ str(test_rows)
 
 
 # Partition the data between training and test sets using the row numbers the
-# sample() function selected.
+# sample() function selected, using a simplified version for the lab you'll need 
+# to create three segments 
 pregnancy_train = pregnancy_factors[-test_rows,]
 pregnancy_test = pregnancy_factors[test_rows,]
 
@@ -118,13 +122,14 @@ mytry_tune <- function(x){
   xx <- dim(x)[2]-1
   sqrt(xx)
 }
-       
+
+
 mytry_tune(pregnancy)
 
 str(pregnancy_train)
        
 set.seed(2023)	
-pregnancy_RF = randomForest(PREGNANT~.,          #<- Formula: response variable ~ predictors.
+pregnancy_RF = randomForest(as.factor(PREGNANT)~.,          #<- Formula: response variable ~ predictors.
                             #   The period means 'use all other variables in the data'.
                             pregnancy_train,     #<- A data frame with the variables to be used.
                             #y = NULL,           #<- A response vector. This is unnecessary because we're specifying a response formula.
@@ -141,7 +146,7 @@ pregnancy_RF = randomForest(PREGNANT~.,          #<- Formula: response variable 
                             #maxnodes = NULL,    #<- Limits the number of maximum splits. 
                             importance = TRUE,   #<- Should importance of predictors be assessed?
                             #localImp = FALSE,   #<- Should casewise importance measure be computed? (Setting this to TRUE will override importance.)
-                            proximity = TRUE,    #<- Should a proximity measure between rows be calculated?
+                            proximity = FALSE,    #<- Should a proximity measure between rows be calculated?
                             norm.votes = TRUE,   #<- If TRUE (default), the final result of votes are expressed as fractions. If FALSE, raw vote counts are returned (useful for combining results from different runs).
                             do.trace = TRUE,     #<- If set to TRUE, give a more verbose output as randomForest is run.
                             keep.forest = TRUE,  #<- If set to FALSE, the forest will not be retained in the output object. If xtest is given, defaults to FALSE.
@@ -290,29 +295,29 @@ fig
 View(pregnancy_RF_error)
 
 # When we first sort "pregnancy_RF_error" by the "Pregnant" class then
-# by the "min" class we see that 77 trees  the number
+# by the "min" class we see that a lower number of trees  the number
 # that minimizes the error in the positive class, also min for oob error.
 
 #==================================================================================
 
 #### Optimize the random forest model ####
 
-# Let's create a random forest model with 77 trees.
+# Let's create a random forest model with 400ish trees.
 set.seed(2022)	
-pregnancy_RF_2 = randomForest(PREGNANT~.,          #<- formula, response variable ~ predictors.
+pregnancy_RF_2 = randomForest(as.factor(PREGNANT)~.,          #<- formula, response variable ~ predictors.
                               #   the period means 'use all other variables in the data'.
                               pregnancy_train,     #<- A data frame with variables to be used.
                               #y = NULL,           #<- A response vector. This is unnecessary because we're specifying a response formula.
                               #subset = NULL,      #<- This is unneccessary because we're using all the rows in the training data set.
                               #xtest = NULL,       #<- This is already defined in the formula by the ".".
                               #ytest = NULL,       #<- This is already defined in the formula by "PREGNANT".
-                              ntree = 100,          #<- Number of trees to grow. This should not be set to too small a number, to ensure that every input row gets classified at least a few times.
-                              mtry = 4,            #<- Number of variables randomly sampled as candidates at each split. Default number for classification is sqrt(# of variables). Default number for regression is (# of variables / 3).
+                              ntree = 500,          #<- Number of trees to grow. This should not be set to too small a number, to ensure that every input row gets classified at least a few times.
+                              mtry = 6,            #<- Number of variables randomly sampled as candidates at each split. Default number for classification is sqrt(# of variables). Default number for regression is (# of variables / 3).
                               replace = TRUE,      #<- Should sampled data points be replaced.
                               #classwt = NULL,     #<- Priors of the classes. We will work through this later. 
                               #strata = NULL,      #<- Not necessary for our purpose here.
-                              sampsize = 100,      #<- Size of sample to draw each time.
-                              nodesize = 5,        #<- Minimum numbers of data points in terminal nodes.
+                              sampsize = 200,      #<- Size of sample to draw each time.
+                              nodesize = 20,        #<- Minimum numbers of data points in terminal nodes.
                               #maxnodes = NULL,    #<- The "nodesize" argument limits the number of maximum splits. 
                               importance = TRUE,   #<- Should importance predictors be assessed?
                               #localImp = FALSE,   #<- Should casewise importance measure be computed? (Setting this to TRUE will override importance.)
@@ -343,10 +348,24 @@ View(pregnancy_test)
 pregnancy_predict = predict(pregnancy_RF_2,      #<- a randomForest model
                             pregnancy_test,      #<- the test data set to use
                             type = "response",   #<- what results to produce, see the help menu for the options
-                            predict.all = TRUE,  #<- should the predictions of all trees be kept?
+                            predict.all = FALSE,  #<- should the predictions of all trees be kept?
                             proximity = FALSE)    #<- should proximity measures be computed
 
+View(pregnancy_predict)
 #==================================================================================
+xxx <- factor(c("Poor", "Non-poor", "Poor", "Non-poor"), labels = c(0, 1))
+str(xxx)
+
+v1 <- c("male", "female", "male", "female")
+class(v1)
+v2 <- factor(v1, levels = c("female", "male"), labels = c("0", "1"))
+class(v2)
+v2
+as.integer(as.character(v2))
+
+Gender_numeric <- as.numeric(as.character(factor(Dataset_A$gender,
+                                                 levels=c("female",
+                                                          "male"),labels=c("0","1"))))
 
 View(pregnancy_predict)
 
@@ -364,28 +383,20 @@ View(pregnancy_predict$predicted$individual)  #<- the class prediction of each i
 
 # Let's view the results as a data frame.
 View(pregnancy_test)
-View(as.data.frame(pregnancy_predict$predicted$aggregate))
+View(as.tibble(pregnancy_predict$predicted$aggregate))
 
 #==================================================================================
 
 #### Generate predictions with your model ####
 
 # View the predictions of individual trees.
-View(as.data.frame(pregnancy_predict$predicted$individual))
+View(as.tibble(pregnancy_predict$predicted$individual))
 
 #==================================================================================
 
-#### Error rate on the test set ####
-
-# Let's create a summary data frame, basically adding the prediction to the test set. 
-pregnancy_test_pred = data.frame(pregnancy_test, 
-                                 Prediction = pregnancy_predict$predicted$aggregate)
-View(pregnancy_test_pred)
-
-
 # Create the confusion matrix.
-preg_test_matrix_RF = table(pregnancy_test_pred$PREGNANT, 
-                            pregnancy_test_pred$Prediction)
+preg_test_matrix_RF = table(pregnancy_predict$PREGNANT, 
+                            pregnancy_predict$Prediction)
 
 preg_test_matrix_RF
 
