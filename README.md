@@ -122,8 +122,8 @@ The books below are essentially a starter Machine Learning Library. I will use a
 | Week 10 | Nature's Perfect ML analogy: Decision Trees II  	| Classification: Decision Trees  	| [Predicting Income for Big Brother](https://github.com/UVADS/DS-4001/blob/main/11_DT/In_Class_Decision_Tree.Rmd)	| F. Chapter 5 and G. Chapter 14.1-14.3 	|
 | Week 11 | Reinforcement Project  	|  	|	| 	|
 | Week 12 | Let's gather together... but separately 	|Unsupervised: Overview of Clustering Kmeans 	| [NBA Scout for the worst team in the league](https://github.com/UVADS/DS-4001/blob/main/06_Clustering/clustering_lab_overview.Rmd)|  F. Chapter 1 and Chapter 9  |
-| Week 13 | Wisdom of the Crowd	| Random Forest: I	| Case Study: Loreto Alonzi, PhD	|  	|
-|  Week 14 | Wisdom of the Crowd|   Random Forest: II	| Lab	| 	|
+| Week 13 | Wisdom of the Crowd	| Random Forest: I	| 	|  	|
+|  Week 14 | Wisdom of the Crowd|   Random Forest: II	| https://github.com/UVADS/DS-3001/tree/main/12_Ensemble_RF	| 	|
 | Week 15 | Do the next right thing…ethics |  Bias in AI Discussion -Simple methods for identifying bias   - Protected Classes	| Ethical Reflections 	| Weapons of Math Destruction  	|
 | Week 16 - Exam Week	| Final Projects Presentations	|  	| Ethical Reflection Due 	|  	|
 
