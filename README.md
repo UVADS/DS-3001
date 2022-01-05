@@ -118,13 +118,11 @@ The books below are essentially a starter Machine Learning Library. I will use a
 | Week 6	| The key to ML: Knowing how bad your model really is… 	| - Metrics for Accuracy, Sensitivity, ROC, AUC, etc. 	| [Evaluation Lab](https://github.com/UVADS/DS-3001/blob/main/09_ML_Eval_Metrics/Model_Metrics_Lab_Updated.md)|All of B. and G.- Chapter 11 |
 | Week 7 | Machines really can learn 	| Introduction to ML: kNN	|   |  	|
 | Week 8| Spring Break| | | 
-| Week 9 | Nature's Perfect ML analogy: Decision Trees I	| Classification: Decision Trees  	| [Predicting Income for Big Brother](https://github.com/UVADS/DS-4001/blob/main/11_DT/In_Class_Decision_Tree.Rmd)	| F. Chapter 5 and G. Chapter 14.1-14.3 	|
+| Week 9 | Nature's Perfect ML analogy: Decision Trees I	| Classification: Decision Trees  	| 	| F. Chapter 5 and G. Chapter 14.1-14.3 	|
 | Week 10 | Nature's Perfect ML analogy: Decision Trees II  	| Classification: Decision Trees  	| [Predicting Income for Big Brother](https://github.com/UVADS/DS-4001/blob/main/11_DT/In_Class_Decision_Tree.Rmd)	| F. Chapter 5 and G. Chapter 14.1-14.3 	|
 | Week 11 | Reinforcement Project  	|  	|	| 	|
 | Week 12 | Let's gather together... but separately 	|Unsupervised: Overview of Clustering Kmeans 	| [NBA Scout for the worst team in the league](https://github.com/UVADS/DS-4001/blob/main/06_Clustering/clustering_lab_overview.Rmd)|  F. Chapter 1 and Chapter 9  |
-
 | Week 13 | Wisdom of the Crowd	| Random Forest: I	| Case Study: Loreto Alonzi, PhD	|  	|
-
 |  Week 14 | Wisdom of the Crowd|   Random Forest: II	| Lab	| 	|
 | Week 15 | Do the next right thing…ethics |  Bias in AI Discussion -Simple methods for identifying bias   - Protected Classes	| Ethical Reflections 	| Weapons of Math Destruction  	|
 | Week 16 - Exam Week	| Final Projects Presentations	|  	| Ethical Reflection Due 	|  	|
