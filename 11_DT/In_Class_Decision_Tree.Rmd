@@ -90,7 +90,7 @@ mindful of how the model will be used in practice.
 ```
 
 ```{r}
-#9 Plot the output of the model to see the tree visually 
+#9 Plot the output of the model to see the tree visually (C5.0 training plots) 
 ```
 
 ```{r}

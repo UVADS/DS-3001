@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
-setwd("/cloud/project/Fairness")
+
 #install.packages("fairness")
 #install.packages('tidyverse')
 library(fairness)
@@ -195,7 +195,7 @@ eqo_loan <- equal_odds(data = fair_eval_data,
            group   = "gender",
            probs   = "prob", 
            preds   = "predicted",
-           cutoff = 0.50, 
+           cutoff = 0.80, 
            base   = "m")
 
 eqo_loan$Metric #This is interesting because here it seems the roles are slightly reversed. 
@@ -210,11 +210,11 @@ Predictive Rate Parity
 ```{r}
 prp <- pred_rate_parity(data = fair_eval_data, 
            outcome = "outcome", 
-           group   = "gender",
+           group   = "race",
            probs   = "prob", 
            preds   = "predicted",
-           cutoff = 0.50, 
-           base   = "m")
+           cutoff = 0.20, 
+           base   = "jap")
 
 prp$Metric
 

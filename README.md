@@ -5,8 +5,8 @@ Your Practice of Data Science Tour Guides:
 * Brian Wright, Ph.D., Office: Elson room 165
 * Email: brianwright@virginia.edu
 * TA: Anna Baglione ab5bt@virginia.edu
-* Peer Mentors: Izzy Shehan iws4kc@virginia.edu, Brittany Nguyen bhn4bf@virginia.edu and Jasmine Dogu ejd5mm@virginia.edu
-* Location: In-Person! Maury Hall 115
+* Peer Mentors: Brittany Nguyen bhn4bf@virginia.edu
+* Location: Dell 1 
 
 Brian's Office Hours(In person (Elson room 165) or Virtual): Tuesday, 2 - 4:00pm and virtually Friday from 9 to 10:00am or by appointment if needed
 
@@ -16,7 +16,7 @@ Course Materials: [Practice of Data Science Repo](https://github.com/UVADS/DS-30
 
 Subject Area and Catalog Number: Data Science, DS 3001
 
-Year, Term and Time: 2021, Fall, Wednesday 2-4:30
+Year, Term and Time: 2021, Fall, Thursday 3-5:30
 
 Class Title: Practice of Data Science
 
@@ -112,17 +112,20 @@ The books below are essentially a starter Machine Learning Library. I will use a
 |:---:	|:---:	|:---:	|:---:	|:---:	|
 | Week 1 	| What is this “Data Science” that you speak of and tech stack 	| - Assessment - Videos: DS Overview and History 	| - Find DS Dream Job - Create your first project,  load the dataset, visualize using the code provided what questions could this data answer? 	|  Synchronous: Short Lab  	|
 | Week 2 	|  Getting back up to “coding speed” 	| 'Dataframing' with tidyverse functions  	| [- Group Case Study - Questions + PsuedoCode + Code + Functions  = High Quality Data Science](https://github.com/UVADS/DS-4001/blob/main/02_R_function_basics/Class%20II%20Assignment.Rmd)  	| "Program" Chapter in C 	|
-| Week 3 	| I'm Committed Version Control:  GitHub	|  	|[GitHub Lab](https://github.com/UVADS/DS-4001/blob/main/03_Github/Github%20Lab.md)  	|  	|
-| Week 4 	| How to share nicely  	| Knitr and rmarkdown 	| [Rmarkdown article reviews](https://github.com/UVADS/DS-4001/blob/main/04_knitr_Comms/knitr_lab.md) 	|  Rmarkdown: The definitive guide: Sections I and II Knit R Reference Guide 	|
-| Week 5 and 6 | Machine Learning Boot Camp | Key ML Methods 	| ML Methods Lab| H: Chapter 1 and 2 |  
-|  Week 7	| Let's gather together... but separately 	| Overview of Clustering Kmeans 	| [NBA Scout for the worst team in the league](https://github.com/UVADS/DS-4001/blob/main/06_Clustering/clustering_lab_overview.Rmd)|  F. Chapter 1 and Chapter 9  |
-| Week 8| Computers can read…well kind of 	| Text Mining – Bag of Words approaches 	| [Regional Climate Change Analysis](https://github.com/UVADS/DS-4001/blob/main/07_text_mining/text_lab.Rmd) | D. Sections 1 - 3 	|
-| Week 9 | Machines really can learn 	| Introduction to ML: Supervised KNN  	| Create a Lazy ML Algo  | F. Chapter 3 	|
-| Week 10	| The key to ML: Knowing how bad your model really is… 	| - Metrics for Accuracy, Sensitivity, ROC, AUC, etc. 	| [Evaluation Lab](https://github.com/UVADS/DS-3001/blob/main/09_ML_Eval_Metrics/Model_Metrics_Lab_Updated.md)|All of B. and G.- Chapter 11 |
-| Week 11 | Reinforcement Lab	| Let's Put these Skills to Use!	| Case Study: Loreto Alonzi, PhD	|  	|
-| Week 12 	| Nature's Perfect ML analogy: Tree Based Methods  	| Classification: Decision Trees  	| [Predicting Income for Big Brother](https://github.com/UVADS/DS-4001/blob/main/11_DT/In_Class_Decision_Tree.Rmd)	| F. Chapter 5 and G. Chapter 14.1-14.3 	|
-|  Week 13 | Wisdom of the crowd|   Random Forest Overview	| Lab	| 	|
-|  Week 14 | Break- No Class	|   	| 	|   	|
+| Week 3 	| How to share nicely  	| Knitr and rmarkdown 	| [Rmarkdown article reviews](https://github.com/UVADS/DS-4001/blob/main/04_knitr_Comms/knitr_lab.md) 	|  Rmarkdown: The definitive guide: Sections I and II Knit R Reference Guide 	|
+| Week 4 	| Introduction to ML Concepts	|Goals of ML: Example Decision Tree	|[GitHub Lab](https://github.com/UVADS/DS-4001/blob/main/03_Github/Github%20Lab.md)  	|  	|
+| Week 5 | Introduction to ML Concepts | Data Preparation 	| ML Methods Lab| H: Chapter 1 and 2 | 
+| Week 6	| The key to ML: Knowing how bad your model really is… 	| - Metrics for Accuracy, Sensitivity, ROC, AUC, etc. 	| [Evaluation Lab](https://github.com/UVADS/DS-3001/blob/main/09_ML_Eval_Metrics/Model_Metrics_Lab_Updated.md)|All of B. and G.- Chapter 11 |
+| Week 7 | Machines really can learn 	| Introduction to ML: kNN	|   |  	|
+| Week 8| Spring Break| | | 
+| Week 9 | Nature's Perfect ML analogy: Decision Trees I	| Classification: Decision Trees  	| [Predicting Income for Big Brother](https://github.com/UVADS/DS-4001/blob/main/11_DT/In_Class_Decision_Tree.Rmd)	| F. Chapter 5 and G. Chapter 14.1-14.3 	|
+| Week 10 | Nature's Perfect ML analogy: Decision Trees II  	| Classification: Decision Trees  	| [Predicting Income for Big Brother](https://github.com/UVADS/DS-4001/blob/main/11_DT/In_Class_Decision_Tree.Rmd)	| F. Chapter 5 and G. Chapter 14.1-14.3 	|
+| Week 11 | Reinforcement Project  	|  	|	| 	|
+| Week 12 | Let's gather together... but separately 	|Unsupervised: Overview of Clustering Kmeans 	| [NBA Scout for the worst team in the league](https://github.com/UVADS/DS-4001/blob/main/06_Clustering/clustering_lab_overview.Rmd)|  F. Chapter 1 and Chapter 9  |
+
+| Week 13 | Wisdom of the Crowd	| Random Forest: I	| Case Study: Loreto Alonzi, PhD	|  	|
+
+|  Week 14 | Wisdom of the Crowd|   Random Forest: II	| Lab	| 	|
 | Week 15 | Do the next right thing…ethics |  Bias in AI Discussion -Simple methods for identifying bias   - Protected Classes	| Ethical Reflections 	| Weapons of Math Destruction  	|
 | Week 16 - Exam Week	| Final Projects Presentations	|  	| Ethical Reflection Due 	|  	|
 

@@ -68,10 +68,11 @@ randomForest(formula,             #<- A formula to solve for when using random f
 # Let's subset a sample of 200 data points from our data, which we can 
 # use to test out the quality of our model.  
 str(pregnancy)
+library(tidyverse)
 # First create a vector of numbers we'll sample.
 pregnancy = import("data/pregnancy.csv", check.names = TRUE, stringsAsFactors = TRUE)
 
-pregnancy_factors = as.tibble(apply(pregnancy,                 #<- the data set to apply the function to
+pregnancy_factors = as_tibble(apply(pregnancy,                 #<- the data set to apply the function to
                           2,                         #<- for each column
                           function(x) as.factor(x)))  #<- change each variable to factor
 str(pregnancy_factors)
