@@ -113,7 +113,7 @@ The books below are essentially a starter Machine Learning Library. I will use a
 | Week 1 	| What is this “Data Science” that you speak of and tech stack 	| - Assessment - Videos: DS Overview and History 	| - Find DS Dream Job - Create your first project,  load the dataset, visualize using the code provided what questions could this data answer? 	|  Synchronous: Short Lab  	|
 | Week 2 	|  Getting back up to “coding speed” 	| 'Dataframing' with tidyverse functions  	| [- Group Case Study - Questions + PsuedoCode + Code + Functions  = High Quality Data Science](https://github.com/UVADS/DS-4001/blob/main/02_R_function_basics/Class%20II%20Assignment.Rmd)  	| "Program" Chapter in C 	|
 | Week 3 	| How to share nicely  	| Knitr and rmarkdown 	| [Rmarkdown article reviews](https://github.com/UVADS/DS-4001/blob/main/04_knitr_Comms/knitr_lab.md) 	|  Rmarkdown: The definitive guide: Sections I and II Knit R Reference Guide 	|
-| Week 4 	| Introduction to ML Concepts	|Goals of ML: Example Decision Tree	|[GitHub Lab](https://github.com/UVADS/DS-4001/blob/main/03_Github/Github%20Lab.md)  	|  	|
+| Week 4 	| Introduction to ML Concepts	|Goals of ML: Example Decision Tree	|  	|  	|
 | Week 5 | Introduction to ML Concepts | Data Preparation 	| ML Methods Lab| H: Chapter 1 and 2 | 
 | Week 6	| The key to ML: Knowing how bad your model really is… 	| - Metrics for Accuracy, Sensitivity, ROC, AUC, etc. 	| [Evaluation Lab](https://github.com/UVADS/DS-3001/blob/main/09_ML_Eval_Metrics/Model_Metrics_Lab_Updated.md)|All of B. and G.- Chapter 11 |
 | Week 7 | Machines really can learn 	| Introduction to ML: kNN	|   |  	|
