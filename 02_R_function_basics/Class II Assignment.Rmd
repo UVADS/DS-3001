@@ -75,14 +75,17 @@ str(admit_2)
 
 Single line version 
 ```{r}
-#Group
-View(admit_2)
-x1 <- group_by(admit_2,rank)
-#Calculate additional variables
-x2 <- summarize(x1,admit=sum(admit == 1),count=n(),mean(gpa))
-x2$ave <- x2$admit/x2$count
-#Arrange by GPA
-x3 <- arrange(x2,desc(`rank`))
+
+View(admit_2) # Taking a look at the data
+x1 <- group_by(admit_2,rank)# grouping by the factor variables 
+# Calculate additional variables
+x2 <- summarize(x1,admit=sum(admit == 1),count=n(),mean(gpa))# using x1 from above we are generating three variables a 
+  # sum of all 1s in the admit column for each college rank,
+  # total count of in each category of rank 
+  # mean GPA in each of the rankings
+x2$ave_admit <- x2$admit/x2$count # added a variable ave to the x2,by dividing total admitted by total count for each of the ranking levels
+
+x3 <- arrange(x2,desc(`rank`))# Arrange by rank descending 
 print(x3)
 ## Are there differences in the admitted number of students on average by GPA and school rank?
 
@@ -95,6 +98,7 @@ print(x3)
  summarize(admit=sum(admit == 1),count=n(),mean(gpa))%>%
  mutate(ave_admit=admit/count)%>%
  arrange(desc(`rank`)))
+# extra () at beginning and end tell R to print the result, the %>% sign is used for dplyr functions and essentially takes the results from the previous line and inputs into the next. 
 
 ```
 
@@ -107,9 +111,11 @@ ave_admit <- function(x){
   mutate(ave_admit=admit/count)%>%  
   arrange(desc(`mean(gpa)`))
   print(xx)
-}
+}#so this function has one attribute x, which will be the data we pass into the function once it's created. 
+```
 
-ave_admit(admit_2)
+```{r}
+ave_admit(admit_2)# the above code creates the function, this code runs the function. The results of which are the same. 
 
 ```
 
