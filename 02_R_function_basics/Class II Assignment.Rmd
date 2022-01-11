@@ -13,8 +13,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 library(tidyverse)
-getwd()
-
 ```
 
 
@@ -35,16 +33,11 @@ group-by-group.
 
 For this assignment you can use any or all of the datasets I 
 provided or choose three of your own!  I would like you to compose 
-two questions for each dataset that requires at a minimum three "levels" 
-of pseudocode and use dplyr functions to solve the statements. Also create 
-functions for each of your  questions. Do not repeat function sequences or questions.  Information or the actual data for the datasets can be found through the links below. In summary for each dataset produce five parts: 1)Question, 2)psuedocode, 3)single line
-using dplyr functions, 4) pipe the individual lines together and 
-5) create a function. 
+one question for each dataset (or dataset of your choosing) that requires at a minimum three functions listed above to answer. Do not repeat function sequences or questions.  Information or the actual data for the datasets can be found through the links below. In summary for each dataset produce four parts: 1)Question, 2)psuedocode that answers the question, 3)single line transactions using dplyr functions, 4) pipe the individual lines together and create a function. 
 
 Also you can work with your groups for coding tips/advise or work through similar programming issues but everyone must have their own set of questions and results. 
 
-
-# beaches data is in the working directory 
+# any dataset in the data file is fine or 
 
 # nf2008_fg: http://users.stat.ufl.edu/~winner/data/nfl2008_fga.csv
 
@@ -83,12 +76,15 @@ str(admit_2)
 Single line version 
 ```{r}
 #Group
+View(admit_2)
 x1 <- group_by(admit_2,rank)
 #Calculate additional variables
-x2 <- summarize(x1,count=n(),ave=mean(as.integer(admit)-1),mean(gpa))
+x2 <- summarize(x1,admit=sum(admit == 1),count=n(),mean(gpa))
+x2$ave <- x2$admit/x2$count
 #Arrange by GPA
 x3 <- arrange(x2,desc(`rank`))
 print(x3)
+## Are there differences in the admitted number of students on average by GPA and school rank?
 
 ```
 
@@ -96,8 +92,10 @@ print(x3)
 ```{r}
 #creating a dplyr version
 (admit_1 <- group_by(admit_2, rank)%>%
-  summarize(count=n(),ave=mean(as.integer(admit)-1),mean(gpa))%>%
-   arrange(desc(`mean(gpa)`)))
+ summarize(admit=sum(admit == 1),count=n(),mean(gpa))%>%
+ mutate(ave_admit=admit/count)%>%
+ arrange(desc(`rank`)))
+
 ```
 
 
@@ -105,8 +103,9 @@ print(x3)
 ```{r}
 ave_admit <- function(x){
   xx <- group_by(x, rank)%>%
-  summarize(count=n(),ave=mean(as.integer(admit)-1),mean(gpa))%>%
-  arrange(desc(`mean(gpa)`))  
+  summarize(admit=sum(admit == 1),count=n(),mean(gpa))%>%
+  mutate(ave_admit=admit/count)%>%  
+  arrange(desc(`mean(gpa)`))
   print(xx)
 }
 
