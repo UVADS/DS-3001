@@ -2,21 +2,19 @@
 
 Your Practice of Data Science Tour Guides: 
 
-* Brian Wright, Ph.D., Office: Elson room 165
+* Brian Wright, Ph.D., Office: Elson Conference Room 180
 * Email: brianwright@virginia.edu
-* TA: Anna Baglione ab5bt@virginia.edu
-* Peer Mentors: Brittany Nguyen bhn4bf@virginia.edu
-* Location: Dell 1 
+* TA: Angel Vela de la Garza afv9x@virginia.edu
+* Peer Mentors: TBD
+* Location: Dell 1 Room 105 
 
-Brian's Office Hours(In person (Elson room 165) or Virtual): Tuesday, 2 - 4:00pm and virtually Friday from 9 to 10:00am or by appointment if needed
-
-Office Hours Zoom:[click here to join](https://virginia.zoom.us/j/98404956714?pwd=Kys5Z3doMXdJMTBYb0FhYXJMYTU4UT09)
+Brian's Office Hours: In person in the large Elson Conference Room or Virtual on Discord: Monday, 9 to 4 (all day) or by appointment if needed. Feel free to just come by and hang if you'd like. 
 
 Course Materials: [Practice of Data Science Repo](https://github.com/UVADS/DS-3001)
 
 Subject Area and Catalog Number: Data Science, DS 3001
 
-Year, Term and Time: 2021, Fall, Thursday 3-5:30
+Year, Term and Time: 2021, Fall, Thursday 3:30-5:30/6:00
 
 Class Title: Practice of Data Science
 
@@ -86,7 +84,7 @@ On any given week, the course will require reviewing short video lectures and co
     Collab - Submission of assignments and class-wide communications
     Discord - Low latency comms for groups and class.
 
-**[Discord Invite Click](https://discord.gg/vDzgbWBW)**
+**[Discord Invite Click](https://discord.gg/r7WXkzp2)**
 
 ## Materials That Will Aid in Your Learning: 
 
@@ -96,7 +94,7 @@ The books below are essentially a starter Machine Learning Library. I will use a
 * B. [Evaluating Machine Learning Models – O’Reilly Digital via UVA Library](https://www.oreilly.com/library/view/temporary-access/)<br>
  Texts C-E below are all available here: [https://bookdown.org/](https://bookdown.org/)
  * C. [R for Data Science](https://r4ds.had.co.nz/) 
- * D. Text Mining with R
+ * D. Text Mining with R - for bonus lectures
  * E. R Markdown: The Definitive Guide
  * F. Machine Learning with R – Posted in Collab
  * G. [Applied Predictive Learning, Kuh and Johnson](http://appliedpredictivemodeling.com/toc) - Expensive but very good
@@ -113,10 +111,10 @@ The books below are essentially a starter Machine Learning Library. I will use a
 | Week 1 	| What is this “Data Science” that you speak of and tech stack 	| - Assessment - Videos: DS Overview and History 	| - Find DS Dream Job - Create your first project,  load the dataset, visualize using the code provided what questions could this data answer? 	|  Synchronous: Short Lab  	|
 | Week 2 	|  Getting back up to “coding speed” 	| 'Dataframing' with tidyverse functions  	| [- Group Case Study - Questions + PsuedoCode + Code + Functions  = High Quality Data Science](https://github.com/UVADS/DS-4001/blob/main/02_R_function_basics/Class%20II%20Assignment.Rmd)  	| "Program" Chapter in C 	|
 | Week 3 	| How to share nicely  	| Knitr and rmarkdown 	| [Rmarkdown article reviews](https://github.com/UVADS/DS-4001/blob/main/04_knitr_Comms/knitr_lab.md) 	|  Rmarkdown: The definitive guide: Sections I and II Knit R Reference Guide 	|
-| Week 4 	| Introduction to ML Concepts	|Goals of ML: Example Decision Tree	|  	|  	|
-| Week 5 | Introduction to ML Concepts | Data Preparation 	| ML Methods Lab| H: Chapter 1 and 2 | 
-| Week 6	| The key to ML: Knowing how bad your model really is… 	| - Metrics for Accuracy, Sensitivity, ROC, AUC, etc. 	| [Evaluation Lab](https://github.com/UVADS/DS-3001/blob/main/09_ML_Eval_Metrics/Model_Metrics_Lab_Updated.md)|All of B. and G.- Chapter 11 |
-| Week 7 | Machines really can learn 	| Introduction to ML: kNN	|   |  	|
+| Week 4 	| Introduction to ML Concepts I	|Language of ML	| [ML Concepts I](https://github.com/UVADS/DS-3001/tree/main/05_ml_bootcamp) 	|H: Chapter 1 and 2  	|
+| Week 5 | Introduction to ML Concepts II | Data Preparation:kNN 	| ML Methods Lab|H: 3 and 4  | 
+| Week 6	| Introduction to ML Concepts III	| Machine Learning Process:kNN	| |H: Chapters 3 and 4 |
+| Week 7 | Introduction to ML Concepts IV	| Evaluation	| [Evaluation Lab](https://github.com/UVADS/DS-3001/blob/main/09_ML_Eval_Metrics/Model_Metrics_Lab_Updated.md) | All of B. and G.- Chapter 11 	|
 | Week 8| Spring Break| | | 
 | Week 9 | Nature's Perfect ML analogy: Decision Trees I	| Classification: Decision Trees  	| 	| F. Chapter 5 and G. Chapter 14.1-14.3 	|
 | Week 10 | Nature's Perfect ML analogy: Decision Trees II  	| Classification: Decision Trees  	| [Predicting Income for Big Brother](https://github.com/UVADS/DS-4001/blob/main/11_DT/In_Class_Decision_Tree.Rmd)	| F. Chapter 5 and G. Chapter 14.1-14.3 	|
