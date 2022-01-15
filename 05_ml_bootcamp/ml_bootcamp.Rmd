@@ -29,29 +29,42 @@ library(caret)
 [Cereal_Data_Dictionary](https://www.kaggle.com/crawford/80-cereals)
 
 ```{r}
-#Working to developed a model than can predict cereal quality rating. 
+# Working to developed a model than can predict cereal quality rating. 
 
-#Assuming we are able to optimizing and make recommendations how does this translate into a business context? 
+# Target variable?
 
-# Inference versus Prediction 
+# Assuming we are able to optimizing and make recommendations 
+# how does this translate into a business context? 
 
-# Independent Business Metric - Assuming that higher ratings results in higher sales, can we predict which new cereals that enter the market over the next year will perform the best?   
+# Prediction problem: Classification or Regression?
+
+# Independent Business Metric - Assuming that higher ratings results in higher sales, can we predict which new cereals that enter the market over the next year will perform the best?
+
 
 ```
 
 ## Phase II 
 
-### Scale/Center/Normalizing
+### Scale/Center/Normalizing/Variable Classes
 
 ```{r}
 cereal <- read_csv("~/git_3001/DS-3001/data/cereal.csv")
-View(cereal)
-attach(cereal)#is this a good idea? 
-describe(calories)
-?scale
-str(cereal)
+str(cereal)# Let's check the structure of the dataset and see if we have any 
+#issues with variable classes (usually it's converting things to factors)
+
+(column_index <- tibble(colnames(cereal)))#creates a vector of our column names. 
+
+#We can use the column index in combination with str to find the columns we 
+# need to convert to factors. Looks like columns 2,3,12 and 13 
+# need to be converted to factors
+cereal[,c(2,3,12,13)] <- lapply(cereal[,c(2,3,12,13)], as.factor)
 
 
+
+
+```
+
+```{r}
 (sodium_c <- scale(cereal$sodium, center = TRUE, scale = FALSE))#center but not standardized
 
 (sodium_sc <- scale(cereal$sodium, center = TRUE, scale = TRUE))#center and standardized 
@@ -62,16 +75,16 @@ str(cereal)
 normalize <- function(x){
  (x - min(x)) / (max(x) - min(x))
 }
-
 (sodium_n <- normalize(cereal$sodium))
 
 # However, before we can apply this we need to make sure our data classes are correct. 
 
-(column_index <- tibble(colnames(cereal)))
 
-str(cereal)
-table(vitamins)
-#What about mfr and type?
+
+```
+
+#What about mfr and type? What variable classes are they? 
+```{r}
 table(cereal$mfr)#we should collapse this factor, it has way too many categories G,K and everyone else. Usually don't want more than 5 categories  
 
 cereal$mfr <- fct_collapse(cereal$mfr,
@@ -79,13 +92,9 @@ cereal$mfr <- fct_collapse(cereal$mfr,
                            K="K",
                         other = c("A","N","P","Q","R")
                         )
-column_index
-table(type)
-table(mfr)
-#Looks like columns 2,3,12 and 13 need to be converted to factors
-cereal[,c(2,3,12,13)] <- lapply(cereal[,c(2,3,12,13)], as.factor)
 
-str(cereal)
+
+
 
 #Now we can move forward in normalizing the numeric values, create a index based on numeric columns: 
 
