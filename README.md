@@ -111,9 +111,9 @@ The books below are essentially a starter Machine Learning Library. I will use a
 | Week 1 	| What is this “Data Science” that you speak of and tech stack 	| - Assessment - Videos: DS Overview and History 	| - Find DS Dream Job - Create your first project,  load the dataset, visualize using the code provided what questions could this data answer? 	|  Synchronous: Short Lab  	|
 | Week 2 	|  Getting back up to “coding speed” 	| 'Dataframing' with tidyverse functions  	| [- Group Case Study - Questions + PsuedoCode + Code + Functions  = High Quality Data Science](https://github.com/UVADS/DS-4001/blob/main/02_R_function_basics/Class%20II%20Assignment.Rmd)  	| "Program" Chapter in C 	|
 | Week 3 	| How to share nicely  	| Knitr and rmarkdown 	| [Rmarkdown article reviews](https://github.com/UVADS/DS-4001/blob/main/04_knitr_Comms/knitr_lab.md) 	|  Rmarkdown: The definitive guide: Sections I and II Knit R Reference Guide 	|
-| Week 4 	| Introduction to ML Concepts I	|Language of ML	| [ML Concepts I](https://github.com/UVADS/DS-3001/tree/main/05_ml_bootcamp) 	|H: Chapter 1 and 2  	|
-| Week 5 | Introduction to ML Concepts II | Data Preparation:kNN 	| ML Methods Lab|H: 3 and 4  | 
-| Week 6	| Introduction to ML Concepts III	| Machine Learning Process:kNN	| |H: Chapters 3 and 4 |
+| Week 4 	| Introduction to ML Concepts I	|Language of ML	| Case Studies 	|H: Chapter 1 and 2  	|
+| Week 5 | Introduction to ML Concepts II | Data Preparation:kNN 	|[ML Concepts](https://github.com/UVADS/DS-3001/tree/main/05_ml_bootcamp)|H: 3 and 4  | 
+| Week 6	| Introduction to ML Concepts III	| Machine Learning Process:kNN|[ML Concepts  ](https://github.com/UVADS/DS-3001/tree/main/05_ml_bootcamp) |H: Chapters 3 and 4 |
 | Week 7 | Introduction to ML Concepts IV	| Evaluation	| [Evaluation Lab](https://github.com/UVADS/DS-3001/blob/main/09_ML_Eval_Metrics/Model_Metrics_Lab_Updated.md) | All of B. and G.- Chapter 11 	|
 | Week 8| Spring Break| | | 
 | Week 9 | Nature's Perfect ML analogy: Decision Trees I	| Classification: Decision Trees  	| 	| F. Chapter 5 and G. Chapter 14.1-14.3 	|
