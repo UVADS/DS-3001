@@ -109,21 +109,21 @@ The books below are essentially a starter Machine Learning Library. I will use a
 | Week 	| Theme 	| Topics 	| Lab 	| Reading/Repo (Prior to Class) 	|
 |:---:	|:---:	|:---:	|:---:	|:---:	|
 | Week 1 	| What is this “Data Science” that you speak of and tech stack 	| - Assessment - Videos: DS Overview and History 	| - Find DS Dream Job - Create your first project,  load the dataset, visualize using the code provided what questions could this data answer? 	|  Synchronous: Short Lab  	|
-| Week 2 	|  Getting back up to “coding speed” 	| 'Dataframing' with tidyverse functions  	| [- Group Case Study - Questions + PsuedoCode + Code + Functions  = High Quality Data Science](https://github.com/UVADS/DS-4001/blob/main/02_R_function_basics/Class%20II%20Assignment.Rmd)  	| "Program" Chapter in C 	|
-| Week 3 	| How to share nicely  	| Knitr and rmarkdown 	| [Rmarkdown article reviews](https://github.com/UVADS/DS-4001/blob/main/04_knitr_Comms/knitr_lab.md) 	|  Rmarkdown: The definitive guide: Sections I and II Knit R Reference Guide 	|
-| Week 4 	| Introduction to ML Concepts I	|Language of ML	| Case Studies 	|H: Chapter 1 and 2  	|
-| Week 5 | Introduction to ML Concepts II | Data Preparation:kNN 	|[ML Concepts](https://github.com/UVADS/DS-3001/tree/main/05_ml_bootcamp)|H: 3 and 4  | 
-| Week 6	| Introduction to ML Concepts III	| Machine Learning Process:kNN|[ML Concepts  ](https://github.com/UVADS/DS-3001/tree/main/05_ml_bootcamp) |H: Chapters 3 and 4 |
-| Week 7 | Introduction to ML Concepts IV	| Evaluation	| [Evaluation Lab](https://github.com/UVADS/DS-3001/blob/main/09_ML_Eval_Metrics/Model_Metrics_Lab_Updated.md) | All of B. and G.- Chapter 11 	|
+| Week 2 	|  Getting back up to “coding speed” 	| 'Dataframing' with tidyverse functions  	| [- Group Case Study - Questions + PsuedoCode + Code + Functions  = High Quality Data Science](https://github.com/UVADS/DS-3001/tree/main/02_R_function_basics) | "Program" Chapter in C 	|
+| Week 3 	| How to share nicely  	| Knitr and rmarkdown 	| [Rmarkdown article reviews](https://github.com/UVADS/DS-3001/tree/main/03_knitr_Comms) 	|  Rmarkdown: The definitive guide: Sections I and II Knit R Reference Guide 	|
+| Week 4 	| Introduction to ML Concepts I	|Language of ML	| [Case Studies](https://github.com/UVADS/DS-3001/tree/main/04_ML_Concepts_I_Foundations)|H: Chapter 1 and 2  	|
+| Week 5 | Introduction to ML Concepts II | Data Preparation:kNN 	|[ML Concepts](https://github.com/UVADS/DS-3001/tree/main/05_ML_Concepts_II_Data_Prep)|H: 3 and 4  | 
+| Week 6	| Introduction to ML Concepts III	| Machine Learning Process:kNN|[ML Concepts  ](https://github.com/UVADS/DS-3001/tree/main/06_ML_Concepts_II_KNN) |H: Chapters 3 and 4 |
+| Week 7 | Introduction to ML Concepts IV	| Evaluation	| [Evaluation Lab](https://github.com/UVADS/DS-3001/tree/main/07_ML_Eval_Metrics) | All of B. and G.- Chapter 11 	|
 | Week 8| Spring Break| | | 
-| Week 9 | Nature's Perfect ML analogy: Decision Trees I	| Classification: Decision Trees  	| 	| F. Chapter 5 and G. Chapter 14.1-14.3 	|
-| Week 10 | Nature's Perfect ML analogy: Decision Trees II  	| Classification: Decision Trees  	| [Predicting Income for Big Brother](https://github.com/UVADS/DS-4001/blob/main/11_DT/In_Class_Decision_Tree.Rmd)	| F. Chapter 5 and G. Chapter 14.1-14.3 	|
+| Week 9 | Nature's Perfect ML analogy: Trees Part I	|  Classification: Decisions Trees 	| [ Decision Trees](https://github.com/UVADS/DS-3001/tree/main/08_DT_Class)	| F. Chapter 5 and G. Chapter 14.1-14.3 	|
+| Week 10 | Nature's Perfect ML analogy: Trees Part II  	| Regression: Decision Trees  	| [Predicting Income for Big Brother]	| F. Chapter 5 and G. Chapter 14.1-14.3 	|
 | Week 11 | Reinforcement Project  	|  	|	| 	|
-| Week 12 | Let's gather together... but separately 	|Unsupervised: Overview of Clustering Kmeans 	| [NBA Scout for the worst team in the league](https://github.com/UVADS/DS-4001/blob/main/06_Clustering/clustering_lab_overview.Rmd)|  F. Chapter 1 and Chapter 9  |
-| Week 13 | Wisdom of the Crowd	| Random Forest: I	| 	|  	|
-|  Week 14 | Wisdom of the Crowd|   Random Forest: II	|[Census Classifier](https://github.com/UVADS/DS-3001/tree/main/12_Ensemble_RF)	| 	|
-| Week 15 | Do the next right thing…ethics |  Bias in AI Discussion -Simple methods for identifying bias   - Protected Classes	| Ethical Reflections 	| Weapons of Math Destruction  	|
-| Week 16 - Exam Week	| Final Projects Presentations	|  	| Ethical Reflection Due 	|  	|
+| Week 12 | Let's gather together... but separately 	|Unsupervised: Overview of Clustering Kmeans 	| [NBA Scout for the worst team in the league](https://github.com/UVADS/DS-3001/tree/main/10_kMeans%20Clustering)|  F. Chapter 1 and Chapter 9  |
+| Week 13 | Wisdom of the Crowd	| Ensemble Methods I	| [Random Forest Classifier ](https://github.com/UVADS/DS-3001/tree/main/12_Ensemble_RF)	| TBD	|
+|  Week 14 | Wisdom of the Crowd| Ensemble Methods II	|	Random Forest Regression | 	|
+| Week 15 | Do the next right thing…ethics |  Bias in AI Discussion -Simple methods for identifying bias   - Protected Classes	|[Fairness Overview & Ethical Reflections](https://github.com/UVADS/DS-3001/tree/main/14_ML_Bias) 	| Weapons of Math Destruction  	|
+| Week 16 - Exam Week	| Final Projects Presentations	| [Final Project Overview](https://github.com/UVADS/DS-3001/blob/main/final_project_overview.md) 	| Ethical Reflection Due 	|  	|
 
 ## A few Policies that will Govern the Class
 
