@@ -1,0 +1,231 @@
+---
+title: "Evaluation Metrics"
+author: "Brian Wright"
+date: "3/31/2020"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+```{r}
+library(tidyverse)
+library(caret)
+library(RColorBrewer)
+library(ROCR)
+#install.packages("MLmetrics")
+library(MLmetrics)
+
+```
+
+I should note that the labels on this dataset were completely anatomized so I had to guess (make up some of my own) at the labels. In terms of walking you through the process of exploring evaluation it really shouldn't have any impact. 
+
+```{r}
+#Let's load in our data
+loan_data <- read_csv('data/japan_credit.csv')
+#Take a look
+View(loan_data)
+str(loan_data)
+
+getwd()
+
+table(loan_data$gender)# so this is kinda tricky we have "?" in the data instead of NAs, so we should probably replace the "?" with NAs, then remove them, if we rerun the table command we can see the "?" are removed. 
+
+dim(loan_data)
+
+table(is.na(loan_data))#Using this function to count and table NAs, doesn't look there are any (690x15=10,350)
+
+#Replace the ? with NA
+loan_data[loan_data=="?"] <- NA
+
+#Now we see we've got about 67
+table(is.na(loan_data))
+
+
+loan_data_2 <- loan_data[complete.cases(loan_data), ]#We can run some quick analysis to see how much loss we would incur if we just subset to rows with no NAs
+loan_data_2
+
+table(is.na(loan_data_2))
+
+dim(loan_data)#original dataset
+dim(loan_data_2)#we didn't loose that many case, looks like about 37 (~5%), actually going to overwrite to loan_data
+
+loan_data <- loan_data[complete.cases(loan_data), ]#ok makes the naming simpler
+dim(loan_data)
+  
+table(is.na(loan_data))
+#Ok as you can see we have 15 predictor variables (including whether the applications prefer funfetti_cake) and one outcome measure. We do need to re-class the outcome measure to the traditional {0,1} format along with a few other variables, we can do this with recode.
+
+loan_data$outcome <- recode(loan_data$outcome, 
+                            '+' = 1, 
+                            '-' = 0)
+
+#need to do the same for gender, more b than a so b will be male and a female 
+
+loan_data$gender <- recode(loan_data$gender, 
+                           'b' = 'm', 
+                           'a' = 'f')
+
+#also going to recode marital_status g=married, p= divorced, s=single
+
+loan_data$marital_status <- recode(loan_data$marital_status, 'g' = 'mar', 'p' = 'div', 's'='sig') 
+
+#need to refactor the race variable
+table(loan_data$race)#first we can use table to see the frequencies at each of the categories. Given that this is Japanese data we will classify v and Jap, h as white, bb as black, ff as Hispanic and everything else into other. 
+
+loan_data$race <- fct_collapse(loan_data$race,
+                               jap = "v",
+                               white ="h",
+                               black = "bb",
+                               hisp = "ff",
+                               other = c("z","o","n","j","dd"))
+
+table(loan_data$race)#run table again we see our collapsed categories 
+                               
+#also age and days_account_open need to be a numeric variable and outcome should be a factor so need to do some quick coercions 
+ 
+loan_data$age <- as.numeric(loan_data$age)
+loan_data$days_account_open <-as.numeric(loan_data$days_account_open)
+loan_data$outcome <- as.factor(loan_data$outcome)
+
+str(loan_data)
+  
+#Next let's get rid of var_d as it's essential the same as var_e and also f as its got 15 different categories so the complexity of keeping that many levels would be pretty difficult to manage inside our tree, especially not knowing the labels.  
+
+loan_pred <- loan_data[ , c(-3,-5)] 
+str(loan_pred)
+
+```
+
+So now we can create our decision tree
+
+```{r}
+#We need to create index that we can use for developing a test and training set. Training is for building the tree and test is for checking the quality of the model. 
+
+set.seed(1980)# this will allow you to replicate the outcomes of randomized process
+
+#caret function the will allow us to divide the data into test and train, it will randomly assign rows into each category while maintaining the relative balance (0 and 1s) of the target variable. 
+split_index <- createDataPartition(loan_pred$outcome, p = .8, #selects the split, 80% training 20% for test 
+                                  list = FALSE,#output of the data, we don't want a list
+                                  times = 1)#the number of partitions to create we just want one
+
+
+#then we just pass the index to our dataset
+
+train_data <- loan_pred[split_index,]
+dim(train_data)
+
+
+test <- loan_pred[-split_index,]
+dim(test)
+
+#now let's build out tree
+
+loan_tree <- train(outcome~., #model formula everything used to classify outcome
+                   data=train_data, #use the training data
+                   method='rpart',# indicates the use of tree based model
+                   na.action = na.omit)#omitting the missing values
+                   
+loan_tree #let's take a look, pretty good, accuracy is at roughly 84%, not bad. Accuracy is (TP + TN)/(TP+TN+FP+FN). High level indicator of model efficiency. 
+
+loan_tree
+#Quick overview of how bootstrapping works. 
+xx <- tibble(loan_tree$resample)
+View(xx) 
+
+mean(xx$Accuracy)
+
+loan_tree$finalModel$variable.importance#This will tell us the most important variables in terms of reducing our model error...hahaha liking funfetti takes the cake!! As it should anyone that doesn't enjoy a nice piece of funfetti cake just can't be trusted. (calculated for each variable individually as the sum of the decrease in impurity, includes as a primary split and when it appears as a surrogate)
+
+
+coul <- brewer.pal(5, "Set2")
+barplot(loan_tree$finalModel$variable.importance, col=coul)#Totally unnecessary but couldn't help myself, funfetti barchart...
+
+loan_tree$finalModel
+
+```
+
+Now let's evaluate our model and replicate some of the evaluation metrics we've been discussing. 
+```{r}
+#First we need to do some predictions using the test data 
+
+loan_eval <-(predict(loan_tree,newdata = test))#generates 1s and 0s
+View(loan_eval)
+
+loan_eval_prob <- predict(loan_tree, newdata = test, type = "prob")#this gives us the predicted prob, we will need these later for the fairness evaluation
+View(loan_eval_prob)
+
+View(test$outcome)
+table(loan_eval, test$outcome)#essential the confusion matrix, though we can make a fancy one using caret built in functions
+
+
+confusionMatrix(loan_eval, test$outcome, positive = "1", dnn=c("Prediction", "Actual"), mode = "sens_spec")#change to everything
+
+#from the above we can see our True Positive Rate or sensitivity is quite good @ 88%, False Positive Rate (1-Specificity) is also not terrible ~ @ 27%, we want this to be low.(Subject to change) 
+
+
+#Quick function to explore various threshold levels and output a confusion matrix
+
+adjust_thres <- function(x, y, z) {
+  #x=pred_probablities, y=threshold, z=test_outcome
+  thres <- as.factor(ifelse(x > y, 1,0))
+  confusionMatrix(thres, z, positive = "1", dnn=c("Prediction", "Actual"), mode = "everything")
+}
+
+
+adjust_thres(loan_eval_prob$`1`,.60, test$outcome) #Not much changes here because of the high probability splits of the data outcomes. Let's take a closer look. We can see that the algo isn't marginally mis-classifying these rows, it's very confidently wrong. Which likely means that there's too much emphasis being placed on too small a number of variables, principally the funfetti variable. 
+
+loan_eval_prob$test <- test$outcome
+
+View(loan_eval_prob)
+
+(error = mean(loan_eval != test$outcome))#overall error rate, on average when does our prediction not match the actual, looks like around 15%, really just ok. 
+
+```
+
+ROC/AUC
+```{r}
+#In order to use most evaluation packages it's just easier to have are predictions and targets in one place. 
+
+loan_eval <- tibble(pred_class=loan_eval, pred_prob=loan_eval_prob$`1`,target=as.numeric(test$outcome))
+
+View(loan_eval)
+
+pred <- prediction(loan_eval$pred_prob,loan_eval$target)
+View(pred)
+
+tree_perf <- performance(pred,"tpr","fpr")
+
+plot(tree_perf, colorize=TRUE)
+abline(a=0, b= 1)
+
+tree_perf_AUC <- performance(pred,"auc")
+
+print(tree_perf_AUC@y.values)
+
+```
+
+LogLoss
+```{r}
+
+View(loan_eval)
+
+LogLoss(as.numeric(loan_eval$pred_prob), as.numeric(test$outcome))
+#We want this number to be rather close to 0, so this is a pretty terrible result. 
+
+```
+
+
+F1 Score 
+```{r}
+pred_1 <- ifelse(loan_eval_prob$`1` < 0.5, 0, 1)
+
+View(pred_1)
+F1_Score(y_pred = pred_1, y_true = loan_eval_prob$test, positive = "1")
+
+```
+

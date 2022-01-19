@@ -1,0 +1,333 @@
+---
+title: "demo_schema"
+author: "Brian Wright"
+date: "8/8/2020"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE)
+```
+
+## Data Schema 
+
+<p style= "font-family: times, serif; font-size:11pt">
+  This demo is designed to get a feel for the type of analysis that is possible to  achieve by using text mining approaches.  Currently, this is really just a exploratory process to see if this approach could prove useful and will also just be a tool for experts to use in developing the schema.
+<br>
+<br>
+We are going to use data that was sourced from a ERIC publication search focused on math interventions at the k-12 level.  This is a sub-sample of 128 articles that will be used to build the topic model. 
+<br>
+<br>
+The word content, which will be the data in this example, is pulled from the abstracts, title and key words listed in the ERIC search results for math interventions delivered in elementary schools. The goal is to see if trends emerge in word usage that can help us better understand structures that might be present in these education research articles. 
+</p>
+
+```{r, include=FALSE, eval=TRUE}
+library(tidyverse)
+library(tidytext)
+library(textdata)
+#install.packages("tidyselect")
+library(tidyselect)
+library(stringr)
+library(DT)
+#install.packages("topicmodels")
+library(tm)
+library(plotly)
+library(topicmodels)
+save.image("innovedu.RData")
+
+```
+
+Ok lets get the data loaded 
+```{r, include=FALSE}
+
+data_math <- read_csv("math_ed_128.csv") 
+
+View(data_math)
+
+
+#Creating a index to use on the dataframe to select the variables needed for the analysis
+data_math1 <- vars_select(names(data_math), starts_with("Other"),"Title","Abstract")
+
+#passing the index to create a new dataset 
+data_math2 <- data_math[data_math1]
+
+data_math2 <- data_math2[-1, ]#removing the first line
+
+#datatable(head(data_math2, 6))
+
+names <-  names(data_math2)
+names
+View(data_math2)
+
+#Placing everything in one column 
+data_math3 <- unite(data_math2, names)
+
+View(data_math3)
+
+#datatable(data_math3)
+
+#Creating word based tokens 
+
+#View(data_math3)
+
+#Removing all the punctuation and retaining the variable name.  
+data_math3$names <- (str_replace_all(data_math3$names, "[[:punct:]]", " "))
+
+#View(data_math3)
+
+#must use "word" as the column name for the anti-join to work
+xx <- data_math3 %>%
+  unnest_tokens(word, "names")
+
+View(xx)
+
+xx <- xx %>% 
+  anti_join(stop_words)
+
+#removing "na" from the variables
+
+xx <- filter(xx, !str_detect(word, "na"))
+
+
+```
+<p style= "font-family: times, serif; font-size:11pt">
+  Below is the result of a good amount of data cleaning, essentially one long list of tokenized elements at the "word" level. We can use this list of words to determine which words then phrases are most "important" to these journal articles.
+<p/p>
+```{r, echo=FALSE}
+head(xx %>%
+  count(xx$word, sort = TRUE), 20)
+
+xx_count <- xx %>%
+  count(word, sort=TRUE)
+
+
+xx_count$word <- as.factor(xx_count$word) 
+
+ggplotly(ggplot(
+  data = head(xx_count, 30),
+  aes(x = fct_reorder(word,n),
+      y = n)
+  ) + 
+  geom_col() + 
+  coord_flip()+
+  theme_light()+
+  xlab("Token Words")+
+    ylab("Count")
+  )
+
+xx <- tibble(xx)
+
+```
+<p style= "font-family: times, serif; font-size:11pt">
+  We can also take a look at the data through two or three word phrases, called n-grams. 
+<p/p>
+
+```{r}
+xx_ngrams <- xx %>%
+  unnest_tokens(word, word, token = "ngrams", n=2)
+
+datatable(xx_ngrams)
+
+xx_ngrams_3 <- xx %>%
+  unnest_tokens(word, word, token = "ngrams", n=3)
+
+datatable(xx_ngrams_3)
+
+```
+<p style= "font-family: times, serif; font-size:11pt">
+  Much of what is above is just exploratory, now we can develop a TF-IDF model that will assess the importance of these words in the context of text. The statistic TF-IDF is intended to measure how important a word is to a document in a collection (or corpus) of documents, for example, to one novel in a collection of novels or to one website in a collection of websites.(source: Tidy Text Mining (https://www.tidytextmining.com/tfidf.html))
+<p/p>
+```{r eval=TRUE, echo=FALSE, warning=FALSE}
+#selecting the variables needed to include the ID label
+data_math_tf_index <- vars_select(names(data_math), starts_with("Other"),"Title","Abstract","Other ID")
+
+#Passing in the index
+data_math_tf <- data_math[data_math_tf_index]
+
+View(data_math_tf)
+
+#Getting rid of the first row
+data_math_tf <- data_math_tf[-1, ]
+
+names <-  names(data_math_tf[ ,c(1:26,28,29)])
+
+#Placing everything in one column and adding "other id" back in
+data_math_tf_1 <- unite(data_math_tf, names)
+
+data_math_tf_1$otherid <- data_math_tf$`Other ID`
+
+#Creating word based tokens 
+
+#Removing all the punctuation and retaining the variable name.  
+data_math_tf_1$names <- (str_replace_all(data_math_tf_1$names, "[[:punct:]]", " "))
+
+data_math_tf_1$names <- (str_remove_all(data_math_tf_1$names, "NA")) 
+
+data_math_tf_1$names <- (str_remove_all(data_math_tf_1$names, "Intervention"))
+
+data_math_tf_1$names <- (str_remove_all(data_math_tf_1$names, "intervention"))
+
+data_math_tf_1$names <- (str_remove_all(data_math_tf_1$names, "Mathematics"))
+
+data_math_tf_1$names <- (str_remove_all(data_math_tf_1$names, "Research"))
+
+data_math_tf_1$names <-(str_remove_all(data_math_tf_1$names,"mathematics"))
+
+View(data_math_tf_1)
+
+word_count <- data_math_tf_1 %>%
+  unnest_tokens(word, names) %>%
+  count(otherid, word, sort = TRUE)
+
+
+head(word_count, 8)
+
+
+total_words <- word_count %>% 
+  group_by(otherid) %>% 
+  summarize(total = sum(n))
+
+head(total_words, 8)
+
+#Joining the count and total dataframes
+journal_words <- left_join(word_count, total_words)
+
+journal_words <- journal_words %>%
+  bind_tf_idf(word, otherid, n)
+
+datatable(journal_words)
+
+```
+
+<p style= "font-family: times, serif; font-size:11pt">
+  Now that we've done some initial analysis to general focused on word importance we can move on to doing topic modeling to see if there are patterns that evolve between documents. per-topic-per-word probabilities, called β (“beta”) will be generated.
+<br>
+<br>
+  * Every document is a mixture of topics. We imagine that each document may contain words from several topics in particular proportions. For example, in a two-topic model we could say “Document 1 is 90% topic A and 10% topic B, while Document 2 is 30% topic A and 70% topic B.”
+<br>
+<br>
+  * Every topic is a mixture of words. For example, we could imagine a two-topic model of American news, with one topic for “politics” and one for “entertainment.” The most common words in the politics topic might be “President”, “Congress”, and “government”, while the entertainment topic may be made up of words such as “movies”, “television”, and “actor”. Importantly, words can be shared between topics; a word like “budget” might appear in both equally.
+<p/p>
+
+```{r, echo=FALSE, eval=TRUE, include=TRUE}
+
+#need to remove stop words
+
+word_count <- word_count %>% 
+  anti_join(stop_words)
+
+head(word_count, 15)
+
+#Creates the data term matrix necessary for running LDA
+journals_dtm <- word_count %>%
+  cast_dtm(otherid, word, n)
+
+
+journals_lda <- LDA(journals_dtm, k = 2, control = list(seed = 1234))
+
+journal_topics <- tidy(journals_lda, matrix = "beta")
+
+journal_documents <- tidy(journals_lda, matrix = "gamma")
+#Working on a model with 3 topics 
+journals_lda_3 <- LDA(journals_dtm, k = 3, control = list(seed = 1235))
+
+journal_topics_3 <- tidy(journals_lda_3, matrix = "beta")
+
+journal_documents_3 <- tidy(journals_lda_3, matrix = "gamma")
+
+datatable(journal_topics)
+
+#datatable(journal_documents_3)
+
+
+```
+<p style= "font-family: times, serif; font-size:11pt">
+  We've generate a model based on two and three topics so now we will compare the percentage likelihood of the top 10 terms for each topic. 
+<p/p>
+```{r, echo=FALSE}
+journal_top_terms <- journal_topics %>%
+  group_by(topic) %>%
+  top_n(15, beta) %>%
+  ungroup() %>%
+  arrange(topic, -beta)
+
+journal_top_terms_3 <- journal_topics_3 %>%
+  group_by(topic) %>%
+  top_n(15, beta) %>%
+  ungroup() %>%
+  arrange(topic, -beta)
+
+datatable(journal_top_terms)
+datatable(journal_top_terms_3)
+
+
+plt <- journal_top_terms %>%
+  mutate(term = reorder_within(term, beta, topic)) %>%
+  ggplot(aes(term, beta, fill = factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~ topic, scales = "free") +
+  coord_flip() +
+  scale_x_reordered()
+
+plt
+
+plt_3 <- journal_top_terms_3 %>%
+  mutate(term = reorder_within(term, beta, topic)) %>%
+  ggplot(aes(term, beta, fill = factor(topic))) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~ topic, scales = "free") +
+  coord_flip() +
+  scale_x_reordered()
+
+#ggplotly(plt_3)
+
+beta_spread <- journal_topics %>%
+  mutate(topic = paste0("topic", topic)) %>%
+  spread(topic, beta) %>%
+  filter(topic1 > .001 | topic2 > .001) %>%
+  mutate(log_ratio = log2(topic2 / topic1)) %>% 
+  arrange(log_ratio)
+
+#Two topics
+datatable(beta_spread)
+
+data_plt <- tail(beta_spread, 15)
+
+data_plt <- rbind(data_plt, head(beta_spread, 15))
+
+split_plt <- data_plt %>% 
+  mutate(term = fct_reorder(term, log_ratio)) %>%
+  ggplot(aes(x=term,
+            y=log_ratio)
+            )+ geom_col()+
+            coord_flip()
+
+split_plt 
+
+
+```
+<p style= "font-family: times, serif; font-size:11pt">
+We can also estimate the total percentage of words that were generated by each topic. We can see there's a pretty clean split between journals either belonging to topic 1 or 2
+</p>
+
+```{r, echo=FALSE}
+
+journal_documents <- tidy(journals_lda, matrix = "gamma")
+
+journal_documents_3 <- tidy(journals_lda_3, matrix = "gamma")
+
+datatable(journal_documents)
+
+```
+<p style= "font-family: times, serif; font-size:11pt">
+We can also explore adding more topics and assessing the ideal number for this particular corpus. 
+</p>
+
+```{r set-options, echo=FALSE, cache=FALSE}
+options(width = 20)
+datatable(journal_documents_3)
+
+ggplotly(plt_3)
+```

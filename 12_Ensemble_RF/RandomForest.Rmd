@@ -1,0 +1,100 @@
+---
+title: "Project Random Forest Representation"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+#install.packages("plyr")
+library(plyr)
+library(plotly)
+library(randomForest)
+library(rio)
+library(caret)
+library(ROCR)
+library(tidyverse)
+library(rpart)
+#install.packages("pscyh")
+library(psych)
+library(pROC)
+#install.packages("rpart.plot")
+library(rpart.plot)
+#install.packages("rattle")
+library(rattle)
+```
+
+```{r, echo = FALSE}
+# Dataset cleaning
+
+Happiness_Report <- read.csv("WHR20_DataForFigure2.1.csv")
+
+Happiness_Report <- Happiness_Report %>% 
+     select(Country.name, Regional.indicator, Ladder.score, Logged.GDP.per.capita, 
+            Social.support, Healthy.life.expectancy, Freedom.to.make.life.choices, 
+            Generosity, Perceptions.of.corruption)
+```
+
+
+```{r, echo = FALSE}
+#Create categorical response variable
+ladder_group = c(rep(0, length(Happiness_Report$Ladder.score)))
+ladder_group[(Happiness_Report$Ladder.score >= 4) & (Happiness_Report$Ladder.score <= 6)] = 1
+ladder_group[(Happiness_Report$Ladder.score > 6)] = 2
+Happiness_Report$ladder_group = factor(as.integer(ladder_group), labels = c('Low', 'Medium', 'High'))
+Happiness_Report = Happiness_Report[-3]
+
+```
+
+```{r, echo = FALSE}
+#Base rate calculations
+
+baseRateL = length(Happiness_Report$ladder_group[Happiness_Report$ladder_group == 'Low']) / length(Happiness_Report$ladder_group)
+
+baseRateM = length(Happiness_Report$ladder_group[Happiness_Report$ladder_group == 'Medium']) / length(Happiness_Report$ladder_group)
+
+baseRateH = length(Happiness_Report$ladder_group[Happiness_Report$ladder_group == 'High']) / length(Happiness_Report$ladder_group)
+
+paste("Low Ladder Score Base Rate:", baseRateL)
+paste("Medium Ladder Score Base Rate:", baseRateM)
+paste("High Ladder Score Base Rate:", baseRateH)
+```
+
+```{r, echo = FALSE}
+# Build test and training sets
+happiness_factors = as.data.frame(apply(Happiness_Report,                 #<- the data set to apply the function to
+                          2,                         #<- for each column
+                          function(x) as.factor(x)))
+sample_rows = 1:nrow(happiness_factors)
+
+set.seed(2020) #sample(x, size, replace = FALSE, prob = NULL)
+test_rows = sample(sample_rows,
+                   dim(happiness_factors)[1]*.25, #start with 10% of our dataset, could do 20%
+                   # but random forest does require more training data because of the 
+                   # sampling so 90% might be a better approach with this small of a dataset
+                   replace = FALSE)# We don't want duplicate samples
+
+happiness_train1 = happiness_factors[,-1][-test_rows,]
+happiness_train1 = happiness_train1[,-1][-test_rows,]
+happiness_test1 = happiness_factors[,-1][test_rows,]
+happiness_test1 = happiness_test1[,-1][test_rows,]
+
+
+#census_train$income = factor(census_train$income)
+#census_test$income = factor(census_test$income)
+
+
+```
+
+
+```{r, echo = FALSE}
+#happiness_train = as_tibble(happiness_train)
+set.seed(2021)
+happiness_tree_gini= rpart(ladder_group~.,  #<- formula, response variable ~ predictors
+                           #   "." means "use all other variables in data"
+                            method = "class",#<- specify method, use "class" for tree
+                            parms = list(split = "gini"),#<- method for choosing tree split
+                            data = happiness_train1,#<- data used
+                            control = rpart.control(cp=.01))
+```
+

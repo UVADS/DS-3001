@@ -1,0 +1,106 @@
+Gender,Age.at.Initial.Pathologic.Diagnosis,ER.Status,PR.Status,HER2.Final.Status,Tumor,Node.Coded,Metastasis,Metastasis.Coded,AJCC.Stage,Converted.Stage,Survival.Data.Form,Vital.Status,Days.to.Date.of.Last.Contact,Days.to.date.of.Death,OS.event,OS.Time
+FEMALE,66,Negative,0,Negative,T3,Positive,M1,Positive,Stage IV,No_Conversion,followup,DECEASED,240,240,1,240
+FEMALE,40,Negative,0,Negative,T2,Negative,M0,Negative,Stage IIA,Stage IIA,followup,DECEASED,754,754,1,754
+FEMALE,48,Negative,0,Negative,T2,Positive,M0,Negative,Stage IIB,No_Conversion,enrollment,DECEASED,1555,1555,1,1555
+FEMALE,56,Negative,0,Negative,T2,Positive,M0,Negative,Stage IIB,No_Conversion,enrollment,DECEASED,1692,1692,1,1692
+FEMALE,38,Negative,0,Negative,T3,Positive,M0,Negative,Stage IIIC,No_Conversion,followup,LIVING,133,,0,133
+FEMALE,57,Negative,0,Negative,T2,Negative,M0,Negative,Stage IIA,Stage IIA,followup,LIVING,309,,0,309
+FEMALE,74,Negative,0,Negative,T3,Negative,M0,Negative,Stage IIB,Stage IIB,followup,LIVING,425,,0,425
+FEMALE,60,Negative,0,Negative,T2,Negative,M0,Negative,Stage IIA,Stage IIA,followup,LIVING,643,,0,643
+FEMALE,61,Negative,0,Negative,T2,Negative,M0,Negative,Stage IIA,Stage IIA,followup,LIVING,775,,0,775
+FEMALE,67,Negative,0,Negative,T2,Negative,M0,Negative,Stage IIA,Stage IIA,followup,LIVING,964,,0,964
+FEMALE,45,Negative,0,Negative,T2,Negative,M0,Negative,Stage IIB,Stage IIA,followup,LIVING,1027,,0,1027
+FEMALE,48,Negative,0,Negative,T1,Negative,M0,Negative,Stage IA,Stage I,followup,LIVING,1288,,0,1288
+FEMALE,59,Negative,0,Negative,T2,Positive,M0,Negative,Stage IIIA,No_Conversion,followup,LIVING,1319,,0,1319
+FEMALE,36,Negative,0,Negative,T2,Negative,M0,Negative,Stage IIA,Stage IIA,followup,LIVING,1471,,0,1471
+FEMALE,41,Negative,0,Negative,T4,Negative,M0,Negative,Stage IIIB,No_Conversion,enrollment,LIVING,197,,0,197
+FEMALE,62,Negative,0,Negative,T2,Negative,M0,Negative,Stage IIA,No_Conversion,enrollment,LIVING,230,,0,230
+FEMALE,54,Negative,0,Negative,T2,Negative,M0,Negative,Stage II,No_Conversion,enrollment,LIVING,1627,,0,1627
+FEMALE,49,Negative,0,Negative,T2,Negative,M0,Negative,Stage II,Stage IIA,enrollment,LIVING,1309,,0,1309
+FEMALE,52,Negative,0,Negative,T1,Negative,M0,Negative,Stage I,Stage I,enrollment,LIVING,1180,,0,1180
+FEMALE,55,Negative,0,Negative,T2,Negative,M0,Negative,Stage IIA,Stage IIA,enrollment,LIVING,0,,0,0
+FEMALE,82,Negative,0,Negative,T2,Positive,M0,Negative,Stage III,Stage IIIA,enrollment,LIVING,0,,0,0
+FEMALE,52,Negative,0,Negative,T2,Negative,M0,Negative,Stage IIA,No_Conversion,enrollment,LIVING,0,,0,0
+FEMALE,48,Negative,0,Negative,T2,Negative,M0,Negative,Stage IIA,Stage IIA,enrollment,LIVING,591,,0,591
+FEMALE,43,Negative,0,Negative,T1,Positive,M0,Negative,Stage IIA,Stage IIA,enrollment,LIVING,450,,0,450
+FEMALE,50,Negative,0,Negative,T2,Negative,M0,Negative,Stage IIA,Stage IIA,enrollment,LIVING,515,,0,515
+FEMALE,50,Indeterminate,0,Positive,T2,Positive,M0,Negative,Stage IB,No_Conversion,enrollment,DECEASED,1099,1141,1,1141
+FEMALE,55,Negative,0,Positive,T3,Positive,M0,Negative,Stage IIIC,No_Conversion,followup,LIVING,520,,0,520
+FEMALE,68,Negative,0,Positive,T3,Negative,M0,Negative,Stage IIB,Stage IIB,followup,LIVING,943,,0,943
+FEMALE,76,Negative,0,Positive,T2,Negative,M0,Negative,Stage IIA,Stage IIA,followup,LIVING,1051,,0,1051
+FEMALE,43,Negative,0,Positive,T1,Positive,M0,Negative,Stage IIA,No_Conversion,followup,LIVING,1948,,0,1948
+FEMALE,53,Negative,0,Positive,T2,Positive,M0,Negative,Stage IIIA,No_Conversion,followup,LIVING,1965,,0,1965
+FEMALE,64,Negative,0,Positive,T2,Negative,M0,Negative,Stage IIA,Stage IIA,followup,LIVING,2426,,0,2426
+FEMALE,66,Positive,1,Positive,T2,Negative,M0,Negative,Stage IIA,Stage IIA,enrollment,LIVING,1641,,0,1641
+FEMALE,79,Positive,0,Positive,T3,Positive,M0,Negative,Stage IIIC,Stage IIIC,enrollment,LIVING,0,,0,0
+FEMALE,64,Positive,1,Positive,T1,Positive,M0,Negative,Stage II,No_Conversion,enrollment,LIVING,15,,0,15
+FEMALE,67,Negative,0,Positive,T2,Negative,M0,Negative,Stage IIA,Stage IIA,enrollment,LIVING,0,,0,0
+FEMALE,55,Negative,0,Positive,T2,Positive,M0,Negative,Stage IIB,No_Conversion,enrollment,LIVING,0,,0,0
+FEMALE,78,Negative,0,Positive,T1,Positive,M0,Negative,Stage IIIA,No_Conversion,enrollment,LIVING,0,,0,0
+FEMALE,43,Positive,1,Positive,T2,Negative,M0,Negative,Stage IIA,Stage IIA,enrollment,LIVING,0,,0,0
+FEMALE,45,Negative,0,Positive,T2,Positive,M0,Negative,Stage II,Stage IIB,enrollment,LIVING,0,,0,0
+FEMALE,52,Positive,1,Equivocal,T3,Positive,M0,Negative,Stage IIIA,Stage IIIA,enrollment,LIVING,0,,0,0
+FEMALE,64,Negative,0,Positive,T2,Positive,M0,Negative,Stage II,Stage IIB,enrollment,LIVING,0,,0,0
+FEMALE,54,Positive,0,Positive,T2,Positive,M0,Negative,Stage III,Stage IIIA,enrollment,LIVING,7,,0,7
+FEMALE,68,Positive,1,Negative,T2,Positive,M0,Negative,Stage II,No_Conversion,enrollment,DECEASED,21,160,1,160
+FEMALE,88,Positive,1,Negative,T2,Positive,M0,Negative,Stage IIA,No_Conversion,enrollment,DECEASED,1148,1148,1,1148
+FEMALE,81,Positive,0,Negative,T2,Positive,M0,Negative,Stage IIB,No_Conversion,followup,LIVING,178,,0,178
+FEMALE,66,Positive,1,Negative,T1,Negative,M0,Negative,Stage IA,Stage I,followup,LIVING,372,,0,372
+FEMALE,65,Positive,0,Negative,T3,Positive,M0,Negative,Stage IIIA,No_Conversion,followup,LIVING,414,,0,414
+FEMALE,62,Positive,1,Negative,T1,Negative,M0,Negative,Stage IA,Stage I,followup,LIVING,441,,0,441
+FEMALE,48,Positive,1,Negative,T3,Positive,M0,Negative,Stage IIIA,No_Conversion,followup,LIVING,445,,0,445
+FEMALE,67,Positive,0,Negative,T1,Negative,M0,Negative,Stage IA,Stage I,followup,LIVING,469,,0,469
+FEMALE,52,Positive,1,Negative,T2,Positive,M0,Negative,Stage IIB,No_Conversion,followup,LIVING,477,,0,477
+FEMALE,50,Positive,1,Negative,T3,Negative,M0,Negative,Stage IIB,Stage IIB,followup,LIVING,575,,0,575
+FEMALE,51,Positive,1,Negative,T2,Negative,M0,Negative,Stage IIA,Stage IIA,followup,LIVING,631,,0,631
+FEMALE,63,Positive,1,Negative,T3,Negative,M0,Negative,Stage IIB,Stage IIB,followup,LIVING,769,,0,769
+FEMALE,80,Positive,1,Negative,T1,Negative,M0,Negative,Stage IA,Stage I,followup,LIVING,968,,0,968
+FEMALE,59,Positive,1,Negative,T2,Positive,M0,Negative,Stage IIB,No_Conversion,followup,LIVING,989,,0,989
+FEMALE,61,Positive,1,Negative,T2,Positive,M0,Negative,Stage IIIC,No_Conversion,followup,LIVING,1255,,0,1255
+FEMALE,78,Positive,1,Negative,T2,Positive,M0,Negative,Stage IIB,No_Conversion,followup,LIVING,1519,,0,1519
+FEMALE,51,Positive,1,Negative,T3,Negative,M0,Negative,Stage IIB,Stage IIB,followup,LIVING,1742,,0,1742
+FEMALE,39,Positive,1,Negative,T2,Negative,M0,Negative,Stage IIA,Stage IIA,followup,LIVING,2850,,0,2850
+FEMALE,46,Positive,1,Negative,T3,Negative,M0,Negative,Stage IIB,Stage IIB,enrollment,LIVING,549,,0,549
+FEMALE,54,Positive,1,Negative,T2,Positive,M0,Negative,Stage IIB,No_Conversion,enrollment,LIVING,1512,,0,1512
+FEMALE,76,Positive,1,Negative,T4,Positive,M0,Negative,Stage IIIB,Stage IIIC,enrollment,LIVING,1217,,0,1217
+FEMALE,36,Positive,1,Negative,T2,Positive,M0,Negative,Stage IIIA,No_Conversion,enrollment,LIVING,89,,0,89
+FEMALE,80,Positive,1,Negative,T1,Negative,M0,Negative,Stage I,Stage I,enrollment,LIVING,1215,,0,1215
+FEMALE,54,Positive,1,Negative,T2,Positive,M0,Negative,Stage II,Stage IIB,enrollment,LIVING,1242,,0,1242
+FEMALE,65,Positive,1,Negative,T2,Negative,M0,Negative,Stage II,Stage IIA,enrollment,LIVING,1072,,0,1072
+FEMALE,61,Positive,1,Negative,T3,Positive,M0,Negative,Stage IIIA,Stage IIIA,enrollment,LIVING,1338,,0,1338
+FEMALE,30,Positive,0,Negative,T2,Negative,M0,Negative,Stage IIA,Stage IIA,enrollment,LIVING,713,,0,713
+FEMALE,53,Positive,1,Negative,T2,Positive,M0,Negative,Stage IIB,Stage IIB,enrollment,LIVING,1405,,0,1405
+FEMALE,68,Positive,1,Negative,T1,Negative,M0,Negative,Stage I,Stage I,enrollment,LIVING,325,,0,325
+FEMALE,69,Positive,1,Negative,T2,Negative,M0,Negative,Stage IIA,Stage IIA,followup,DECEASED,993,2483,1,2483
+FEMALE,82,Positive,0,Negative,T2,Positive,M1,Positive,Stage IV,No_Conversion,followup,DECEASED,1364,1364,1,1364
+FEMALE,72,Positive,1,Positive,T2,Positive,M0,Negative,Stage IIIA,Stage IIIA,enrollment,DECEASED,1317,1563,1,1563
+FEMALE,54,Positive,0,Negative,T2,Negative,M0,Negative,Stage II,No_Conversion,enrollment,DECEASED,544,1699,1,1699
+FEMALE,52,Positive,1,Negative,T1,Negative,M0,Negative,Stage IA,No_Conversion,followup,LIVING,362,,0,362
+FEMALE,44,Positive,1,Negative,T3,Positive,M0,Negative,Stage IIIA,No_Conversion,followup,LIVING,387,,0,387
+FEMALE,57,Positive,1,Negative,T2,Negative,M0,Negative,Stage IIA,Stage IIA,followup,LIVING,409,,0,409
+FEMALE,37,Positive,1,Negative,T1,Positive,M0,Negative,Stage IA,Stage IIA,followup,LIVING,569,,0,569
+FEMALE,63,Positive,1,Positive,T2,Positive,M0,Negative,Stage IIIC,No_Conversion,followup,LIVING,665,,0,665
+FEMALE,62,Positive,0,Positive,T2,Positive,M0,Negative,Stage IIB,No_Conversion,followup,LIVING,735,,0,735
+FEMALE,41,Positive,1,Negative,T3,Negative,M0,Negative,Stage IIB,Stage IIB,followup,LIVING,1229,,0,1229
+FEMALE,62,Positive,1,Positive,T1,Positive,M0,Negative,Stage IIA,No_Conversion,followup,LIVING,1270,,0,1270
+FEMALE,64,Positive,1,Negative,T2,Negative,M0,Negative,Stage IIA,Stage IIA,followup,LIVING,1547,,0,1547
+FEMALE,40,Positive,1,Positive,T2,Positive,M0,Negative,Stage IIB,No_Conversion,followup,LIVING,1826,,0,1826
+FEMALE,63,Positive,1,Negative,T2,Negative,M0,Negative,Stage IIA,Stage IIA,followup,LIVING,2359,,0,2359
+FEMALE,66,Positive,0,Negative,T4,Negative,M0,Negative,Stage IIIB,Stage IIIB,enrollment,LIVING,0,,0,0
+FEMALE,84,Positive,1,Negative,T3,Negative,M0,Negative,Stage IIB,Stage IIB,enrollment,LIVING,31,,0,31
+FEMALE,69,Positive,1,Negative,T4,Positive,M0,Negative,Stage IIIB,Stage IIIC,enrollment,LIVING,274,,0,274
+FEMALE,41,Positive,1,Positive,T2,Negative,M0,Negative,Stage IIA,Stage IIA,enrollment,LIVING,606,,0,606
+FEMALE,84,Positive,1,Positive,T2,Negative,M0,Negative,Stage IIA,Stage IIA,enrollment,LIVING,1006,,0,1006
+FEMALE,79,Positive,1,Positive,T3,Negative,M0,Negative,Stage IIB,No_Conversion,enrollment,LIVING,243,,0,243
+FEMALE,56,Positive,0,Negative,T2,Negative,M0,Negative,Stage IIA,No_Conversion,enrollment,LIVING,5,,0,5
+FEMALE,70,Positive,0,Negative,T2,Positive,M0,Negative,Stage IIIA,No_Conversion,enrollment,LIVING,9,,0,9
+FEMALE,88,Positive,1,Negative,T4,Negative,M0,Negative,Stage IIIB,No_Conversion,enrollment,LIVING,212,,0,212
+FEMALE,53,Positive,0,Negative,T2,Positive,M0,Negative,Stage III,No_Conversion,enrollment,LIVING,1679,,0,1679
+FEMALE,66,Positive,1,Negative,T2,Negative,M0,Negative,Stage II,No_Conversion,enrollment,LIVING,904,,0,904
+MALE,68,Positive,1,Negative,T2,Positive,M0,Negative,Stage II,Stage IIB,enrollment,LIVING,1295,,0,1295
+FEMALE,59,Positive,1,Negative,T3,Positive,M0,Negative,Stage IIIA,Stage IIIA,enrollment,LIVING,1492,,0,1492
+FEMALE,48,Positive,0,Positive,T2,Positive,M0,Negative,Stage IIB,Stage IIB,enrollment,LIVING,1305,,0,1305
+MALE,58,Positive,1,Positive,T2,Positive,M0,Negative,Stage IIB,Stage IIB,enrollment,LIVING,1393,,0,1393
+FEMALE,46,Positive,1,Negative,T2,Positive,M0,Negative,Stage IB,Stage IIB,enrollment,LIVING,0,,0,0
+FEMALE,49,Positive,1,Negative,T4,Positive,M0,Negative,Stage IIIB,Stage IIIB,enrollment,LIVING,0,,0,0
+FEMALE,45,Positive,1,Negative,T2,Positive,M0,Negative,Stage IIIC,Stage IIIC,enrollment,LIVING,502,,0,502

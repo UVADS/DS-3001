@@ -1,0 +1,346 @@
+---
+title: "KNN"
+author: "Brian Wright"
+date: "October 31, 2017"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+```{r}
+library(caret)
+library(tidyverse)
+library(class)
+library(plotly)
+```
+
+
+```{r}
+bank_data = read_csv("data/bank.csv")
+
+# Check the structure and view the data.
+table(bank_data$`signed up`)
+
+#check for missing data
+
+bank_data <- bank_data[complete.cases(bank_data),]
+
+#Scale the features we will be using for classification 
+bank_data[, c("age","duration","balance")] <- lapply(bank_data[, c("age","duration","balance")],function(x) scale(x))
+
+bank_data$`signed up` <- as.factor(bank_data$`signed up`)
+
+str(bank_data)
+```
+
+
+
+```{r}
+# Let's run the kNN algorithm on our banking data. 
+# Check the composition of labels in the data set. 
+table(bank_data$`signed up`)[2] / sum(table(bank_data$`signed up`))table(bank_data$`signed up`)
+
+# This means that at random, we have an 11.6% chance of correctly picking
+# out a subscribed individual. Let's see if kNN can do any better.
+
+
+
+part_index_1 <- createDataPartition(bank_data$`signed up`,
+                                           times=1,
+                                           p = 0.70,
+                                           groups=1,
+                                           list=FALSE)
+View(part_index_1)
+
+train <- bank_data[part_index_1,]
+tune_and_test <- bank_data[-part_index_1, ]
+
+#The we need to use the function again to create the tuning set 
+
+tune_and_test_index <- createDataPartition(tune_and_test$`signed up`,
+                                           p = .5,
+                                           list = FALSE,
+                                           times = 1)
+
+tune <- tune_and_test[tune_and_test_index, ]
+test <- tune_and_test[-tune_and_test_index, ]
+
+dim(train)
+dim(tune)
+dim(test)
+
+```
+## Train the classifier 
+
+```{r}
+# Let's train the classifier for k = 3 using the class package. 
+
+
+# k-Nearest Neighbor is a randomized algorithm, so make sure to
+# use set.seed() to make your results repeatable.
+set.seed(1982)
+bank_3NN <-  knn(train = train[, c("age", "balance", "duration")],#<- training set cases
+               test = tune[, c("age", "balance", "duration")],    #<- test set cases
+               cl = train$`signed up`,#<- category for true classification
+               k = 10,#<- number of neighbors considered
+               use.all = TRUE,
+               prob = TRUE) #<- control ties between class assignments If true, all distances equal to the kth largest are included
+
+
+
+# View the output.
+str(bank_3NN)
+table(bank_3NN)
+length(bank_3NN)
+
+
+```
+
+## Compare to the original data
+
+```{r}
+# How does the kNN classification compare to the true class?
+# Let's take a look at the confusion matrix by combining the 
+# predictions from bank_3NN to the original data set.
+kNN_res = table(bank_3NN,
+                tune$`signed up`)
+kNN_res
+sum(kNN_res)  #<- the total is all the test examples
+
+# Select the true positives and true negatives by selecting
+# only the cells where the row and column names are the same.
+kNN_res[row(kNN_res) == col(kNN_res)]
+
+# Calculate the accuracy rate by dividing the correct classifications
+# by the total number of classifications.
+kNN_acc = sum(kNN_res[row(kNN_res) == col(kNN_res)]) / sum(kNN_res)
+
+kNN_acc
+
+# An 87.0% accuracy rate is pretty good but keep in mind the baserate is roughly 89/11, so we have more or less a 90% chance of guessing right if we don't know anything about the customer, but the negative outcomes we don't really care about, this models value is being able to id sign ups when they are actually sign ups. This requires us to know are true positive rate, or Sensitivity or Recall. (Ya, that's annoying.) So let's dig a little deeper.    
+
+confusionMatrix(as.factor(bank_3NN), as.factor(tune$`signed up`), positive = "1", dnn=c("Prediction", "Actual"), mode = "sens_spec")
+
+#So our ability to "predict" sign up customers has more than doubled to 26% so that's  good but still pretty bad overall. This means that out of 10 sign ups, we really only classify 3 correctly. This is fairly typical when we have a unbalanced dataset. Which is why in this case we would want to tune this model on TPR (Sensitivity), to get it has high as possible while sacrificing Specificity or Precision.  Similar to a medical diagnosis example, where we would rather produce false positives as compared to false negatives, predict more of those with cancer that don't have it as compared to missing anyone that actually has cancer.      
+
+#Reference for confusion matrix: https://www.rdocumentation.org/packages/caret/versions/6.0-86/topics/confusionMatrix 
+
+
+```
+
+
+## Evaluation Examples 
+```{r}
+str(bank_3NN)
+
+bank_prob_1 <- tibble(attr(bank_3NN, "prob"))
+
+bank_prob_1
+
+final_model <- tibble(k_prob=bank_prob_1$`attr(bank_3NN, "prob")`,pred=bank_3NN,target=tune$`signed up`)
+
+#Need to convert this to the likelihood to be in the poss class.
+final_model$pos_prec <- ifelse(final_model$pred == 0, 1-final_model$k_prob, final_model$k_prob)
+View(final_model)
+
+confusionMatrix(final_model$pred, final_model$target, positive = "1", dnn=c("Prediction", "Actual"), mode = "sens_spec")
+
+adjust_thres <- function(x, y, z) {
+  #x=pred_probablities, y=threshold, z=test_outcome
+  thres <- as.factor(ifelse(x > y, 1,0))
+  confusionMatrix(thres, z, positive = "1", dnn=c("Prediction", "Actual"), mode = "everything")
+}
+
+adjust_thres(final_model$pos_prec,.35,final_model$target)
+
+library(ROCR)
+pred <- prediction(final_model$pos_prec,final_model$target)
+View(pred)
+
+knn_perf <- performance(pred,"tpr","fpr")
+
+plot(knn_perf, colorize=TRUE)
+abline(a=0, b= 1)
+
+knn_perf_AUC <- performance(pred,"auc")
+
+print(knn_perf_AUC@y.values)
+
+library(MLmetrics)
+LogLoss(as.numeric(final_model$pos_prec), as.numeric(final_model$target))
+
+F1_Score(y_pred = final_model$pred, y_true = final_model$target, positive = "1")
+
+```
+
+
+## Selecting the correct "k"
+```{r}
+# How does "k" affect classification accuracy? Let's create a function
+# to calculate classification accuracy based on the number of "k."
+chooseK = function(k, train_set, val_set, train_class, val_class){
+  
+  # Build knn with k neighbors considered.
+  set.seed(1)
+  class_knn = knn(train = train_set,    #<- training set cases
+                  test = val_set,       #<- test set cases
+                  cl = train_class,     #<- category for classification
+                  k = k,                #<- number of neighbors considered
+                  use.all = TRUE)       #<- control ties between class assignments
+                                        #   If true, all distances equal to the kth 
+                                        #   largest are included
+  conf_mat = table(class_knn, val_class)
+  
+  # Calculate the accuracy.
+  accu = sum(conf_mat[row(conf_mat) == col(conf_mat)]) / sum(conf_mat)                         
+  cbind(k = k, accuracy = accu)
+}
+
+
+
+# The sapply() function plugs in several values into our chooseK function.
+#sapply(x, fun...) "fun" here is passing a function to our k-function
+# function(x)[function] allows you to apply a series of numbers
+# to a function without running a for() loop! Returns a matrix.
+knn_different_k = sapply(seq(1, 21, by = 2),  #<- set k to be odd number from 1 to 21
+                         function(x) chooseK(x, 
+                          train_set = train[, c("age", "balance", "duration")],
+                          val_set = tune[, c("age", "balance", "duration")],
+                          train_class = train$`signed up`,
+                          val_class = tune$`signed up`))
+
+
+
+#A bit more of a explanation...
+seq(1,21, by=2)#just creates a series of numbers
+sapply(seq(1, 21, by=2), function(x) x+1)#sapply returns a new vector using the series of numbers and some calculation that is repeated over the vector of numbers 
+
+
+# Reformating the results to graph
+View(knn_different_k)
+class(knn_different_k)#matrix 
+head(knn_different_k)
+
+knn_different_k = data.frame(k = knn_different_k[1,],
+                             accuracy = knn_different_k[2,])
+
+# Plot accuracy vs. k.
+
+ggplot(knn_different_k,
+       aes(x = k, y = accuracy)) +
+  geom_line(color = "orange", size = 1.5) +
+  geom_point(size = 3)
+
+# 5 to 7 nearest neighbors seems to be a good choice because that's the
+# greatest improvement in predictive accuracy before the incremental 
+# improvement trails off.
+
+```
+(In Class continue from here)
+
+## Real quick - let's also look at a multi-class example using the iris dataset
+
+```{r}
+
+#For this example we are going to use the IRIS dataset in R
+str(iris)
+#first we want to scale the data so KNN will operate correctly
+scalediris <- as.data.frame(scale(iris[1:4], center = TRUE, scale = TRUE)) 
+
+
+str(scalediris)
+
+set.seed(1000)
+#We also need to create test and train data sets, we will do this slightly differently by using the sample function. The 2 says create 2 data sets essentially, replacement means we can reset the random sampling across each vector and the probability gives sample the weight of the splits, 2/3 for train, 1/3 for test. 
+iris_sample <- sample(2, nrow(scalediris), replace=TRUE, prob=c(0.67, 0.33))
+#We then just need to use the new variable to create the test/train outputs, selecting the first four rows as they are the numeric data in the iris data set and we want to predict Species (https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/sample)
+
+#View(iris)
+
+#View(iris_training)
+
+#View(iris_sample)
+
+iris_training <- scalediris[iris_sample==1, 1:4]
+iris_test <- scalediris[iris_sample==2, 1:4]
+#Now we need to create our 'Y' variables or labels need to input into the KNN function
+iris.trainLabels <- iris[iris_sample==1, 5]
+iris.testLabels <- iris[iris_sample==2, 5]
+#So now we will deploy our model 
+
+iris_pred <- knn(train = iris_training, test = iris_test, cl=iris.trainLabels, k=3, prob = TRUE)#probabilities are a percentage of points per class for each point, (kNN equals 4 for example and 3 of 4 are blue then 75% chance of being blue)
+
+str(iris_pred)
+
+xxxxx <- as.tibble(attr(iris_pred, "prob"))
+View(xxxxx)
+
+
+library(gmodels)
+IRISPREDCross <- CrossTable(iris.testLabels, iris_pred, prop.chisq = FALSE)
+#Looks like we got all but three correct, not bad
+
+
+#You can also use caret for KNN, but it's not as specialized as the above, but but does have some additional capabilities for evaluation. 
+
+```
+
+## Example with Caret using 10-k cross-validation 
+
+```{r}
+
+set.seed(1981)
+scalediris$Species <- iris$Species #adding back in the label for caret
+
+iris_training_car <- scalediris[iris_sample==1, 1:5]  
+iris_test_car <- scalediris[iris_sample==2, 1:5]
+
+trctrl <- trainControl(method = "repeatedcv",
+                       number = 10,
+                       repeats = 3) # generic control to pass back into the knn mode using the cross validation method. 
+
+iris_knn <- train(Species~.,
+                  data = iris_training_car,
+                  method="knn",
+                  tuneLength=10,
+                  trControl= trctrl,#cv method above, will select the optimal K
+                  preProcess="scale") #already did this but helpful reference
+
+iris_knn
+
+plot(iris_knn)#can also plot
+
+varImp(iris_knn)#gives us variable importance on a range of 0 to 100
+
+iris_pred <- predict(iris_knn, iris_test_car)
+
+iris_pred #gives a character predicted value for each row.
+
+confusionMatrix(iris_pred, iris_test_car$Species)
+
+table(iris_test_car$Species)#looks like we mis-classified 3 virginica as versicolor
+
+
+xxxxx <- as.tibble(attr(iris_pred, "prob"))
+
+View(xxxxx)
+
+```
+
+
+# In Class Exercise 
+```{r}
+
+# Using the bank dataset build a kNN model with your groups recommended k value and compare to the example from above, use the tuning data. Then use the test data and see how the model preforms. 
+
+# Also think about this questions, given what you know about kNN do you really need to do a robust training effort? 
+
+
+```
+
+
