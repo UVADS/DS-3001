@@ -64,13 +64,16 @@ On any given week, the course will require reviewing short video lectures and co
     quizzes will be given. You will be allowed as many chances to complete the quiz as needed and 
     they will be open note however students are to work independently. 
     
-    Labs (45%) – On most weeks we will have in-class labs/assignments. These are designed to allow you 
+    Mid-term project (15%)- Work in your lab groups to select a dataset and work 
+    through the initial stages of the Data Science Lifecycle. 
+    
+    Labs (40%) – On most weeks we will have in-class labs/assignments. These are designed to allow you 
     to practice the skills being presented in class. While they should be submitted individually you are 
     encouraged to work with your peers as much of the best learning can come from your peers. 
     You’ll need to create publishable markdown documents for every lab and submit them along 
     with the raw code file and link each week (Groups).   
    
-    Final project (25%) – The course will culminate in a final project that will involve 
+    Final project (15%) – The course will culminate in a final project that will involve 
     working with a dataset of your choice, giving a presentation, submitting well-annotated 
     code to include summary information in report form. This is an open-ended project 
     designed to allow groups to choose a topic of interest from the semester to
