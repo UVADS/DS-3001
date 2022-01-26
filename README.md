@@ -7,7 +7,7 @@ Your Practice of Data Science Tour Guides:
 * TA: Angel Vela de la Garza afv9x@virginia.edu
     * Office Hours Tuesday 11-12:30 Link Lab (Thorton Hall)
 * Peer Mentors: TBD
-* Location: Dell 1 Room 105 
+* Class Location: Dell 1 Room 105 
 
 Brian's Office Hours: In person in the large Elson Conference Room or Virtual on Discord: Monday, 10 to 4:30 (basically all day) or by appointment if needed. Feel free to just come by and hang out if you'd like. 
 
