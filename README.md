@@ -2,14 +2,14 @@
 
 Your Practice of Data Science Tour Guides: 
 
-* Brian Wright, Ph.D., Office: Elson Room 180 (Old Student Health Center)
+* Brian Wright, Ph.D., Office: Elson Room 165 (Old Student Health Center)
 * Email: brianwright@virginia.edu
 * TA: Angel Vela de la Garza afv9x@virginia.edu
     * Office Hours Tuesday 11-12:30 Link Lab (Thorton Hall)
 * Peer Mentors: TBD
 * Class Location: Dell 1 Room 105 
 
-Brian's Office Hours: In person in the large Elson Conference Room or Virtual on Discord: Monday, 10 to 4:30 (basically all day) or by appointment if needed. Feel free to just come by and hang out if you'd like. 
+Brian's Office Hours: In person in the large Elson Conference Room or Virtual on Discord: Monday, 10:30 to 4:30 (basically all day) or by appointment if needed. Feel free to just come by and hang out if you'd like. 
 
 Course Materials: [Practice of Data Science Repo](https://github.com/UVADS/DS-3001)
 

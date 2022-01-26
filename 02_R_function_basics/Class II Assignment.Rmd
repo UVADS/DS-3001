@@ -62,12 +62,16 @@ Loading and preparing the data
 ```{r}
 admit_2 <- read_csv("~/git_3001/DS-3001/data/LogReg.csv")
 
+str(admit_2)#str is short for structure and provides a overview of the data
+#What do you see here?
+
 #creating a quick list to use as a index
 names <- c("admit","rank")
 
 names
-#changing those two variables to factors
-admit_2[,names] <- lapply(admit_2[,names],factor)
+#changing those two variables to factors, lapply is a function that takes a function and applies the given function to your data
+
+admit_2[,names] <- lapply(admit_2[,names],factor)#In this example our data is "admit_2" we are using "[ ,names]" to only target the admit and rank variables and the function we are placing into lapply is "factor" which changes given variables to factors. 
 
 str(admit_2)
 
@@ -77,13 +81,16 @@ Single line version
 ```{r}
 
 View(admit_2) # Taking a look at the data
-x1 <- group_by(admit_2,rank)# grouping by the factor variables 
+x1 <- group_by(admit_2,rank)# grouping by the factor variables, done in the background 
 # Calculate additional variables
 x2 <- summarize(x1,admit=sum(admit == 1),count=n(),mean(gpa))# using x1 from above we are generating three variables a 
   # sum of all 1s in the admit column for each college rank,
   # total count of in each category of rank 
   # mean GPA in each of the rankings
-x2$ave_admit <- x2$admit/x2$count # added a variable ave to the x2,by dividing total admitted by total count for each of the ranking levels
+View(x2)
+x2$ave_admit <- x2$admit/x2$count # added a variable ave to the x2,by dividing total admitted by total count for each of the ranking levels. The "$" is a atomic symbol that's used to local specific columns in our dataframe
+
+x2
 
 x3 <- arrange(x2,desc(`rank`))# Arrange by rank descending 
 print(x3)
@@ -91,12 +98,12 @@ print(x3)
 
 ```
 
-## Piping it all together
+## Piping it all together. "%>%" in tidyverse simply take the information from the previous row of code and carry it over to the next line. 
 ```{r}
 #creating a dplyr version
 (admit_1 <- group_by(admit_2, rank)%>%
- summarize(admit=sum(admit == 1),count=n(),mean(gpa))%>%
- mutate(ave_admit=admit/count)%>%
+ summarize(admit=sum(admit == 1),count=n(),mean(gpa))%>%# uses functions to create new variables
+ mutate(ave_admit=admit/count)%>%#creating the average using the variables from above. 
  arrange(desc(`rank`)))
 # extra () at beginning and end tell R to print the result, the %>% sign is used for dplyr functions and essentially takes the results from the previous line and inputs into the next. 
 
@@ -115,7 +122,9 @@ ave_admit <- function(x){
 ```
 
 ```{r}
-ave_admit(admit_2)# the above code creates the function, this code runs the function. The results of which are the same. 
+ave_admit(admit_2)# the above code creates the function, this code runs the function. The results of which are the same.
+
+#What do about these results are interesting? 
 
 ```
 
