@@ -27,7 +27,7 @@ library(data.table)
 
 data <- fread("~/git_3001/DS-3001/data/Class_Assessment_Spring_2022_clean.csv", skip = 1)
 
-#fread is a much faster way to read in large datasets than read_csv or read.csv, its a function in the data.table package. 
+#fread is a much faster way to read in large datasets than read_csv or read.csv, its a function in the data.table package. You don't have to use fread, just presenting the option. I use read_csv throughout the class. 
 
 #?fread
 #?data.table

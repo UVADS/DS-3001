@@ -139,7 +139,7 @@ There are others; see `help(starts_with)`.
 Load the `weather.csv`. This contains daily temperature data in 2010 for some location.
 
 ```{r 01-lecture1-47, echo = F}
-weather <- rio::import('~/git_3001/DS-4001/data/weather.csv')
+weather <- rio::import('~/git_3001/DS-3001/data/weather.csv')
 getwd()
 ```
 
@@ -195,7 +195,7 @@ Other choices might be `cyl != 4`, `cyl > 4`, `year == 1999`, `manufacturer=="au
 
 ## Practice Piping 
 ```{r, echo=TRUE}
-admit_df <- read_csv("~/git_3001/DS-4001/data/LogReg.csv")
+admit_df <- read_csv("~/git_3001/DS-3001/data/LogReg.csv")
 str(admit_df)
 #Do we notice anything that seems a bit off. 
 ```
