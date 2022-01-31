@@ -32,7 +32,7 @@ group-by-group.
 
 
 For this assignment you can use any or all of the datasets I 
-provided or choose three of your own!  I would like you to compose 
+provided or choose two of your own!  I would like you to compose 
 one question for each dataset (or dataset of your choosing) that requires at a minimum three functions listed above to answer. Do not repeat function sequences or questions.  Information or the actual data for the datasets can be found through the links below. In summary for each dataset produce four parts: 1)Question, 2)psuedocode that answers the question, 3)single line transactions using dplyr functions, 4) pipe the individual lines together and create a function. 
 
 Also you can work with your groups for coding tips/advise or work through similar programming issues but everyone must have their own set of questions and results. 
@@ -92,7 +92,7 @@ x2$ave_admit <- x2$admit/x2$count # added a variable ave to the x2,by dividing t
 
 x2
 
-x3 <- arrange(x2,desc(`rank`))# Arrange by rank descending 
+x3 <- arrange(x2,desc(`mean(gpa)`))# Arrange by rank descending 
 print(x3)
 ## Are there differences in the admitted number of students on average by GPA and school rank?
 

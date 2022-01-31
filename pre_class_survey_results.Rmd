@@ -19,17 +19,19 @@ knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
 library(data.table)
 
+getwd()
 ```
 
 ```{r, include=FALSE}
 
 #What are we doing here specifically? 
 
-data <- fread("~/git_3001/DS-3001/data/Class_Assessment_Spring_2022_clean.csv", skip = 1)
+data <- fread("~/git_3001/DS-3001/data/Class_Assessment_Spring_2022_clean.csv", skip =1)
 
 #fread is a much faster way to read in large datasets than read_csv or read.csv, its a function in the data.table package. You don't have to use fread, just presenting the option. I use read_csv throughout the class. 
+View(data)
 
-#?fread
+?fread
 #?data.table
 
 View(data)#What's wrong with this data....? 
@@ -62,6 +64,8 @@ hist(data$`On a scale from 1 to 10 rank your experience using machine learning m
 ```{r}
 x_table <- table(data$`What is your major?`)
 
+x_table
+
 vis <- ggplot(data, aes(y=`What is your major?`))#flipped the Cartesian coordinates for better viewing
 
 vis
@@ -79,6 +83,8 @@ factor_viz <- function(x,y,z){
     theme_minimal()#changing the appearance
   vis
 }
+
+
 
 
 #Next task: use the function for the "Major" and "Language" columns
