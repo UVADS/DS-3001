@@ -21,10 +21,11 @@ library(tidyverse)
 library(knitr)
 library(plotly)
 library(DT)
+library(rmarkdown)
 ```
 
 
-<img src="bd.png" alt="big data image" width="500" height="300">
+<img src="bd.png" alt="big data image" width="300" height="300">
 
 Date that [article](https://www.smartdatacollective.com/5-excellent-big-data-tools-for-fostering-a-digital-workplace/) was published: **January 29, 2020**
 
@@ -32,15 +33,19 @@ Date that [article](https://www.smartdatacollective.com/5-excellent-big-data-too
 The Big Data article emphasizes big data tools that could *improve* workspace resources in any company. 
 ```{r tools, eval=TRUE,echo=TRUE}
 tools_to_improve <- c("Virtual Personal Assistants", "Workload Automation Software", "Enterprise Social Networks", "Cloud Computing Technologies", "Modern Corporate Intranets ")
-tools_to_improve
+kable(tools_to_improve)
+#Use kable documentation and get rid of the x
+
 ```
+[Beautiful Tables in R](https://rfortherestofus.com/2019/11/how-to-make-beautiful-tables-in-r/)
+
 In the world of data, big data is the topic that is on everyone's mind. Thus, it's no surprise that big data is finding its way into the simple, mundane tasks we find ourselves doing. For instance, creating an efficient schedule can be time-consuming. However, with the virtual personal assistant and workload automation software tools, one could optimize and complete tasks in record time. The article also details an enterprise social networking tool similar to **Slack** that allows for employees to utilize the powerful nature of direct messaging, which would push out the need for work emails and maximize time at the office. Ultimately, big data is everywhere and it's time we embrace it.
 
 ### Basic Article Stats
 ```{r, message=FALSE, echo=FALSE}
-
+#change to echo TRUE...what happens?
 stat <- data.frame("Article Views" = 2351, "Article Shares" = 71, "Article Likes on FB" = 576)
-kable(stat)
+paged_table(stat)
 ```
 
 ### Author Information
@@ -86,7 +91,10 @@ knitr::include_graphics('social.png')
 #### mtcars plot 
 ```{r}
 plot(mtcars$mpg,mtcars$disp)
+#using the reference below, change the size of the plot. 
 ```
+[R_Cookbook_Fig_Size](https://bookdown.org/yihui/rmarkdown-cookbook/figure-size.html)
+
 
 #### Iris Plot 
 

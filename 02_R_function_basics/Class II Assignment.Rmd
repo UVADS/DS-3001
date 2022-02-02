@@ -180,17 +180,6 @@ ave_admit(admit_2)# the above code creates the function, this code runs the func
 
 
 
-```{r}
-
-beaches <- xx %>% 
-  group_by(season) %>% 
-  sum(as.numeric(rainfall))
-
-sum(xx$rainfall, na.rm = TRUE)
-is.na(xx$rainfall)
-
-
-head(xx)
 
 ```
 
