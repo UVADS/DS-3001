@@ -8,15 +8,14 @@ Using the code overview provided create a new Rmarkdown document that outputs to
 
 4. Embed the link your story
 
-5. At least four sections with different section headings related to the article, 
-for example, you could have sections to summarize the article, 
-areas of application, author information, etc.
+5. At least four sections with different section headings related to the article, for example, you could have sections to summarize the article, areas of application, author information, etc.
 
 6. Embed a picture or figure related to the article (control - height/width)
 
 7. Add a tabbed section that includes references to other similar articles and a discussion on what you found most useful in the article.
 
-8. Publish the results to Rpubs
+8. Create a plot with data from a dataset included in R, select using the "data()" function
 
-9. Submit the link from Rpubs, the HTML file, images used and 
-the code file to collab - individually
+9. Publish the results to Rpubs
+
+10. Submit the link from Rpubs, HTML, images and the .Rmd file to collab - individually
