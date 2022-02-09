@@ -33,8 +33,9 @@ Date that [article](https://www.smartdatacollective.com/5-excellent-big-data-too
 The Big Data article emphasizes big data tools that could *improve* workspace resources in any company. 
 ```{r tools, eval=TRUE,echo=TRUE}
 tools_to_improve <- c("Virtual Personal Assistants", "Workload Automation Software", "Enterprise Social Networks", "Cloud Computing Technologies", "Modern Corporate Intranets ")
-kable(tools_to_improve)
+kable(tools_to_improve, col.names = "Key Words")
 #Use kable documentation and get rid of the x
+
 
 ```
 [Beautiful Tables in R](https://rfortherestofus.com/2019/11/how-to-make-beautiful-tables-in-r/)
@@ -89,7 +90,7 @@ knitr::include_graphics('social.png')
 ### Random Plots{.tabset}
 
 #### mtcars plot 
-```{r}
+```{r,out.width='50%'}
 plot(mtcars$mpg,mtcars$disp)
 #using the reference below, change the size of the plot. 
 ```
