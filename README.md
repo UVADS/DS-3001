@@ -9,7 +9,7 @@ Your Practice of Data Science Tour Guides:
 * Peer Mentors: TBD
 * Class Location: Dell 1 Room 105 
 
-Brian's Office Hours: In person in the large Elson Conference Room (180) or Virtual on Discord: Monday, 10:30 to 4:00 (basically all day) or by appointment if needed. Feel free to just come by and hang out if you'd like. 
+Brian's Office Hours: In person in the large Elson Conference Room (180) or Virtual on Discord: Monday, 12:00 to 4:30 or by appointment if needed. Feel free to just come by and hang out if you'd like. 
 
 Course Materials: [Practice of Data Science Repo](https://github.com/UVADS/DS-3001)
 
