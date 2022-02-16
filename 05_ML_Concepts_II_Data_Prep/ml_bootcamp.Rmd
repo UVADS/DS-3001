@@ -21,9 +21,10 @@ library(psych)
 library(mltools)
 library(data.table)
 library(caret)
+library(gradDescent)
+library(mice)
 ```
 [caret documentation](http://topepo.github.io/caret/index.html)
-
 
 ## Phase I
 [Cereal_Data_Dictionary](https://www.kaggle.com/crawford/80-cereals)
@@ -59,11 +60,24 @@ str(cereal)# Let's check the structure of the dataset and see if we have any
 # need to be converted to factors
 cereal[,c(2,3,12,13)] <- lapply(cereal[,c(2,3,12,13)], as.factor)
 
-
-
-
 ```
 
+
+## Let's take a closer look at mfr and type. 
+```{r}
+table(cereal$mfr)#we should collapse this factor, it has maybe too many small categories G,K and everyone else. Usually don't want more than 5 categories  
+
+cereal$mfr <- fct_collapse(cereal$mfr,
+                           G="G", #New to Old
+                           K="K",
+                        other = c("A","N","P","Q","R")
+                        )
+table(cereal$type)#looks ok
+table(cereal$vitamins)#also good
+table(cereal$weight)# what about this one? 
+```
+
+## Now we can move forward in normalizing the numeric values, create a index based on numeric columns:
 ```{r}
 (sodium_c <- scale(cereal$sodium, center = TRUE, scale = FALSE))#center but not standardized
 
@@ -71,60 +85,49 @@ cereal[,c(2,3,12,13)] <- lapply(cereal[,c(2,3,12,13)], as.factor)
 #min-max scaling, placing the numbers between 0 and 1. 
 
 ###Build our own normalizer, which is maybe how I would go if given the option. If you need to do multiple columns use lapply. See this referred to as a min-max scaler function.
+str(cereal)
 
 normalize <- function(x){
  (x - min(x)) / (max(x) - min(x))
 }
 (sodium_n <- normalize(cereal$sodium))
 
-# However, before we can apply this we need to make sure our data classes are correct. 
+#Let's check just to be sure 
 
+sodium_density <- density(cereal$sodium)
+plot(sodium_density)
 
-
-```
-
-#What about mfr and type? What variable classes are they? 
-```{r}
-table(cereal$mfr)#we should collapse this factor, it has way too many categories G,K and everyone else. Usually don't want more than 5 categories  
-
-cereal$mfr <- fct_collapse(cereal$mfr,
-                           G="G", #New to Old
-                           K="K",
-                        other = c("A","N","P","Q","R")
-                        )
-
-
-
-
-#Now we can move forward in normalizing the numeric values, create a index based on numeric columns: 
+sodium_density_n <- density(sodium_n)
+plot(sodium_density_n)
 
 abc <- names(select_if(cereal, is.numeric))# select function to find the numeric variables 
 
 #Use lapply to normalize the numeric values 
 
-cereal[abc] <- as_tibble(lapply(cereal[abc], normalize))
+cereal[abc] <- lapply(cereal[abc], normalize)
 
 str(cereal)
 
 ```
 
-
-### One-hot Encoding 
+## One-hot Encoding 
 [ML Tools One-Hot Overview](https://www.rdocumentation.org/packages/mltools/versions/0.3.5/topics/one_hot)
 
 ```{r}
 # Next let's one-hot encode those factor variables/character 
 
 ?one_hot
+class(cereal)
 
-cereal_1h <- one_hot(as.data.table(cereal),cols = "auto",sparsifyNAs = TRUE,naCols = TRUE,dropCols = TRUE,dropUnusedLevels = TRUE) 
-View(cereal_1h)
+cereal_1h <- one_hot(as.data.table(cereal),cols = "auto",sparsifyNAs = TRUE,naCols = FALSE,dropCols = TRUE,dropUnusedLevels = TRUE) 
+str(cereal_1h)#what looks different?
 ```
 
 
-### Baseline/Prevalance 
+## Baseline/Prevalance 
 ```{r}
-#Essentially the target to which we are trying to out perform with our model. 
+#Essentially the target to which we are trying to out perform with our model. Percentage represented by the positive class. 
+
 describe(cereal_1h$rating)
 (box <- boxplot(cereal_1h$rating, horizontal = TRUE)) 
 box$stats
@@ -132,10 +135,10 @@ fivenum(cereal$rating)
 ?fivenum#thanks Tukey!
 
 #added this a predictor versus replacing the numeric version
-(cereal_1h$rating_f <- cut(cereal_1h$rating,c(-1,.43,1),labels = c(0,1)))
+(cereal_1h$rating_f <- cut(cereal_1h$rating,c(0,.43,1),labels = c(0,1)))#why the NA? 
 
-str(cereal_1h)
 View(cereal_1h)
+
 #So no let's check the prevalence 
 (prevalence <- table(cereal_1h$rating_f)[[2]]/length(cereal_1h$rating_f))
 table(cereal_1h$rating_f)
@@ -144,7 +147,7 @@ table(cereal_1h$rating_f)
 
 ![](Boxplot.png)
 
-### Initial Model Building: Decision Tree Style  
+## Dropping Variables and Partitioning   
 ```{r}
 # Training|Evaluation, Tune|Evaluation, Test|Evaluation
 # Divide up our data into three parts, Training, Tuning, and Test
@@ -183,104 +186,25 @@ dim(train)
 dim(tune)
 dim(test)
 
-```
-
-
-#### Using Caret package to fit a C5.0 version of a decision tree
-Setting up the cross validation
-[Caret_Documentation](http://topepo.github.io/caret/train-models-by-tag.html#Tree_Based_Model)
-```{r}
-#Cross validation process 
-
-fitControl <- trainControl(method = "repeatedcv",
-                          number = 10,
-                          repeats = 5, 
-                          returnResamp="all",
-                          savePredictions = 'final') 
-
-# number - number of folds
-# repeats - number of times the CV is repeated, here it's 5 take the average of
-# those 5 repeats
-# returnResamp - essential verbose, save all of the sampling data
-
-# Choose the features and classes
+table(train$rating_f)#check the pervalance 
+table(test$rating_f)
+table(tune$rating_f)
 
 ```
 
-#### Training and Evaluation 
+
 
 ```{r}
-features <- train[,-"rating_f"]
-target <- train$rating_f
+df <- read.csv("https://query.data.world/s/ttvvwduzk3hwuahxgxe54jgfyjaiul", header=TRUE, stringsAsFactors=FALSE)
 
-View(target)
+job <- read_csv("https://raw.githubusercontent.com/DG1606/CMS-R-2020/master/Placement_Data_Full_Class.csv")
+View(job)
 
-str(features)
-
-set.seed(1984)
-cereal_mdl <- train(x=features,
-                y=target,
-                trControl=fitControl,
-                method="C5.0",
-                verbose=TRUE)
-cereal_mdl
-```
-
-Tune and Evaluation 
-```{r}
-cereal_predict = predict(cereal_mdl,tune,type= "raw")
-
-confusionMatrix(as.factor(cereal_predict), 
-                as.factor(tune$rating_f), 
-                dnn=c("Prediction", "Actual"), 
-                mode = "sens_spec")
-
-varImp(cereal_mdl)
-
-plot(cereal_mdl)
+View(df)
 
 
-grid <- expand.grid(.winnow = c(TRUE,FALSE), 
-                    .trials=c(20,30,40), 
-                    .model=c("tree","rules"))
-set.seed(1984)
-cereal_mdl_tune <- train(x=features,
-                y=target,
-                tuneGrid=grid,
-                trControl=fitControl,
-                method="C5.0",
-                verbose=TRUE)
-
-cereal_mdl_tune
-cereal_mdl
-
-plot(cereal_mdl_tune)
-
-# Want to evaluation again with the tune data using the new model 
-
-cereal_predict_tune = predict(cereal_mdl_tune,tune,type= "raw")
-
-cereal_predict_tune
-
-confusionMatrix(as.factor(cereal_predict_tune), 
-                as.factor(tune$rating_f), 
-                dnn=c("Prediction", "Actual"), 
-                mode = "sens_spec")
 
 
 ```
-
-Test 
-
-```{r}
-cereal_predict_test = predict(cereal_mdl_tune,test,type= "raw")
-
-confusionMatrix(as.factor(cereal_predict_test), 
-                as.factor(test$rating_f), 
-                dnn=c("Prediction", "Actual"), 
-                mode = "sens_spec")
-
-```
-
 
 

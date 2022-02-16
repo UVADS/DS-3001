@@ -1,24 +1,28 @@
-Goal: Build three pipelines using three different datasets 
+Goal: Build two data prep pipelines using different datasets to get practice with data preparation and question building.
 
-Step one: Choose three datasets from [Data.World](https://data.world/)
+Step one: Review these two datasets and brainstorm problems that could be addressed with this dataset.  Identify 
+
+[College Completion](https://data.world/databeats/college-completion/workspace/file?filename=cc_institution_details.csv)
+
+[Data Dictionary](https://data.world/databeats/college-completion/workspace/data-dictionary)
+
+[Job_Placement]("https://raw.githubusercontent.com/DG1606/CMS-R-2020/master/Placement_Data_Full_Class.csv")
+
+[Details](https://www.kaggle.com/benroshan/factors-affecting-campus-placement/discussion/280612)
 
 Step two: Work through the steps outlined in the examples to include the following elements: 
 
-  * Machine Learning Questions 
-  * Independent Business Metric 
+  * What is a independent Business Metric for your problem? 
   * Data preparation:  
-    * correct variable classification
+    * correct variable type as needed
     * collapse factor levels as needed
     * one-hot encoding factor variables 
-    * normalize the continous variables
+    * normalize the continuous variables
     * drop unneeded variables
     * create target variable if needed
-  * Calculate the prevalance 
+  * Calculate the prevalence 
   * Create the necessary data partitions (Train,Tune,Test)
-  * Build the initial model using the provided code 
-  * Evaluation the model built by the training data (keep in mind the prevalance)
-  * Explore the variable importance measures, what do the results tell you? 
-  * Predict using the tune data 
-  * Evaluate using the confusion matrix function
-      * Did the model perform better or worse than the training version?
-  * Write a summary of your findings. What do you know now that you didn't when you started? What items are you concerned about 
+  
+Step three: What do your instincts tell you about the data. Can it address your problem, what areas/items are you worried about? 
+
+
