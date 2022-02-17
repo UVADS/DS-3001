@@ -1,6 +1,6 @@
 Goal: Build two data prep pipelines using different datasets to get practice with data preparation and question building.
 
-Step one: Review these two datasets and brainstorm problems that could be addressed with this dataset.  Identify 
+Step one: Review these two datasets and brainstorm problems that could be addressed with the dataset. Identify a question for each dataset. 
 
 [College Completion](https://data.world/databeats/college-completion/workspace/file?filename=cc_institution_details.csv)
 
