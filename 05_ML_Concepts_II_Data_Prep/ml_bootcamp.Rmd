@@ -116,8 +116,7 @@ sodium_density_n <- density(sodium_n)
 plot(sodium_density_n)
 
 abc <- names(select_if(cereal, is.numeric))# select function to find the numeric variables and create a character string  
-
-View(abc)
+abc
 
 #Use lapply to normalize the numeric values 
 
@@ -132,9 +131,8 @@ str(cereal)
 
 ```{r}
 # Next let's one-hot encode those factor variables/character 
-
-
 class(cereal)
+?one_hot#what issue will we run into here? 
 
 cereal_1h <- one_hot(as.data.table(cereal),cols = "auto",sparsifyNAs = TRUE,naCols = FALSE,dropCols = TRUE,dropUnusedLevels = TRUE)#one_hot function requires a data.table class so we coerce the format.
 ?one_hot# looks at the various arguments
