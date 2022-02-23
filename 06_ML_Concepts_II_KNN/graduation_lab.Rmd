@@ -17,36 +17,35 @@ library(mice)
 ```
 
 
-I think this will work need to drop a bunch of columns but not too bad. Try to predict something to do with % graduation. 
 
 Instructions:
 The data is messy and you have a degrees of freedom problem, as in, you have too
-many features. Using the readme and your groups intuition to reduce the number of variables down to around 20ish. 
+many features. Using the readme and your groups intuition to reduce the number 
+of variables down to around 20ish. 
 
-Ensure the variables are classified correctly. Hint: they are not. 
+You've done most of the hard work already, so you should be ready to move forward
+with building your model. 
 
-Ensure that the factor variables are created correctly. Hint: they are not, 
-might need to change Null and "x" to 0 and 1, as a example.
+Use the question/target variable you submitted from last week and build a model
+to answer the question. 
 
-Once you've got down to a reasonable number of variables and cleaned up the variable classifications take a look at the patterns for missing data using the mice package and decide as a group how to handle missing values. See if some patterns seem to appear. 
+Build and optimize a kNN model to predict your target variable. Meaning use the tune
+set to select the correct k value. 
 
-Engineer the target variable using the grad_150_percentile into a binary variable. Use the distribution looking for natural breaks points or other intuitions from your group. You can also search for publications that elude to 
-what a high quality 6 year graduation rate might be.
+Evaluate the results, talking through your question. What concerns do you have 
+about the model? 
 
-Build and optimize a kNN model to predict your engineering target variable. 
-
-
+Example of how I cleaned the dataset
 ```{r}
 url <- "https://query.data.world/s/yd5wiazzlj7aahmn4x37y7zq5pyh2h"
 
 grad_data <- read_csv(url)
 
-View(grad_data)
+View(grad_data)# we can tell that a large number of the features will likely 
+#need to be removed and we've got a rather large number of features/ 
 
 # readme for the dataset - https://data.world/databeats/college-completion/workspace/file?filename=README.txt
 
-#Pretty large number of features, need to trim this down
-dim(grad_data_2)
 
 #This will allow us to pull column numbers for sub-setting  
 column_index <- tibble(colnames(grad_data))
@@ -56,41 +55,50 @@ x <- 40:56 #create a list so we don't have to type 16 numbers out
 #Most of these columns have a good number of missing values or are not useful.  
 grad_data_1 <- grad_data[ ,c(-28,-10,-11,-12,-x,-29,-37,-61,-57)]
 
+#Make a new index
 column_index <- tibble(colnames(grad_data_1))
 
-View(column_index)
-
+#Looking better
 View(grad_data_2)
 
 #Dropped a bunch more that appeared to be repeats or not predictive 
 grad_data_2 <- grad_data_1[ ,c(-1,-3,-4,-7,-9,-12,-13,-15,-16,-19,-22,-24,-30,-33,-34,-35,-36)]
 
+#need to change the nulls to NAs 
+grad_data_2[grad_data_2=="NULL"] <- NA
 
+summary(grad_data_2)
+
+#In looking at the hbcu (historically black colleges and universities, seems
+# like the NAs should be 0s, let's change that back and convert to a factor)
+grad_data_2$hbcu <- as.factor(ifelse(is.na(grad_data_2$hbcu),0,1))
+
+#Ok better
+table(grad_data_2$hbcu)
+str(grad_data_2)
 
 #convert several variables to factors 
-x <- c("level","control","hbcu")
+x <- c("level","control")
 grad_data_2[,x] <- lapply(grad_data_2[,x], as.factor)
+
 #convert several variables to numbers 
-x <- c("med_sat_value","grad_100_value","grad_100_percentile","grad_150_value","grad_150_percentile","retain_value","cohort_size")
+x <- c("med_sat_value","grad_100_value","grad_100_percentile","grad_150_value","grad_150_percentile","retain_value","cohort_size","ft_fac_value")
 grad_data_2[,x] <- lapply(grad_data_2[,x], as.numeric)
 
+#Looking better
 str(grad_data_2)
-mice_imputes = mice(grad_data_2, m=5, maxit = 10)
-
-mice_imputes$method
-
-grad_data_3 <- complete(mice_imputes,5)
-
-View(grad_data_3)
-
-
-
 ```
-Let's take a look at the missing data 
 
+### Missing Data 
 ```{r}
+#Now let's take a look at missing data issue
 md.pattern(grad_data_2)
 
+#let's drop med_stat_value then delete the rest of the na columns 
+grad_data_2 <- grad_data_2[,c(-1,-11)]
+grad_data_3 <- grad_data_2[complete.cases(grad_data_2), ]
+
+str(grad_data_3)#Ok looking good, still likely want to drop a few columns, 
+# need to normalize and one_hot encode before we move forward with model building.
 
 ```
-
