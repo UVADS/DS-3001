@@ -17,38 +17,90 @@ library(caret)
 library(tidyverse)
 library(class)
 library(plotly)
+library(mice)
+library(MLmetrics)
 ```
 
 
-```{r}
-bank_data = read_csv("data/bank.csv")
 
-# Check the structure and view the data.
+```{r}
+bank_data <-  read_csv("data/bank.csv")
+
+str(bank_data)
+
+
+
+
+
+(column_index <- tibble(colnames(bank_data)))
+
+table(bank_data$marital)#three categories
+table(bank_data$education)# four levels
+table(bank_data$default) # two levels 
+table(bank_data$job)# 12 levels...what we do? 
+table(bank_data$contact)# 3 levels - but is there really any difference between cell and 
+# telephone
+table(bank_data$housing) # two levels 
+table(bank_data$poutcome)# four levels
 table(bank_data$`signed up`)
+
+bank_data$job <- fct_collapse(bank_data$job, #fct_collapse is in the forcats package 
+                           # that is a part of tidyverse. 
+                           Employed = c("admin.",
+                                        "blue-collar",
+                                        "entrepreneur",
+                                        "housemaid",
+                                        "management",
+                                        "self-employed",
+                                        "services",
+                                        "technician"), #New to Old
+                           Unemployed= c("student",
+                                         "unemployed",
+                                         "unknown"))
+
+
+```
+
+
+### Convert the necessary columns to factors and check for missing data
+```{r}
+column_index
+
+bank_data[,c(2,3,4,5,8,7,13,14)] <- lapply(bank_data[,c(2,3,4,5,8,7,13,14)], as.factor)
+
+str(bank_data)
 
 #check for missing data
 
-bank_data <- bank_data[complete.cases(bank_data),]
+summary(bank_data)
 
-#Scale the features we will be using for classification 
-bank_data[, c("age","duration","balance")] <- lapply(bank_data[, c("age","duration","balance")],function(x) scale(x))
+md.pattern(bank_data)# wahooo
 
-bank_data$`signed up` <- as.factor(bank_data$`signed up`)
+#Normalize the features that are numeric 
+abc <- names(select_if(bank_data, is.numeric))
+
+bank_data[abc] <- lapply(bank_data[abc], normalize)
+
+str(bank_data)
+```
+
+### Onehot encode
+
+```{r}
+bank_data <- one_hot(as.data.table(bank_data),cols=c("job","marital","education","default","housing","contact","poutcome"),sparsifyNAs = TRUE,naCols = FALSE,dropCols = TRUE,dropUnusedLevels = TRUE)
 
 str(bank_data)
 ```
 
 
-
+### Data is ready so let's build the model
 ```{r}
 # Let's run the kNN algorithm on our banking data. 
 # Check the composition of labels in the data set. 
-table(bank_data$`signed up`)[2] / sum(table(bank_data$`signed up`))table(bank_data$`signed up`)
+table(bank_data$`signed up`)[2]/sum(table(bank_data$`signed up`))
 
 # This means that at random, we have an 11.6% chance of correctly picking
 # out a subscribed individual. Let's see if kNN can do any better.
-
-
 
 part_index_1 <- createDataPartition(bank_data$`signed up`,
                                            times=1,
@@ -135,51 +187,9 @@ confusionMatrix(as.factor(bank_3NN), as.factor(tune$`signed up`), positive = "1"
 
 
 ## Evaluation Examples 
-```{r}
-str(bank_3NN)
-
-bank_prob_1 <- tibble(attr(bank_3NN, "prob"))
-
-bank_prob_1
-
-final_model <- tibble(k_prob=bank_prob_1$`attr(bank_3NN, "prob")`,pred=bank_3NN,target=tune$`signed up`)
-
-#Need to convert this to the likelihood to be in the poss class.
-final_model$pos_prec <- ifelse(final_model$pred == 0, 1-final_model$k_prob, final_model$k_prob)
-View(final_model)
-
-confusionMatrix(final_model$pred, final_model$target, positive = "1", dnn=c("Prediction", "Actual"), mode = "sens_spec")
-
-adjust_thres <- function(x, y, z) {
-  #x=pred_probablities, y=threshold, z=test_outcome
-  thres <- as.factor(ifelse(x > y, 1,0))
-  confusionMatrix(thres, z, positive = "1", dnn=c("Prediction", "Actual"), mode = "everything")
-}
-
-adjust_thres(final_model$pos_prec,.35,final_model$target)
-
-library(ROCR)
-pred <- prediction(final_model$pos_prec,final_model$target)
-View(pred)
-
-knn_perf <- performance(pred,"tpr","fpr")
-
-plot(knn_perf, colorize=TRUE)
-abline(a=0, b= 1)
-
-knn_perf_AUC <- performance(pred,"auc")
-
-print(knn_perf_AUC@y.values)
-
-library(MLmetrics)
-LogLoss(as.numeric(final_model$pos_prec), as.numeric(final_model$target))
-
-F1_Score(y_pred = final_model$pred, y_true = final_model$target, positive = "1")
-
-```
 
 
-## Selecting the correct "k"
+### Selecting the correct "k"
 ```{r}
 # How does "k" affect classification accuracy? Let's create a function
 # to calculate classification accuracy based on the number of "k."
@@ -242,6 +252,51 @@ ggplot(knn_different_k,
 
 ```
 (In Class continue from here)
+
+
+### Adjusting the threshold
+```{r}
+str(bank_3NN)
+
+bank_prob_1 <- tibble(attr(bank_3NN, "prob"))
+
+bank_prob_1
+
+final_model <- tibble(k_prob=bank_prob_1$`attr(bank_3NN, "prob")`,pred=bank_3NN,target=tune$`signed up`)
+
+#Need to convert this to the likelihood to be in the poss class.
+final_model$pos_prec <- ifelse(final_model$pred == 0, 1-final_model$k_prob, final_model$k_prob)
+View(final_model)
+
+confusionMatrix(final_model$pred, final_model$target, positive = "1", dnn=c("Prediction", "Actual"), mode = "sens_spec")
+
+adjust_thres <- function(x, y, z) {
+  #x=pred_probablities, y=threshold, z=test_outcome
+  thres <- as.factor(ifelse(x > y, 1,0))
+  confusionMatrix(thres, z, positive = "1", dnn=c("Prediction", "Actual"), mode = "everything")
+}
+
+adjust_thres(final_model$pos_prec,.35,final_model$target)
+
+library(ROCR)
+pred <- prediction(final_model$pos_prec,final_model$target)
+View(pred)
+
+knn_perf <- performance(pred,"tpr","fpr")
+
+plot(knn_perf, colorize=TRUE)
+abline(a=0, b= 1)
+
+knn_perf_AUC <- performance(pred,"auc")
+
+print(knn_perf_AUC@y.values)
+
+library(MLmetrics)
+LogLoss(as.numeric(final_model$pos_prec), as.numeric(final_model$target))
+
+F1_Score(y_pred = final_model$pred, y_true = final_model$target, positive = "1")
+
+```
 
 ## Real quick - let's also look at a multi-class example using the iris dataset
 
