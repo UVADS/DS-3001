@@ -19,19 +19,20 @@ library(class)
 library(plotly)
 library(mice)
 library(MLmetrics)
+library(mltools)
+library(data.table)
 ```
 
 
-
+### What questions and business metric should we use? 
 ```{r}
 bank_data <-  read_csv("data/bank.csv")
 
 str(bank_data)
 
+```
 
-
-
-
+```{r}
 (column_index <- tibble(colnames(bank_data)))
 
 table(bank_data$marital)#three categories
@@ -110,7 +111,11 @@ part_index_1 <- createDataPartition(bank_data$`signed up`,
 View(part_index_1)
 
 train <- bank_data[part_index_1,]
+str(train)
+
 tune_and_test <- bank_data[-part_index_1, ]
+
+sum(is.na(train))
 
 #The we need to use the function again to create the tuning set 
 
@@ -136,37 +141,47 @@ dim(test)
 # k-Nearest Neighbor is a randomized algorithm, so make sure to
 # use set.seed() to make your results repeatable.
 set.seed(1982)
-bank_3NN <-  knn(train = train[, c("age", "balance", "duration")],#<- training set cases
-               test = tune[, c("age", "balance", "duration")],    #<- test set cases
+bank_9NN <-  knn(train = train,#<- training set cases
+               test = tune,    #<- tune set cases
                cl = train$`signed up`,#<- category for true classification
-               k = 10,#<- number of neighbors considered
+               k = 9,#<- number of neighbors considered
                use.all = TRUE,
-               prob = TRUE) #<- control ties between class assignments If true, all distances equal to the kth largest are included
+               prob = TRUE)# provides the output in probabilities 
 
 
 
 # View the output.
-str(bank_3NN)
-table(bank_3NN)
-length(bank_3NN)
+str(bank_9NN)
+table(bank_9NN)
+table(tune$`signed up`)
 
+bank_3NN
+
+View(as.tibble(bank_9NN))
+View(as.tibble(attr(bank_9NN,"prob")))
 
 ```
 
-## Compare to the original data
+## Compare to the original data - Evaluation 
+
+[Confusion Matrix](https://en.wikipedia.org/wiki/Confusion_matrix)
 
 ```{r}
 # How does the kNN classification compare to the true class?
 # Let's take a look at the confusion matrix by combining the 
 # predictions from bank_3NN to the original data set.
-kNN_res = table(bank_3NN,
+kNN_res = table(bank_9NN,
                 tune$`signed up`)
 kNN_res
 sum(kNN_res)  #<- the total is all the test examples
 
+#Accuracy = TP+TN/(TP+TN+FP+FN)
+
+(5776+696)/(5776+696+65+7)
+
 # Select the true positives and true negatives by selecting
 # only the cells where the row and column names are the same.
-kNN_res[row(kNN_res) == col(kNN_res)]
+kNN_res[row(kNN_res) == col(kNN_res)]#essentially the left to right diagonal 
 
 # Calculate the accuracy rate by dividing the correct classifications
 # by the total number of classifications.
@@ -174,11 +189,14 @@ kNN_acc = sum(kNN_res[row(kNN_res) == col(kNN_res)]) / sum(kNN_res)
 
 kNN_acc
 
-# An 87.0% accuracy rate is pretty good but keep in mind the baserate is roughly 89/11, so we have more or less a 90% chance of guessing right if we don't know anything about the customer, but the negative outcomes we don't really care about, this models value is being able to id sign ups when they are actually sign ups. This requires us to know are true positive rate, or Sensitivity or Recall. (Ya, that's annoying.) So let's dig a little deeper.    
+# An 99.0% accuracy rate is pretty good but keep in mind the baserate is roughly 89/11, so we have more or less a 90% chance of guessing right if we don't know anything about the customer, but the negative outcomes we don't really care about, this models value is being able to id sign ups when they are actually sign ups. This requires us to know are true positive rate, or Sensitivity or Recall. So let's dig a little deeper.    
 
-confusionMatrix(as.factor(bank_3NN), as.factor(tune$`signed up`), positive = "1", dnn=c("Prediction", "Actual"), mode = "sens_spec")
+confusionMatrix(as.factor(bank_9NN), as.factor(tune$`signed up`), positive = "1", dnn=c("Prediction", "Actual"), mode = "sens_spec")
 
-#So our ability to "predict" sign up customers has more than doubled to 26% so that's  good but still pretty bad overall. This means that out of 10 sign ups, we really only classify 3 correctly. This is fairly typical when we have a unbalanced dataset. Which is why in this case we would want to tune this model on TPR (Sensitivity), to get it has high as possible while sacrificing Specificity or Precision.  Similar to a medical diagnosis example, where we would rather produce false positives as compared to false negatives, predict more of those with cancer that don't have it as compared to missing anyone that actually has cancer.      
+#sensitivity, recall and true poss rate = TP/TP+FN
+#specificity, true negative rate = TN/TN+FP
+
+#So our ability to "predict" sign up customers has more than doubled to 91% so that's  really solid. This means that out of 10 sign ups,  classify 9 correctly! Which is why in this case we would want to tune this model on TPR (Sensitivity), to get it has high as possible while sacrificing Specificity.  Similar to a medical diagnosis example, where we would rather produce false positives as compared to false negatives, predict more of those with cancer that don't have it as compared to missing anyone that actually has cancer.      
 
 #Reference for confusion matrix: https://www.rdocumentation.org/packages/caret/versions/6.0-86/topics/confusionMatrix 
 
@@ -219,11 +237,10 @@ chooseK = function(k, train_set, val_set, train_class, val_class){
 # to a function without running a for() loop! Returns a matrix.
 knn_different_k = sapply(seq(1, 21, by = 2),  #<- set k to be odd number from 1 to 21
                          function(x) chooseK(x, 
-                          train_set = train[, c("age", "balance", "duration")],
-                          val_set = tune[, c("age", "balance", "duration")],
+                          train_set = train,
+                          val_set = tune,
                           train_class = train$`signed up`,
                           val_class = tune$`signed up`))
-
 
 
 #A bit more of a explanation...
@@ -231,12 +248,11 @@ seq(1,21, by=2)#just creates a series of numbers
 sapply(seq(1, 21, by=2), function(x) x+1)#sapply returns a new vector using the series of numbers and some calculation that is repeated over the vector of numbers 
 
 
-# Reformating the results to graph
+# Reformatting the results to graph
 View(knn_different_k)
 class(knn_different_k)#matrix 
-head(knn_different_k)
 
-knn_different_k = data.frame(k = knn_different_k[1,],
+knn_different_k = tibble(k = knn_different_k[1,],
                              accuracy = knn_different_k[2,])
 
 # Plot accuracy vs. k.
@@ -262,22 +278,30 @@ bank_prob_1 <- tibble(attr(bank_3NN, "prob"))
 
 bank_prob_1
 
-final_model <- tibble(k_prob=bank_prob_1$`attr(bank_3NN, "prob")`,pred=bank_3NN,target=tune$`signed up`)
+final_model <- tibble(k_prob=bank_prob_1$`attr(bank_9NN, "prob")`,pred=bank_9NN,target=tune$`signed up`)
+
+final_model
 
 #Need to convert this to the likelihood to be in the poss class.
 final_model$pos_prec <- ifelse(final_model$pred == 0, 1-final_model$k_prob, final_model$k_prob)
 View(final_model)
+densityplot(final_model$pos_prec)
 
 confusionMatrix(final_model$pred, final_model$target, positive = "1", dnn=c("Prediction", "Actual"), mode = "sens_spec")
 
 adjust_thres <- function(x, y, z) {
-  #x=pred_probablities, y=threshold, z=test_outcome
+  #x=pred_probablities, y=threshold, z=tune_outcome
   thres <- as.factor(ifelse(x > y, 1,0))
   confusionMatrix(thres, z, positive = "1", dnn=c("Prediction", "Actual"), mode = "everything")
 }
 
-adjust_thres(final_model$pos_prec,.35,final_model$target)
+adjust_thres(final_model$pos_prec,.85,final_model$target)
 
+```
+
+
+### More for next week.
+```{r}
 library(ROCR)
 pred <- prediction(final_model$pos_prec,final_model$target)
 View(pred)
@@ -384,17 +408,6 @@ table(iris_test_car$Species)#looks like we mis-classified 3 virginica as versico
 xxxxx <- as.tibble(attr(iris_pred, "prob"))
 
 View(xxxxx)
-
-```
-
-
-# In Class Exercise 
-```{r}
-
-# Using the bank dataset build a kNN model with your groups recommended k value and compare to the example from above, use the tuning data. Then use the test data and see how the model preforms. 
-
-# Also think about this questions, given what you know about kNN do you really need to do a robust training effort? 
-
 
 ```
 
