@@ -39,14 +39,12 @@ table(bank_data$marital)#three categories
 table(bank_data$education)# four levels
 table(bank_data$default) # two levels 
 table(bank_data$job)# 12 levels...what we do? 
-table(bank_data$contact)# 3 levels - but is there really any difference between cell and 
-# telephone
+table(bank_data$contact)# 3 levels - but is there really any difference between cell and telephone
 table(bank_data$housing) # two levels 
 table(bank_data$poutcome)# four levels
 table(bank_data$`signed up`)
 
-bank_data$job <- fct_collapse(bank_data$job, #fct_collapse is in the forcats package 
-                           # that is a part of tidyverse. 
+bank_data$job <- fct_collapse(bank_data$job, 
                            Employed = c("admin.",
                                         "blue-collar",
                                         "entrepreneur",
@@ -54,7 +52,7 @@ bank_data$job <- fct_collapse(bank_data$job, #fct_collapse is in the forcats pac
                                         "management",
                                         "self-employed",
                                         "services",
-                                        "technician"), #New to Old
+                                        "technician"),
                            Unemployed= c("student",
                                          "unemployed",
                                          "unknown"))
@@ -88,7 +86,12 @@ str(bank_data)
 ### Onehot encode
 
 ```{r}
-bank_data <- one_hot(as.data.table(bank_data),cols=c("job","marital","education","default","housing","contact","poutcome"),sparsifyNAs = TRUE,naCols = FALSE,dropCols = TRUE,dropUnusedLevels = TRUE)
+ab_c <- names(select_if(bank_data, is.factor))#names collects the columns names, select_if selects columns based on a criteria in this example it's is.factor
+
+
+bank_data <- one_hot(as.data.table(bank_data),cols=ab_c,sparsifyNAs = TRUE,naCols = FALSE,dropCols = TRUE,dropUnusedLevels = TRUE)
+
+bank_data <- bank_data[,-28]
 
 str(bank_data)
 ```
@@ -98,12 +101,12 @@ str(bank_data)
 ```{r}
 # Let's run the kNN algorithm on our banking data. 
 # Check the composition of labels in the data set. 
-table(bank_data$`signed up`)[2]/sum(table(bank_data$`signed up`))
+table(bank_data$`signed up_1`)[2]/sum(table(bank_data$`signed up_1`))
 
 # This means that at random, we have an 11.6% chance of correctly picking
 # out a subscribed individual. Let's see if kNN can do any better.
 
-part_index_1 <- createDataPartition(bank_data$`signed up`,
+part_index_1 <- createDataPartition(bank_data$`signed up_1`,
                                            times=1,
                                            p = 0.70,
                                            groups=1,
@@ -115,11 +118,10 @@ str(train)
 
 tune_and_test <- bank_data[-part_index_1, ]
 
-sum(is.na(train))
 
 #The we need to use the function again to create the tuning set 
 
-tune_and_test_index <- createDataPartition(tune_and_test$`signed up`,
+tune_and_test_index <- createDataPartition(tune_and_test$`signed up_1`,
                                            p = .5,
                                            list = FALSE,
                                            times = 1)
@@ -138,12 +140,13 @@ dim(test)
 # Let's train the classifier for k = 3 using the class package. 
 
 
+
 # k-Nearest Neighbor is a randomized algorithm, so make sure to
 # use set.seed() to make your results repeatable.
-set.seed(1982)
+set.seed(1984)
 bank_9NN <-  knn(train = train,#<- training set cases
                test = tune,    #<- tune set cases
-               cl = train$`signed up`,#<- category for true classification
+               cl = train$`signed up_1`,#<- category for true classification
                k = 9,#<- number of neighbors considered
                use.all = TRUE,
                prob = TRUE)# provides the output in probabilities 
@@ -153,7 +156,7 @@ bank_9NN <-  knn(train = train,#<- training set cases
 # View the output.
 str(bank_9NN)
 table(bank_9NN)
-table(tune$`signed up`)
+table(tune$`signed up_1`)
 
 bank_3NN
 
@@ -171,13 +174,13 @@ View(as.tibble(attr(bank_9NN,"prob")))
 # Let's take a look at the confusion matrix by combining the 
 # predictions from bank_3NN to the original data set.
 kNN_res = table(bank_9NN,
-                tune$`signed up`)
+                tune$`signed up_1`)
 kNN_res
 sum(kNN_res)  #<- the total is all the test examples
 
 #Accuracy = TP+TN/(TP+TN+FP+FN)
 
-(5776+696)/(5776+696+65+7)
+(5777+695)/(5777+695+56+16)
 
 # Select the true positives and true negatives by selecting
 # only the cells where the row and column names are the same.
@@ -191,7 +194,7 @@ kNN_acc
 
 # An 99.0% accuracy rate is pretty good but keep in mind the baserate is roughly 89/11, so we have more or less a 90% chance of guessing right if we don't know anything about the customer, but the negative outcomes we don't really care about, this models value is being able to id sign ups when they are actually sign ups. This requires us to know are true positive rate, or Sensitivity or Recall. So let's dig a little deeper.    
 
-confusionMatrix(as.factor(bank_9NN), as.factor(tune$`signed up`), positive = "1", dnn=c("Prediction", "Actual"), mode = "sens_spec")
+confusionMatrix(as.factor(bank_9NN), as.factor(tune$`signed up_1`), positive = "1", dnn=c("Prediction", "Actual"), mode = "sens_spec")
 
 #sensitivity, recall and true poss rate = TP/TP+FN
 #specificity, true negative rate = TN/TN+FP
@@ -212,7 +215,6 @@ confusionMatrix(as.factor(bank_9NN), as.factor(tune$`signed up`), positive = "1"
 # How does "k" affect classification accuracy? Let's create a function
 # to calculate classification accuracy based on the number of "k."
 chooseK = function(k, train_set, val_set, train_class, val_class){
-  
   # Build knn with k neighbors considered.
   set.seed(1)
   class_knn = knn(train = train_set,    #<- training set cases
@@ -239,9 +241,11 @@ knn_different_k = sapply(seq(1, 21, by = 2),  #<- set k to be odd number from 1 
                          function(x) chooseK(x, 
                           train_set = train,
                           val_set = tune,
-                          train_class = train$`signed up`,
-                          val_class = tune$`signed up`))
+                          train_class = train$`signed up_1`,
+                          val_class = tune$`signed up_1`))
 
+
+View(knn_different_k)
 
 #A bit more of a explanation...
 seq(1,21, by=2)#just creates a series of numbers
@@ -255,6 +259,11 @@ class(knn_different_k)#matrix
 knn_different_k = tibble(k = knn_different_k[1,],
                              accuracy = knn_different_k[2,])
 
+test <- t(knn_different_k)
+
+View(test)
+View(knn_different_k)
+
 # Plot accuracy vs. k.
 
 ggplot(knn_different_k,
@@ -262,31 +271,36 @@ ggplot(knn_different_k,
   geom_line(color = "orange", size = 1.5) +
   geom_point(size = 3)
 
+#dev.off()
+
 # 5 to 7 nearest neighbors seems to be a good choice because that's the
 # greatest improvement in predictive accuracy before the incremental 
 # improvement trails off.
 
 ```
-(In Class continue from here)
 
 
 ### Adjusting the threshold
 ```{r}
-str(bank_3NN)
+str(bank_9NN)
 
-bank_prob_1 <- tibble(attr(bank_3NN, "prob"))
+bank_prob_1 <- tibble(attr(bank_9NN, "prob"))
 
-bank_prob_1
+View(bank_prob_1)
 
-final_model <- tibble(k_prob=bank_prob_1$`attr(bank_9NN, "prob")`,pred=bank_9NN,target=tune$`signed up`)
+final_model <- tibble(k_prob=bank_prob_1$`attr(bank_9NN, "prob")`,pred=bank_9NN,target=tune$`signed up_1`)
 
 final_model
 
 #Need to convert this to the likelihood to be in the poss class.
 final_model$pos_prec <- ifelse(final_model$pred == 0, 1-final_model$k_prob, final_model$k_prob)
-View(final_model)
+
+#Needs to be a factor to be correctly  
+final_model$target <- as.factor(final_model$target)
+
 densityplot(final_model$pos_prec)
 
+#confusionMatrix from Caret package
 confusionMatrix(final_model$pred, final_model$target, positive = "1", dnn=c("Prediction", "Actual"), mode = "sens_spec")
 
 adjust_thres <- function(x, y, z) {
@@ -295,12 +309,15 @@ adjust_thres <- function(x, y, z) {
   confusionMatrix(thres, z, positive = "1", dnn=c("Prediction", "Actual"), mode = "everything")
 }
 
-adjust_thres(final_model$pos_prec,.85,final_model$target)
+
+str(final_model)
+
+adjust_thres(final_model$pos_prec,.50,as.factor(final_model$target))
 
 ```
 
 
-### More for next week.
+### More for next week
 ```{r}
 library(ROCR)
 pred <- prediction(final_model$pos_prec,final_model$target)
