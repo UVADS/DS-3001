@@ -63,8 +63,7 @@ bank_data$job <- fct_collapse(bank_data$job,
 
 ### Convert the necessary columns to factors and check for missing data
 ```{r}
-column_index
-
+View(column_index)
 bank_data[,c(2,3,4,5,8,7,13,14)] <- lapply(bank_data[,c(2,3,4,5,8,7,13,14)], as.factor)
 
 str(bank_data)
@@ -91,11 +90,11 @@ ab_c <- names(select_if(bank_data, is.factor))#names collects the columns names,
 
 bank_data <- one_hot(as.data.table(bank_data),cols=ab_c,sparsifyNAs = TRUE,naCols = FALSE,dropCols = TRUE,dropUnusedLevels = TRUE)
 
+#Dropping signed up_0
 bank_data <- bank_data[,-28]
 
 str(bank_data)
 ```
-
 
 ### Data is ready so let's build the model
 ```{r}
@@ -137,9 +136,7 @@ dim(test)
 ## Train the classifier 
 
 ```{r}
-# Let's train the classifier for k = 3 using the class package. 
-
-
+# Let's train the classifier for k = 9 using the class package. 
 
 # k-Nearest Neighbor is a randomized algorithm, so make sure to
 # use set.seed() to make your results repeatable.
@@ -150,8 +147,6 @@ bank_9NN <-  knn(train = train,#<- training set cases
                k = 9,#<- number of neighbors considered
                use.all = TRUE,
                prob = TRUE)# provides the output in probabilities 
-
-
 
 # View the output.
 str(bank_9NN)
@@ -180,7 +175,7 @@ sum(kNN_res)  #<- the total is all the test examples
 
 #Accuracy = TP+TN/(TP+TN+FP+FN)
 
-(5777+695)/(5777+695+56+16)
+(5776+705)/(5776+705+57+6)
 
 # Select the true positives and true negatives by selecting
 # only the cells where the row and column names are the same.
@@ -206,9 +201,7 @@ confusionMatrix(as.factor(bank_9NN), as.factor(tune$`signed up_1`), positive = "
 
 ```
 
-
 ## Evaluation Examples 
-
 
 ### Selecting the correct "k"
 ```{r}
@@ -251,15 +244,12 @@ View(knn_different_k)
 seq(1,21, by=2)#just creates a series of numbers
 sapply(seq(1, 21, by=2), function(x) x+1)#sapply returns a new vector using the series of numbers and some calculation that is repeated over the vector of numbers 
 
-
 # Reformatting the results to graph
 View(knn_different_k)
 class(knn_different_k)#matrix 
 
 knn_different_k = tibble(k = knn_different_k[1,],
                              accuracy = knn_different_k[2,])
-
-test <- t(knn_different_k)
 
 View(test)
 View(knn_different_k)
@@ -290,7 +280,7 @@ View(bank_prob_1)
 
 final_model <- tibble(k_prob=bank_prob_1$`attr(bank_9NN, "prob")`,pred=bank_9NN,target=tune$`signed up_1`)
 
-final_model
+View(final_model)
 
 #Need to convert this to the likelihood to be in the poss class.
 final_model$pos_prec <- ifelse(final_model$pred == 0, 1-final_model$k_prob, final_model$k_prob)
@@ -311,7 +301,7 @@ adjust_thres <- function(x, y, z) {
 
 str(final_model)
 
-adjust_thres(final_model$pos_prec,.50,as.factor(final_model$target))
+adjust_thres(final_model$pos_prec,.90,as.factor(final_model$target))
 
 ```
 
