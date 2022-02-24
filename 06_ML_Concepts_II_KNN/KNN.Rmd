@@ -309,7 +309,6 @@ adjust_thres <- function(x, y, z) {
   confusionMatrix(thres, z, positive = "1", dnn=c("Prediction", "Actual"), mode = "everything")
 }
 
-
 str(final_model)
 
 adjust_thres(final_model$pos_prec,.50,as.factor(final_model$target))
@@ -317,7 +316,7 @@ adjust_thres(final_model$pos_prec,.50,as.factor(final_model$target))
 ```
 
 
-### More for next week
+### More for next week :)
 ```{r}
 library(ROCR)
 pred <- prediction(final_model$pos_prec,final_model$target)
