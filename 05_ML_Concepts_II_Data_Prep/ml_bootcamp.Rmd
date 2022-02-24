@@ -150,13 +150,15 @@ fivenum(cereal$rating)
 ?fivenum#thanks Tukey!
 
 #added this a predictor versus replacing the numeric version
-(cereal_1h$rating_f <- cut(cereal_1h$rating,c(0,.43,1),labels = c(0,1)))#why the NA? If we want two segments we input three numbers, start, cut and stop values
+(cereal_1h$rating_f <- cut(cereal_1h$rating,c(-1,.43,1),labels = c(0,1)))#why the NA? If we want two segments we input three numbers, start, cut and stop values
 ?cut
 View(cereal_1h)
 
 #So no let's check the prevalence 
 (prevalence <- table(cereal_1h$rating_f)[[2]]/length(cereal_1h$rating_f))#we are using [[]] to pull at the second entry/column in the table
 table(cereal_1h$rating_f)
+21/(21+55)
+length(cereal_lh)
 
 ```
 
@@ -202,7 +204,7 @@ dim(tune)
 dim(test)
 
 table(train$rating_f)#check the prevalance
-15/(39+15)
+15/(40+15)
 table(test$rating_f)
 3/(8+3)
 table(tune$rating_f)# same as above

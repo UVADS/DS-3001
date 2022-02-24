@@ -24,10 +24,11 @@ The data is messy and you have a degrees of freedom problem, as in, we have too 
 You've done most of the hard work already, so you should be ready to move forward with building your model. 
 
 Use the question/target variable you submitted from last week and build a model to answer the question you created for this dataset. 
-
 Build and optimize a kNN model to predict your target variable. Meaning use the tune set to select the correct k value. 
 
-Evaluate the results using the confusion matrix then talking through your question. What concerns or positive elements do you have about the model? 
+Experiment with the threshold function, what happens at higher and lower thresholds. Document what you see in comments. 
+
+Evaluate the results using the confusion matrix (at the default threshold). Then talk through your question, summarize what concerns or positive elements do you have about the model? 
 
 Example of how I cleaned the dataset
 ```{r}
