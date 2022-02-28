@@ -77,6 +77,7 @@ md.pattern(bank_data)# wahooo
 #Normalize the features that are numeric 
 abc <- names(select_if(bank_data, is.numeric))
 
+abc
 bank_data[abc] <- lapply(bank_data[abc], normalize)
 
 str(bank_data)
@@ -89,6 +90,8 @@ ab_c <- names(select_if(bank_data, is.factor))#names collects the columns names,
 
 
 bank_data <- one_hot(as.data.table(bank_data),cols=ab_c,sparsifyNAs = TRUE,naCols = FALSE,dropCols = TRUE,dropUnusedLevels = TRUE)
+
+View(bank_data)
 
 #Dropping signed up_0
 bank_data <- bank_data[,-28]
@@ -153,7 +156,7 @@ str(bank_9NN)
 table(bank_9NN)
 table(tune$`signed up_1`)
 
-bank_3NN
+bank_9NN
 
 View(as.tibble(bank_9NN))
 View(as.tibble(attr(bank_9NN,"prob")))
@@ -261,7 +264,7 @@ ggplot(knn_different_k,
   geom_line(color = "orange", size = 1.5) +
   geom_point(size = 3)
 
-#dev.off()
+dev.off()
 
 # 5 to 7 nearest neighbors seems to be a good choice because that's the
 # greatest improvement in predictive accuracy before the incremental 
