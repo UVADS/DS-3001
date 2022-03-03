@@ -24,6 +24,16 @@ library(data.table)
 
 ```
 
+## Learning Outcomes 
+  * Understand the importance of model evaluation
+  * Understand that the selection of a model evaluation metric is related to your
+    question. 
+  * Evaluation Metrics can be misleading, meaning using several metrics at any one 
+    time is best practices 
+  * Exploration of different approaches to ML evaluation
+
+
+
 ## Loading and cleaning data
 
 I should note that the labels on this dataset were completely anatomized so I had to guess (make up some of my own) at the labels. In terms of walking you through the process of exploring evaluation it really shouldn't have any impact. 
@@ -32,7 +42,7 @@ I should note that the labels on this dataset were completely anatomized so I ha
 #Let's load in our data
 loan_data <- read_csv('data/japan_credit.csv')
 #Take a look
-View(loan_data)
+
 str(loan_data)
 
 
@@ -61,6 +71,7 @@ loan_data <- loan_data[complete.cases(loan_data), ]#ok makes the naming simpler,
 dim(loan_data)
 
 #Ok as you can see we have 15 predictor variables (including whether the applications prefer funfetti_cake) and one outcome measure. We do need to re-class the outcome measure to the traditional {0,1} format along with a few other variables, we can do this with recode.
+
 
 loan_data$outcome <- recode(loan_data$outcome, 
                             '+' = 1, 
