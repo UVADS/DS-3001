@@ -131,7 +131,7 @@ tune_and_test_index <- createDataPartition(tune_and_test$`signed up_1`,
 tune <- tune_and_test[tune_and_test_index, ]
 test <- tune_and_test[-tune_and_test_index, ]
 
-dim(train)
+str(train)
 dim(tune)
 dim(test)
 
@@ -147,7 +147,7 @@ set.seed(1984)
 bank_9NN <-  knn(train = train,#<- training set cases
                test = tune,    #<- tune set cases
                cl = train$`signed up_1`,#<- category for true classification
-               k = 9,#<- number of neighbors considered
+               k = 3,#<- number of neighbors considered
                use.all = TRUE,
                prob = TRUE)# provides the output in probabilities 
 

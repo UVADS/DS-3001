@@ -24,6 +24,8 @@ library(data.table)
 
 ```
 
+## Loading and cleaning data
+
 I should note that the labels on this dataset were completely anatomized so I had to guess (make up some of my own) at the labels. In terms of walking you through the process of exploring evaluation it really shouldn't have any impact. 
 
 ```{r}
@@ -101,7 +103,6 @@ str(loan_pred)
 ```
 
 ## One-Hot Encode and Normalizing
-
 ```{r}
 column_index <- tibble(colnames(loan_pred))
 
@@ -126,9 +127,8 @@ loan_pred[abc] <- lapply(loan_pred[abc], normalize)
 str(loan_pred)
 
 ```
-
-So now we can create our decision tree, it's important to note that the outputs of most ML models are essentially the same. 
-
+ 
+## Data Partition 
 ```{r}
 #We need to create index that we can use for developing a test and training set. Training is for building the tree and test is for checking the quality of the model. 
 
@@ -150,8 +150,8 @@ test <- loan_pred[-split_index,]
 dim(test)
 
 ```
-#now let's build out tree
 
+## Build a decision tree
 ```{r}
 #implementing a parallel processes structure, with the 4 cores available on my CPU. 
 
@@ -191,7 +191,8 @@ loan_tree$finalModel
 rpart.plot::rpart.plot(loan_tree$finalModel, type=4,extra=101)
 ```
 
-Now let's evaluate our model and replicate some of the evaluation metrics we've been discussing. 
+
+## Use the mode to predict and the evaluate 
 ```{r}
 #First we need to do some predictions using the test data 
 
@@ -225,7 +226,7 @@ View(loan_eval_prob)
 
 ```
 
-ROC/AUC
+### ROC/AUC
 ```{r}
 #In order to use most evaluation packages it's just easier to have are predictions and targets in one place. 
 View(loan_eval)
@@ -248,28 +249,32 @@ print(tree_perf_AUC@y.values)
 
 ```
 
-LogLoss
+### LogLoss
 ```{r}
 
 str(loan_eval)
 
 LogLoss(loan_eval$pred_prob, as.numeric(test$outcome))
-#We want this number to be rather close to 0, but compare to our baseline which is .45 so this is a pretty terrible result. 
+#We want this number to be rather close to 0, but compare to our baseline which is .45 so this is a fairly bad result, we want this number to be lower than the baseline. 
 
 table(test$outcome)
-59/(71+59)
+59/(71+59)#prevalence 
+
+-log(59/130)#baseline 
 
 ```
 
 [Logloss Article](https://towardsdatascience.com/intuition-behind-log-loss-score-4e0c9979680a)
 
-
-F1 Score 
+### F1 Score - 
+Harmonic Mean of Precision(TP/TP+FP, when the model classifies a positive how often is it correct) and Recall(Sensitivity/TPR: ability of the model to correctly detect the positive class from all options TP/TP+FN).
 ```{r}
 pred_1 <- ifelse(loan_eval_prob$`1` < 0.5, 0, 1)
 
 View(pred_1)
 F1_Score(y_pred = loan_eval$pred_class, y_true = loan_eval_prob$test, positive = "1")
+
+#0 to 100 scale
 
 ```
 
