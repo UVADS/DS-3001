@@ -19,6 +19,8 @@ library(RColorBrewer)
 library(ROCR)
 #install.packages("MLmetrics")
 library(MLmetrics)
+library(mltools)
+library(data.table)
 
 ```
 
@@ -31,7 +33,6 @@ loan_data <- read_csv('data/japan_credit.csv')
 View(loan_data)
 str(loan_data)
 
-getwd()
 
 table(loan_data$gender)# so this is kinda tricky we have "?" in the data instead of NAs, so we should probably replace the "?" with NAs, then remove them, if we rerun the table command we can see the "?" are removed. 
 
@@ -54,10 +55,9 @@ table(is.na(loan_data_2))
 dim(loan_data)#original dataset
 dim(loan_data_2)#we didn't loose that many case, looks like about 37 (~5%), actually going to overwrite to loan_data
 
-loan_data <- loan_data[complete.cases(loan_data), ]#ok makes the naming simpler
+loan_data <- loan_data[complete.cases(loan_data), ]#ok makes the naming simpler, keeping the original data name
 dim(loan_data)
-  
-table(is.na(loan_data))
+
 #Ok as you can see we have 15 predictor variables (including whether the applications prefer funfetti_cake) and one outcome measure. We do need to re-class the outcome measure to the traditional {0,1} format along with a few other variables, we can do this with recode.
 
 loan_data$outcome <- recode(loan_data$outcome, 
@@ -86,27 +86,53 @@ loan_data$race <- fct_collapse(loan_data$race,
 
 table(loan_data$race)#run table again we see our collapsed categories 
                                
-#also age and days_account_open need to be a numeric variable and outcome should be a factor so need to do some quick coercions 
+#also age and days_account_open need to be a numeric variable and outcome should be a factor so need to do some quick variable class changes 
  
 loan_data$age <- as.numeric(loan_data$age)
 loan_data$days_account_open <-as.numeric(loan_data$days_account_open)
-loan_data$outcome <- as.factor(loan_data$outcome)
 
 str(loan_data)
   
 #Next let's get rid of var_d as it's essential the same as var_e and also f as its got 15 different categories so the complexity of keeping that many levels would be pretty difficult to manage inside our tree, especially not knowing the labels.  
 
-loan_pred <- loan_data[ , c(-3,-5)] 
+loan_pred <- loan_data[ ,-c(4:6)] 
 str(loan_pred)
 
 ```
 
-So now we can create our decision tree
+## One-Hot Encode and Normalizing
+
+```{r}
+column_index <- tibble(colnames(loan_pred))
+
+str(loan_pred)
+column_index
+
+loan_pred[,c(1,6,8,9,12)] <- lapply(loan_pred[,c(1,6,8,9,12)], as.factor)
+
+View(loan_pred)
+
+
+loan_pred <- one_hot(as.data.table(loan_pred),cols=c('race','marital_status'),sparsifyNAs = TRUE,naCols = FALSE,dropCols = TRUE,dropUnusedLevels = TRUE)
+
+str(loan_pred)#All 1s and 0s now we need to normalize
+
+abc <- names(select_if(loan_pred, is.numeric))
+
+loan_pred <- as.tibble(loan_pred)#converting back to a tibble for the normalizing function
+
+loan_pred[abc] <- lapply(loan_pred[abc], normalize)
+
+str(loan_pred)
+
+```
+
+So now we can create our decision tree, it's important to note that the outputs of most ML models are essentially the same. 
 
 ```{r}
 #We need to create index that we can use for developing a test and training set. Training is for building the tree and test is for checking the quality of the model. 
 
-set.seed(1980)# this will allow you to replicate the outcomes of randomized process
+set.seed(1984)# this will allow you to replicate the outcomes of randomized process
 
 #caret function the will allow us to divide the data into test and train, it will randomly assign rows into each category while maintaining the relative balance (0 and 1s) of the target variable. 
 split_index <- createDataPartition(loan_pred$outcome, p = .8, #selects the split, 80% training 20% for test 
@@ -123,12 +149,27 @@ dim(train_data)
 test <- loan_pred[-split_index,]
 dim(test)
 
+```
 #now let's build out tree
 
+```{r}
+#implementing a parallel processes structure, with the 4 cores available on my CPU. 
+
+#install.packages("foreach")#library that caret uses to do implement the processing 
+
+#install.packages("doParallel")#package that registers the cores
+library(doParallel)
+
+cl <- makePSOCKcluster(4)#registers the cores
+
+registerDoParallel(cl)
+set.seed(1984)
 loan_tree <- train(outcome~., #model formula everything used to classify outcome
                    data=train_data, #use the training data
                    method='rpart',# indicates the use of tree based model
                    na.action = na.omit)#omitting the missing values
+
+stopCluster(cl)
                    
 loan_tree #let's take a look, pretty good, accuracy is at roughly 84%, not bad. Accuracy is (TP + TN)/(TP+TN+FP+FN). High level indicator of model efficiency. 
 
@@ -147,6 +188,7 @@ barplot(loan_tree$finalModel$variable.importance, col=coul)#Totally unnecessary 
 
 loan_tree$finalModel
 
+rpart.plot::rpart.plot(loan_tree$finalModel, type=4,extra=101)
 ```
 
 Now let's evaluate our model and replicate some of the evaluation metrics we've been discussing. 
@@ -154,18 +196,18 @@ Now let's evaluate our model and replicate some of the evaluation metrics we've 
 #First we need to do some predictions using the test data 
 
 loan_eval <-(predict(loan_tree,newdata = test))#generates 1s and 0s
-View(loan_eval)
+head(loan_eval,50)
 
 loan_eval_prob <- predict(loan_tree, newdata = test, type = "prob")#this gives us the predicted prob, we will need these later for the fairness evaluation
 View(loan_eval_prob)
 
-View(test$outcome)
+
 table(loan_eval, test$outcome)#essential the confusion matrix, though we can make a fancy one using caret built in functions
 
 
-confusionMatrix(loan_eval, test$outcome, positive = "1", dnn=c("Prediction", "Actual"), mode = "sens_spec")#change to everything
+confusionMatrix(loan_eval$pred_class, test$outcome, positive = "1", dnn=c("Prediction", "Actual"), mode = "everything")
 
-#from the above we can see our True Positive Rate or sensitivity is quite good @ 88%, False Positive Rate (1-Specificity) is also not terrible ~ @ 27%, we want this to be low.(Subject to change) 
+#from the above we can see our True Positive Rate or sensitivity is quite good @ 94%, False Positive Rate (1-Specificity) is also not terrible ~ @ 18%, we want this to be low. 
 
 
 #Quick function to explore various threshold levels and output a confusion matrix
@@ -176,22 +218,19 @@ adjust_thres <- function(x, y, z) {
   confusionMatrix(thres, z, positive = "1", dnn=c("Prediction", "Actual"), mode = "everything")
 }
 
-
-adjust_thres(loan_eval_prob$`1`,.60, test$outcome) #Not much changes here because of the high probability splits of the data outcomes. Let's take a closer look. We can see that the algo isn't marginally mis-classifying these rows, it's very confidently wrong. Which likely means that there's too much emphasis being placed on too small a number of variables, principally the funfetti variable. 
-
+adjust_thres(loan_eval_prob$`1`,.50, test$outcome) #Not much changes here because of the high probability splits of the data outcomes. Let's take a closer look. We can see that the algo isn't marginally mis-classifying these rows, it's very confidently wrong. Which likely means that there's too much emphasis being placed on too small a number of variables, principally the funfetti variable. 
 loan_eval_prob$test <- test$outcome
 
 View(loan_eval_prob)
-
-(error = mean(loan_eval != test$outcome))#overall error rate, on average when does our prediction not match the actual, looks like around 15%, really just ok. 
 
 ```
 
 ROC/AUC
 ```{r}
 #In order to use most evaluation packages it's just easier to have are predictions and targets in one place. 
+View(loan_eval)
+loan_eval <- tibble(pred_class=loan_eval, pred_prob=loan_eval_prob$`1`,target=test$outcome)
 
-loan_eval <- tibble(pred_class=loan_eval, pred_prob=loan_eval_prob$`1`,target=as.numeric(test$outcome))
 
 View(loan_eval)
 
@@ -212,12 +251,17 @@ print(tree_perf_AUC@y.values)
 LogLoss
 ```{r}
 
-View(loan_eval)
+str(loan_eval)
 
-LogLoss(as.numeric(loan_eval$pred_prob), as.numeric(test$outcome))
-#We want this number to be rather close to 0, so this is a pretty terrible result. 
+LogLoss(loan_eval$pred_prob, as.numeric(test$outcome))
+#We want this number to be rather close to 0, but compare to our baseline which is .45 so this is a pretty terrible result. 
+
+table(test$outcome)
+59/(71+59)
 
 ```
+
+[Logloss Article](https://towardsdatascience.com/intuition-behind-log-loss-score-4e0c9979680a)
 
 
 F1 Score 
@@ -225,7 +269,7 @@ F1 Score
 pred_1 <- ifelse(loan_eval_prob$`1` < 0.5, 0, 1)
 
 View(pred_1)
-F1_Score(y_pred = pred_1, y_true = loan_eval_prob$test, positive = "1")
+F1_Score(y_pred = loan_eval$pred_class, y_true = loan_eval_prob$test, positive = "1")
 
 ```
 

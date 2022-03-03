@@ -6,7 +6,7 @@ Step one: Review these two datasets and brainstorm problems that could be addres
 
 [Data Dictionary](https://data.world/databeats/college-completion/workspace/data-dictionary)
 
-[Job_Placement]("https://raw.githubusercontent.com/DG1606/CMS-R-2020/master/Placement_Data_Full_Class.csv")
+[Job_Placement](https://raw.githubusercontent.com/DG1606/CMS-R-2020/master/Placement_Data_Full_Class.csv)
 
 [Details](https://www.kaggle.com/benroshan/factors-affecting-campus-placement/discussion/280612)
 
