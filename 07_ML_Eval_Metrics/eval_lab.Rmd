@@ -9,23 +9,21 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-The most important part about understanding any machine learning model(or any model, really) is understanding it's weakness and or vulnerabilities. 
+The most important part about understanding any machine learning model(or any model, really) is understanding it's weakness and/or vulnerabilities. 
 
-To do so we are going to practice on a familiar dataset and use a method we just learned, kNN. Use the Job Placement dataset with status as the target variable.  
+To do so we are going to practice on a familiar dataset and use a method we just learned, kNN. For this lab use the Job Placement dataset with status as the target variable.  
 
-Part 1. In consideration of all the metrics we discussed what are a couple of key metrics that should be tracked given the question you are working to solve?
+Part 1. Develop a ML question using status as the target variable. In consideration of all the metrics we discussed what are a couple of key metrics that should be tracked given the question you are trying to solve?
 
-Part 2. Create a kNN model using the second dataset from the data prep lab, Job Placement. Use status as the target variable.   
+Part 2. Create a kNN model using status as the target variable.   
 
-Part 3. Build a kNN model and evaluate the model using the metrics discussed in class, with a emphasis on the metrics selected in part 2. Make sure to calculate the prevalence to provide a reference for some of these measures. Even though you are generating many of the metrics we discussed, summarize the output of the key metrics you established in part 2. 
+Part 3. Evaluate the model using the metrics discussed in class (ROC and Confusion Matrix evaluation measures, etc.). Make sure to calculate/reference the prevalence to provide a baseline for some of these measures. Even though you are generating many of the metrics we discussed, summarize the output of the key metrics you established in part 1. 
 
-Part 4.  Consider where miss-classification errors are occurring, is there a pattern? If so discuss this pattern and why you think this is the case. 
+Part 4.  Consider where miss-classification errors (via confusion matrix) are occurring, is there a pattern? If so discuss this pattern and why you think this is the case. 
 
-Part 5. Based on your exploration in Part 3, change the threshold using the function provided in the in-class example, what differences do you see in the evaluation metrics? Speak specifically to the metrics that are best suited to address the question you are trying to answer. 
+Part 5. Based on your exploration in Part 4, change the threshold using the function provided in the in-class example, what differences do you see in the evaluation metrics? Speak specifically to the metrics that are best suited to address the question you are trying to answer from part 1. 
 
-Part 6. Summarize your findings speaking through your question, what does the evaluation outputs mean when answering the question you've proposed?
+Part 6. Summarize your findings (a paragraph or two) speaking through your question, what does the evaluation outputs mean when answering the question you've proposed?
 
-Regardless of the outcome, what should we be aware of when your model is deployed (online versus offline)? 
-
-Submit a .Rmd file along with the data used or access to the data sources to the Collab site. You can work together with your groups but submit individually. 
+Submit a .Rmd file along with the data used or access to the data sources to the Collab site. You can work together with your groups but submit individually and generate your own R file. 
 
