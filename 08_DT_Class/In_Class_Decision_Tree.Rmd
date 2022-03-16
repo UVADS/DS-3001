@@ -34,9 +34,12 @@ to make sure to #comment your work heavily.
 ```{r}
 url <- "http://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data"
 
+names <- c("age","workclass","fnlwgt","education","education-num","marital-status","occupation","relationship","race","sex","capital-gain","capital-loss","hours-per-week","native-country", "salary")
+
 xx <- readr::read_csv(url,col_names=names)
 
 View(xx)
+
 ```
 
 ```{r}
@@ -53,82 +56,67 @@ mindful of how the model will be used in practice.
 
 
 ```{r}
-#1 Load the data, check for missing data and ensure the labels are correct. 
+#1 Load the data and ensure the labels are correct. Develop a question and comment on evaluation metrics that you might pay close attention to.  
 ```
 
 ```{r}
 #2 Ensure all the variables are classified correctly including the target 
-# variable
+# variable and collapse factor variables as needed. 
 ```
 
 ```{r}
-#3 Don't check for correlated variables....because it doesn't matter with 
-# Decision Trees...the make local greedy decisions. 
+#3 Check for missing variables and correct as needed.  
 ```
 
 ```{r}
-#4 Guess what, you also don't need to standardize the data, 
-#because DTs don't give a ish, they make local decisions...keeps getting easier
+#4 Guess what, you don't need to standardize the data, 
+#because DTs don't require this to be done, they make local greedy decisions...keeps getting easier, go to the next step
 ```
 
 ```{r}
 #5 Determine the baserate or prevalence for the classifier, 
-# what does this number mean?  
+# what does this number mean? (Need to recode the target)  
 ```
 
 ```{r}
-#6 Split your data into test, tune, and train. (70/15/15)
+#6 Split your data into test, tune, and train. (80/10/10)
 ```
 
 ```{r}
-#7 Build your model using the training data and default settings in caret, 
-# double check to make sure you are using a cross-validation training approach
+#7 Build your model using the training data, rpart2, and repeated cross validation as reviewed in class in caret.
 ```
 
 ```{r}
-#8 View the results, what is the most important variable for the tree? 
+#8 View the results, comment on how the model performed and which variables appear to be contributing the most (variable importance)  
 ```
 
 ```{r}
-#9 Plot the output of the model to see the tree visually (C5.0 training plots) 
+#9 Plot the output of the model to see the tree visually, using rpart.plot 
 ```
 
 ```{r}
-#10 Use the validation set and the predict function with your model to the
+#10 Use the tune set and the predict function with your model to the
 # estimate the target variable.
 ```
 
 ```{r}
-#11 Compare the predicted values to those of the actual by generating a 
-# matrix ("by-hand").
-```
-
-```{r}
-#12 Use the the confusion matrix function to check a variety of metrics 
+#11 Use the the confusion matrix function to check a variety of metrics 
 # and comment on the metric that might be best for this type of analysis given your question.  
 ```
 
 ```{r}
-#13 Generate a ROC and AUC output, interpret the results
+#12 Use the predict function to generate percentages, then select several different threshold levels using the threshold function we created and interpret the results. What patterns did you notice, did the evaluation metrics change? 
 ```
 
 ```{r}
-#14 Use the predict function to generate percentages, then select several 
-# different threshold levels using the confusion matrix function and 
-# interpret the results. What patterns did you notice, did the evaluation metrics change? 
-```
-
-```{r}
-#15 Based on your understanding of the model and data adjust several of the hyper-parameters via the built in train control function in caret or build and try new features, does the model quality improve? If so how and why, if not, why not?
-# Use this link: https://rdrr.io/cran/caret/man/trainControl.html to select changes,
-# you aren't expected to understand all these options but explore one or two and 
-# see what happens. 
+#13 Based on your understanding of the model and data adjust the hyper-parameter via the built in train control function in caret or build and try new features, does the model quality improve? If so how and why, if not, why not?
+ 
 
 ```
 
 ```{r}
-#16 Once you are confident that your model is not improving, via changes 
-# implemented on the training set and evaluated on the the validation set (item 16), predict with the test set and report a final evaluation of the model. Discuss the output in comparison with the previous evaluations.  
+#14 Once you are confident that your model is not improving, via changes 
+# implemented on the training set and evaluated on the the tune set, predict with the test set and report a final evaluation of the model. Discuss the output in comparison with the previous evaluations.  
 ```
 
 ```{r}
