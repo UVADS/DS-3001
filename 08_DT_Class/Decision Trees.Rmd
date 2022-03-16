@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```
 
-Libraries
+## Libraries
 ```{r}
 library(rio)
 library(plyr)
@@ -30,10 +30,9 @@ library(mlbench)
 ```
 
 
-Let's take a look at the caret method using C5.0, nice overview of C5.0 
-and functions that build in the R version: https://www.rulequest.com/see5-unix.html
+Let's take a look at the caret method using rpart, nice overview of 
 
-CARET Example using C5.0: Use a new Dataset multi-class and doing three data
+CART Example using rpart: Use a new Dataset binary and doing three data
 partitions: Training, Tuning and Testing
 ```{r}
 
@@ -43,20 +42,42 @@ View(winequality)
 table(winequality$text_rank)
 
 winequality$text_rank <- fct_collapse(winequality$text_rank,
-                                      ave=c("ave","average-ish"),
-                                      excellent = "excellent",
-                                      good = "good",
-                                      poor = c("poor","poor-ish",""))
+                                      ave=c("ave","average-ish","poor","poor-ish",""),
+                                      excellent = c("excellent","good"))
+                                    
 table(winequality$text_rank)
 
-View(winequality)
+str(winequality)
+
+#drop 12 predicts text_rank perfectly
+
+winequality <- winequality[,-12]
+
+sum(is.na(winequality))#got some NAs to deal with here...what should we do?
+
+#Prevalance
+210/(1389+210)
 
 ```
 
-Splitting the Data
+
+## Missing Data 
+```{r}
+
+summary(winequality)#show the location by variable
+
+mice::md.pattern(winequality)#provides information on the location of the NAs
+
+winequality <- winequality[complete.cases(winequality),]
+
+```
+
+## Splitting the Data: 
 ```{r}
 #There is not a easy way to create 3 partitions using the createDataPartitions
 #so we are going to use it twice. Mostly because we want to stratify on the variable we are working to predict. What does that mean?  
+
+set.seed(1999)
 part_index_1 <- caret::createDataPartition(winequality$text_rank,
                                            times=1,
                                            p = 0.70,
@@ -65,7 +86,7 @@ part_index_1 <- caret::createDataPartition(winequality$text_rank,
 
 train <- winequality[part_index_1, ]
 tune_and_test <- winequality[-part_index_1, ]
-
+train
 #The we need to use the function again to create the tuning set 
 
 tune_and_test_index <- createDataPartition(tune_and_test$text_rank,
@@ -78,8 +99,7 @@ test <- tune_and_test[-tune_and_test_index, ]
 
 
 dim(train)
-dim(test)# these will be slightly off because the data set isn't perfectly even
-#buts its not a issue. 
+dim(test) 
 dim(tune)
 
 ```
@@ -87,191 +107,116 @@ dim(tune)
 
 
 ```{r}
-# Choose the features and classes
+# Choose the features and classes, slightly different approach for caret, need to create features and target sets from the training data.
 
-features <- train[,c(-12,-13)]#dropping 12 and 13. 12 essentially predicts 13 
-#perfectly and 13 is our target variable
+features <- train[,-12]#dropping 13 because it's target variable. 
+View(features)
 target <- train$text_rank
 
 str(features)
 str(target)
 
-#Cross validation process 
+#Three steps in building a caret ML model
+#Step 1: Cross validation process-the process by which the training data will be used to build the initial model must be set. As seen below:
+
+?trainControl
 
 fitControl <- trainControl(method = "repeatedcv",
                           number = 10,
-                          repeats = 5, 
-                          returnResamp="all",
+                          repeats = 5,
                           classProbs = TRUE,
-                          allowParallel = TRUE) 
-
+                          summaryFunction = twoClassSummary) 
 # number - number of folds
-# repeats - number of times the CV is repeated, here it's 5 take the average of
-# those 5 repeats
+# repeats - number of times the CV is repeated, takes the average of these repeat rounds
+# ClassProbs - Yes or no,indicating if we should include the class probabilities 
+# summaryFunction - different options for producing evaluation metrics. #review the documentation on https://topepo.github.io/caret/measuring-performance.html
 
-# Grid search options for each of the models available in CARET
-# http://topepo.github.io/caret/train-models-by-tag.html#tree-based-model
 
-grid <- expand.grid(.winnow = c(TRUE,FALSE), 
-                    .trials=c(1,5,10,15,20), 
-                    .model="tree")
+#Step 2: Usually involves setting a hyper-parameter search. This is optional and the hyper-parameters vary by model. Let's take a look at the documentation for the model we are going to use. 
 
-#expand.grid - series of options that are available for model training
+tree.grid <- expand.grid(maxdepth=c(5,7,9,11))
+#let's look at the documentation in two places 
+# for the tune grid function: https://topepo.github.io/caret/model-training-and-tuning.html
 
-#winnow - whether to reduce the feature space -  Works to remove unimportant 
-#features but it doesn't always work, in the above we are winnowing.  
+#options for the rpart2: https://topepo.github.io/caret/train-models-by-tag.html#tree-based-model
 
-#Actually a pretty good StackExchange post on winnowing:
-#https://stats.stackexchange.com/questions/83913/understanding-the-output-of-c5-0-classification-model-using-the-caret-package
-
-#trails - number of boosting iterations to try, 1 indicates a single model 
-#model - type of ml model
-
+#Step 3: Train the models
 set.seed(1984)
 wine_mdl <- train(x=features,
                 y=target,
-                method="C5.0",
-                tuneGrid=grid,
+                method="rpart2",
                 trControl=fitControl,
-                verbose=TRUE)
+                metric="ROC")
 
-wine_mdl #provides us the hyper-parameters that were selected through the grid
-# search process. 
 
-View(wine_mdl$pred)
+set.seed(10)
+wine_mdl_1 <- train(x=features,
+                y=target,
+                method="rpart2",#type of model uses maxdepth to select a model
+                trControl=fitControl,#previously created
+                tuneGrid=tree.grid,#expanded grid
+                metric="ROC")#selected on of the metrics available from two variable summary.
 
-# visualize the re-sample distributions
-xyplot(wine_mdl,type = c("g", "p", "smooth"))
 
+```
+
+
+## Let's see how we did. 
+```{r}
+wine_mdl
+wine_mdl_1
+
+plot(wine_mdl)
 varImp(wine_mdl)
+
+rpart.plot(wine_mdl$finalModel, type=4,extra=101)
+
+wine_mdl$results
 
 ```
 
 
 Let's use the model to predict and the evaluate the performance
 ```{r}
+#build a function to make this a little easier 
 
-wine_pred_tune = predict(wine_mdl,tune, type= "raw")
+predictandCM<- function(model,data,modeltype,ref)
+{
+  #model using, data going into the model, and output type for predict function
+  pred <-predict(model,data,type=modeltype)
+  confusionMatrix(pred, reference=ref, positive = 'excellent')
+}
+
+predictandCM(wine_mdl,tune,"raw",tune$text_rank)#compare to the alternative model
+
+predictandCM(wine_mdl_1,tune,"raw",tune$text_rank)#looks like the orginal model is likely better 
+
+#Can also do this without the function
+wine_pred_tune = predict(wine_mdl,tune,tune$text_rank, type= "prob")
 
 View(as_tibble(wine_pred_tune))
 
 
 #Lets use the confusion matrix
 
-(wine_eval <- confusionMatrix(as.factor(wine_pred_tune), 
+wine_eval <- confusionMatrix(as.factor(wine_pred_tune), 
                 as.factor(tune$text_rank), 
                 dnn=c("Prediction", "Actual"), 
-                mode = "sens_spec"))
+                mode = "sens_spec")
 
 table(tune$text_rank)
 
 (wine_pred_tune_p = predict(wine_mdl,tune,type= "prob"))
-
 ```
-Next we need to use the "tune" dataset to optimize our model, then once 
-we are confident that we've got the best model we see how it 
-performs on the test set.
 
-"C5.0 constructs decision trees in two phases. A large tree is first grown 
-to fit the data closely and is then `pruned' by removing parts that are 
-predicted to have a relatively high error rate (winnowing, as a example). 
-This pruning process is first applied to every sub-tree to decide whether 
-it should be replaced by a leaf or sub-branch, and then a global stage 
-looks at the performance of the tree as a whole." - https://www.rulequest.com/see5-unix.html#SOFT
-
-The process above is referred to as pessimistic pruning, as it's centered on 
-whether a tree should be pruned or not. 
-See page 381 Applied Predictive Modeling for more details
-
-# Let's make some changes and see if we can improve
+## Feature Engineering 
 
 ```{r}
-#Cross Validation Process, changing method for CV and adding a different metric for optimization 
-
-library(MLmetrics)
-f1 <- function(data, lev = NULL, model = NULL) {
-  f1_val <- F1_Score(y_pred = data$pred, y_true = data$obs, positive = lev[1])
-  c(F1 = f1_val)
-}
-#source: https://stackoverflow.com/questions/37666516/caret-package-custom-metric
-
-fitControl_2 <- trainControl(method = "LGOCV",
-                          number = 10, 
-                          returnResamp="all",
-                          classProbs = TRUE,
-                          allowParallel = TRUE,
-                          summaryFunction = f1) 
-
-# grid search, increasing the boosting rounds 
-grid_2 <- expand.grid(.winnow = c(TRUE,FALSE), 
-                    .trials=c(10,15,20,25,30), 
-                    .model="tree")
-
-# training model
-set.seed(1984)
-wine_mdl_2 <- train(x=features,
-                y=target,
-                method="C5.0",
-                tuneGrid=grid_2,
-                metric="F1",
-                trControl=fitControl_2)
-
-
-wine_mdl
-wine_mdl_2
-
-# wine_mdl_rpart <- train(x=features,
-#                 y=target,
-#                 method="rpart",
-#                 trControl=fitControl)
-# rpart.plot(wine_mdl_2$finalModel)
-# 
-# wine_mdl_rpart
 
 ```
 
-# Evaluation of model 2
 
-```{r}
-wine_pred_tune_2 = predict(wine_mdl_2,tune, type= "raw")
-
-
-#Lets use the confusion matrix
-
-(model_eval_2 <- confusionMatrix(as.factor(wine_pred_tune_2), 
-                as.factor(tune$text_rank), 
-                dnn=c("Prediction", "Actual"), 
-                mode = "sens_spec"))
-model_eval_2
-wine_eval
-
-```
-
-# Now give the changes we made above let's final the model and check the metrics
-# output on the test file. 
-
-# Final Evaluation 
-```{r}
-wine_pred_test = predict(wine_mdl_2,test, type= "raw")
-
-View(as_tibble(wine_pred_test))
-
-
-#Lets use the confusion matrix
-
-confusionMatrix(as.factor(wine_pred_test), 
-                as.factor(test$text_rank), 
-                dnn=c("Prediction", "Actual"), 
-                mode = "sens_spec")
-
-
-(wine_pred_tune_p = predict(wine_mdl,test,type= "prob"))
-```
-
-Example with rpart on a numerical dataset, which might work better with a rules
-based approach. 
-
-
+Another example using just the rpart without the caret wrapper
 ```{r}
 tree_example <- tibble(import("data/pregnancy.csv", check.names= TRUE))
 
@@ -291,8 +236,6 @@ length(tree_example$PREGNANT)
 #What does .72 represent in this context? 
 
 ```
-
-
 
 #reformat for exploration purposes
 ```{r}
@@ -316,8 +259,6 @@ View(tree_example_long)
 # Since the data is binary you can take the average to get the probability.
 
 #Older way, but works well for doing multi-level group summaries, creates new variables for each group versus a summary for the entire list. 
-
-
 
 tree_example_long_form = ddply(tree_example_long, 
                             .(Var, Value),#<- group by Var and Value, "." allows us to call the variables without quoting
