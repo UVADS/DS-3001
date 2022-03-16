@@ -57,7 +57,6 @@ sum(is.na(winequality))#got some NAs to deal with here...what should we do?
 
 #Prevalance
 210/(1389+210)
-
 ```
 
 
@@ -66,10 +65,12 @@ sum(is.na(winequality))#got some NAs to deal with here...what should we do?
 
 summary(winequality)#show the location by variable
 
+densit
+
 mice::md.pattern(winequality)#provides information on the location of the NAs
 
 winequality <- winequality[complete.cases(winequality),]
-
+ 
 ```
 
 ## Splitting the Data: 
@@ -149,7 +150,7 @@ wine_mdl <- train(x=features,
                 metric="ROC")
 
 
-set.seed(10)
+set.seed(1984)
 wine_mdl_1 <- train(x=features,
                 y=target,
                 method="rpart2",#type of model uses maxdepth to select a model
@@ -187,6 +188,7 @@ predictandCM<- function(model,data,modeltype,ref)
   confusionMatrix(pred, reference=ref, positive = 'excellent')
 }
 
+
 predictandCM(wine_mdl,tune,"raw",tune$text_rank)#compare to the alternative model
 
 predictandCM(wine_mdl_1,tune,"raw",tune$text_rank)#looks like the orginal model is likely better 
@@ -196,24 +198,106 @@ wine_pred_tune = predict(wine_mdl,tune,tune$text_rank, type= "prob")
 
 View(as_tibble(wine_pred_tune))
 
-
 #Lets use the confusion matrix
-
 wine_eval <- confusionMatrix(as.factor(wine_pred_tune), 
                 as.factor(tune$text_rank), 
                 dnn=c("Prediction", "Actual"), 
                 mode = "sens_spec")
-
-table(tune$text_rank)
-
-(wine_pred_tune_p = predict(wine_mdl,tune,type= "prob"))
 ```
 
-## Feature Engineering 
+## Feature Engineering: 
+quick aside, check out [Feature Engineering for ML](https://learning.oreilly.com/library/view/feature-engineering-for/9781491953235/ch02.html#idm140610104790176). It's a very good introduction
+to this topic and free with your O'Reilly subscription through UVA. 
 
 ```{r}
+str(features)
+str(features_1)
+
+hist(features$total.sulfur.dioxide, plot = TRUE)
+
+summary(features)
+
+total.sulfur.dioxide <- cut(winequality$total.sulfur.dioxide,c(0,32,300), labels = c("low","high"))
+table(total.sulfur.dioxide)
+
+
+winequality_1 <- data.frame(winequality[,-7],total.sulfur.dioxide)
+
+#data 
+
+set.seed(1999)
+part_index_1 <- caret::createDataPartition(winequality$text_rank,
+                                           times=1,
+                                           p = 0.70,
+                                           groups=1,
+                                           list=FALSE)
+
+train_1 <- winequality[part_index_1, ]
+tune_and_test_1 <- winequality[-part_index_1, ]
+
+#The we need to use the function again to create the tuning set 
+
+tune_and_test_index <- createDataPartition(tune_and_test_1$text_rank,
+                                           p = .5,
+                                           list = FALSE,
+                                           times = 1)
+
+tune_1 <- tune_and_test_1[tune_and_test_index, ]
+test_1 <- tune_and_test_1[-tune_and_test_index, ]
+
+features_3 <- train_1[,-12]
+target_1 <- train_1$text_rank
+
+set.seed(1984)
+wine_mdl_2 <- train(x=features_3,
+                y=target,
+                method="rpart2",
+                trControl=fitControl,
+                tuneGrid=tree.grid,
+                metric="ROC")
+
+wine_mdl_2
+
+
+
+predictandCM(wine_mdl,tune,"raw",tune$text_rank)
+predictandCM(wine_mdl_1,tune,"raw",tune$text_rank)
+predictandCM(wine_mdl_2,tune,"raw",tune$text_rank)
+
 
 ```
+
+## We can also review the variable importance
+
+```{r}
+varImp(wine_mdl)
+varImp(wine_mdl_1)
+varImp(wine_mdl_2)
+
+```
+
+## Predict with test, how did we do? 
+```{r}
+predictandCM(wine_mdl,test,"raw",tune$text_rank)
+predictandCM(wine_mdl_1,test,"raw",tune$text_rank)
+predictandCM(wine_mdl_2,test,"raw",tune$text_rank)
+```
+
+
+## Let's play with the threshold, what do we see 
+```{r}
+plot(density(wine_pred_tune$excellent))
+
+adjust_thres <- function(x, y, z) {
+  #x=pred_probablities, y=threshold, z=tune_outcome
+  thres <- as.factor(ifelse(x > y, "excellent","ave"))
+  confusionMatrix(thres, z, positive = "excellent", dnn=c("Prediction", "Actual"), mode = "everything")
+}
+
+adjust_thres(wine_pred_tune$excellent,y=.4,tune$text_rank)
+
+```
+
 
 
 Another example using just the rpart without the caret wrapper
