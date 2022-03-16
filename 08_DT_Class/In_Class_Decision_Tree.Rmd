@@ -56,12 +56,11 @@ mindful of how the model will be used in practice.
 
 
 ```{r}
-#1 Load the data and ensure the labels are correct. Develop a question and comment on evaluation metrics that you might pay close attention to.  
+#1 Load the data and ensure the labels are correct. Restate the question and comment on evaluation metrics that you might pay close attention to.  
 ```
 
 ```{r}
-#2 Ensure all the variables are classified correctly including the target 
-# variable and collapse factor variables as needed. 
+#2 Ensure all the variables are classified correctly including the target  variable and collapse factor variables as needed. 
 ```
 
 ```{r}
@@ -69,13 +68,12 @@ mindful of how the model will be used in practice.
 ```
 
 ```{r}
-#4 Guess what, you don't need to standardize the data, 
-#because DTs don't require this to be done, they make local greedy decisions...keeps getting easier, go to the next step
+#4 Guess what, you don't need to standardize the data,because DTs don't require this to be done, they make local greedy decisions...keeps getting easier, go to the next step
 ```
 
 ```{r}
 #5 Determine the baserate or prevalence for the classifier, 
-# what does this number mean? (Need to recode the target)  
+# what does this number mean? (Need to re-code the target)  
 ```
 
 ```{r}
@@ -83,7 +81,7 @@ mindful of how the model will be used in practice.
 ```
 
 ```{r}
-#7 Build your model using the training data, rpart2, and repeated cross validation as reviewed in class in caret.
+#7 Build your model using the training data, rpart2, and repeated cross validation as reviewed in class with the caret package.
 ```
 
 ```{r}
@@ -96,27 +94,23 @@ mindful of how the model will be used in practice.
 
 ```{r}
 #10 Use the tune set and the predict function with your model to the
-# estimate the target variable.
+# predict the target variable, making sure to produce probabilities.
 ```
 
 ```{r}
-#11 Use the the confusion matrix function to check a variety of metrics 
-# and comment on the metric that might be best for this type of analysis given your question.  
+#11 Use the the confusion matrix function to check a variety of metrics and comment on the metric that might be best for this type of analysis given your question.  
 ```
 
 ```{r}
-#12 Use the predict function to generate percentages, then select several different threshold levels using the threshold function we created and interpret the results. What patterns did you notice, did the evaluation metrics change? 
+#12 With the percentages you generated in step 10,  select several different threshold levels using the threshold function we created and interpret the results. What patterns did you notice, did the evaluation metrics change? 
 ```
 
 ```{r}
-#13 Based on your understanding of the model and data adjust the hyper-parameter via the built in train control function in caret or build and try new features, does the model quality improve? If so how and why, if not, why not?
- 
-
+#13 Based on your understanding of the model and data adjust the hyper-parameter via the built in train control function in caret or build and try new features, does the model quality improve or not? If so how and why, if not, why not?
 ```
 
 ```{r}
-#14 Once you are confident that your model is not improving, via changes 
-# implemented on the training set and evaluated on the the tune set, predict with the test set and report a final evaluation of the model. Discuss the output in comparison with the previous evaluations.  
+#14 Once you are confident that your model is not improving, via changes implemented on the training set and evaluated on the the tune set, predict with the test set and report a final evaluation of the model. Discuss the output in comparison with the previous evaluations.  
 ```
 
 ```{r}
