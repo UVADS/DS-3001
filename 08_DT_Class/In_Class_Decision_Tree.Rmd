@@ -12,23 +12,26 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 Congrats! You just graduated UVA's MSDS program and got a job working at the 
-Treasury Department. In partnership with Congress members the Treasury has been 
+Treasury Department. In partnership with Congress the Treasury has been 
 ask to come up with innovative ways to create tax policy. In doing so they 
 want to be able to reliably predict whether American workers make more than 
-$50,000 a year and also which variables seem to be most contributing 
-to predicting this outcome. 
+$50,000 a year.  
 
 You would like to be able to explain the model to the mere mortals 
-around you but need a fairly robust and flexible approach so you've 
-chosen to use decision trees to get started and will possibly move 
-to a ensemble model if needed. 
+but need a fairly robust and flexible approach so you've 
+chosen to use decision trees to get started. 
 
 In doing so, similar to  great data scientists of the past 
 you remembered the excellent education provided 
 to you at UVA in a undergrad data science course and have outline 
-20ish steps that will need to be undertaken to complete this task 
-(you can add more or combine if needed).  As always, you will need 
-to make sure to #comment your work heavily. 
+20ish steps that will need to be undertaken to complete this task. As always, you will need to make sure to #comment your work heavily. 
+
+
+ Footnotes: 
+-	You can add or combine steps if needed
+-	Also, remember to try several methods during evaluation and always be 
+mindful of how the model will be used in practice.
+- Make sure all your variables are the correct type (factor, character, etc.)
 
 
 ```{r}
@@ -46,21 +49,12 @@ View(xx)
 names <- c("age","workclass","fnlwgt","education","education-num","marital-status","occupation","relationship","race","sex","capital-gain","capital-loss","hours-per-week","native-country", "salary")
 ```
 
-
- Footnotes: 
--	You can add or combine steps if needed
--	Also, remember to try several methods during evaluation and always be 
-mindful of how the model will be used in practice.
-- Make sure all your variables are the correct type (factor, character, etc.)
-
-
-
 ```{r}
-#1 Load the data and ensure the labels are correct. Restate the question and comment on evaluation metrics that you might pay close attention to.  
+#1 Load the data and ensure the labels are correct. Restate the question and comment on evaluation metrics that you might pay attention to.  
 ```
 
 ```{r}
-#2 Ensure all the variables are classified correctly including the target  variable and collapse factor variables as needed. 
+#2 Ensure all the variables are classified correctly including the target variable and collapse factor variables as needed. 
 ```
 
 ```{r}
@@ -72,8 +66,7 @@ mindful of how the model will be used in practice.
 ```
 
 ```{r}
-#5 Determine the baserate or prevalence for the classifier, 
-# what does this number mean? (Need to re-code the target)  
+#5 Determine the baserate or prevalence for the classifier, what does this number mean? (Need to re-code the target)  
 ```
 
 ```{r}
@@ -93,16 +86,16 @@ mindful of how the model will be used in practice.
 ```
 
 ```{r}
-#10 Use the tune set and the predict function with your model to the
+#10 Use the tune set and the predict function with your model to the 
 # predict the target variable, making sure to produce probabilities.
 ```
 
 ```{r}
-#11 Use the the confusion matrix function to check a variety of metrics and comment on the metric that might be best for this type of analysis given your question.  
+#11 Use the the confusion matrix function on your predictions to check a variety of metrics and comment on the metric that might be best for this type of analysis given your question.  
 ```
 
 ```{r}
-#12 With the percentages you generated in step 10,  select several different threshold levels using the threshold function we created and interpret the results. What patterns did you notice, did the evaluation metrics change? 
+#12 With the percentages you generated in step 10,  select several different threshold levels using the threshold function we created and interpret the results. What patterns do you notice, did the evaluation metrics change? 
 ```
 
 ```{r}
@@ -110,7 +103,7 @@ mindful of how the model will be used in practice.
 ```
 
 ```{r}
-#14 Once you are confident that your model is not improving, via changes implemented on the training set and evaluated on the the tune set, predict with the test set and report a final evaluation of the model. Discuss the output in comparison with the previous evaluations.  
+#14 Once you are confident that your model is not improving, via changes implemented on the training set and evaluated on the the tune set, predict with the test set and report final evaluation of the model. Discuss the output in comparison with the previous evaluations.  
 ```
 
 ```{r}
