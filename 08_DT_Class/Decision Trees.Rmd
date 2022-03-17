@@ -106,11 +106,10 @@ dim(tune)
 ```
 
 
-
 ```{r}
 # Choose the features and classes, slightly different approach for caret, need to create features and target sets from the training data.
 
-features <- train[,-12]#dropping 13 because it's target variable. 
+features <- train[,-12]#dropping 12 because it's target variable. 
 View(features)
 target <- train$text_rank
 
@@ -194,9 +193,9 @@ predictandCM(wine_mdl,tune,"raw",tune$text_rank)#compare to the alternative mode
 predictandCM(wine_mdl_1,tune,"raw",tune$text_rank)#looks like the orginal model is likely better 
 
 #Can also do this without the function
-wine_pred_tune = predict(wine_mdl,tune,tune$text_rank, type= "prob")
+wine_pred_tune = predict(wine_mdl,tune,tune$text_rank, type= "prob")#probabilities
 
-wine_pred_tune_labels = predict(wine_mdl,tune,tune$text_rank,type = "raw")
+wine_pred_tune_labels = predict(wine_mdl,tune,tune$text_rank,type = "raw")#Labels
 
 View(as_tibble(wine_pred_tune_labels))
 
@@ -205,10 +204,27 @@ wine_eval <- caret::confusionMatrix(wine_pred_tune_labels,
                 as.factor(tune$text_rank), 
                 dnn=c("Prediction", "Actual"),
                 positive="excellent",
-                mode = "sens_spec")
+                mode = "everything")
 
 wine_eval
 ```
+
+
+## Let's play with the threshold, what do we see 
+```{r}
+plot(density(wine_pred_tune$excellent))
+
+adjust_thres <- function(x, y, z) {
+  #x=pred_probablities, y=threshold, z=tune_outcome
+  thres <- as.factor(ifelse(x > y, "excellent","ave"))
+  confusionMatrix(thres, z, positive = "excellent", dnn=c("Prediction", "Actual"), mode = "everything")
+}
+
+adjust_thres(wine_pred_tune$excellent,y=.4,tune$text_rank)
+
+```
+
+
 
 ## Feature Engineering: 
 quick aside, check out [Feature Engineering for ML](https://learning.oreilly.com/library/view/feature-engineering-for/9781491953235/ch02.html#idm140610104790176). It's a very good introduction
@@ -273,7 +289,6 @@ predictandCM(wine_mdl,tune,"raw",tune$text_rank)
 predictandCM(wine_mdl_1,tune,"raw",tune$text_rank)
 predictandCM(wine_mdl_2,tune_1,"raw",tune_1$text_rank)
 
-
 ```
 
 ## We can also review the variable importance
@@ -287,26 +302,10 @@ varImp(wine_mdl_2)
 
 ## Predict with test, how did we do? 
 ```{r}
-predictandCM(wine_mdl,test,"raw",tune$text_rank)
-predictandCM(wine_mdl_1,test,"raw",tune$text_rank)
-predictandCM(wine_mdl_2,test,"raw",tune$text_rank)
+predictandCM(wine_mdl,test,"raw",test$text_rank)
+predictandCM(wine_mdl_1,test,"raw",test$text_rank)
+predictandCM(wine_mdl_2,test,"raw",test$text_rank)
 ```
-
-
-## Let's play with the threshold, what do we see 
-```{r}
-plot(density(wine_pred_tune$excellent))
-
-adjust_thres <- function(x, y, z) {
-  #x=pred_probablities, y=threshold, z=tune_outcome
-  thres <- as.factor(ifelse(x > y, "excellent","ave"))
-  confusionMatrix(thres, z, positive = "excellent", dnn=c("Prediction", "Actual"), mode = "everything")
-}
-
-adjust_thres(wine_pred_tune$excellent,y=.4,tune$text_rank)
-
-```
-
 
 
 Another example using just the rpart without the caret wrapper
