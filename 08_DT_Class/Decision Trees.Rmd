@@ -38,15 +38,6 @@ partitions: Training, Tuning and Testing
 
 winequality <- read.csv("data/winequality-red-ddl.csv")
 View(winequality)
-#str(winequality)
-table(winequality$text_rank)
-
-winequality$text_rank <- fct_collapse(winequality$text_rank,
-                                      ave=c("ave","average-ish","poor","poor-ish",""),
-                                      excellent = c("excellent","good"))
-                                    
-table(winequality$text_rank)
-
 str(winequality)
 
 #drop 12 predicts text_rank perfectly
@@ -54,24 +45,33 @@ str(winequality)
 winequality <- winequality[,-12]
 
 sum(is.na(winequality))#got some NAs to deal with here...what should we do?
-
-#Prevalance
-210/(1389+210)
 ```
 
 
 ## Missing Data 
 ```{r}
-
 summary(winequality)#show the location by variable
-
-densit
 
 mice::md.pattern(winequality)#provides information on the location of the NAs
 
 winequality <- winequality[complete.cases(winequality),]
- 
+
+str(winequality)
 ```
+
+## Collapsing the target
+```{r}
+table(winequality$text_rank)
+
+
+winequality$text_rank <- fct_collapse(winequality$text_rank,
+                                      ave=c("ave","average-ish","poor","poor-ish",""),
+                                      excellent = c("excellent","good"))
+
+#Prevalance
+203/(1409+203)
+```
+
 
 ## Splitting the Data: 
 ```{r}
@@ -196,13 +196,18 @@ predictandCM(wine_mdl_1,tune,"raw",tune$text_rank)#looks like the orginal model 
 #Can also do this without the function
 wine_pred_tune = predict(wine_mdl,tune,tune$text_rank, type= "prob")
 
-View(as_tibble(wine_pred_tune))
+wine_pred_tune_labels = predict(wine_mdl,tune,tune$text_rank,type = "raw")
+
+View(as_tibble(wine_pred_tune_labels))
 
 #Lets use the confusion matrix
-wine_eval <- confusionMatrix(as.factor(wine_pred_tune), 
+wine_eval <- caret::confusionMatrix(wine_pred_tune_labels, 
                 as.factor(tune$text_rank), 
-                dnn=c("Prediction", "Actual"), 
+                dnn=c("Prediction", "Actual"),
+                positive="excellent",
                 mode = "sens_spec")
+
+wine_eval
 ```
 
 ## Feature Engineering: 
@@ -210,30 +215,30 @@ quick aside, check out [Feature Engineering for ML](https://learning.oreilly.com
 to this topic and free with your O'Reilly subscription through UVA. 
 
 ```{r}
-str(features)
-str(features_1)
+summary(winequality)
 
 hist(features$total.sulfur.dioxide, plot = TRUE)
 
-summary(features)
+fivenum((winequality$total.sulfur.dioxide))
 
-total.sulfur.dioxide <- cut(winequality$total.sulfur.dioxide,c(0,32,300), labels = c("low","high"))
+total.sulfur.dioxide <- cut(winequality$total.sulfur.dioxide,c(0,37,300), labels = c("low","high"))
+
+
 table(total.sulfur.dioxide)
-
 
 winequality_1 <- data.frame(winequality[,-7],total.sulfur.dioxide)
 
 #data 
 
 set.seed(1999)
-part_index_1 <- caret::createDataPartition(winequality$text_rank,
+part_index_1 <- caret::createDataPartition(winequality_1$text_rank,
                                            times=1,
                                            p = 0.70,
                                            groups=1,
                                            list=FALSE)
 
-train_1 <- winequality[part_index_1, ]
-tune_and_test_1 <- winequality[-part_index_1, ]
+train_1 <- winequality_1[part_index_1, ]
+tune_and_test_1 <- winequality_1[-part_index_1, ]
 
 #The we need to use the function again to create the tuning set 
 
@@ -245,12 +250,16 @@ tune_and_test_index <- createDataPartition(tune_and_test_1$text_rank,
 tune_1 <- tune_and_test_1[tune_and_test_index, ]
 test_1 <- tune_and_test_1[-tune_and_test_index, ]
 
-features_3 <- train_1[,-12]
+str(train_1)
+
+features_3 <- train_1[,-11]
 target_1 <- train_1$text_rank
+
+View(features_3)
 
 set.seed(1984)
 wine_mdl_2 <- train(x=features_3,
-                y=target,
+                y=target_1,
                 method="rpart2",
                 trControl=fitControl,
                 tuneGrid=tree.grid,
@@ -262,7 +271,7 @@ wine_mdl_2
 
 predictandCM(wine_mdl,tune,"raw",tune$text_rank)
 predictandCM(wine_mdl_1,tune,"raw",tune$text_rank)
-predictandCM(wine_mdl_2,tune,"raw",tune$text_rank)
+predictandCM(wine_mdl_2,tune_1,"raw",tune_1$text_rank)
 
 
 ```
