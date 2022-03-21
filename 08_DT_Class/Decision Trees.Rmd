@@ -25,8 +25,8 @@ library(rpart.plot)
 #install.packages("rattle")
 library(rattle)
 library(caret)
-library(C50) #Need this to pass into caret 
 library(mlbench)
+#save.image(file="trees_class.Rdata")
 ```
 
 
@@ -39,6 +39,7 @@ partitions: Training, Tuning and Testing
 winequality <- read.csv("data/winequality-red-ddl.csv")
 View(winequality)
 str(winequality)
+table(winequality$text_rank)
 
 #drop 12 predicts text_rank perfectly
 
@@ -68,8 +69,10 @@ winequality$text_rank <- fct_collapse(winequality$text_rank,
                                       ave=c("ave","average-ish","poor","poor-ish",""),
                                       excellent = c("excellent","good"))
 
+
+table(winequality$text_rank)
 #Prevalance
-203/(1409+203)
+203/(1287+203)
 ```
 
 
@@ -160,7 +163,6 @@ wine_mdl_1 <- train(x=features,
 
 ```
 
-
 ## Let's see how we did. 
 ```{r}
 wine_mdl
@@ -190,7 +192,7 @@ predictandCM<- function(model,data,modeltype,ref)
 
 predictandCM(wine_mdl,tune,"raw",tune$text_rank)#compare to the alternative model
 
-predictandCM(wine_mdl_1,tune,"raw",tune$text_rank)#looks like the orginal model is likely better 
+predictandCM(wine_mdl_1,tune,"raw",tune$text_rank)#looks like the original model is likely better 
 
 #Can also do this without the function
 wine_pred_tune = predict(wine_mdl,tune,tune$text_rank, type= "prob")#probabilities
@@ -220,11 +222,9 @@ adjust_thres <- function(x, y, z) {
   confusionMatrix(thres, z, positive = "excellent", dnn=c("Prediction", "Actual"), mode = "everything")
 }
 
-adjust_thres(wine_pred_tune$excellent,y=.4,tune$text_rank)
+adjust_thres(wine_pred_tune$excellent,y=.1,tune$text_rank)
 
 ```
-
-
 
 ## Feature Engineering: 
 quick aside, check out [Feature Engineering for ML](https://learning.oreilly.com/library/view/feature-engineering-for/9781491953235/ch02.html#idm140610104790176). It's a very good introduction
@@ -239,12 +239,11 @@ fivenum((winequality$total.sulfur.dioxide))
 
 total.sulfur.dioxide <- cut(winequality$total.sulfur.dioxide,c(0,37,300), labels = c("low","high"))
 
-
 table(total.sulfur.dioxide)
 
 winequality_1 <- data.frame(winequality[,-7],total.sulfur.dioxide)
 
-#data 
+#data splitting 
 
 set.seed(1999)
 part_index_1 <- caret::createDataPartition(winequality_1$text_rank,
@@ -278,12 +277,9 @@ wine_mdl_2 <- train(x=features_3,
                 y=target_1,
                 method="rpart2",
                 trControl=fitControl,
-                tuneGrid=tree.grid,
                 metric="ROC")
 
 wine_mdl_2
-
-
 
 predictandCM(wine_mdl,tune,"raw",tune$text_rank)
 predictandCM(wine_mdl_1,tune,"raw",tune$text_rank)
@@ -291,24 +287,23 @@ predictandCM(wine_mdl_2,tune_1,"raw",tune_1$text_rank)
 
 ```
 
-## We can also review the variable importance
 
+## We can also review the variable importance
 ```{r}
 varImp(wine_mdl)
 varImp(wine_mdl_1)
 varImp(wine_mdl_2)
-
 ```
 
 ## Predict with test, how did we do? 
 ```{r}
 predictandCM(wine_mdl,test,"raw",test$text_rank)
 predictandCM(wine_mdl_1,test,"raw",test$text_rank)
-predictandCM(wine_mdl_2,test,"raw",test$text_rank)
+predictandCM(wine_mdl_2,test_1,"raw",test_1$text_rank)
 ```
 
 
-Another example using just the rpart without the caret wrapper
+## Another example using just the rpart without the caret wrapper
 ```{r}
 tree_example <- tibble(import("data/pregnancy.csv", check.names= TRUE))
 

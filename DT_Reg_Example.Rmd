@@ -1,0 +1,174 @@
+---
+title: "Trees_Regression_example"
+author: "Brian Wright"
+date: "3/21/2022"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+View(winequality)
+load("trees_class.Rdata")#loads all the hard work we did last week
+#Using the same data set, trying to predict alcohol content
+```
+
+
+## If you need to do all the cleaning again....see below. 
+```{r}
+
+winequality <- read.csv("data/winequality-red-ddl.csv")
+View(winequality)
+str(winequality)
+table(winequality$text_rank)
+
+#drop 12 predicts text_rank perfectly
+
+winequality <- winequality[,-12]
+
+sum(is.na(winequality))#got some NAs to deal with here...what should we do?
+```
+
+
+## Missing Data 
+```{r}
+summary(winequality)#show the location by variable
+
+mice::md.pattern(winequality)#provides information on the location of the NAs
+
+winequality <- winequality[complete.cases(winequality),]
+
+str(winequality)#still have a collapsed text_rank which is probably fine
+```
+
+
+## Splitting the Data: 
+```{r}
+set.seed(1999)
+part_index_1 <- caret::createDataPartition(winequality$text_rank,
+                                           times=1,
+                                           p = 0.70,
+                                           groups=1,
+                                           list=FALSE)
+
+train <- winequality[part_index_1, ]
+tune_and_test <- winequality[-part_index_1, ]
+train
+#The we need to use the function again to create the tuning set 
+
+tune_and_test_index <- createDataPartition(tune_and_test$text_rank,
+                                           p = .5,
+                                           list = FALSE,
+                                           times = 1)
+
+tune <- tune_and_test[tune_and_test_index, ]
+test <- tune_and_test[-tune_and_test_index, ]
+
+
+dim(train)
+dim(test) 
+dim(tune)
+
+```
+
+## Let's Build the Model 
+
+```{r}
+# Choose the features and classes, slightly different approach for caret, need to create features and target sets from the training data.
+
+str(winequality)
+
+features <- train[,-11]#dropping 11 because it's target variable. 
+View(features)
+target <- train$alcohol
+
+str(features)
+str(target)
+
+#Three steps in building a caret ML model
+#Step 1: Cross validation process-the process by which the training data will be used to build the initial model must be set. As seen below:
+
+?trainControl
+
+fitControl <- trainControl(method = "repeatedcv",
+                          number = 10,
+                          repeats = 5) 
+# number - number of folds
+# repeats - number of times the CV is repeated, takes the average of these repeat rounds
+#review the documentation on https://topepo.github.io/caret/measuring-performance.htm
+
+#Step 2: Usually involves setting a hyper-parameter search. This is optional and the hyper-parameters vary by model. Let's take a look at the documentation for the model we are going to use. Same search function as for classification 
+
+tree.grid <- expand.grid(maxdepth=c(5,7,9,11))
+#let's look at the documentation in two places 
+# for the tune grid function: https://topepo.github.io/caret/model-training-and-tuning.html
+
+#options for the rpart2: https://topepo.github.io/caret/train-models-by-tag.html#tree-based-model
+
+#Step 3: Train the models
+set.seed(1984)
+wine_mdl <- train(x=features,
+                y=target,
+                method="rpart2",
+                trControl=fitControl,
+                metric="RSME")
+
+
+set.seed(1984)
+wine_mdl_1 <- train(x=features,
+                y=target,
+                method="rpart2",#type of model uses maxdepth to select a model
+                trControl=fitControl,#previously created
+                tuneGrid=tree.grid,#expanded grid
+                metric="RMSE")
+
+
+```
+
+## Let's see how we did. 
+```{r}
+wine_mdl
+wine_mdl_1
+
+plot(wine_mdl_1)
+varImp(wine_mdl)
+
+rpart.plot(wine_mdl$finalModel, type=4,extra=101)
+
+wine_mdl$results
+
+```
+
+## Let's make some prediction and see how we did.
+```{r}
+
+wine_pred_tune = predict(wine_mdl_1,tune)
+
+View(as_tibble(wine_pred_tune_labels))
+
+postResample(pred = wine_pred_tune, obs = tune$alcohol)
+#We want this number, RSME, to be less than .5 and Rsquared to be close to 1. 
+range(tune$alcohol)
+13.6-8.4
+.76/5.2
+varImp(wine_mdl_1)
+
+#Percentage error in terms of the range of the target variable or NRMSE
+
+install.packages("hydroGOF")
+library(hydroGOF)
+nrmse(wine_pred_tune,tune$alcohol,norm = 'maxmin')
+
+wine_pred_tune
+final_values <- tibble(wine_pred_tune,tune$alcohol)
+View(final_values)
+
+#reference for several ways to normalize RMSE, https://www.marinedatascience.co/blog/2019/01/07/normalizing-the-rmse/
+
+```
+

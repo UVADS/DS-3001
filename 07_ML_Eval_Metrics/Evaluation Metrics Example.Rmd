@@ -124,6 +124,8 @@ loan_pred[,c(1,6,8,9,12)] <- lapply(loan_pred[,c(1,6,8,9,12)], as.factor)
 
 View(loan_pred)
 
+str(loan_pred)
+
 
 loan_pred <- one_hot(as.data.table(loan_pred),cols=c('race','marital_status'),sparsifyNAs = TRUE,naCols = FALSE,dropCols = TRUE,dropUnusedLevels = TRUE)
 
@@ -169,18 +171,20 @@ dim(test)
 #install.packages("foreach")#library that caret uses to do implement the processing 
 
 #install.packages("doParallel")#package that registers the cores
-library(doParallel)
+#library(doParallel)
 
-cl <- makePSOCKcluster(4)#registers the cores
+#cl <- makePSOCKcluster(4)#registers the cores
 
-registerDoParallel(cl)
+#registerDoParallel(cl)
 set.seed(1984)
 loan_tree <- train(outcome~., #model formula everything used to classify outcome
                    data=train_data, #use the training data
                    method='rpart',# indicates the use of tree based model
                    na.action = na.omit)#omitting the missing values
 
-stopCluster(cl)
+#stopCluster(cl)
+
+
                    
 loan_tree #let's take a look, pretty good, accuracy is at roughly 84%, not bad. Accuracy is (TP + TN)/(TP+TN+FP+FN). High level indicator of model efficiency. 
 
@@ -217,7 +221,7 @@ View(loan_eval_prob)
 table(loan_eval, test$outcome)#essential the confusion matrix, though we can make a fancy one using caret built in functions
 
 
-confusionMatrix(loan_eval$pred_class, test$outcome, positive = "1", dnn=c("Prediction", "Actual"), mode = "everything")
+confusionMatrix(loan_eval, test$outcome, positive = "1", dnn=c("Prediction", "Actual"), mode = "everything")
 
 #from the above we can see our True Positive Rate or sensitivity is quite good @ 94%, False Positive Rate (1-Specificity) is also not terrible ~ @ 18%, we want this to be low. 
 
@@ -245,6 +249,11 @@ loan_eval <- tibble(pred_class=loan_eval, pred_prob=loan_eval_prob$`1`,target=te
 
 
 View(loan_eval)
+
+#index_poss <- apply(loan_eval,2, function(x) loan_eval$pred_class==loan_eval$target)
+
+View(index_poss)
+
 
 pred <- prediction(loan_eval$pred_prob,loan_eval$target)
 View(pred)
@@ -286,6 +295,42 @@ View(pred_1)
 F1_Score(y_pred = loan_eval$pred_class, y_true = loan_eval_prob$test, positive = "1")
 
 #0 to 100 scale
+
+```
+
+## Look at a continous example real quick
+Try to predict balance 
+```{r}
+
+unregister_dopar <- function() {
+  env <- foreach:::.foreachGlobals
+  rm(list=ls(name=env), pos=env)
+}
+
+#unregister_dopar()cleans up the parallelization in the background
+
+data(trees)
+trees
+
+loan_tree <- train(Girth~., #model formula everything used to classify outcome
+                   data=trees, #use the training data
+                   method='rpart',# indicates the use of tree based model
+                   na.action = na.omit)
+
+loan_tree$finalModel
+
+loan_tree_cont <- predict(loan_tree,trees)
+
+loan_tree_cont
+
+rmse <- rmse(loan_tree_cont,trees$Girth)
+
+range(trees$Girth)
+20.6-8.3
+
+rmse
+
+rmse/12.3
 
 ```
 
