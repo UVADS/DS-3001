@@ -38,19 +38,14 @@ sum(is.na(winequality))#got some NAs to deal with here...what should we do?
 ## Missing Data 
 ```{r}
 summary(winequality)#show the location by variable
-
-mice::md.pattern(winequality)#provides information on the location of the NAs
-
-winequality <- winequality[complete.cases(winequality),]
-
-str(winequality)#still have a collapsed text_rank which is probably fine
+#still have a collapsed text_rank which is probably fine
 ```
 
 
 ## Splitting the Data: 
 ```{r}
 set.seed(1999)
-part_index_1 <- caret::createDataPartition(winequality$text_rank,
+part_index_1 <- caret::createDataPartition(winequality$alcohol,
                                            times=1,
                                            p = 0.70,
                                            groups=1,
@@ -61,7 +56,7 @@ tune_and_test <- winequality[-part_index_1, ]
 train
 #The we need to use the function again to create the tuning set 
 
-tune_and_test_index <- createDataPartition(tune_and_test$text_rank,
+tune_and_test_index <- createDataPartition(tune_and_test$alcohol,
                                            p = .5,
                                            list = FALSE,
                                            times = 1)
@@ -85,7 +80,7 @@ str(winequality)
 
 features <- train[,-11]#dropping 11 because it's target variable. 
 View(features)
-target <- train$alcohol
+target <- data_frame(alcohol=train$alcohol)
 
 str(features)
 str(target)
@@ -104,7 +99,9 @@ fitControl <- trainControl(method = "repeatedcv",
 
 #Step 2: Usually involves setting a hyper-parameter search. This is optional and the hyper-parameters vary by model. Let's take a look at the documentation for the model we are going to use. Same search function as for classification 
 
-tree.grid <- expand.grid(maxdepth=c(5,7,9,11))
+tree.grid <- expand.grid(maxdepth=c(3:20))
+
+#  2k+1−1 = maximum number of nodes when k=depth of the 
 #let's look at the documentation in two places 
 # for the tune grid function: https://topepo.github.io/caret/model-training-and-tuning.html
 
@@ -112,16 +109,18 @@ tree.grid <- expand.grid(maxdepth=c(5,7,9,11))
 
 #Step 3: Train the models
 set.seed(1984)
+str(target)
+
 wine_mdl <- train(x=features,
-                y=target,
+                y=target$alcohol,
                 method="rpart2",
                 trControl=fitControl,
-                metric="RSME")
+                metric="RMSE")
 
 
 set.seed(1984)
 wine_mdl_1 <- train(x=features,
-                y=target,
+                y=target$alcohol,
                 method="rpart2",#type of model uses maxdepth to select a model
                 trControl=fitControl,#previously created
                 tuneGrid=tree.grid,#expanded grid
@@ -138,7 +137,7 @@ wine_mdl_1
 plot(wine_mdl_1)
 varImp(wine_mdl)
 
-rpart.plot(wine_mdl$finalModel, type=4,extra=101)
+rpart.plot(wine_mdl_1$finalModel, type=4,extra=101)
 
 wine_mdl$results
 
@@ -155,20 +154,17 @@ postResample(pred = wine_pred_tune, obs = tune$alcohol)
 #We want this number, RSME, to be less than .5 and Rsquared to be close to 1. 
 range(tune$alcohol)
 13.6-8.4
-.76/5.2
+.72/5.2
 varImp(wine_mdl_1)
 
 #Percentage error in terms of the range of the target variable or NRMSE
 
-install.packages("hydroGOF")
-library(hydroGOF)
-nrmse(wine_pred_tune,tune$alcohol,norm = 'maxmin')
-
-wine_pred_tune
-final_values <- tibble(wine_pred_tune,tune$alcohol)
-View(final_values)
-
 #reference for several ways to normalize RMSE, https://www.marinedatascience.co/blog/2019/01/07/normalizing-the-rmse/
 
+pred_test_reg <- predict(wine_mdl_1,test)
+
+postResample(pred = pred_test_reg, obs = test$alcohol)
+
+wine_mdl_1
 ```
 

@@ -121,7 +121,7 @@ The books below are essentially a starter Machine Learning Library. I will use a
 | Week 7 | Introduction to ML Concepts IV	| Evaluation	| [Evaluation Lab](https://github.com/UVADS/DS-3001/tree/main/07_ML_Eval_Metrics) | All of B. and G.- Chapter 11 	|
 | Week 8| Spring Break| | | 
 | Week 9 | Nature's Perfect ML analogy: Trees Part I	|  Classification: Decisions Trees 	| [ Decision Trees](https://github.com/UVADS/DS-3001/tree/main/08_DT_Class)	| F. Chapter 5 and G. Chapter 14.1-14.3 	|
-| Week 10 | Nature's Perfect ML analogy: Trees Part II  	| Regression: Decision Trees  	| [Predicting Income for Big Brother]	| F. Chapter 5 and G. Chapter 14.1-14.3 	|
+| Week 10 | Nature's Perfect ML analogy: Trees Part II  	| Regression: Decision Trees  	| [Predicting Income for Big Brother]	| F. Chapter 5 and G. Chapter 8 	|
 | Week 11 | Reinforcement Project  	|  	|	| 	|
 | Week 12 | Let's gather together... but separately 	|Unsupervised: Overview of Clustering Kmeans 	| [NBA Scout for the worst team in the league](https://github.com/UVADS/DS-3001/tree/main/10_kMeans%20Clustering)|  F. Chapter 1 and Chapter 9  |
 | Week 13 | Wisdom of the Crowd	| Ensemble Methods I	| [Random Forest Classifier ](https://github.com/UVADS/DS-3001/tree/main/12_Ensemble_RF)	| TBD	|
