@@ -100,6 +100,8 @@ names <- c("age","workclass","fnlwgt","education","education-num","marital-statu
 
 ```{r}
 #13 Based on your understanding of the model and data adjust the hyper-parameter via the built in train control function in caret or build and try new features, does the model quality improve or not? If so how and why, if not, why not?
+
+
 ```
 
 ```{r}
@@ -107,11 +109,11 @@ names <- c("age","workclass","fnlwgt","education","education-num","marital-statu
 ```
 
 ```{r}
-#17 Summarize what you learned along the way and make recommendations on how this could be used moving forward, being careful not to over promise. 
+#15 Summarize what you learned along the way and make recommendations on how this could be used moving forward, being careful not to over promise. 
 ```
 
 ```{r}
-#18 What was the most interesting or hardest part of this process and what questions do you still have? 
+#16 What was the most interesting or hardest part of this process and what questions do you still have? 
 ```
 
 
