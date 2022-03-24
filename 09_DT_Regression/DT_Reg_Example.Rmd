@@ -11,6 +11,15 @@ editor_options:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r}
+library(tidyverse)
+library(caret)
+library(ROCR)
+library(MLmetrics)
+library(mltools)
+library(rpart.plot)
+```
+
 
 ```{r}
 View(winequality)
@@ -83,12 +92,10 @@ View(features)
 target <- data_frame(alcohol=train$alcohol)
 
 str(features)
-str(target)
 
+str(target)
 #Three steps in building a caret ML model
 #Step 1: Cross validation process-the process by which the training data will be used to build the initial model must be set. As seen below:
-
-?trainControl
 
 fitControl <- trainControl(method = "repeatedcv",
                           number = 10,
@@ -101,7 +108,7 @@ fitControl <- trainControl(method = "repeatedcv",
 
 tree.grid <- expand.grid(maxdepth=c(3:20))
 
-#  2k+1−1 = maximum number of nodes when k=depth of the 
+#  2^(k+1)−1 = maximum number of nodes (splits) when k=depth of the 
 #let's look at the documentation in two places 
 # for the tune grid function: https://topepo.github.io/caret/model-training-and-tuning.html
 
@@ -109,35 +116,30 @@ tree.grid <- expand.grid(maxdepth=c(3:20))
 
 #Step 3: Train the models
 set.seed(1984)
-str(target)
-
-wine_mdl <- train(x=features,
+wine_mdl_r <- train(x=features,
                 y=target$alcohol,
                 method="rpart2",
                 trControl=fitControl,
                 metric="RMSE")
+wine_mdl_r
 
-
-set.seed(1984)
-wine_mdl_1 <- train(x=features,
+wine_mdl_1_r <- train(x=features,
                 y=target$alcohol,
                 method="rpart2",#type of model uses maxdepth to select a model
                 trControl=fitControl,#previously created
                 tuneGrid=tree.grid,#expanded grid
                 metric="RMSE")
-
-
 ```
 
 ## Let's see how we did. 
 ```{r}
-wine_mdl
-wine_mdl_1
+wine_mdl_r
+wine_mdl_1_r
 
-plot(wine_mdl_1)
-varImp(wine_mdl)
+plot(wine_mdl_1_r)
+varImp(wine_mdl_1_r)
 
-rpart.plot(wine_mdl_1$finalModel, type=4,extra=101)
+rpart.plot(wine_mdl_1_r$finalModel, type=5,extra=101)
 
 wine_mdl$results
 
@@ -146,25 +148,43 @@ wine_mdl$results
 ## Let's make some prediction and see how we did.
 ```{r}
 
-wine_pred_tune = predict(wine_mdl_1,tune)
+wine_pred_tune_r = predict(wine_mdl_1_r,tune)
 
-View(as_tibble(wine_pred_tune_labels))
+View(as_tibble(wine_pred_tune_r))
 
-postResample(pred = wine_pred_tune, obs = tune$alcohol)
+postResample(pred = wine_pred_tune_r, obs = tune$alcohol)
 #We want this number, RSME, to be less than .5 and Rsquared to be close to 1. 
 range(tune$alcohol)
-13.6-8.4
-.72/5.2
-varImp(wine_mdl_1)
+14-9
+.73/5
+varImp(wine_mdl_1_r)
 
 #Percentage error in terms of the range of the target variable or NRMSE
 
 #reference for several ways to normalize RMSE, https://www.marinedatascience.co/blog/2019/01/07/normalizing-the-rmse/
 
-pred_test_reg <- predict(wine_mdl_1,test)
+```
+
+
+## Build the tree with depth 9 and Predict with Test Set 
+```{r}
+
+tree.grid_9 <- expand.grid(maxdepth=c(9))
+
+wine_mdl_1_9 <- train(x=features,
+                y=target$alcohol,
+                method="rpart2",#type of model uses maxdepth to select a model
+                trControl=fitControl,#previously created
+                tuneGrid=tree.grid_9,#expanded grid
+                metric="RMSE")
+
+rpart.plot(wine_mdl_1_9$finalModel, type = 5, extra=101)
+
+pred_test_reg <- predict(wine_mdl_1_9,test)
+
+head(pred_test_reg)
 
 postResample(pred = pred_test_reg, obs = test$alcohol)
 
-wine_mdl_1
 ```
 

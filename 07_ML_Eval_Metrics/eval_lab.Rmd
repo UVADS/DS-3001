@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-The most important part about understanding any machine learning model(or any model, really) is understanding it's weakness and/or vulnerabilities. 
+The most important part of any machine learning model(or any model, really) is understanding and defining the models weaknesses and/or vulnerabilities. 
 
 To do so we are going to practice on a familiar dataset and use a method we just learned, kNN. For this lab use the Job Placement dataset with status as the target variable.  
 
