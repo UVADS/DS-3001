@@ -24,27 +24,6 @@ editor_options:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Congrats! You just graduated UVA's MSDS program and got a job working at the 
-Treasury Department. In partnership with Congress the Treasury has been 
-ask to come up with innovative ways to create tax policy. In doing so they 
-want to be able to reliably predict whether American workers make more than 
-$50,000 a year.  
-
-You would like to be able to explain the model to the mere mortals 
-but need a fairly robust and flexible approach so you've 
-chosen to use decision trees to get started. 
-
-In doing so, similar to  great data scientists of the past 
-you remembered the excellent education provided 
-to you at UVA in a undergrad data science course and have outline 
-20ish steps that will need to be undertaken to complete this task. As always, you will need to make sure to #comment your work heavily. 
-
-
- Footnotes: 
--	You can add or combine steps if needed
--	Also, remember to try several methods during evaluation and always be 
-mindful of how the model will be used in practice.
-- Make sure all your variables are the correct type (factor, character, etc.)
 
 
 ```{r}
@@ -71,7 +50,7 @@ histogram(xx$age,type='count', nint=30)
 ```
 
 ```{r}
-#2 Ensure all the variables are classified correctly including the target variable and collapse factor variables as needed. 
+#2 Ensure all the variables are classified correctly including the target variable and collapse factors if still needed. 
 ```
 
 ```{r}
@@ -79,47 +58,42 @@ histogram(xx$age,type='count', nint=30)
 ```
 
 ```{r}
-#4 Guess what, you don't need to standardize the data,because DTs don't require this to be done, they make local greedy decisions...keeps getting easier, go to the next step
+#4 Split your data into test, tune, and train. (80/10/10)
 ```
 
 ```{r}
-#5 Split your data into test, tune, and train. (80/10/10)
+#5 Build your model using the training data, rpart2, and repeated cross validation as reviewed in class with the caret package.
 ```
 
 ```{r}
-#6 Build your model using the training data, rpart2, and repeated cross validation as reviewed in class with the caret package.
+#6 View the results, comment on how the model performed and which variables appear to be contributing the most (variable importance)  
 ```
 
 ```{r}
-#7 View the results, comment on how the model performed and which variables appear to be contributing the most (variable importance)  
+#7 Plot the output of the model to see the tree visually, using rpart.plot, is there anything you notice that might be a concern?  
 ```
 
 ```{r}
-#8 Plot the output of the model to see the tree visually, using rpart.plot 
+#8 Use the tune set and the predict function with your model to make predicts for the target variable.
 ```
 
 ```{r}
-#9 Use the tune set and the predict function with your model to the 
-# predict the target variable.
+#9 Use the postResample function to get your evaluation metrics. Also calculate NRMSE using the range (max-min) for the target variable. Explain what all these measures mean in terms of your models predictive power.  
 ```
 
 ```{r}
-#10 Use the postResample function to get your evaluation metrics. Also calculate NRMSE using the variance for the target variable. Explain what all these measures mean in terms of your models predictive power.  
-```
-
-```{r}
-#11 Based on your understanding of the model and data adjust the hyper-parameter via the built in train control function in caret or build and try new features, does the model quality improve or not? If so how and why, if not, why not?
+#10 Based on your understanding of the model and data adjust the hyper-parameter via the built in train control function in caret or build and try new features, does the model quality improve or not? If so how and why, if not, why not?
 
 ```
 
 ```{r}
-#12 Once you are confident that your model is not improving, via changes implemented on the training set and evaluated on the the tune set, predict with the test set and report final evaluation of the model. Discuss the output in comparison with the previous evaluations.  
+#11 Once you are confident that your model is not improving, via changes implemented on the training set and evaluated on the the tune set, predict with the test set and report final evaluation of the model. Discuss the output in comparison with the previous evaluations.  
 ```
 
 ```{r}
-#13 Summarize what you learned along the way and make recommendations on how this could be used moving forward, being careful not to over promise. 
+#12 Summarize what you learned along the way and make recommendations on how this could be used moving forward, being careful not to over promise. 
 ```
 
 ```{r}
-#14 What was the most interesting or hardest part of this process and what questions do you still have? 
+#13 What was the most interesting or hardest part of this process and what questions do you still have? 
 ```
