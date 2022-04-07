@@ -95,13 +95,11 @@ names <- c("age","workclass","fnlwgt","education","education-num","marital-statu
 ```
 
 ```{r}
-#12 With the percentages you generated in step 10,  select several different threshold levels using the threshold function we created and interpret the results. What patterns do you notice, did the evaluation metrics change? 
+#12 With the percentages you generated in step 10,select several different threshold levels using the threshold function we created and interpret the results. What patterns do you notice, did the evaluation metrics change? 
 ```
 
 ```{r}
 #13 Based on your understanding of the model and data adjust the hyper-parameter via the built in train control function in caret or build and try new features, does the model quality improve or not? If so how and why, if not, why not?
-
-
 ```
 
 ```{r}

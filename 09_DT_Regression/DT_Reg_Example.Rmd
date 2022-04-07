@@ -184,7 +184,7 @@ pred_test_reg <- predict(wine_mdl_1_9,test)
 
 head(pred_test_reg)
 
-postResample(pred = pred_test_reg, obs = test$alcohol)
+postResample(pred = pred_test_reg,obs = test$alcohol)
 
 ```
 

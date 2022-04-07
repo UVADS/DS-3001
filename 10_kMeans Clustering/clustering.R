@@ -51,6 +51,8 @@ kmeans_obj_Dem = kmeans(clust_data_Dem, centers = 2,
 # what does the new variable kmeans_obj contain?
 kmeans_obj_Dem
 
+kmeans_obj_Dem$betweenss/kmeans_obj_Dem$totss
+
 # View the results of each output of the kmeans function.
 head(kmeans_obj_Dem)
 
@@ -194,7 +196,7 @@ denom_Dem3 = kmeans_obj_Dem$totss
 (var_exp_Dem3 = num_Dem3 / denom_Dem3)
 
 #Might be a helpful look to compare to just a normal variance calculation:
-# s2=∑ni=1(xi− x¯)2/(n−1) = variance equation for var()
+# s2=∑ni=1(xi−x¯)2/(n−1) = variance equation for var()
 
 total.var <- var(clust_data_Dem$aye)+var(clust_data_Dem$nay)+var(clust_data_Dem$other)
 
@@ -234,7 +236,7 @@ View(clust_data_Dem)
 #sapply() takes a vector, lapply() takes a dataframe
 explained_var_Dem = sapply(1:10, explained_variance, data_in = clust_data_Dem)
 
-View(explained_var_Dem)
+explained_var_Dem
 
 
 # Data for ggplot2.
@@ -350,8 +352,6 @@ dim(test)
 features <- as.data.frame(train[,-1])
 target <- train$party.labels
 
-
-set.seed(1980)
 party_dt <- train(x=features,
                     y=target,
                     method="rpart")
@@ -419,7 +419,7 @@ confusionMatrix(as.factor(dt_predict_t),
                 dnn=c("Prediction", "Actual"), 
                 mode = "sens_spec")
 
-#didn't really make a huge difference, what could we have done differently? 
+#didn't really make a huge difference
 #==================================================================================
 
 #Now you try with the Republican Data and a NBA Stat Example 
