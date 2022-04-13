@@ -18,6 +18,7 @@
 library(randomForest)
 library(help = randomForest)
 library(rio)
+library(tidyverse)
 
 
 # Below is a list of some the settings that you can customize when you run
@@ -68,7 +69,6 @@ randomForest(formula,             #<- A formula to solve for when using random f
 # Let's subset a sample of 200 data points from our data, which we can 
 # use to test out the quality of our model.  
 str(pregnancy)
-library(tidyverse)
 # First create a vector of numbers we'll sample.
 pregnancy = import("data/pregnancy.csv", check.names = TRUE, stringsAsFactors = TRUE)
 
@@ -129,7 +129,7 @@ mytry_tune(pregnancy)
 
 str(pregnancy_train)
        
-set.seed(2023)	
+set.seed(1984)	
 pregnancy_RF = randomForest(as.factor(PREGNANT)~.,          #<- Formula: response variable ~ predictors.
                             #   The period means 'use all other variables in the data'.
                             pregnancy_train,     #<- A data frame with the variables to be used.
@@ -214,26 +214,12 @@ View(as.data.frame(pregnancy_RF$importance)) #all the metrics together,not scale
 #### Random forest output ####
 
 # The "inbag" argument shows you which data point is included in which trees.
-str(as.data.frame(pregnancy_RF$inbag))
 View(as.data.frame(pregnancy_RF$inbag))
 
-inbag <- as.data.frame(pregnancy_RF$inbag)
-
-sum(inbag[,800])
+bagging <- as.data.frame(pregnancy_RF$inbag)
+sum(bagging$V50)
 
 dim(pregnancy_RF$inbag)
-
-#==================================================================================
-
-#### Random forest output ####
-
-# The "proximity" argument shows the distance between each pair of data points
-# this makes it possible to cluster the data and find patterns. 
-str(as.data.frame(pregnancy_RF$proximity))
-View(as.data.frame(pregnancy_RF$proximity))
-
-# Recall that proximity between data points is the average number  
-# of trees for which the data points occupy the same terminal node.
 
 #==================================================================================
 
@@ -252,6 +238,8 @@ View(err.rate)
 # is not excluded from trees in the random forest.
 View(as.data.frame(pregnancy_RF$oob.times))
 
+rf_density <- density(pregnancy_RF$oob.times)
+plot(rf_density)
 #==================================================================================
 
 #### Visualize random forest results ####
@@ -304,7 +292,7 @@ View(pregnancy_RF_error)
 #### Optimize the random forest model ####
 
 # Let's create a random forest model with 400ish trees.
-set.seed(2022)	
+set.seed(1984)	
 pregnancy_RF_2 = randomForest(as.factor(PREGNANT)~.,          #<- formula, response variable ~ predictors.
                               #   the period means 'use all other variables in the data'.
                               pregnancy_train,     #<- A data frame with variables to be used.
@@ -312,7 +300,7 @@ pregnancy_RF_2 = randomForest(as.factor(PREGNANT)~.,          #<- formula, respo
                               #subset = NULL,      #<- This is unneccessary because we're using all the rows in the training data set.
                               #xtest = NULL,       #<- This is already defined in the formula by the ".".
                               #ytest = NULL,       #<- This is already defined in the formula by "PREGNANT".
-                              ntree = 500,          #<- Number of trees to grow. This should not be set to too small a number, to ensure that every input row gets classified at least a few times.
+                              ntree = 1000,          #<- Number of trees to grow. This should not be set to too small a number, to ensure that every input row gets classified at least a few times.
                               mtry = 6,            #<- Number of variables randomly sampled as candidates at each split. Default number for classification is sqrt(# of variables). Default number for regression is (# of variables / 3).
                               replace = TRUE,      #<- Should sampled data points be replaced.
                               #classwt = NULL,     #<- Priors of the classes. We will work through this later. 
@@ -337,7 +325,7 @@ pregnancy_RF_2 = randomForest(as.factor(PREGNANT)~.,          #<- formula, respo
 pregnancy_RF$confusion
 pregnancy_RF_2$confusion
 
-# The second model is better, we are classifying more 1s as 1s. Let's see how well it 
+# Is the second model better? we are classifying more 1s as 1s. Let's see how well it 
 # performs on our test data. To do that we'll use the predict() function
 # on the test data set.
 View(pregnancy_test)
@@ -349,82 +337,14 @@ View(pregnancy_test)
 pregnancy_predict = predict(pregnancy_RF_2,      #<- a randomForest model
                             pregnancy_test,      #<- the test data set to use
                             type = "response",   #<- what results to produce, see the help menu for the options
-                            predict.all = FALSE,  #<- should the predictions of all trees be kept?
-                            proximity = FALSE)    #<- should proximity measures be computed
+                            predict.all = TRUE)
+?predict.randomForest
 
-View(pregnancy_predict)
-#==================================================================================
-xxx <- factor(c("Poor", "Non-poor", "Poor", "Non-poor"), labels = c(0, 1))
-str(xxx)
-
-v1 <- c("male", "female", "male", "female")
-class(v1)
-v2 <- factor(v1, levels = c("female", "male"), labels = c("0", "1"))
-class(v2)
-v2
-as.integer(as.character(v2))
-
-Gender_numeric <- as.numeric(as.character(factor(Dataset_A$gender,
-                                                 levels=c("female",
-                                                          "male"),labels=c("0","1"))))
-
-View(pregnancy_predict)
-
-#### Generate predictions with your model ####
-
-# Let's look at the accuracy of the predictions. 
-View(pregnancy_predict)
-View(pregnancy_predict$predicted$aggregate)   #<- the aggregate class prediction
-View(pregnancy_predict$predicted$individual)  #<- the class prediction of each individual tree
-
-
-#==================================================================================
-
-#### Generate predictions with your model ####
-
-# Let's view the results as a data frame.
-View(pregnancy_test)
-View(as.tibble(pregnancy_predict$predicted$aggregate))
-
-#==================================================================================
-
-#### Generate predictions with your model ####
-
-# View the predictions of individual trees.
-View(as.tibble(pregnancy_predict$predicted$individual))
-
-#==================================================================================
-
-# Create the confusion matrix.
-preg_test_matrix_RF = table(pregnancy_predict$PREGNANT, 
-                            pregnancy_predict$Prediction)
-
-preg_test_matrix_RF
-
-
-# Calculate the misclassification or the error rate.
-preg_test_error_rate_RF = sum(preg_test_matrix_RF[row(preg_test_matrix_RF) != 
-                                                    col(preg_test_matrix_RF)]) / 
-  sum(preg_test_matrix_RF)
-
-preg_test_error_rate_RF
-# 0.16 or .84, almost right at the training accuracy 
-
-#==================================================================================
-
-#### Error rate on the test set ####
-
-
-# False Positive Rate (FP/(FP+TN):
-15/(15+130)
-# 0.10
-1-(15/(15+130))#Specificity
-# True Positive Rate (TP(TP/FN):
-38/(17 + 38)#Sensitivity
-# 0.69
-
-# The error for individuals who are not pregnant is slightly worse than 
-# the error on the training data. The reverse is true for pregnant individuals:
+# If predict.all=TRUE, then the returned object is a list of two components: 
+# aggregate, which is the vector of predicted values by the forest, 
+# and individual, which is a matrix where each column contains 
+# prediction by a tree in the forest.
+str(pregnancy_predict)
 
 pregnancy_RF_2$confusion #On the oob data from the model
 #      0   1 class.error
@@ -437,7 +357,7 @@ pregnancy_RF$confusion
 #1  196 309  0.38811881
 
 library(caret)
-confusionMatrix(pregnancy_test_pred$Prediction,pregnancy_test_pred$PREGNANT,positive = "1", 
+confusionMatrix(as.factor(pregnancy_predict$aggregate),as.factor(pregnancy_test$PREGNANT),positive = "1", 
                 dnn=c("Prediction", "Actual"), mode = "everything")
 
 #==================================================================================
@@ -447,7 +367,7 @@ confusionMatrix(pregnancy_test_pred$Prediction,pregnancy_test_pred$PREGNANT,posi
 # How can we refine the model? First, let's make sure we have a good
 # understanding for the structure of the model.
 # Let's start by looking at the variables that are most important.
-View(as.data.frame(pregnancy_RF$importance))
+View(as.data.frame(pregnancy_RF_2$importance))
 
 #==================================================================================
 
@@ -476,22 +396,18 @@ varImpPlot(pregnancy_RF_2,     #<- the randomForest model to use
 
 # The tuneRF() function works like this:
 str(pregnancy_train)
+pregnancy_train <- as.tibble(lapply(pregnancy_train,as.numeric))
 dev.off()
-set.seed(2)
-pregnancy_RF_mtry = tuneRF(data.frame(pregnancy_train[ ,1:15]),  #<- data frame of predictor variables
-                           (pregnancy_train[ ,16]),              #<- response vector (variables), factors for classification and continuous variable for regression
+
+pregnancy_RF_mtry = tuneRF(pregnancy_train[ ,1:15],  #<- data frame of predictor variables
+                           pregnancy_train$PREGNANT,   #<- response vector (variables), factors for classification and continuous variable for regression
                            mtryStart = 5,                        #<- starting value of mtry, the default is the same as in the randomForest function
-                           ntreeTry = 77,                        #<- number of trees used at the tuning step, let's use the same number as we did for the random forest
+                           ntreeTry = 100,                       #<- number of trees used at the tuning step, let's use the same number as we did for the random forest
                            stepFactor = 2,                       #<- at each iteration, mtry is inflated (or deflated) by this value
                            improve = 0.05,                       #<- the improvement in OOB error must be by this much for the search to continue
                            trace = TRUE,                         #<- whether to print the progress of the search
                            plot = TRUE,                          #<- whether to plot the OOB error as a function of mtry
                            doBest = FALSE)                       #<- whether to create a random forest using the optimal mtry parameter
-
-str(pregnancy_train$PREGNANT)
-
-View(pregnancy_train)
-
 
 pregnancy_RF_mtry
 
@@ -524,11 +440,10 @@ dev.off()
 # Let's see how our relative true positives compare to the false positives.
 # To do that we'll need to plot a ROC curve.
 
-# Install ROCR package in order to create the ROC curve.
-#install.packages("ROCR")               
-library(ROCR)
-library(help = "ROCR")
-preg_roc <- roc(pregnancy_test_pred$PREGNANT, as.numeric(pregnancy_test_pred$Prediction), plot = TRUE)
+# Install pROC package in order to create the ROC curve.
+library(pROC)
+library(help = "pROC")
+preg_roc <- roc(pregnancy_predict$aggregate, as.numeric(pregnancy_test$PREGNANT), plot = TRUE)
 
 # First, create a prediction object for the ROC curve.
 # Take a look at the "votes" element from our randomForest function.
@@ -543,7 +458,7 @@ View(pregnancy_RF_2_prediction)
 # Let's also take the actual classification of each data point and convert
 # it to a data frame with numbers. R classifies a point in either bucket 
 # at a 50% threshold.
-pregnancy_train_actual = data.frame(as.factor(pregnancy_train[,16]))
+pregnancy_train_actual = pregnancy_train$PREGNANT
 
 View(pregnancy_train_actual)
 
@@ -635,13 +550,6 @@ plot(pregnancy_pred_performance,
      main = "ROC curve")
 grid(col = "black")
 
-
-# Add a 45 degree line.
-abline(a = 0, 
-       b = 1,
-       lwd = 2,
-       lty = 2,
-       col = "gray")
 
 #==================================================================================
 
