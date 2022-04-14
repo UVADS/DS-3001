@@ -1,5 +1,3 @@
-# (Just created a script for this one so it's not quite as long)
-
 # A single decision tree is very deterministic. There is always an element of 
 # random chance in the real world, which you can miss if you're only using 1
 # model with a hierarchical order of the rules.
@@ -9,8 +7,7 @@
 # the data. This approach is called bootstrapping (bagging), and in the case of 
 # decision trees, it's implemented with an algorithm called Random Forest.
 
-# Random forests can be used for regression and for assessing proximities of 
-# data points in unlabeled data. We'll go over how to do that shortly.
+# Random forests can be used for regression as well. 
 
 # Install and load the "randomForest" package. Make sure you look at all the 
 # functionality the package includes.
@@ -72,15 +69,13 @@ str(pregnancy)
 # First create a vector of numbers we'll sample.
 pregnancy = import("data/pregnancy.csv", check.names = TRUE, stringsAsFactors = TRUE)
 
-pregnancy_factors = as_tibble(apply(pregnancy,                 #<- the data set to apply the function to
-                          2,                         #<- for each column
-                          function(x) as.factor(x)))  #<- change each variable to factor
+pregnancy_factors = as_tibble(lapply(pregnancy, as.factor))  #<- change each variable to factor
 str(pregnancy_factors)
+
+table(pregnancy$PREGNANT)
 
 sample_rows = 1:nrow(pregnancy_factors)
 sample_rows
-
-View(pregnancy_factors)
 
 # sample() is a randomized function, use set.seed() to make your results reproducible.
 set.seed(1984) #sample(x, size, replace = FALSE, prob = NULL)
@@ -99,6 +94,8 @@ str(test_rows)
 pregnancy_train = pregnancy_factors[-test_rows,]
 pregnancy_test = pregnancy_factors[test_rows,]
 
+table(pregnancy_train$PREGNANT)
+table(pregnancy_test$PREGNANT)
 #==================================================================================
 
 #### Splitting test and training sets ####
@@ -111,7 +108,6 @@ str(pregnancy_test)
 #==================================================================================
 
 ####  Build a random forest ####
-
 
 # The radomForest() function is randomized, so use set.seed() to make 
 # your results reproducible. 
@@ -127,9 +123,6 @@ mytry_tune <- function(x){
 
 mytry_tune(pregnancy)
 
-str(pregnancy_train)
-       
-set.seed(1984)	
 pregnancy_RF = randomForest(as.factor(PREGNANT)~.,          #<- Formula: response variable ~ predictors.
                             #   The period means 'use all other variables in the data'.
                             pregnancy_train,     #<- A data frame with the variables to be used.
@@ -170,8 +163,7 @@ pregnancy_RF$call
 # Call up the confusion matrix and check the accuracy of the model.
 pregnancy_RF$confusion
 pregnancy_RF_acc = sum(pregnancy_RF$confusion[row(pregnancy_RF$confusion) == 
-                                                col(pregnancy_RF$confusion)]) / 
-  sum(pregnancy_RF$confusion)
+                    col(pregnancy_RF$confusion)]) /sum(pregnancy_RF$confusion)
 
 pregnancy_RF_acc
 # 0.86ish
@@ -340,10 +332,10 @@ pregnancy_predict = predict(pregnancy_RF_2,      #<- a randomForest model
                             predict.all = TRUE)
 ?predict.randomForest
 
-# If predict.all=TRUE, then the returned object is a list of two components: 
+# "If predict.all=TRUE, then the returned object is a list of two components: 
 # aggregate, which is the vector of predicted values by the forest, 
 # and individual, which is a matrix where each column contains 
-# prediction by a tree in the forest.
+# prediction by a tree in the forest."
 str(pregnancy_predict)
 
 pregnancy_RF_2$confusion #On the oob data from the model
@@ -396,9 +388,10 @@ varImpPlot(pregnancy_RF_2,     #<- the randomForest model to use
 
 # The tuneRF() function works like this:
 str(pregnancy_train)
-pregnancy_train <- as.tibble(lapply(pregnancy_train,as.numeric))
+#pregnancy_train <- as.tibble(lapply(pregnancy_train,as.numeric))
 dev.off()
-
+?tuneRF
+class(pregnancy_train)
 pregnancy_RF_mtry = tuneRF(pregnancy_train[ ,1:15],  #<- data frame of predictor variables
                            pregnancy_train$PREGNANT,   #<- response vector (variables), factors for classification and continuous variable for regression
                            mtryStart = 5,                        #<- starting value of mtry, the default is the same as in the randomForest function
@@ -415,7 +408,7 @@ pregnancy_RF_mtry
 # value to use in our random forest. So no need to adjust.
 
 #==================================================================================
-
+### Additional information
 
 #### Size of the forest ####
 
