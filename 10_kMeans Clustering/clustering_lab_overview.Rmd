@@ -80,16 +80,14 @@ Details:
 
 - Determine a way to use clustering to estimate based on performance if 
 players are under or over paid, generally. 
-- Then select three players you believe would be best your team and explain why. 
-- Provide a well commented and clean (knitted) report of your findings that can 
-be presented to your GM. Include a rationale for variable selection, details 
-on your approach and a overview of the results with supporting visualizations. 
+- Then select three players you believe would be best for your team and explain why. 
+- Provide a well commented and clean (knitted) report of your findings that can be presented to your GM. Include a rationale for variable selection, details on your approach and a overview of the results with supporting visualizations. 
  
 
 Hints:
 
 - Salary is the variable you are trying to understand 
-- You can include numerous performance variables in the clustering but when 
+- You should include numerous performance variables in the clustering but when 
 interpreting you might want to use graphs that include variables that are the 
 most correlated with Salary
 - You'll need to standardize the variables before performing the clustering
@@ -99,6 +97,7 @@ better
 totally necessary and create modular sections that align with some outcome. If 
 necessary create more than one script,list/load libraries at the top and don't 
 include libraries that aren't used. 
+- Be careful for non-traditional characters in the players names, certain graphs won't work when these characters are included.
   
 
 
