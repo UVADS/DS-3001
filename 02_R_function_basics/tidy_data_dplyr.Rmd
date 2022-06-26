@@ -139,7 +139,7 @@ There are others; see `help(starts_with)`.
 Load the `weather.csv`. This contains daily temperature data in 2010 for some location.
 
 ```{r 01-lecture1-47, echo = F}
-weather <- rio::import('~/git_3001/DS-3001/data/weather.csv')
+weather <- rio::import('~/Desktop/DS-3001/data/weather.csv')
 getwd()
 ```
 
@@ -264,102 +264,6 @@ admit_df[,names] <- lapply(admit_df[,names], factor)
 
 
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 ```{r, include=FALSE}
