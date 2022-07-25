@@ -24,7 +24,7 @@ View(mtcars)
 
 View(as.tibble(iris3))#50,4,3 multidimensional array of values. 
 #What about this one? What question(s) can we ask with this data? 
-
+view(iris3)
 class(iris3)
 
 ```
