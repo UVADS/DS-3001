@@ -26,7 +26,7 @@ library(data.table)
 
 ### What questions and business metric should we use? 
 ```{r}
-bank_data <-  read_csv("data/bank.csv")
+bank_data <-  read_csv("/Users/amelianorman/Desktop/DS-3001/data/bank.csv")
 
 str(bank_data)
 
@@ -103,6 +103,7 @@ str(bank_data)
 ```{r}
 # Let's run the kNN algorithm on our banking data. 
 # Check the composition of labels in the data set. 
+table(bank_data$`signed up_1`)[2]
 table(bank_data$`signed up_1`)[2]/sum(table(bank_data$`signed up_1`))
 
 # This means that at random, we have an 11.6% chance of correctly picking
@@ -360,6 +361,7 @@ iris_test <- scalediris[iris_sample==2, 1:4]
 iris.trainLabels <- iris[iris_sample==1, 5]
 iris.testLabels <- iris[iris_sample==2, 5]
 #So now we will deploy our model 
+view(iris.trainLabels)
 
 iris_pred <- knn(train = iris_training, test = iris_test, cl=iris.trainLabels, k=3, prob = TRUE)#probabilities are a percentage of points per class for each point, (kNN equals 4 for example and 3 of 4 are blue then 75% chance of being blue)
 
