@@ -1,23 +1,22 @@
-# DS 3001: Practice of Data Science
+# DS 3001: Foundations of Machine Learning
 
-Your Practice of Data Science Tour Guides: 
+Your Foundations of Machine Learning Tour Guides: 
 
 * Brian Wright, Ph.D., Office: Elson Room 165 (Old Student Health Center)
 * Email: brianwright@virginia.edu
-* TA: Angel Vela de la Garza afv9x@virginia.edu
-    * Office Hours Tuesday 11-12:30 Link Lab (Thorton Hall)
+* TA: TBD
 * Peer Mentors: TBD
 * Class Location: Dell 1 Room 105 
 
-Brian's Office Hours: In person in the large Elson Conference Room (180) or Virtual on Discord: Monday, 12:00 to 4:30 or by appointment if needed. Feel free to just come by and hang out if you'd like. 
+Brian's Office Hours: In person in the large Elson Conference Room (180) or Virtual on Discord: Monday, 1:00 to 4:00 or by appointment if needed. Feel free to just come by and hang out if you'd like. 
 
-Course Materials: [Practice of Data Science Repo](https://github.com/UVADS/DS-3001)
+Course Materials: [Foundations of Machine Learning Repo](https://github.com/UVADS/DS-3001)
 
 Subject Area and Catalog Number: Data Science, DS 3001
 
-Year, Term and Time: 2021, Fall, Thursday 3:30-5:30/6:00
+Year, Term and Time: 2022, Fall, Thursday 3:30-6:00
 
-Class Title: Practice of Data Science
+Class Title: Foundations of Machine Learning 
 
 Level: Undergraduate
 
@@ -31,7 +30,7 @@ What is Data Science, why is it becoming so important and what is needed to be s
 
 The course centers on lab-based work and employs a team-based pedagogy, meaning much of the work in the course can and should be completed in collaboration with your classmates.  Though very applied, we also include theoretical content and will have discussion sessions depending on the topic for any given week.
 
-I am also aware that students come from different backgrounds and have a variety of skillsets that they bring to the class.  There will be plenty of opportunities for those that would like to take advantage of extra discussions during office hours, TA support sessions, and team-based work that is designed in such a way that we can all learn from each other.   
+I am also aware that students come from different backgrounds and have a variety of skill sets that they bring to the class.  There will be plenty of opportunities for those that would like to take advantage of extra discussions during office hours, TA support sessions, and team-based work that is designed in such a way that we can all learn from each other.   
 
 Throughout the course, we will endeavor to “live the life of a data scientist” allowing you to not only be directly taught but gain a sense of what it would be like to be working as a data scientist.  You’ll be asked to discover new knowledge and share it with your peers and learn how to use the larger ecosystem of data science to your benefit.  
 
@@ -65,8 +64,6 @@ On any given week, the course will require reviewing short video lectures and co
     quizzes will be given. You will be allowed as many chances to complete the quiz as needed and 
     they will be open note however students are to work independently. 
     
-    Mid-term project (N/A)- Moved this to 5% to the lab and 10% to the final project
-    
     Labs (45%) – On most weeks we will have in-class labs/assignments. These are designed to allow you 
     to practice the skills being presented in class. While they should be submitted individually you are 
     encouraged to work with your peers as much of the best learning can come from your peers. 
@@ -87,7 +84,7 @@ On any given week, the course will require reviewing short video lectures and co
     Collab - Submission of assignments and class-wide communications
     Discord - Low latency comms for groups and class.
 
-**[Discord Invite Click](https://discord.gg/r7WXkzp2)**
+**[Discord Invite Click]()**
 
 ## Materials That Will Aid in Your Learning: 
 
