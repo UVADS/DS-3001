@@ -122,7 +122,7 @@ The books below are essentially a starter Machine Learning Library. I will use a
 | Week 12 | Wisdom of the Crowd	| Ensemble Methods I	| [Random Forest Classifier ](https://github.com/UVADS/DS-3001/tree/main/12_Ensemble_RF)	| TBD	|
 | Week 13 | Do the next right thing…ethics |  Bias in AI Discussion -Simple methods for identifying bias   - Protected Classes	|[Fairness Overview & Ethical Reflections](https://github.com/UVADS/DS-3001/tree/main/14_ML_Bias) 	| Weapons of Math Destruction  	|
 | Week 14| Thanksgiving Break| | | 
-| Week 15 | Final Project Prep	|[Final Project Overview](https://github.com/UVADS/DS-3001/blob/main/final_project_overview.md)	| Ethical Reflection Due	|
+| Week 15 | Final Project Prep	|[Final Project Overview](https://github.com/UVADS/DS-3001/blob/main/final_project_overview.md)	| | Ethical Reflection Due |
 | Week 16 - Exam Week	| Final Projects Presentations	| [Final Project Overview](https://github.com/UVADS/DS-3001/blob/main/final_project_overview.md) 	|  	|  	|
 
 ## A few Policies that will Govern the Class
