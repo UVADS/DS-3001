@@ -33,7 +33,7 @@ group-by-group.
 
 For this assignment you can use any or all of the datasets I 
 provided or choose two of your own!  I would like you to compose 
-one question for each dataset (or dataset of your choosing) that requires at a minimum three functions listed above to answer. Do not repeat function sequences or questions.  Information or the actual data for the datasets can be found through the links below. In summary for each dataset produce four parts: 1)Question, 2)psuedocode that answers the question, 3)single line transactions using dplyr functions, 4) pipe the individual lines together and create a function. 
+two question for each dataset (or dataset of your choosing) that requires at a minimum three functions listed above to answer. Do not repeat function sequences or questions.  Information or the actual data for the datasets can be found through the links below. In summary for each dataset produce four parts: 1)Question, 2)psuedocode that answers the question, 3)single line transactions using dplyr functions, 4) pipe the individual lines together and create a function. 
 
 Also you can work with your groups for coding tips/advise or work through similar programming issues but everyone must have their own set of questions and results. 
 
@@ -60,7 +60,7 @@ Also you can work with your groups for coding tips/advise or work through simila
 
 Loading and preparing the data 
 ```{r}
-admit_2 <- read_csv("~/Desktop/DS-3001/data/LogReg.csv")
+admit_2 <- read_csv("data/LogReg.csv")
 
 str(admit_2)#str is short for structure and provides a overview of the data
 #What do you see here?
@@ -83,6 +83,7 @@ Single line version
 View(admit_2) # Taking a look at the data
 x1 <- group_by(admit_2,rank)# grouping by the factor variables, done in the background 
 # Calculate additional variables
+View(x1)
 x2 <- summarize(x1,admit=sum(admit == 1),count=n(),mean(gpa))# using x1 from above we are generating three variables a 
   # sum of all 1s in the admit column for each college rank,
   # total count of in each category of rank 
