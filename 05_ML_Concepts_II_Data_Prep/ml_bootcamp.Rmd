@@ -21,7 +21,7 @@ library(psych)
 library(mltools)
 library(data.table)
 library(caret)
-library(gradDescent)
+#library(gradDescent)
 library(mice)
 ```
 [caret documentation](http://topepo.github.io/caret/index.html)
@@ -49,7 +49,7 @@ library(mice)
 ### Scale/Center/Normalizing/Variable Classes
 
 ```{r}
-cereal <- read_csv("~/git_3001/DS-3001/data/cereal.csv")
+cereal <- read_csv("data/cereal.csv")
 str(cereal)# Let's check the structure of the dataset and see if we have any 
 #issues with variable classes (usually it's converting things to factors)
 
@@ -104,7 +104,7 @@ normalize <- function(x){
 (cereal$sodium)-min(cereal$sodium)#function broken into pieces
 (max(cereal$sodium)-min(cereal$sodium))
 
-
+#Normalized Version
 (sodium_n <- normalize(cereal$sodium))
 
 #Let's check just to be sure 
@@ -142,7 +142,7 @@ str(cereal_1h)#what looks different?
 
 ## Baseline/Prevalance 
 ```{r}
-#Essentially the target to which we are trying to out perform with our model. Percentage represented by the positive class. Continuous we are going to turn this into a Boolean to be used for classification by selecting the top quartile of values. 
+#Essentially the target to which we are trying to out perform with our model. Percentage represented by the positive class in the target variable. Continuous we are going to turn this into a Boolean to be used for classification by selecting the top quartile of values. 
 
 (box <- boxplot(cereal_1h$rating, horizontal = TRUE)) 
 box$stats
@@ -158,7 +158,7 @@ View(cereal_1h)
 (prevalence <- table(cereal_1h$rating_f)[[2]]/length(cereal_1h$rating_f))#we are using [[]] to pull at the second entry/column in the table
 table(cereal_1h$rating_f)
 21/(21+55)
-length(cereal_lh)
+
 
 ```
 

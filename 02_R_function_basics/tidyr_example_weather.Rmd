@@ -11,12 +11,12 @@ editor_options:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```
+
 
 ```{r}
 library(tidyverse)
  
-weather <- read_csv('~/git_3001/DS-4001/data/weather.csv')
+weather <- read_csv('data/weather.csv')
 View(weather)
 ```
 

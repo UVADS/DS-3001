@@ -139,7 +139,7 @@ There are others; see `help(starts_with)`.
 Load the `weather.csv`. This contains daily temperature data in 2010 for some location.
 
 ```{r 01-lecture1-47, echo = F}
-weather <- rio::import('~/Desktop/DS-3001/data/weather.csv')
+weather <- rio::import('data/weather.csv')
 getwd()
 ```
 
@@ -161,6 +161,7 @@ We'll use the in-built `mpg` dataset for this example, We'll select only the cit
 
 ```{r 01-lecture1-50}
 mpg1 <- select(mpg, cty, hwy)
+
 ```
 
 ## mutate

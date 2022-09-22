@@ -33,6 +33,8 @@ class(iris3)
 
 ## Let's look at a quick K Nearest Neighbour Example
 ```{r}
+View(iris)
+
 #?knn
 train <- rbind(iris3[1:25,,1], iris3[1:25,,2], iris3[1:25,,3])#index on r,c,a
 

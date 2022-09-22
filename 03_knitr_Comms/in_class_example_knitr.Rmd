@@ -31,6 +31,7 @@ Date that [article](https://www.smartdatacollective.com/5-excellent-big-data-too
 
 ### Summary of Article
 The Big Data article emphasizes big data tools that could *improve* workspace resources in any company. 
+
 ```{r tools, eval=TRUE,echo=TRUE}
 tools_to_improve <- c("Virtual Personal Assistants", "Workload Automation Software", "Enterprise Social Networks", "Cloud Computing Technologies", "Modern Corporate Intranets ")
 kable(tools_to_improve, col.names = "Key Words")
