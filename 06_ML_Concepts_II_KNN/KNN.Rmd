@@ -26,9 +26,11 @@ library(data.table)
 
 ### What questions and business metric should we use? 
 ```{r}
-bank_data <-  read_csv("/Users/amelianorman/Desktop/DS-3001/data/bank.csv")
+bank_data <-  read_csv("data/bank.csv")
 
 str(bank_data)
+
+
 
 ```
 
@@ -179,7 +181,7 @@ sum(kNN_res)  #<- the total is all the test examples
 
 #Accuracy = TP+TN/(TP+TN+FP+FN)
 
-(5776+705)/(5776+705+57+6)
+(5791+717)/(5791+717+28+8)
 
 # Select the true positives and true negatives by selecting
 # only the cells where the row and column names are the same.
@@ -198,7 +200,7 @@ confusionMatrix(as.factor(bank_9NN), as.factor(tune$`signed up_1`), positive = "
 #sensitivity, recall and true poss rate = TP/TP+FN
 #specificity, true negative rate = TN/TN+FP
 
-#So our ability to "predict" sign up customers has more than doubled to 91% so that's  really solid. This means that out of 10 sign ups,  classify 9 correctly! Which is why in this case we would want to tune this model on TPR (Sensitivity), to get it has high as possible while sacrificing Specificity.  Similar to a medical diagnosis example, where we would rather produce false positives as compared to false negatives, predict more of those with cancer that don't have it as compared to missing anyone that actually has cancer.      
+#So our ability to "predict" sign up customers is at roughly 96% so that's  really solid. This means that out of 10 sign ups, classify 9ish correctly! Which is why in this case we would want to tune this model on TPR (Sensitivity), to get it has high as possible while sacrificing Specificity.  Similar to a medical diagnosis example, where we would rather produce false positives as compared to false negatives, predict more of those with cancer that don't have it as compared to missing anyone that actually has cancer.      
 
 #Reference for confusion matrix: https://www.rdocumentation.org/packages/caret/versions/6.0-86/topics/confusionMatrix 
 
@@ -267,7 +269,7 @@ ggplot(knn_different_k,
 
 dev.off()
 
-# 5 to 7 nearest neighbors seems to be a good choice because that's the
+# 3 to 7 nearest neighbors seems to be a good choice because that's the
 # greatest improvement in predictive accuracy before the incremental 
 # improvement trails off.
 
@@ -289,6 +291,8 @@ View(final_model)
 #Need to convert this to the likelihood to be in the poss class.
 final_model$pos_prec <- ifelse(final_model$pred == 0, 1-final_model$k_prob, final_model$k_prob)
 
+View(final_model)
+
 #Needs to be a factor to be correctly  
 final_model$target <- as.factor(final_model$target)
 
@@ -305,7 +309,8 @@ adjust_thres <- function(x, y, z) {
 
 str(final_model)
 
-adjust_thres(final_model$pos_prec,.90,as.factor(final_model$target))
+adjust_thres(final_model$pos_prec,.50,as.factor(final_model$target))
+#What's happening here? 
 
 ```
 
