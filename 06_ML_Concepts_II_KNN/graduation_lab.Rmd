@@ -47,28 +47,45 @@ View(grad_data)# we can tell that a large number of the features will likely
 #This will allow us to pull column numbers for sub-setting  
 column_index <- tibble(colnames(grad_data))
 
+print(column_index, n=62)
+
+#Use the mice package to track the missing values
+
+#Why are we not seeing missing values? 
+md.pattern(grad_data, rotate.names = TRUE)
+
+
+grad_data[grad_data=="NULL"] <- NA
+
+md.pattern(grad_data, rotate.names = TRUE)
+
+colSums(is.na(grad_data))#?colSums
+print(column_index, n=62)
+
 x <- 40:56 #create a list so we don't have to type 16 numbers out
 
 #Most of these columns have a good number of missing values or are not useful.  
-grad_data_1 <- grad_data[ ,c(-28,-10,-11,-12,-x,-29,-37,-61,-57)]
+grad_data_1 <- grad_data[ ,c(-10,-11,-12,-x,-28,-29,-37,-57,-61)]
 
 #Make a new index
-column_index <- tibble(colnames(grad_data_1))
+column_index_1 <- tibble(colnames(grad_data_1))
+colSums(is.na(grad_data_1))
+print(column_index_1, n=37)
 
 #Looking better
 View(grad_data_2)
 
 #Dropped a bunch more that appeared to be repeats or not predictive 
-grad_data_2 <- grad_data_1[ ,c(-1,-3,-4,-7,-9,-12,-13,-15,-16,-19,-22,-24,-30,-33,-34,-35,-36)]
-
-#need to change the nulls to NAs 
-grad_data_2[grad_data_2=="NULL"] <- NA
+grad_data_2 <- subset(grad_data_1, select = -c(unitid,city,state,basic,med_sat_value,med_sat_percentile,counted_pct))
 
 summary(grad_data_2)
+colSums(is.na(grad_data_2))
 
 #In looking at the hbcu (historically black colleges and universities, seems
 # like the NAs should be 0s, let's change that back and convert to a factor)
 grad_data_2$hbcu <- as.factor(ifelse(is.na(grad_data_2$hbcu),0,1))
+#same for flagship
+grad_data_2$flagship <- as.factor(ifelse(is.na(grad_data_2$flagship),0,1))
 
 #Ok better
 table(grad_data_2$hbcu)
@@ -79,7 +96,7 @@ x <- c("level","control")
 grad_data_2[,x] <- lapply(grad_data_2[,x], as.factor)
 
 #convert several variables to numbers 
-x <- c("med_sat_value","grad_100_value","grad_100_percentile","grad_150_value","grad_150_percentile","retain_value","cohort_size","ft_fac_value")
+x <- c("ft_fac_percentile", "grad_100_value","grad_100_percentile","grad_150_value","grad_150_percentile","retain_value","cohort_size","ft_fac_value")
 
 grad_data_2[,x] <- lapply(grad_data_2[,x], as.numeric)
 
@@ -90,17 +107,17 @@ str(grad_data_2)
 ### Missing Data 
 ```{r}
 #Now let's take a look at missing data issue
-md.pattern(grad_data_2)
+md.pattern(grad_data_2, rotate.names = TRUE)
 
-#let's drop med_stat_value then delete the rest of the NA columns 
-grad_data_2 <- grad_data_2[,c(-1,-11)]
+#Delete the rest of the NA columns 
+grad_data_2 <- grad_data_2[,-1]
 grad_data_3 <- grad_data_2[complete.cases(grad_data_2), ]
 
 str(grad_data_3)#Ok looking good, still likely want to drop a few columns,need to normalize and one_hot encode before we move forward with model building.
 
+md.pattern(grad_data_3, rotate.names = TRUE)
+
 str(grad_data)
 
 md.pattern(grad_data_3)
-
-
 ```
