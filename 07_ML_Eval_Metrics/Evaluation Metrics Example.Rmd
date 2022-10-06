@@ -26,10 +26,8 @@ library(data.table)
 
 ## Learning Outcomes 
   * Understand the importance of model evaluation
-  * Understand that the selection of a model evaluation metric is related to your
-    question. 
-  * Evaluation Metrics can be misleading, meaning using several metrics at any one 
-    time is best practices 
+  * Understand that the selection of a model evaluation metric is related to your question. 
+  * Evaluation Metrics can be misleading, meaning using several metrics at any one time is best practices 
   * Exploration of different approaches to ML evaluation
 
 
@@ -91,7 +89,7 @@ loan_data$marital_status <- recode(loan_data$marital_status, 'g' = 'mar', 'p' = 
 table(loan_data$race)#first we can use table to see the frequencies at each of the categories. Given that this is Japanese data we will classify v and Jap, h as white, bb as black, ff as Hispanic and everything else into other. 
 
 loan_data$race <- fct_collapse(loan_data$race,
-                               jap = "v",
+                               asian = "v",
                                white ="h",
                                black = "bb",
                                hisp = "ff",
@@ -133,8 +131,9 @@ str(loan_pred)#All 1s and 0s now we need to normalize
 
 abc <- names(select_if(loan_pred, is.numeric))
 
-loan_pred <- as.tibble(loan_pred)#converting back to a tibble for the normalizing function
+loan_pred <- as.tibble(loan_pred)#converting back to a tibble for the normalizing function...what does the warning mean
 
+#Need to load/run the function from the ML Bootcamp
 loan_pred[abc] <- lapply(loan_pred[abc], normalize)
 
 str(loan_pred)
@@ -234,6 +233,8 @@ adjust_thres <- function(x, y, z) {
   confusionMatrix(thres, z, positive = "1", dnn=c("Prediction", "Actual"), mode = "everything")
 }
 
+densityplot(loan_eval_prob$`1`)#Why does this look the way it does? 
+
 adjust_thres(loan_eval_prob$`1`,.50, test$outcome) #Not much changes here because of the high probability splits of the data outcomes. Let's take a closer look. We can see that the algo isn't marginally mis-classifying these rows, it's very confidently wrong. Which likely means that there's too much emphasis being placed on too small a number of variables, principally the funfetti variable. 
 loan_eval_prob$test <- test$outcome
 
@@ -250,7 +251,7 @@ loan_eval <- tibble(pred_class=loan_eval, pred_prob=loan_eval_prob$`1`,target=te
 
 View(loan_eval)
 
-#index_poss <- apply(loan_eval,2, function(x) loan_eval$pred_class==loan_eval$target)
+index_poss <- apply(loan_eval,2, function(x) loan_eval$pred_class==loan_eval$target)
 
 View(index_poss)
 
@@ -259,6 +260,10 @@ pred <- prediction(loan_eval$pred_prob,loan_eval$target)
 View(pred)
 
 tree_perf <- performance(pred,"tpr","fpr")
+#Essentially creates x and y values in the form of true poss and true neg
+#rates at each threshold
+
+View(tree_perf)
 
 plot(tree_perf, colorize=TRUE)
 abline(a=0, b= 1)
@@ -292,7 +297,7 @@ Harmonic Mean of Precision(TP/TP+FP, when the model classifies a positive how of
 pred_1 <- ifelse(loan_eval_prob$`1` < 0.5, 0, 1)
 
 View(pred_1)
-F1_Score(y_pred = loan_eval$pred_class, y_true = loan_eval_prob$test, positive = "1")
+F1_Score(y_pred = loan_eval$target, y_true = loan_eval$pred_class, positive = "1")
 
 #0 to 100 scale
 
@@ -302,10 +307,10 @@ F1_Score(y_pred = loan_eval$pred_class, y_true = loan_eval_prob$test, positive =
 Try to predict balance 
 ```{r}
 
-unregister_dopar <- function() {
+##unregister_dopar <- function() {
   env <- foreach:::.foreachGlobals
   rm(list=ls(name=env), pos=env)
-}
+#}
 
 #unregister_dopar()cleans up the parallelization in the background
 

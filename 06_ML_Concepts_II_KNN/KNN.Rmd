@@ -309,7 +309,7 @@ adjust_thres <- function(x, y, z) {
 
 str(final_model)
 
-adjust_thres(final_model$pos_prec,.50,as.factor(final_model$target))
+adjust_thres(final_model$pos_prec,.30,as.factor(final_model$target))
 #What's happening here? 
 
 ```

@@ -11,13 +11,14 @@ knitr::opts_chunk$set(echo = TRUE)
 
 The most important part of any machine learning model(or any model, really) is understanding and defining the models weaknesses and/or vulnerabilities. 
 
-To do so we are going to practice on a familiar dataset and use a method we just learned, kNN. For this lab use the Job Placement dataset with status as the target variable.  
+To do so we are going to practice on a familiar dataset and use a method we just learned, kNN. For this lab use the Job Placement or Bank dataset.  
 
 Part 1. Develop a ML question using status as the target variable. In consideration of all the metrics we discussed what are a couple of key metrics that should be tracked given the question you are trying to solve?
 
-Part 2. Create a kNN model using status as the target variable.   
+Part 2. Create a kNN model that can answer your question, using all the 
+appropriate prep methods we discussed.   
 
-Part 3. Evaluate the model using the metrics discussed in class (ROC and Confusion Matrix evaluation measures, etc.). Make sure to calculate/reference the prevalence to provide a baseline for some of these measures. Even though you are generating many of the metrics we discussed, summarize the output of the key metrics you established in part 1. 
+Part 3. Evaluate the model using the metrics you identified in the first question. Make sure to calculate/reference the prevalence to provide a baseline for some of these measures. Summarize the output of the key metrics you established in part 1. 
 
 Part 4.  Consider where miss-classification errors (via confusion matrix) are occurring, is there a pattern? If so discuss this pattern and why you think this is the case. 
 
