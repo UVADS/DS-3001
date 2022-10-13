@@ -15,7 +15,7 @@ To do so we are going to practice on a familiar dataset and use a method we just
 
 Part 1. Develop a ML question using status as the target variable. In consideration of all the metrics we discussed what are a couple of key metrics that should be tracked given the question you are trying to solve?
 
-Part 2. Create a kNN model that can answer your question, using all the 
+Part 2. Create a kNN/Tree model that can answer your question, using all the 
 appropriate prep methods we discussed.   
 
 Part 3. Evaluate the model using the metrics you identified in the first question. Make sure to calculate/reference the prevalence to provide a baseline for some of these measures. Summarize the output of the key metrics you established in part 1. 

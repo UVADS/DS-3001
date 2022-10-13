@@ -11,11 +11,9 @@ editor_options:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Congrats! You just graduated UVA's MSDS program and got a job working at the 
-Treasury Department. In partnership with Congress the Treasury has been 
-ask to come up with innovative ways to create tax policy. In doing so they 
-want to be able to reliably predict whether American workers make more than 
-$50,000 a year.  
+Congrats! You just graduated UVA's MSDS program and got a job working at a movie studio in Hollywood. 
+
+Your boss is the head of the studio and wants to know if they can gain a competitive advantage by predicting new movies that might get high imdb scores (movie rating). 
 
 You would like to be able to explain the model to the mere mortals 
 but need a fairly robust and flexible approach so you've 
@@ -31,26 +29,11 @@ to you at UVA in a undergrad data science course and have outline
 -	You can add or combine steps if needed
 -	Also, remember to try several methods during evaluation and always be 
 mindful of how the model will be used in practice.
-- Make sure all your variables are the correct type (factor, character, etc.)
+- Make sure all your variables are the correct type (factor, character,numeric, etc.)
 
 
 ```{r}
-url <- "http://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data"
-
-names <- c("age","workclass","fnlwgt","education","education-num","marital-status","occupation","relationship","race","sex","capital-gain","capital-loss","hours-per-week","native-country", "salary")
-
-xx <- readr::read_csv(url,col_names=names)
-
-View(xx)
-
-```
-
-```{r}
-names <- c("age","workclass","fnlwgt","education","education-num","marital-status","occupation","relationship","race","sex","capital-gain","capital-loss","hours-per-week","native-country", "salary")
-```
-
-```{r}
-#1 Load the data and ensure the labels are correct. Restate the question and comment on evaluation metrics that you might pay attention to.  
+#1 Load the data and ensure the labels are correct. restate the question and comment on evaluation metrics that you might pay attention to.  
 ```
 
 ```{r}
@@ -66,7 +49,7 @@ names <- c("age","workclass","fnlwgt","education","education-num","marital-statu
 ```
 
 ```{r}
-#5 Determine the baserate or prevalence for the classifier, what does this number mean? (Need to re-code the target)  
+#5 Determine the baserate or prevalence for the classifier, what does this number mean? (Need to cut the target appropriately)  
 ```
 
 ```{r}

@@ -39,21 +39,24 @@ I should note that the labels on this dataset were completely anatomized so I ha
 ```{r}
 #Let's load in our data
 loan_data <- read_csv('data/japan_credit.csv')
-#Take a look
 
+#Take a look
+getwd()
 str(loan_data)
+
+placement <-read.csv('data/placement.cvs')
 
 
 table(loan_data$gender)# so this is kinda tricky we have "?" in the data instead of NAs, so we should probably replace the "?" with NAs, then remove them, if we rerun the table command we can see the "?" are removed. 
 
 dim(loan_data)
 
-table(is.na(loan_data))#Using this function to count and table NAs, doesn't look there are any (690x15=10,350)
+table(is.na(loan_data))#Using this function to count and table NAs, does not look like there are any (690x15=10,350)
 
 #Replace the ? with NA
 loan_data[loan_data=="?"] <- NA
 
-#Now we see we've got about 67
+#Now we see weve got about 67
 table(is.na(loan_data))
 
 
@@ -235,7 +238,7 @@ adjust_thres <- function(x, y, z) {
 
 densityplot(loan_eval_prob$`1`)#Why does this look the way it does? 
 
-adjust_thres(loan_eval_prob$`1`,.50, test$outcome) #Not much changes here because of the high probability splits of the data outcomes. Let's take a closer look. We can see that the algo isn't marginally mis-classifying these rows, it's very confidently wrong. Which likely means that there's too much emphasis being placed on too small a number of variables, principally the funfetti variable. 
+adjust_thres(loan_eval_prob$`1`,.70, test$outcome) #Not much changes here because of the high probability splits of the data outcomes. Let's take a closer look. We can see that the algo isn't marginally mis-classifying these rows, it's very confidently wrong. Which likely means that there's too much emphasis being placed on too small a number of variables, principally the funfetti variable. 
 loan_eval_prob$test <- test$outcome
 
 View(loan_eval_prob)
@@ -252,6 +255,8 @@ loan_eval <- tibble(pred_class=loan_eval, pred_prob=loan_eval_prob$`1`,target=te
 View(loan_eval)
 
 index_poss <- apply(loan_eval,2, function(x) loan_eval$pred_class==loan_eval$target)
+
+
 
 View(index_poss)
 
