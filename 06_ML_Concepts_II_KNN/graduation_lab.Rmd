@@ -17,7 +17,8 @@ library(mice)
 ```
 
 Instructions:
-Let's build a kNN model using the college completion data from last week. 
+Let's build a kNN model using the college completion data or Bank data from last week.
+
 The data is messy and you have a degrees of freedom problem, as in, we have too many features.  
 
 You've done most of the hard work already, so you should be ready to move forward with building your model. 
@@ -29,6 +30,7 @@ Build and optimize a kNN model to predict your target variable. Meaning use the 
 Experiment with the threshold function, what happens at higher and lower thresholds. Document what you see in comments. 
 
 Evaluate the results using the confusion matrix (at the default threshold). Then talk through your question, summarize what concerns or positive elements do you have about the model? 
+
 
 Bonus: Adjust the function that selects k to output on Specificity instead of Accuracy
 

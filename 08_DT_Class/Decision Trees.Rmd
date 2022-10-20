@@ -35,7 +35,7 @@ Let's take a look at the caret method using rpart, nice overview of
 CART Example using rpart: Use a new Dataset binary and doing three data
 partitions: Training, Tuning and Testing
 ```{r}
-
+#read.cvs will correct the column labels, removing the spaces 
 winequality <- read.csv("data/winequality-red-ddl.csv")
 View(winequality)
 str(winequality)
@@ -66,7 +66,7 @@ table(winequality$text_rank)
 
 
 winequality$text_rank <- fct_collapse(winequality$text_rank,
-                                      ave=c("ave","average-ish","poor","poor-ish",""),
+                                ave=c("ave","average-ish","poor","poor-ish",""),
                                       excellent = c("excellent","good"))
 
 
@@ -99,6 +99,7 @@ tune_and_test_index <- createDataPartition(tune_and_test$text_rank,
                                            times = 1)
 
 tune <- tune_and_test[tune_and_test_index, ]
+
 test <- tune_and_test[-tune_and_test_index, ]
 
 
@@ -152,7 +153,7 @@ wine_mdl <- train(x=features,
                 metric="ROC")
 
 
-set.seed(1984)
+
 wine_mdl_1 <- train(x=features,
                 y=target,
                 method="rpart2",#type of model uses maxdepth to select a model
@@ -168,10 +169,14 @@ wine_mdl_1 <- train(x=features,
 wine_mdl
 wine_mdl_1
 
-plot(wine_mdl)
-varImp(wine_mdl)
+wine_mdl$finalModel
 
-rpart.plot(wine_mdl$finalModel, type=4,extra=101)
+plot(wine_mdl_1)
+varImp(wine_mdl_1)
+
+rpart.plot(wine_mdl_1$finalModel, type=4,extra=101)
+#try another version, see what changes
+?rpart.plot
 
 wine_mdl$results
 
@@ -222,7 +227,7 @@ adjust_thres <- function(x, y, z) {
   confusionMatrix(thres, z, positive = "excellent", dnn=c("Prediction", "Actual"), mode = "everything")
 }
 
-adjust_thres(wine_pred_tune$excellent,y=.1,tune$text_rank)
+adjust_thres(wine_pred_tune$excellent,y=.3,tune$text_rank)
 
 ```
 
@@ -233,7 +238,7 @@ to this topic and free with your O'Reilly subscription through UVA.
 ```{r}
 summary(winequality)
 
-hist(features$total.sulfur.dioxide, plot = TRUE)
+hist(features$`total sulfur dioxide`, plot = TRUE)
 
 fivenum((winequality$total.sulfur.dioxide))
 
@@ -242,6 +247,10 @@ total.sulfur.dioxide <- cut(winequality$total.sulfur.dioxide,c(0,37,300), labels
 table(total.sulfur.dioxide)
 
 winequality_1 <- data.frame(winequality[,-7],total.sulfur.dioxide)
+
+winequality_1$text_rank <- fct_collapse(winequality$text_rank,
+                                ave=c("ave","average-ish","poor","poor-ish",""),
+                                      excellent = c("excellent","good"))
 
 #data splitting 
 
@@ -265,12 +274,14 @@ tune_and_test_index <- createDataPartition(tune_and_test_1$text_rank,
 tune_1 <- tune_and_test_1[tune_and_test_index, ]
 test_1 <- tune_and_test_1[-tune_and_test_index, ]
 
-str(train_1)
+glimpse(train_1)
 
-features_3 <- train_1[,-11]
+features_3 <- train_1[,-11:-12]
 target_1 <- train_1$text_rank
 
-View(features_3)
+
+
+str(features_3)
 
 set.seed(1984)
 wine_mdl_2 <- train(x=features_3,
