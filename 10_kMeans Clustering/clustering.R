@@ -76,7 +76,7 @@ View(party_clusters_Dem)
 #### Slide 29: Step 3: visualize plot ####
 
 View(house_votes_Dem)
-View(party_clusters_Dem)
+party_clusters_Dem
 
 ggplot(house_votes_Dem, aes(x = aye, 
                             y = nay,
@@ -144,7 +144,7 @@ View(house_votes_color_Dem)
 house_votes_color_Dem$Last.Name <- gsub("[^[:alnum:]]", "", house_votes_color_Dem$Last.Name)
 
 # Use plotly to do a 3d imaging 
-
+library(plotly)
 fig <- plot_ly(house_votes_color_Dem, 
                type = "scatter3d",
                mode="markers",
@@ -422,7 +422,7 @@ confusionMatrix(as.factor(dt_predict_t),
 #didn't really make a huge difference
 #==================================================================================
 
-#Now you try with the Republican Data and a NBA Stat Example 
+#Now you try with NBA Stat Example 
 
 #==================================================================================
 

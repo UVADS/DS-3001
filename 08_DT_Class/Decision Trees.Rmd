@@ -26,7 +26,7 @@ library(rpart.plot)
 library(rattle)
 library(caret)
 library(mlbench)
-#save.image(file="trees_class.Rdata")
+save.image(file="trees_class.Rdata")
 ```
 
 

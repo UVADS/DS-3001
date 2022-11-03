@@ -172,7 +172,7 @@ varImp(wine_mdl_1_r)
 ```
 
 
-## Build the tree with depth 5 and Predict with Test Set, anything further is really overfitting  
+## Build the tree with depth 5 and Predict with Test Set, anything further is really overfitting   
 ```{r}
 
 tree.grid_5 <- expand.grid(maxdepth=c(5))

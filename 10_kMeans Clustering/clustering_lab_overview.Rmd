@@ -80,7 +80,8 @@ Details:
 
 - Determine a way to use clustering to estimate based on performance if 
 players are under or over paid, generally. 
-- Then select three players you believe would be best for your team and explain why. 
+- Then select players you believe would be best for your team and explain why. Do so in 
+three categories: examples that are not good choices, several options that are and those that you might consider. Three tiers: Yes, Maybe and examples of No
 - Provide a well commented and clean (knitted) report of your findings that can be presented to your GM. Include a rationale for variable selection, details on your approach and a overview of the results with supporting visualizations. 
  
 
@@ -98,6 +99,8 @@ totally necessary and create modular sections that align with some outcome. If
 necessary create more than one script,list/load libraries at the top and don't 
 include libraries that aren't used. 
 - Be careful for non-traditional characters in the players names, certain graphs won't work when these characters are included.
+- Don't search for code online, as there may be some present but I change the
+requirements slightly every semester. 
   
 
 
