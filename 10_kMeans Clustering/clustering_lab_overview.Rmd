@@ -9,11 +9,41 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Goal: Know how to make decisions and answer questions using clustering. 
+In a Rmarkdown document work through a similar process 
+with the NBA data (nba2020-21 and nba_salaries_21), that we did in class merge them together. 
 
-Repeat the clustering process only using the Rep house votes dataset
-- What differences and similarities did you see between how the clustering 
-worked for the datasets?
+You are a scout for the worst team in the NBA, probably the Wizards. Your 
+general manager just heard about Data Science and thinks it can solve all the
+teams problems!!! She wants you to figure out a way to find players that are 
+high performing but maybe not highly paid that you can steal to get the team 
+to the playoffs! 
+
+Details: 
+
+- Determine a way to use clustering to estimate based on performance if 
+players are under or over paid, generally. 
+- Then select players you believe would be best for your team and explain why. Do so in 
+three categories: examples that are not good choices, several options that are and those that you might consider. Three tiers: Yes, Maybe and examples of No
+- Provide a well commented and clean (knitted) report of your findings that can be presented to your GM. Include a rationale for variable selection, details on your approach and a overview of the results with supporting visualizations. 
+ 
+
+Hints:
+
+- Salary is the variable you are trying to understand 
+- You should include numerous performance variables in the clustering but when 
+interpreting you might want to use graphs that include variables that are the 
+most correlated with Salary
+- You'll need to standardize the variables before performing the clustering
+- Be specific about why you selected the players that you did, more detail is 
+better
+- Use good coding practices, comment heavily, indent, don't use for loops unless
+totally necessary and create modular sections that align with some outcome. If 
+necessary create more than one script,list/load libraries at the top and don't 
+include libraries that aren't used. 
+- Be careful for non-traditional characters in the players names, certain graphs won't work when these characters are included.
+- Don't search for code online, as there may be some present but I change the
+requirements slightly every semester. 
+
 
 ```{r}
 #Select the variables to be included in the cluster 

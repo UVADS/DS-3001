@@ -32,7 +32,7 @@ I should note that the labels on this dataset were completely random so I had to
 #Let's load in our data
 loan_data <- read_csv('data/japan_credit.csv')
 #Take a look
-View(loan_data)
+#View(loan_data)
 str(loan_data)
 ```
 
@@ -167,8 +167,12 @@ table(test$gender)
 #Test,Predicted Class and the Probabilities all in one dataframe
 fair_eval_data <- cbind(test,predicted=loan_eval, prob=loan_eval_prob$`1`)
 
-head(fair_eval_data)
+View(fair_eval_data)
+```
 
+## Let's take a look at proportional parity, ((TP + FP) / (TP + FP + TN + FN)), what equation is this? Is calculate for each subgroup and compared. 
+
+```{r}
 dpp <- prop_parity(data = fair_eval_data, 
                    group="gender",#protected class
                    probs = "prob",
@@ -177,7 +181,7 @@ dpp <- prop_parity(data = fair_eval_data,
                    base = "m")#reference level 
 
 
-
+dpp
 dpp$Metric #We would want these to be 1 across the board, but it's looks like being female appears to be favored, but very little. 
 
 #The below plots help to show this story a bit more.
@@ -188,44 +192,88 @@ prob_plot <- dpp$Probability_plot #as we can see there's some slight advantages 
 
 prob_plot
 
-#We can also look at equal odds measures
+```
+
+## Equality of Odds, calculates this equation: TP / (TP + FN), for each sub-group, which is what? 
+```{r}
+
+#We can also look at equal odds measures. 
 
 eqo_loan <- equal_odds(data = fair_eval_data, 
            outcome = "outcome", 
            group   = "gender",
            probs   = "prob", 
            preds   = "predicted",
-           cutoff = 0.80, 
+           cutoff = 0.50, 
            base   = "m")
 
-eqo_loan$Metric #This is interesting because here it seems the roles are slightly reversed. 
+eqo_loan #This is interesting because here it seems the roles are slightly reversed. 
 
 eqo_loan <- ggplotly(eqo_loan$Metric_plot)
 
 eqo_loan
 
 ```
-Predictive Rate Parity
+
+## Predictive Rate Parity, calculates this equation for each subgroup: TP / (TP + FP)
 
 ```{r}
-prp <- pred_rate_parity(data = fair_eval_data, 
+prp_gen <- pred_rate_parity(data = fair_eval_data, 
+           outcome = "outcome", 
+           group   = "gender",
+           probs   = "prob", 
+           preds   = "predicted",
+           cutoff = 0.50, 
+           base   = "m")
+
+prp_gen
+```
+
+## Let's take a look at the Race variable and see if we notice a similar pattern, starting with Proportional Parity. 
+
+```{r}
+dpp_race <- prop_parity(data = fair_eval_data, 
+                   group="race",#protected class
+                   probs = "prob",
+                   preds = "predicted",
+                   cutoff = .50,#threshold
+                   base = "jap")#reference level 
+
+
+dpp_race
+
+```
+
+## Equity of Odds for Race, Sensitivity/Recall, TP / (TP + FN), when it is supposed to be positive how many did we get right.  Says nothing about the 1s the model predictive that should have been 0s. Focus on False Negatives.      
+
+```{r}
+eqo_race <- equal_odds(data = fair_eval_data, 
            outcome = "outcome", 
            group   = "race",
            probs   = "prob", 
            preds   = "predicted",
-           cutoff = 0.20, 
+           cutoff = 0.50, 
            base   = "jap")
-
-prp$Metric
-
-datatable(prp$Metric, options = list(pageLength = 10))
-
-prp$Metric_plot # As we can see in comparison to those of Japanese decent white and black individuals are being classified much less accurately when it comes to the positive outcome of getting a loan. Keeping in mind this is made up data.  
-
-prp$Probability_plot
-
+eqo_race
 
 ```
+
+
+## Predictive Rate Parity, Precision, TP / (TP + FP), of the individual rows that the model predicted to be possitive how many did it get correct. Says nothing about the 1s the model missed, how often does the model result in False Positives.  
+
+```{r}
+prp_race <- pred_rate_parity(data = fair_eval_data, 
+           outcome = "outcome", 
+           group   = "race",
+           probs   = "prob", 
+           preds   = "predicted",
+           cutoff = 0.50, 
+           base   = "jap")
+
+prp_race
+```
+
+### What might happen over time is this model was used to predict loan outcome success? 
 
 ```{r}
 roc_eval <- roc_parity(data = fair_eval_data,
@@ -240,4 +288,13 @@ roc_eval_plty <- ggplotly(roc_eval$ROCAUC_plot)
 roc_eval_plty
 ```
 
+## Another more well known example
+```{r}
+data(compas)
+compas$Two_yr_Recidivism_01 <- ifelse(compas$Two_yr_Recidivism == 'yes', 1, 0) 
+prop_parity(data = compas, outcome = 'Two_yr_Recidivism_01', group = 'ethnicity',
+probs = 'probability', cutoff = 0.4, base = 'Caucasian')
+prop_parity(data = compas, outcome = 'Two_yr_Recidivism_01', group = 'ethnicity',
+preds = 'predicted', cutoff = 0.5, base = 'Hispanic')
+```
 

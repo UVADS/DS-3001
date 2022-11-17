@@ -74,8 +74,7 @@ View(party_clusters_Dem)
 #==================================================================================
 
 #### Slide 29: Step 3: visualize plot ####
-
-View(house_votes_Dem)
+house_votes_Dem
 party_clusters_Dem
 
 ggplot(house_votes_Dem, aes(x = aye, 

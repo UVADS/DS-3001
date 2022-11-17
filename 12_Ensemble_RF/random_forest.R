@@ -292,7 +292,7 @@ pregnancy_RF_2 = randomForest(as.factor(PREGNANT)~.,          #<- formula, respo
                               #subset = NULL,      #<- This is unneccessary because we're using all the rows in the training data set.
                               #xtest = NULL,       #<- This is already defined in the formula by the ".".
                               #ytest = NULL,       #<- This is already defined in the formula by "PREGNANT".
-                              ntree = 1000,          #<- Number of trees to grow. This should not be set to too small a number, to ensure that every input row gets classified at least a few times.
+                              ntree = 400,          #<- Number of trees to grow. This should not be set to too small a number, to ensure that every input row gets classified at least a few times.
                               mtry = 6,            #<- Number of variables randomly sampled as candidates at each split. Default number for classification is sqrt(# of variables). Default number for regression is (# of variables / 3).
                               replace = TRUE,      #<- Should sampled data points be replaced.
                               #classwt = NULL,     #<- Priors of the classes. We will work through this later. 
@@ -394,7 +394,7 @@ dev.off()
 class(pregnancy_train)
 pregnancy_RF_mtry = tuneRF(pregnancy_train[ ,1:15],  #<- data frame of predictor variables
                            pregnancy_train$PREGNANT,   #<- response vector (variables), factors for classification and continuous variable for regression
-                           mtryStart = 5,                        #<- starting value of mtry, the default is the same as in the randomForest function
+                           mtryStart = 4,                        #<- starting value of mtry, the default is the same as in the randomForest function
                            ntreeTry = 100,                       #<- number of trees used at the tuning step, let's use the same number as we did for the random forest
                            stepFactor = 2,                       #<- at each iteration, mtry is inflated (or deflated) by this value
                            improve = 0.05,                       #<- the improvement in OOB error must be by this much for the search to continue
