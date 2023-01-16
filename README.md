@@ -5,7 +5,6 @@ Your Foundations of Machine Learning Tour Guides:
 * Brian Wright, Ph.D., Office: Elson Room 165 (Old Student Health Center)
 * Email: brianwright@virginia.edu
 * TA: Ariful Islam xef4hb@virginia.edu
-* Peer Mentors: Brendan Puglisi btp6ht@virginia.edu  and Francis Driscoll fpd4fv@virginia.edu 
 * Class Location: Dell 1 Room 105 
 
 Brian's Office Hours: In person in my office Elson (165) or Virtual on Discord: Monday, 1:00 to 4:00 or by appointment if needed. Feel free to just come by and hang out if you'd like.
