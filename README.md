@@ -85,7 +85,7 @@ On any given week, the course will require reviewing short video lectures and co
     Collab - Submission of assignments and class-wide communications
     Discord - Low latency comms for groups and class.
 
-**[Discord Invite Click]()**
+**[Discord Invite Click](https://discord.gg/6zy6Bafa)**
 
 ## Materials That Will Aid in Your Learning: 
 
