@@ -135,7 +135,7 @@ tune <- tune_and_test[tune_and_test_index, ]
 test <- tune_and_test[-tune_and_test_index, ]
 
 str(train)
-dim(tune)
+View(tune)
 dim(test)
 
 ```
@@ -156,6 +156,8 @@ bank_9NN <-  knn(train = train,#<- training set cases
 
 # View the output.
 str(bank_9NN)
+str(test)
+
 table(bank_9NN)
 table(tune$`signed up_1`)
 
