@@ -5,7 +5,6 @@ Your Foundations of Machine Learning Tour Guides:
 * Brian Wright, Ph.D., Office: Elson Room 165 (Old Student Health Center)
 * Email: brianwright@virginia.edu
 * TA: Ariful Islam xef4hb@virginia.edu
-* Peer Mentors: Brendan Puglisi btp6ht@virginia.edu  and Francis Driscoll fpd4fv@virginia.edu 
 * Class Location: Dell 1 Room 105 
 
 Brian's Office Hours: In person in my office Elson (165) or Virtual on Discord: Monday, 1:00 to 4:00 or by appointment if needed. Feel free to just come by and hang out if you'd like.
@@ -86,7 +85,7 @@ On any given week, the course will require reviewing short video lectures and co
     Collab - Submission of assignments and class-wide communications
     Discord - Low latency comms for groups and class.
 
-**[Discord Invite Click]()**
+**[Discord Invite Click](https://discord.gg/6zy6Bafa)**
 
 ## Materials That Will Aid in Your Learning: 
 
@@ -116,16 +115,16 @@ The books below are essentially a starter Machine Learning Library. I will use a
 | Week 4 	| Introduction to ML Concepts I	|Language of ML	| [Case Studies](https://github.com/UVADS/DS-3001/tree/main/04_ML_Concepts_I_Foundations)|H: Chapter 1 and 2  	|
 | Week 5 | Introduction to ML Concepts II | Data Preparation:kNN 	|[ML Concepts](https://github.com/UVADS/DS-3001/tree/main/05_ML_Concepts_II_Data_Prep)|H: 3 and 4  | 
 | Week 6	| Introduction to ML Concepts III	| Machine Learning Process:kNN|[ML Concepts  ](https://github.com/UVADS/DS-3001/tree/main/06_ML_Concepts_II_KNN) |H: Chapters 3 and 4 |
-| Week 7 | Introduction to ML Concepts IV	| Evaluation	| [Evaluation Lab](https://github.com/UVADS/DS-3001/tree/main/07_ML_Eval_Metrics) | All of B. and G.- Chapter 11 	|
-| Week 8 | Nature's Perfect ML analogy: Trees Part I	|  Classification: Decisions Trees 	| [ Decision Trees](https://github.com/UVADS/DS-3001/tree/main/08_DT_Class)	| F. Chapter 5 and G. Chapter 14.1-14.3 	|
-| Week 9 | Nature's Perfect ML analogy: Trees Part II  	| Regression: Decision Trees  	| [Predicting Income for Big Brother]	| F. Chapter 5 and G. Chapter 8 	|
-| Week 10 | Kaggle Competition  	|  	|	| 	|
-| Week 11 | Let's gather together... but separately 	|Unsupervised: Overview of Clustering Kmeans 	| [NBA Scout for the worst team in the league](https://github.com/UVADS/DS-3001/tree/main/10_kMeans%20Clustering)|  F. Chapter 1 and Chapter 9  |
-| Week 12 | Wisdom of the Crowd	| Ensemble Methods I	| [Random Forest Classifier ](https://github.com/UVADS/DS-3001/tree/main/12_Ensemble_RF)	| TBD	|
-| Week 13 | Do the next right thing…ethics |  Bias in AI Discussion -Simple methods for identifying bias   - Protected Classes	|[Fairness Overview & Ethical Reflections](https://github.com/UVADS/DS-3001/tree/main/14_ML_Bias) 	| Weapons of Math Destruction  	|
-| Week 14| Thanksgiving Break| | | 
+| Week 7| Spring Break| | | 
+| Week 8 | Introduction to ML Concepts IV	| Evaluation	| [Evaluation Lab](https://github.com/UVADS/DS-3001/tree/main/07_ML_Eval_Metrics) | All of B. and G.- Chapter 11 	|
+| Week 9 | Nature's Perfect ML analogy: Trees Part I	|  Classification: Decisions Trees 	| [ Decision Trees](https://github.com/UVADS/DS-3001/tree/main/08_DT_Class)	| F. Chapter 5 and G. Chapter 14.1-14.3 	|
+| Week 10 | Nature's Perfect ML analogy: Trees Part II  	| Regression: Decision Trees  	| [Predicting Income for Big Brother]	| F. Chapter 5 and G. Chapter 8 	|
+| Week 11 | Wisdom of the Crowd	| Ensemble Methods I	| [Random Forest Classifier ](https://github.com/UVADS/DS-3001/tree/main/12_Ensemble_RF)	| TBD	|
+| Week 12 | Kaggle Competition  	|  	|	| 	|
+| Week 13 | Let's gather together... but separately 	|Unsupervised: Overview of Clustering Kmeans 	| [NBA Scout for the worst team in the league](https://github.com/UVADS/DS-3001/tree/main/10_kMeans%20Clustering)|  F. Chapter 1 and Chapter 9  |
+| Week 14 | Do the next right thing…ethics |  Bias in AI Discussion -Simple methods for identifying bias   - Protected Classes	|[Fairness Overview & Ethical Reflections](https://github.com/UVADS/DS-3001/tree/main/14_ML_Bias) 	| Weapons of Math Destruction  	|
 | Week 15 | Final Project Prep	|[Final Project Overview](https://github.com/UVADS/DS-3001/blob/main/final_project_overview.md)	| | Ethical Reflection Due |
-| Week 16 - Dec 10th 9-12pm Dell 105	| Final Projects Presentations	| [Final Project Overview](https://github.com/UVADS/DS-3001/blob/main/final_project_overview.md) 	|  	|  	|
+| Week 16 - Final TBD	| Final Projects Presentations	| [Final Project Overview](https://github.com/UVADS/DS-3001/blob/main/final_project_overview.md) 	|  	|  	|
 
 ## A few Policies that will Govern the Class
 
