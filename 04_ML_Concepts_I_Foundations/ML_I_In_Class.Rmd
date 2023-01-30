@@ -45,7 +45,7 @@ View(test)
 #Why is testing a thing? 
 target <- factor(c(rep("s",25), rep("c",25), rep("v",25)))
 View(target)
-#What is a target? 
+#What is a target?
 knn_model <- knn(train, test, target, k = 15, prob=TRUE)
 # How did we do?
 summary(knn_model)

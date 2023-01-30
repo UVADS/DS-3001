@@ -1,7 +1,7 @@
 ---
 title: "Fairness Package Example"
 author: "Brian Wright"
-date: "3/12/2020"
+date: "11/17/2022"
 output: html_document
 editor_options: 
   chunk_output_type: console
