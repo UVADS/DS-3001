@@ -26,18 +26,17 @@ Take 20 to 30 minutes to gather your answers then we will discuss. I do want you
 
 Case Study Overview: 
 
-A non-profit is working to develop a recommended engine for school districts
+A non-profit is working to develop a recommender engine for school districts
 looking to invest in Mathematics software for educational purposes. It is
 estimated that every year billions of dollars across US K-12 education is spent and
 often wasted by purchasing software that doesn't match the needs and skills of 
-individual school districts. 
+individual schools inside districts. 
 
 The non-profit has begun to gather data from several school districts in the mid-west
-and wants to start building a "MVP" of the recommended system in order be able to 
+and wants to start building a "MVP" of the recommender system in order be able to 
 garner support for further data gathering efforts. The data includes survey responses
 on a likert (1-5) scale cover 60ish questions related to the characteristics of the schools, technology proficiency and features covering past successes or failures as it relates to the implementation of mathematical software. The data has 1500 responses across 30 districts with no one district have more that 100 responses. 
 
 The goal is to be able to go to new schools/districts have them complete the survey and 
-then provide recommendations as to which mathematics software would work and those that might
-not be good choices. 
+then provide recommendations as to which mathematical software would work and those that might not be good choices. 
 
