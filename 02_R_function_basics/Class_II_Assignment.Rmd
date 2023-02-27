@@ -13,6 +13,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 library(tidyverse)
+
+
 ```
 
 
@@ -94,7 +96,7 @@ x2$ave_admit <- x2$admit/x2$count # added a variable ave to the x2,by dividing t
 x2
 
 x3 <- arrange(x2,desc(`mean(gpa)`))# Arrange by rank descending 
-print(x3)
+View(x3)
 ## Are there differences in the admitted number of students on average by GPA and school rank?
 
 ```

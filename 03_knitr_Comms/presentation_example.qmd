@@ -1,0 +1,66 @@
+---
+title: "DS3001 Final Project: Model to Predict Rideshare Costs"
+author: "Peneeta Wojcik"
+format: 
+  html:
+    mainfont: "Gill Sans"
+    toc: true
+    toc-title: "Index"
+    toc-depth: 2
+    smooth-scroll: true
+    toc-location: left
+    theme: "Cyborg"
+editor: visual
+---
+
+# Introduction
+
+Ride share services have become increasingly popular in the past decade. Uber and Lyft are leading companies in this field. To keep up with demand and increase profitability, these companies use dynamic pricing to encourage more drivers to pick up requests and keep up with demand ([more about this on the Uber blog](https://www.uber.com/en-GB/blog/uber-dynamic-pricing/)).
+
+In the following analysis, we will examine trends in ride share data and develop a machine-learning model to predict the price of a ride depending on top hours, distance, and other factors. We will use the [Uber and Lyft Dataset Boston, MA](https://www.kaggle.com/datasets/brllrb/uber-and-lyft-dataset-boston-ma "Click to view dataset") available on Kaggle to conduct these analyses.
+
+![](rideshare_royaltyfree.jpg){fig-align="center"}
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+# Setup and Libraries Used
+library(tidyr)
+library(dplyr)
+library(readr)
+library(tidyverse)
+library(ggplot2)
+library(mice)
+
+# Import the data
+```
+
+------------------------------------------------------------------------
+
+# Exploratory Data Analysis
+
+Before developing the model, we need to understand the data set. This involves posing a few questions such as the ones below:
+
+**1. Which day has the most rides?**
+
+**2. What time of day has the most rides?**
+
+To answer these questions, we'll need to first clean the data of extra columns that do not provide important information to the questions we are trying to answer.
+
+Clean the Data
+
+# Model Results
+
+# Discussion
+
+# Conclusions
+
+The purpose of this study was to determine if there are any significant differences in these types of linear regression when predicting ride share prices. A problem with all the models is that they underestimate higher prices.
+
+Despite differences in these models, all three seemed to perform similarly to one another. Lasso linear regression and classical linear regression were the most similar and accurate, both with an RMSE of 2.499 and an R-Squared value of 0.928. This supported that ride prices increased at a consistent rate according to distance traveled.
+
+The next step would be to create a tree-based model to compare the performance of linear regression models to. I hypothesize that linear regression will be the best model due to the R-squared values being closest to 1.
+
+# Future Work 

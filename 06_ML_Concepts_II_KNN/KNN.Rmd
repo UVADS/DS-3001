@@ -29,9 +29,6 @@ library(data.table)
 bank_data <-  read_csv("data/bank.csv")
 
 str(bank_data)
-
-
-
 ```
 
 ```{r}
@@ -150,7 +147,7 @@ set.seed(1984)
 bank_9NN <-  knn(train = train,#<- training set cases
                test = tune,    #<- tune set cases
                cl = train$`signed up_1`,#<- category for true classification
-               k = 3,#<- number of neighbors considered
+               k = 6,#<- number of neighbors considered
                use.all = TRUE,
                prob = TRUE)# provides the output in probabilities 
 

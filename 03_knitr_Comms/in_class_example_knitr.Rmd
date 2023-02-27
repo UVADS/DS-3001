@@ -25,7 +25,7 @@ library(rmarkdown)
 ```
 
 
-<img src="bd.png" alt="big data image" width="300" height="300">
+<img src="bd.png" alt="big data image" width="500" height="600">
 
 Date that [article](https://www.smartdatacollective.com/5-excellent-big-data-tools-for-fostering-a-digital-workplace/) was published: **January 29, 2020**
 

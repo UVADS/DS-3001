@@ -17,7 +17,7 @@ library(mice)
 ```
 
 Instructions:
-Let's build a kNN model using the college completion data or Bank data from last week.
+Let's build a kNN model using the college completion data or job placement from last week.
 
 The data is messy and you have a degrees of freedom problem, as in, we have too many features.  
 
