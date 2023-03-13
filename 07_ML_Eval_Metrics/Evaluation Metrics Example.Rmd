@@ -72,7 +72,7 @@ loan_data <- loan_data[complete.cases(loan_data), ]#ok makes the naming simpler,
 dim(loan_data)
 
 #Ok as you can see we have 15 predictor variables (including whether the applications prefer funfetti_cake) and one outcome measure. We do need to re-class the outcome measure to the traditional {0,1} format along with a few other variables, we can do this with recode.
-
+str(loan_data)
 
 loan_data$outcome <- recode(loan_data$outcome, 
                             '+' = 1, 
@@ -166,7 +166,7 @@ dim(test)
 
 ```
 
-## Build a decision tree
+## Build a decision tree (use kNN for your lab)
 ```{r}
 #implementing a parallel processes structure, with the 4 cores available on my CPU. 
 
@@ -178,6 +178,7 @@ dim(test)
 #cl <- makePSOCKcluster(4)#registers the cores
 
 #registerDoParallel(cl)
+
 set.seed(1984)
 loan_tree <- train(outcome~., #model formula everything used to classify outcome
                    data=train_data, #use the training data
@@ -254,13 +255,7 @@ loan_eval <- tibble(pred_class=loan_eval, pred_prob=loan_eval_prob$`1`,target=te
 
 View(loan_eval)
 
-index_poss <- apply(loan_eval,2, function(x) loan_eval$pred_class==loan_eval$target)
-
-
-
-View(index_poss)
-
-
+#Function that is part of the ROCR package that preps the data to generate the ROC/AUC curves
 pred <- prediction(loan_eval$pred_prob,loan_eval$target)
 View(pred)
 
