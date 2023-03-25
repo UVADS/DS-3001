@@ -22,7 +22,7 @@ chosen to use decision trees to get started.
 In doing so, similar to  great data scientists of the past 
 you remembered the excellent education provided 
 to you at UVA in a undergrad data science course and have outline 
-20ish steps that will need to be undertaken to complete this task. As always, you will need to make sure to #comment your work heavily. 
+16ish steps that will need to be undertaken to complete this task. As always, you will need to make sure to #comment your work heavily. 
 
 
  Footnotes: 
@@ -33,7 +33,10 @@ mindful of how the model will be used in practice.
 
 
 ```{r}
-#1 Load the data and ensure the labels are correct. restate the question and comment on evaluation metrics that you might pay attention to.  
+#1 Load the data and ensure the labels are correct. restate the question and comment on evaluation metrics that you might pay attention to. 
+
+movie_metadata <- read_csv("data/movie_metadata.csv")
+
 ```
 
 ```{r}

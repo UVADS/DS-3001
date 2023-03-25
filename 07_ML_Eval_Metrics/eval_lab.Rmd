@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 The most important part of any machine learning model(or any model, really) is understanding and defining the models weaknesses and/or vulnerabilities. 
 
-To do so we are going to practice on a familiar dataset and use a method we just learned, kNN. For this lab use the Bank dataset.  
+To do so we are going to practice on a familiar dataset and use a method we just learned, kNN. For this lab use ### find a new dataset.  
 
 Part 1. Develop a ML classification question and choose a target variable. In consideration of all the metrics we discussed what are a couple of key metrics that should be tracked given the question you are trying to solve?
 

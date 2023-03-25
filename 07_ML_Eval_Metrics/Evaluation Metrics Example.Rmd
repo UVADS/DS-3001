@@ -41,10 +41,11 @@ I should note that the labels on this dataset were completely anatomized so I ha
 loan_data <- read_csv('data/japan_credit.csv')
 
 #Take a look
-getwd()
-str(loan_data)
+#getwd()
 
-placement <-read.csv('data/placement.cvs')
+#str(loan_data)
+
+#placement <-read.csv('data/placement.cvs')
 
 
 table(loan_data$gender)# so this is kinda tricky we have "?" in the data instead of NAs, so we should probably replace the "?" with NAs, then remove them, if we rerun the table command we can see the "?" are removed. 
@@ -213,7 +214,7 @@ rpart.plot::rpart.plot(loan_tree$finalModel, type=4,extra=101)
 ## Use the mode to predict and the evaluate 
 ```{r}
 #First we need to do some predictions using the test data 
-
+loan_tree
 loan_eval <-(predict(loan_tree,newdata = test))#generates 1s and 0s
 head(loan_eval,50)
 
@@ -239,7 +240,9 @@ adjust_thres <- function(x, y, z) {
 
 densityplot(loan_eval_prob$`1`)#Why does this look the way it does? 
 
-adjust_thres(loan_eval_prob$`1`,.70, test$outcome) #Not much changes here because of the high probability splits of the data outcomes. Let's take a closer look. We can see that the algo isn't marginally mis-classifying these rows, it's very confidently wrong. Which likely means that there's too much emphasis being placed on too small a number of variables, principally the funfetti variable. 
+
+
+adjust_thres(loan_eval_prob$`1`,.20, test$outcome) #Not much changes here because of the high probability splits of the data outcomes. Let's take a closer look. We can see that the algo isn't marginally mis-classifying these rows, it's very confidently wrong. Which likely means that there's too much emphasis being placed on too small a number of variables, principally the funfetti variable. 
 loan_eval_prob$test <- test$outcome
 
 View(loan_eval_prob)

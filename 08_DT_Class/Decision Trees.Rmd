@@ -26,7 +26,8 @@ library(rpart.plot)
 library(rattle)
 library(caret)
 library(mlbench)
-save.image(file="trees_class.Rdata")
+#save.image(file="trees_class.Rdata")
+
 ```
 
 
@@ -201,7 +202,7 @@ predictandCM(wine_mdl_1,tune,"raw",tune$text_rank)#looks like the original model
 
 #Can also do this without the function
 wine_pred_tune = predict(wine_mdl,tune,tune$text_rank, type= "prob")#probabilities
-
+view(wine_pred_tune)
 wine_pred_tune_labels = predict(wine_mdl,tune,tune$text_rank,type = "raw")#Labels
 
 View(as_tibble(wine_pred_tune_labels))
@@ -227,7 +228,7 @@ adjust_thres <- function(x, y, z) {
   confusionMatrix(thres, z, positive = "excellent", dnn=c("Prediction", "Actual"), mode = "everything")
 }
 
-adjust_thres(wine_pred_tune$excellent,y=.3,tune$text_rank)
+adjust_thres(wine_pred_tune$excellent,y=.5,tune$text_rank)
 
 ```
 
