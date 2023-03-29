@@ -9,7 +9,7 @@ Your Foundations of Machine Learning Tour Guides:
 
 Brian's Office Hours: In person in my office Elson (165) or Virtual on Discord: Friday, 2:00 to 4:00 or by appointment if needed. Feel free to just come by and hang out if you'd like.
 
-Ariful office hours our Wednesdays from 2:30 to 4:30 in Elliewood (above Ragged Mountain Running Shop on the Corner) small conference 3a 
+Ariful office hours on Thursday from 1:00 to 3:00 in Elliewood (above Ragged Mountain Running Shop on the Corner) small conference 3a 
 
 Course Materials: [Foundations of Machine Learning Repo](https://github.com/UVADS/DS-3001)
 
