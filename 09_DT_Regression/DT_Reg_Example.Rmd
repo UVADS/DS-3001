@@ -147,6 +147,9 @@ varImp(wine_mdl_1_r)
 
 rpart.plot(wine_mdl_1_r$finalModel, type=5,extra=101)
 
+wine_mdl_1_r$results
+#compared to classifier:
+
 wine_mdl$results
 
 ```
