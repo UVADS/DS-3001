@@ -76,5 +76,7 @@ Summarize your findings. Compare the full model and the sparse model, did they p
 ```{r}
 
 ```
+ Bonus - Using this documentation read the section referring to Balancing Prediction Error. Use the overview to balance the errors of the dataset across classes. (+10 points)
+ 
 
 
