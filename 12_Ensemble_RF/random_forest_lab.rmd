@@ -15,9 +15,9 @@ The goal of this lab is to optimize a Random Forest model using the provided dat
 
 The dataset should be familiar as it's the census data, on 32,000+ individuals with a variety of variables and a target variable for above or below 50k in salary. 
 
-Your goal is to build a Random Forest Classifier to be able to predict income levels above or below 50k and then compare the results to the decision tree classification we did a couple of weeks ago.
+Your goal is to build a Random Forest Classifier to be able to predict income levels above or below 50k.
 
-Answer these questions along the way. 
+Answer the below questions along the way. 
 
 ```{r}
 url <- "https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data"
@@ -30,17 +30,9 @@ colnames(census) <- c("age","workclass","fnlwgt","education","education_num","ma
 View(census)
 
 ```
+Below are a few key steps to include but are certainly not everything you will need. 
 
-
-Finish any other data prep (one-hot encode, reduce factor levels)
-```{r}
-
-```
-
-Create test, tune and training sets 
-```{r}
-
-```
+Remember to review the prevalence/baseline of the target variable to give yourself and idea of well the model is working. (Always start by going through all the necessary steps to prepare the data for ML)
 
 Calculate the initial mtry level 
 ```{r}
@@ -52,13 +44,13 @@ Run the initial RF model with 1000 trees
 
 ```
 
-Take a look at the variable importance measures, are they the same as the DT version or not? 
+
+Take a look at the variable importance measures, are they what you expected?
 ```{r}
 
 ```
 
-
-Using the training and tune datasets to tune the model in consideration of the number of trees, the number of variables to sample and the sample size that optimize the model output. 
+Use the training and tune datasets to optimize the model in consideration of the number of trees, the number of variables to sample and the sample size that optimize the model output. 
 ```{r}
 
 ```
@@ -68,10 +60,21 @@ Once a final model has been selected (hyper-parameters of the model are set), ev
 
 ```
 
-Summarize your findings as compared to the decision tree model from a couple of weeks ago. Think about the time the model took to train, the model evaluation output and if the patterns generally between the two models are the same or different. What did you learn about the models or the data along the way? 
+Reduce the size of the dataset using the variable importance measure as a metric for variable selection (reduction the feature space). There's not a set rule here on how to select the variables, so just experiment and track the results. 
+
 ```{r}
 
 ```
 
-Which approach would you recommend (decision tree or random forest) and why?
+Rebuild the model using the sparse dataset. 
+
+```{r}
+
+```
+
+Summarize your findings. Compare the full model and the sparse model, did they perform the same? Think about not only evaluation measures but in training metrics (no. of trees etc). Which model would you recommend and why? 
+```{r}
+
+```
+
 
