@@ -54,24 +54,24 @@ The course will move rather quickly and can be demanding at times. However, if w
 
 On any given week, the course will require reviewing short video lectures and completing readings prior to coming to class.  These lectures and readings will then be implemented in the lab portion of the course which will be conducted during the scheduled class period.  Lab sessions will include a variety of activities but mostly be centered on team-oriented coding assignments.  Students can also use lab sessions to work on mid-term and final projects when needed.
 
-    Ethical data scientist reflection (15%) – Based on in-class discussion and readings 
+    Ethical data scientist reflection (0%, 10% to the lab, 5% to the final) – Based on in-class discussion and readings 
     students will write a personal reflection of how ethics and data science interact and 
     how we all can think about these concerns moving forward. This is critical to the work of 
     a data scientist as the models we build have the potential to impact the lives of thousands 
     of people so we must use caution and constraint whenever possible.
     
-    Quizzes (15%) – Short occasional (5 or 6) quizzes, will be auto-graded, so you will get instant 
+    Quizzes (0% 5% to the lab, 10% to the final) – Short occasional (5 or 6) quizzes, will be auto-graded, so you will get instant 
     feedback. In order to ensure we are all meeting the learning objectives from week to week short 
     quizzes will be given. You will be allowed as many chances to complete the quiz as needed and 
     they will be open note however students are to work independently. 
     
-    Labs (45%) – On most weeks we will have in-class labs/assignments. These are designed to allow you 
+    Labs (60%) – On most weeks we will have in-class labs/assignments. These are designed to allow you 
     to practice the skills being presented in class. While they should be submitted individually you are 
     encouraged to work with your peers as much of the best learning can come from your peers. 
     You’ll need to create publishable markdown documents for every lab and submit them along 
     with the raw code file and link each week (Groups).   
    
-    Final project (25%) – The course will culminate in a final project that will involve 
+    Final project (40%) – The course will culminate in a final project that will involve 
     working with a dataset of your choice, giving a presentation, submitting well-annotated 
     code to include summary information in report form. This is an open-ended project 
     designed to allow groups to choose a topic of interest from the semester to
