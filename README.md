@@ -7,7 +7,7 @@ Your Foundations of Machine Learning Tour Guides:
 * TA: Ariful Islam xef4hb@virginia.edu
 * Class Location: Dell 1 Room 105 
 
-Brian's Office Hours: In person in my office Elson (165) or Virtual on Discord: Friday, 2:00 to 4:00 or by appointment if needed. Feel free to just come by and hang out if you'd like.
+Brian's Office Hours: In person in my office Elson (165) or Virtual on Discord
 
 Ariful office hours on Thursday from 1:00 to 3:00 in Elliewood (above Ragged Mountain Running Shop on the Corner) small conference 3a 
 
@@ -15,7 +15,7 @@ Course Materials: [Foundations of Machine Learning Repo](https://github.com/UVAD
 
 Subject Area and Catalog Number: Data Science, DS 3001
 
-Year, Term and Time: 2022, Fall, Thursday 3:30-6:00
+Year, Term and Time: 2023, Fall, T/Th 3:30-4:45
 
 Class Title: Foundations of Machine Learning 
 
@@ -54,13 +54,13 @@ The course will move rather quickly and can be demanding at times. However, if w
 
 On any given week, the course will require reviewing short video lectures and completing readings prior to coming to class.  These lectures and readings will then be implemented in the lab portion of the course which will be conducted during the scheduled class period.  Lab sessions will include a variety of activities but mostly be centered on team-oriented coding assignments.  Students can also use lab sessions to work on mid-term and final projects when needed.
 
-    Ethical data scientist reflection (0%, 10% to the lab, 5% to the final) – Based on in-class discussion and readings 
+    Ethical data scientist reflection (10%) – Based on in-class discussion and readings 
     students will write a personal reflection of how ethics and data science interact and 
     how we all can think about these concerns moving forward. This is critical to the work of 
     a data scientist as the models we build have the potential to impact the lives of thousands 
     of people so we must use caution and constraint whenever possible.
     
-    Quizzes (0% 5% to the lab, 10% to the final) – Short occasional (5 or 6) quizzes, will be auto-graded, so you will get instant 
+    Quizzes (15%) – Short occasional (5 or 6) quizzes, will be auto-graded, so you will get instant 
     feedback. In order to ensure we are all meeting the learning objectives from week to week short 
     quizzes will be given. You will be allowed as many chances to complete the quiz as needed and 
     they will be open note however students are to work independently. 
@@ -71,7 +71,7 @@ On any given week, the course will require reviewing short video lectures and co
     You’ll need to create publishable markdown documents for every lab and submit them along 
     with the raw code file and link each week (Groups).   
    
-    Final project (40%) – The course will culminate in a final project that will involve 
+    Final project (15%) – The course will culminate in a final project that will involve 
     working with a dataset of your choice, giving a presentation, submitting well-annotated 
     code to include summary information in report form. This is an open-ended project 
     designed to allow groups to choose a topic of interest from the semester to
@@ -79,13 +79,14 @@ On any given week, the course will require reviewing short video lectures and co
     
 ## Tech Stack
 
-    R/Rstudio - You'll need to have the software loaded and ready to go day one. 
+    VS Code/Google Collab/Rivana - You'll need to have the software loaded and ready to go day one, but we will help if needed. 
+    Miniconda/Conda - [Mini-Recommended](https://docs.conda.io/en/latest/miniconda.html)
     Zoom - Virtual Option for Office Hours
-    Github - Almost all course materials and collaberation for lab assignemtns
-    Collab - Submission of assignments and class-wide communications
+    Github - Almost all course materials (will post on Canvas as needed)
+    Canvas - Submission of assignments and class-wide communications
     Discord - Low latency comms for groups and class.
 
-**[Discord Invite Click](https://discord.gg/6zy6Bafa)**
+**[Discord Invite Click](tbd)**
 
 ## Materials That Will Aid in Your Learning: 
 
@@ -94,11 +95,10 @@ The books below are essentially a starter Machine Learning Library. I will use a
 * A. [Weapons of Math Destruction](https://www.amazon.com/Weapons-Math-Destruction-Increases-Inequality/dp/0553418815)
 * B. [Evaluating Machine Learning Models – O’Reilly Digital via UVA Library](https://www.oreilly.com/library/view/temporary-access/)<br>
  Texts C-E below are all available here: [https://bookdown.org/](https://bookdown.org/)
- * C. [R for Data Science](https://r4ds.had.co.nz/) 
- * D. Text Mining with R - for bonus lectures
- * E. R Markdown: The Definitive Guide
- * F. Machine Learning with R – Posted in Collab
- * G. [Applied Predictive Learning, Kuh and Johnson](http://appliedpredictivemodeling.com/toc) - Expensive but very good
+ * C. [Python Machine Learning with PyTorch and Scikit-Learn, 4th Edition](https://sebastianraschka.com/blog/2022/ml-pytorch-book.html)
+ * E. [Python Tutorial](https://docs.python.org/3/tutorial/index.html)
+ * F. [Python Style Guide](https://peps.python.org/pep-0008/)
+ * G. [Applied Predictive Learning, Kuh and Johnson](http://appliedpredictivemodeling.com/toc) - Expensive but very good/Also R based
 * H. [Machine Learning Engineering](http://www.mlebook.com/wiki/doku.php)- Free PDF Version
 * I. [Mathematics for Machine Learning](https://mml-book.github.io/) Free PDF Version
 
@@ -110,8 +110,8 @@ The books below are essentially a starter Machine Learning Library. I will use a
 | Week 	| Theme 	| Topics 	| Lab 	| Reading/Repo (Prior to Class) 	|
 |:---:	|:---:	|:---:	|:---:	|:---:	|
 | Week 1 	| What is this “Data Science” that you speak of and tech stack 	| - Assessment - Videos: DS Overview and History 	| - Find DS Dream Job - Create your first project,  load the dataset, visualize using the code provided what questions could this data answer? 	|  Synchronous: Short Lab  	|
-| Week 2 	|  Getting back up to “coding speed” 	| 'Dataframing' with tidyverse functions  	| [- Group Case Study - Questions + PsuedoCode + Code + Functions  = High Quality Data Science](https://github.com/UVADS/DS-3001/tree/main/02_R_function_basics) | "Program" Chapter in C 	|
-| Week 3 	| How to share nicely  	| Knitr and rmarkdown 	| [Rmarkdown article reviews](https://github.com/UVADS/DS-3001/tree/main/03_knitr_Comms) 	|  Rmarkdown: The definitive guide: Sections I and II Knit R Reference Guide 	|
+| Week 2 	|  Getting back up to “coding speed” 	| 'Dataframing' with pandas functions 	| [- Group Case Study - Questions + PsuedoCode + Code + Functions  = High Quality Data Science](02_R_function_basics/02_Lecture_Python.ipynb) | TBD|
+| Week 3 	| How to share nicely  	| Using Notebooks for Presentations 	| [Article reviews](03_knitr_Comms) 	|  TBD 	|
 | Week 4 	| Introduction to ML Concepts I	|Language of ML	| [Case Studies](https://github.com/UVADS/DS-3001/tree/main/04_ML_Concepts_I_Foundations)|H: Chapter 1 and 2  	|
 | Week 5 | Introduction to ML Concepts II | Data Preparation:kNN 	|[ML Concepts](https://github.com/UVADS/DS-3001/tree/main/05_ML_Concepts_II_Data_Prep)|H: 3 and 4  | 
 | Week 6	| Introduction to ML Concepts III	| Machine Learning Process:kNN|[ML Concepts  ](https://github.com/UVADS/DS-3001/tree/main/06_ML_Concepts_II_KNN) |H: Chapters 3 and 4 |
