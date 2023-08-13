@@ -88,17 +88,21 @@ On any given week, the course will require reviewing short video lectures and co
 
 **[Discord Invite Click](tbd)**
 
+**[Overview for Install Miniconda and VS Code](https://medium.com/the-researchers-guide/how-to-set-up-python-and-visual-studio-code-ide-for-data-science-161c61f76fe3)**
+
 ## Materials That Will Aid in Your Learning: 
 
-The books below are essentially a starter Machine Learning Library. I will use all of these references at difference points during the class, but not heavily rely on anything but the free options. Applied Predictive Learning is a theory and code review for much of what is in the CARET package. It's a very good book but also expensive. Everything else is either free or can be found for around 15 dollars. If you can master what is in books F through I, you'll be well on your way to being a highly capable Data Scientist. In order of importance I would list them in reverse, I-F. 
+The books below are essentially a starter Machine Learning Library. I will use all of these references at difference points during the class, but try to use free options. Unfortunately the main book for the class Python Machine Learning with Pytorch and Scikit-Learn is not free. Everything else is either free or can be found for around 15 dollars. There's also references to Python style guides and tutorials. 
+
+```
 
 * A. [Weapons of Math Destruction](https://www.amazon.com/Weapons-Math-Destruction-Increases-Inequality/dp/0553418815)
 * B. [Evaluating Machine Learning Models – O’Reilly Digital via UVA Library](https://www.oreilly.com/library/view/temporary-access/)<br>
- Texts C-E below are all available here: [https://bookdown.org/](https://bookdown.org/)
- * C. [Python Machine Learning with PyTorch and Scikit-Learn, 4th Edition](https://sebastianraschka.com/blog/2022/ml-pytorch-book.html)
- * E. [Python Tutorial](https://docs.python.org/3/tutorial/index.html)
- * F. [Python Style Guide](https://peps.python.org/pep-0008/)
- * G. [Applied Predictive Learning, Kuh and Johnson](http://appliedpredictivemodeling.com/toc) - Expensive but very good/Also R based
+* C. [Python Machine Learning with PyTorch and Scikit-Learn, 4th Edition](https://sebastianraschka.com/blog/2022/ml-pytorch-book.html)
+* D. [Python Data Science Handbook](https://jakevdp.github.io/PythonDataScienceHandbook/)
+* E. [Python Tutorial](https://docs.python.org/3/tutorial/index.html)
+* F. [Python Style Guide](https://peps.python.org/pep-0008/)
+* G. [Applied Predictive Learning, Kuh and Johnson](http://appliedpredictivemodeling.com/toc) - Expensive but very good/Also R based
 * H. [Machine Learning Engineering](http://www.mlebook.com/wiki/doku.php)- Free PDF Version
 * I. [Mathematics for Machine Learning](https://mml-book.github.io/) Free PDF Version
 
