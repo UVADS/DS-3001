@@ -7,7 +7,7 @@ Your Foundations of Machine Learning Tour Guides:
 * TA: Ariful Islam xef4hb@virginia.edu
 * Class Location: Dell 1 Room 105 
 
-Brian's Office Hours: In person in my office Elson (165) or Virtual on Discord
+Brian's Office Hours: In person in my office Elson (165) or Virtual on Discord: Monday 1-3pm
 
 Ariful office hours on Thursday from 1:00 to 3:00 in Elliewood (above Ragged Mountain Running Shop on the Corner) small conference 3a 
 
