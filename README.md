@@ -113,21 +113,21 @@ The books below are essentially a starter Machine Learning Library. I will use a
 
 | Week 	| Theme 	| Topics 	| Lab 	| Reading/Repo (Prior to Class) 	|
 |:---:	|:---:	|:---:	|:---:	|:---:	|
-| Week 1 	| What is this “Data Science” that you speak of and tech stack 	| - Assessment - Videos: DS Overview and History 	| - Find DS Dream Job - Create your first project,  load the dataset, visualize using the code provided what questions could this data answer? 	|  Synchronous: Short Lab  	|
-| Week 2 	|  Getting back up to “coding speed” 	| 'Dataframing' with pandas functions 	| [- Group Case Study - Questions + PsuedoCode + Code + Functions  = High Quality Data Science](02_R_function_basics/02_Lecture_Python.ipynb) | TBD|
-| Week 3 	| How to share nicely  	| Using Quarto to Create HTML Docs	|  (03_knitr_Comms) 	|  [Documentation](https://quarto.org/docs/output-formats/html-basics.html) 	|
-| Week 4 	| Introduction to ML Concepts I	|Language of ML	| [Case Studies](https://github.com/UVADS/DS-3001/tree/main/04_ML_Concepts_I_Foundations)|H: Chapter 1 and 2  	|
-| Week 5 | Introduction to ML Concepts II | Data Preparation:kNN 	|[ML Concepts](https://github.com/UVADS/DS-3001/tree/main/05_ML_Concepts_II_Data_Prep)|H: 3 and 4  | 
-| Week 6	| Introduction to ML Concepts III	| Machine Learning Process:kNN|[ML Concepts  ](https://github.com/UVADS/DS-3001/tree/main/06_ML_Concepts_II_KNN) |H: Chapters 3 and 4 |
-| Week 7| Spring Break| | | 
-| Week 8 | Introduction to ML Concepts IV	| Evaluation	| [Evaluation Lab](https://github.com/UVADS/DS-3001/tree/main/07_ML_Eval_Metrics) | All of B. and G.- Chapter 11 	|
-| Week 9 | Nature's Perfect ML analogy: Trees Part I	|  Classification: Decisions Trees 	| [ Decision Trees](https://github.com/UVADS/DS-3001/tree/main/08_DT_Class)	| F. Chapter 5 and G. Chapter 14.1-14.3 	|
-| Week 10 | Nature's Perfect ML analogy: Trees Part II  	| Regression: Decision Trees  	| [Predicting Income for Big Brother]	| F. Chapter 5 and G. Chapter 8 	|
-| Week 11 | Wisdom of the Crowd	| Ensemble Methods I	| [Random Forest Classifier ](https://github.com/UVADS/DS-3001/tree/main/12_Ensemble_RF)	| TBD	|
-| Week 12 | Kaggle Competition  	|  	|	| 	|
-| Week 13 | Let's gather together... but separately 	|Unsupervised: Overview of Clustering Kmeans 	| [NBA Scout for the worst team in the league](https://github.com/UVADS/DS-3001/tree/main/10_kMeans%20Clustering)|  F. Chapter 1 and Chapter 9  |
-| Week 14 | Do the next right thing…ethics |  Bias in AI Discussion -Simple methods for identifying bias   - Protected Classes	|[Fairness Overview & Ethical Reflections](https://github.com/UVADS/DS-3001/tree/main/14_ML_Bias) 	| Weapons of Math Destruction  	|
-| Week 15 | Final Project Prep	|[Final Project Overview](https://github.com/UVADS/DS-3001/blob/main/final_project_overview.md)	| | Ethical Reflection Due |
+| Week 1 Aug 20th	| What is this “Data Science” that you speak of and tech stack 	| - Assessment - Videos: DS Overview and History 	| - Find DS Dream Job - Create your first project,  load the dataset, visualize using the code provided what questions could this data answer? 	|  Synchronous: Short Lab  	|
+| Week 2 Aug 27th	|  Getting back up to “coding speed” 	| 'Dataframing' with pandas functions 	| [- Group Case Study - Questions + PsuedoCode + Code + Functions  = High Quality Data Science](02_R_function_basics/02_Lecture_Python.ipynb) | TBD|
+| Week 3 Sep 3rd	| How to share nicely  	| Using Quarto to Create HTML Docs	|  (03_knitr_Comms) 	|  [Documentation](https://quarto.org/docs/output-formats/html-basics.html) 	|
+| Week 4 Sep 10th	| Introduction to ML Concepts I	|Language of ML	| [Case Studies](https://github.com/UVADS/DS-3001/tree/main/04_ML_Concepts_I_Foundations)|TBD  	|
+| Week 5 Sep 17th | Introduction to ML Concepts II | Data Preparation:kNN 	|[ML Concepts](https://github.com/UVADS/DS-3001/tree/main/05_ML_Concepts_II_Data_Prep)|TBD  | 
+| Week 6  Sep 24th	| Introduction to ML Concepts III	| Machine Learning Process:kNN|[ML Concepts  ](https://github.com/UVADS/DS-3001/tree/main/06_ML_Concepts_II_KNN) |TBD |
+| Week 7 Oct 1st| Fall Break no Tuesday Class| | | 
+| Week 8 Oct 8th | Introduction to ML Concepts IV	| Evaluation	| [Evaluation Lab](https://github.com/UVADS/DS-3001/tree/main/07_ML_Eval_Metrics) | All of B. and G.- Chapter 11 	|
+| Week 9 Oct 15th | Nature's Perfect ML analogy: Trees Part I	|  Classification: Decisions Trees 	| [ Decision Trees](https://github.com/UVADS/DS-3001/tree/main/08_DT_Class)	| TBD and G. Chapter 14.1-14.3 	|
+| Week 10 Oct 22nd | Nature's Perfect ML analogy: Trees Part II  	| Regression: Decision Trees  	| [Predicting Income for Big Brother]	| F. Chapter 5 and G. Chapter 8 	|
+| Week 11 Oct 29th | Wisdom of the Crowd	| Ensemble Methods I	| [Random Forest Classifier ](https://github.com/UVADS/DS-3001/tree/main/12_Ensemble_RF)	| TBD	|
+| Week 12 Nov 5th | Kaggle Competition - No Class on the 7th Election Day  	|  	|	| 	|
+| Week 13 Nov 12th | Let's gather together... but separately 	|Unsupervised: Overview of Clustering Kmeans 	| [NBA Scout for the worst team in the league](https://github.com/UVADS/DS-3001/tree/main/10_kMeans%20Clustering)|  TBD  |
+| Week 14 Nov 19th | Do the next right thing…ethics |  Bias in AI Discussion -Simple methods for identifying bias   - Protected Classes	|[Fairness Overview & Ethical Reflections](https://github.com/UVADS/DS-3001/tree/main/14_ML_Bias) 	| Weapons of Math Destruction  	|
+| Week 15 Nov 26th | Final Project Prep	|[Final Project Overview](https://github.com/UVADS/DS-3001/blob/main/final_project_overview.md)	| | Ethical Reflection Due |
 | Week 16 - Final TBD	| Final Projects Presentations	| [Final Project Overview](https://github.com/UVADS/DS-3001/blob/main/final_project_overview.md) 	|  	|  	|
 
 ## A few Policies that will Govern the Class
