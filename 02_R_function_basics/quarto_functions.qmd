@@ -1,0 +1,14 @@
+---
+title: "In Class Example"
+format:
+  html:
+    code-fold: true
+jupyter: python3
+---
+
+```{python}
+def my_mean(x):
+    Sum_val = sum(x)
+    N = length(x)
+    return(Suml/N)  # return is optional but helps with clarity!
+```
