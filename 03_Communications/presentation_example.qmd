@@ -10,7 +10,9 @@ format:
     smooth-scroll: true
     toc-location: left
     theme: "Cyborg"
+    code-fold: true
 editor: visual
+juypter: python3
 ---
 
 # Introduction
@@ -19,23 +21,44 @@ Ride share services have become increasingly popular in the past decade. Uber an
 
 In the following analysis, we will examine trends in ride share data and develop a machine-learning model to predict the price of a ride depending on top hours, distance, and other factors. We will use the [Uber and Lyft Dataset Boston, MA](https://www.kaggle.com/datasets/brllrb/uber-and-lyft-dataset-boston-ma "Click to view dataset") available on Kaggle to conduct these analyses.
 
-![](rideshare_royaltyfree.jpg){fig-align="center"}
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+# [Using Python in Quarto](https://quarto.org/docs/computations/python.html)
+
+```{python setup, include=FALSE}
+import pandas as pd
+from pydataset import data
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import plotly.express as px
+import plotly.graph_objects as go
+import plotly as py
+
 ```
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+# Charts and Images
+
+```{python echo=FALSE, message=FALSE, warning=FALSE}
 # Setup and Libraries Used
-library(tidyr)
-library(dplyr)
-library(readr)
-library(tidyverse)
-library(ggplot2)
-library(mice)
+
+#create a dataframe from the pydataset data
+df = data("mtcars")
+#use plotly express to create a bar chart
+fig = px.bar(df, x="cyl", y="mpg", color="cyl", barmode="group")
+#show the plot
+fig.show()
+```
+
+![](bd.png){fig-align="center"}
+
+```{python echo=FALSE, message=FALSE, warning=FALSE}
+#print social.png, make the size smaller
+from IPython.display import Image
+Image(filename='social.png', width=300, height=300)
+```
 
 # Import the data
-```
+
 
 ------------------------------------------------------------------------
 
@@ -53,9 +76,27 @@ Clean the Data
 
 # Model Results
 
-# Discussion
+::: {.panel-tabset}
+## Discussion
 
-# Conclusions
+Your text goes here
+
+## Conclusions
+```{python echo=FALSE, message=FALSE, warning=FALSE}
+# create interactive table of mtcars data
+fig = go.Figure(data=[go.Table(
+    header=dict(values=list(df.columns),
+                fill_color='paleturquoise',
+                align='left'),
+    cells=dict(values=[df.mpg, df.cyl, df.disp, df.hp, df.drat, df.wt, df.qsec, df.vs, df.am, df.gear, df.carb],
+               fill_color='lavender',
+               align='left'))
+])
+fig.show()
+
+```
+
+:::
 
 The purpose of this study was to determine if there are any significant differences in these types of linear regression when predicting ride share prices. A problem with all the models is that they underestimate higher prices.
 
