@@ -10,7 +10,6 @@ format:
     smooth-scroll: true
     toc-location: left
     theme: "Cyborg"
-    code-fold: true
 editor: visual
 juypter: python3
 ---
@@ -24,7 +23,8 @@ In the following analysis, we will examine trends in ride share data and develop
 
 # [Using Python in Quarto](https://quarto.org/docs/computations/python.html)
 
-```{python setup, include=FALSE}
+```{python setup}
+#| include: false
 import pandas as pd
 from pydataset import data
 import numpy as np
@@ -38,7 +38,9 @@ import plotly as py
 
 # Charts and Images
 
-```{python echo=FALSE, message=FALSE, warning=FALSE}
+## Iteractive Bar Plot
+```{python}
+#| echo: true
 # Setup and Libraries Used
 
 #create a dataframe from the pydataset data
@@ -49,16 +51,18 @@ fig = px.bar(df, x="cyl", y="mpg", color="cyl", barmode="group")
 fig.show()
 ```
 
+## Random Image
 ![](bd.png){fig-align="center"}
 
-```{python echo=FALSE, message=FALSE, warning=FALSE}
+## Another Image but in a Code Chunk
+```{python}
+#| echo: false
 #print social.png, make the size smaller
 from IPython.display import Image
 Image(filename='social.png', width=300, height=300)
 ```
 
 # Import the data
-
 
 ------------------------------------------------------------------------
 
@@ -82,7 +86,8 @@ Clean the Data
 Your text goes here
 
 ## Conclusions
-```{python echo=FALSE, message=FALSE, warning=FALSE}
+```{python}
+#| echo: true
 # create interactive table of mtcars data
 fig = go.Figure(data=[go.Table(
     header=dict(values=list(df.columns),
