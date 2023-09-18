@@ -202,6 +202,17 @@ s=requests.get(url).text
 c=pd.read_csv(StringIO(s))
 print(c.head())
 
+# %%
+job.info()
+#summarize the missing values
+
+# %%
+#summarize the missing values in the job dataset
+#job.isna().sum()
+job.notna().sum() #this is the same as the above code, but for non-missing values
+
+# %%
+job1 = job.loc[job.notna().all(axis='columns')]
 
 
 # %%
