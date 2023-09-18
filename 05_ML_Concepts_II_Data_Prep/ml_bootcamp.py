@@ -33,18 +33,22 @@ from sklearn.preprocessing import MinMaxScaler, StandardScaler
 #read in the cereal dataset, you should have this locally or you can use the URL linking to the class repo below
 cereal = pd.read_csv("https://raw.githubusercontent.com/UVADS/DS-3001/main/data/cereal.csv")
 
-print(cereal.info()) # Let's check the structure of the dataset and see if we have any issues with variable classes
+cereal.info() # Let's check the structure of the dataset and see if we have any issues with variable classes
 #usually it's converting things to category
 
 
 # %%
-#Looks like columns 1,2,11 and 12 need to be converted to category
+#Looks like columns 11 and 12 need to be converted to category
 
-Column_index_list = [1,2,11,12]
-cereal.iloc[:,Column_index_list]= cereal.iloc[:,Column_index_list].astype('category') 
+cols = ["type","mfr","vitamins","shelf"]
+cereal[cols]= cereal[cols].astype('category') 
 #iloc accesses the index of a dataframe, bypassing having to manually type in the names of each column
 
-print(cereal.dtypes) #another way of checking the structure of the dataset. Simpler, but does not give an index
+#convert type variable in category variable
+#cereal.type = cereal.type.astype('category') #this is the same as the above code, but for a single column
+
+
+cereal.dtypes #another way of checking the structure of the dataset. Simpler, but does not give an index
 
 # %%
 #Let's take a closer look at mfr
@@ -62,6 +66,7 @@ cereal.mfr = (cereal.mfr.apply(lambda x: x if x in top else "Other")).astype('ca
 #to use an if function in a lambda statement, the True return value comes first (x), then the if statement, then else, and then the False return
 
 print(cereal.mfr.value_counts()) #This is a lot better
+
 
 # %%
 print(cereal.type.value_counts()) #looks good
@@ -110,11 +115,11 @@ print(cereal) #notice the difference in the range of values for the numeric vari
 # %%
 # Next let's one-hot encode those categorical variables
 
-category_list = list(cereal.select_dtypes('category')) #select function to find the categorical variables and create a list  
+#category_list = list(cereal.select_dtypes('category')) #select function to find the categorical variables and create a list  
 
-cereal_1h = pd.get_dummies(cereal, columns = category_list) 
+#cereal_1h = pd.get_dummies(cereal, columns = category_list) 
 #get_dummies encodes categorical variables into binary by adding in indicator column for each group of a category and assigning it 0 if false or 1 if true
-print(cereal_1h) #see the difference? This is one-hot encoding!
+cereal_1h.info() #see the difference? This is one-hot encoding!
 
 # %% [markdown]
 # ### Baseline/Prevalance 
@@ -131,7 +136,7 @@ print(cereal_1h.rating.describe()) #notice the upper quartile of values will be 
 cereal_1h['rating_f'] = pd.cut(cereal_1h.rating, bins = [-1,0.43,1], labels =[0,1])
 #If we want two segments we input three numbers, start, cut and stop values
 
-print(cereal_1h) #notice the new column rating_f, it is now binary based on if the continuous value is above 0.43 or not
+cereal.info() #notice the new column rating_f, it is now binary based on if the continuous value is above 0.43 or not
 
 # %%
 #So now let's check the prevalence 
