@@ -1,0 +1,15 @@
+sl_no - Serial Number
+gender - Male, Female
+ssc_p - Secondary Education Ppercentage 10th Grade
+ssc_b - Board of Education - Central/Others
+hsc_p - Higher Secondary Education percentage - 12th Grade
+hsc_b - Board of Education - Central/Others
+hsc_s - Specialization in Higher Secondary Ed 
+degree_p - degree percentage complete
+degree_t - Undergraduate degree type
+workex - work experience
+etest_p - Employability test percentage (conducted by college)
+specialization - Post Graduation 
+mba_p - MBA percentage 
+Status - Status of Placement 
+
