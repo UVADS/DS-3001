@@ -1,0 +1,13 @@
+{
+    "audioCues.lineHasFoldedArea": "off",
+    "audioCues.diffLineDeleted": "off",
+    "audioCues.diffLineInserted": "off",
+    "audioCues.diffLineModified": "off",
+    "audioCues.lineHasBreakpoint": "off",
+    "audioCues.lineHasError": "off",
+    "audioCues.lineHasInlineSuggestion": "off",
+    "audioCues.noInlayHints": "off",
+    "audioCues.onDebugBreak": "off",
+    "audioCues.terminalCommandFailed": "off",
+    "audioCues.terminalQuickFix": "off"
+}

@@ -84,6 +84,8 @@ print(cat_cols)
 encoded = pd.get_dummies(bank_data[cat_cols])
 encoded.head()   # note the new columns
 
+#What types of variables does the get_dummies function work on and does it have a feature to remove the original column?
+
 #%%
 # now we want to drop the old columns we onehot encoded 
 bank_data = bank_data.drop(cat_cols, axis=1)
@@ -91,6 +93,7 @@ bank_data = bank_data.drop(cat_cols, axis=1)
 #%%
 # and then join them
 bank_data = bank_data.join(encoded)
+#What is this join function doing? What is it joining on?
 
 #%%
 print(bank_data.info())
@@ -111,7 +114,7 @@ train, test = train_test_split(bank_data,  test_size=0.4, stratify = bank_data['
 test, val = train_test_split(test, test_size=0.5, stratify=test['signed up_1'])
 
 #%%
-# now, let's train the classifer for k=9
+# now, let's train the classifier for k=9
 import random
 random.seed(1984)   # kNN is a random algorithm, so we use `random.seed(x)` to make results repeatable
 
@@ -124,16 +127,16 @@ neigh.fit(X_train, y_train)
 #%%
 # now, we check the model's accuracy on the test data:
 
-X_test = test.drop(['signed up_1'], axis=1).values
-y_test = test['signed up_1'].values
+X_val = val.drop(['signed up_1'], axis=1).values
+y_val = val['signed up_1'].values
 
 print(neigh.score(X_test, y_test))
 
 #%%
 # now, we test the accuracy on our validation data.
 
-X_val = val.drop(['signed up_1'], axis=1).values
-y_val = val['signed up_1'].values
+X_test = test.drop(['signed up_1'], axis=1).values
+y_test = test['signed up_1'].values
 
 print(neigh.score(X_val, y_val))
 
@@ -145,17 +148,21 @@ print(neigh.score(X_val, y_val))
 # Sensitivity or Recall. So let's dig a little deeper.   
 
 # create a confusion matrix
-from sklearn.metrics import plot_confusion_matrix
+y_val_pred = neigh.predict(X_val)
 
-plot_confusion_matrix(neigh, X_val, y_val, cmap='Blues')  
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+
+cm = confusion_matrix(y_val,y_val_pred, labels=neigh.classes_)
+disp=ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=neigh.classes_)  
+disp.plot()
 plt.show()
+
 
 #%%
 # create a classification report
 # create classification report
 from sklearn.metrics import classification_report
 
-y_val_pred = neigh.predict(X_val)
 print(classification_report(y_val_pred, y_val))
 
 # we didn't get sensitivity and specificity, so we'll calculate that ourselves.
@@ -181,7 +188,7 @@ def chooseK(k, X_train, y_train, X_test, y_test):
 #%%
 # REMEMBER: Python is end-exclusive; we want UP to 21 to we'll have to extend the end bound to include it
 test = pd.DataFrame({'k':list(range(1,22,2)), 
-                     'accu':[chooseK(x, X_train, y_train, X_test, y_test) for x in list(range(1, 22, 2))]})
+                     'accu':[chooseK(i, X_train, y_train, X_test, y_test) for i in list(range(1, 22, 2))]})
 
 #%%
 print(test.head())
@@ -226,14 +233,7 @@ test_probabilities.head()
 #%%
 final_model = pd.DataFrame({'actual_class': y_test.tolist(),
                            'pred_class': test_preds.tolist(),
-                           'pred_prob': [test_probabilities['signed_up_prob'][i] if test_preds[i]==1 else test_probabilities['not_signed_up_prob'][i] for i in range(len(test_preds))]})
-# that last line is some list comprehension -- to understand that here in particular click the following link:
-# https://stackoverflow.com/questions/4260280/if-else-in-a-list-comprehension
-final_model.head()
-
-#%%
-# add a column about the probability the observation is in the positive class
-final_model['pos_pred'] = [final_model.pred_prob[i] if final_model.pred_class[i]==1 else 1-final_model.pred_prob[i] for i in range(len(final_model.pred_class))]
+                           'pred_prob': test_probabilities['signed_up_prob']})
 final_model.head()
 
 #%%
@@ -245,11 +245,11 @@ final_model.pred_class = final_model.pred_class.astype('category')
 # create probability distribution graph
 import seaborn as sns
 
-sns.displot(final_model, x="pos_pred", kind="kde")
+sns.displot(final_model, x="pred_prob", kind="kde")
 
 #%%
 # just to see this a little clearer
-print(final_model.pos_pred.value_counts())
+print(final_model.pred_prob.value_counts())
 
 # In most datasets, the probabilities range between 0 and 1, causing uncertain predictions. A threshold must be set for 
 # where you consider the prediction to actually be a part of the positive class. Is a 60% certainty positive? How about 40%? 
@@ -274,9 +274,9 @@ def adjust_thres(x, y, z):
 confusion_matrix(final_model.actual_class, final_model.pred_class)   # original model
 
 #%%
-adjust_thres(final_model.pos_pred, .90, final_model.actual_class)   # raise threshold 
+adjust_thres(final_model.pred_prob, .90, final_model.actual_class)   # raise threshold 
 #%%
-adjust_thres(final_model.pos_pred, .3, final_model.actual_class)   # lower threshold
+adjust_thres(final_model.pred_prob, .3, final_model.actual_class)   # lower threshold
 
 #%%
 # -------- More for next week: Model evaluation --------
@@ -287,8 +287,8 @@ adjust_thres(final_model.pos_pred, .3, final_model.actual_class)   # lower thres
 # basic graph
 from sklearn import metrics
 
-fpr, tpr, _ = metrics.roc_curve(y_test, final_model.pos_pred)
-auc = metrics.roc_auc_score(y_test, final_model.pos_pred)
+fpr, tpr, _ = metrics.roc_curve(y_test, final_model.pred_prob)
+auc = metrics.roc_auc_score(y_test, final_model.pred_prob)
 plt.plot(fpr,tpr,label="data 1, auc="+str(auc))
 plt.legend(loc=4)
 plt.show()
@@ -467,3 +467,9 @@ plot_confusion_matrix(fin_knn, Xsi_test, ysi_test, cmap='Blues')
 # Looks like we only misclassified one virginica as versicolor. Let's see how certain our predictions were.
 iris2_probs = fin_knn.predict_proba(Xsi_test)
 print(iris2_probs)
+
+
+
+#%%
+newlist = [x for x in range(10)] 
+# %%
