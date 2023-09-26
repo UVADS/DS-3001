@@ -9,6 +9,13 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from matplotlib import pyplot as plt
+import seaborn as sns
+from sklearn import preprocessing
+import random
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+from sklearn.metrics import classification_report
+from sklearn import metrics
+from plot_metric.functions import BinaryClassification #need to pip install plot_metric
 
 #%%
 # -------- Data prep --------
@@ -243,8 +250,6 @@ final_model.pred_class = final_model.pred_class.astype('category')
 
 #%%
 # create probability distribution graph
-import seaborn as sns
-
 sns.displot(final_model, x="pred_prob", kind="kde")
 
 #%%
@@ -257,8 +262,6 @@ print(final_model.pred_prob.value_counts())
 # classifications that you may have noticed in your confusion matrix.**
 
 #%%
-from sklearn.metrics import confusion_matrix
-
 def adjust_thres(x, y, z):
     """
     x=pred_probabilities
@@ -313,6 +316,11 @@ print(metrics.f1_score(y_test, final_model.pred_class))
 #%%
 # ----- Log Loss -----
 print(metrics.log_loss(y_test, final_model.pred_class))
+
+
+
+
+
 
 #%%
 # -------- Another quick example! --------
