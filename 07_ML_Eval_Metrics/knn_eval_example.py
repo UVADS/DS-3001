@@ -156,4 +156,11 @@ print(metrics.f1_score(final_model.target, final_model.pred))
 #Extra metrics
 print(metrics.classification_report(final_model.target, final_model.pred)) #Nice Work!
 
+#%%
+#Compute the Brier Score Loss and Example what it is measuring 
 
+https://scikit-learn.org/stable/modules/model_evaluation.html
+
+
+
+# %%
