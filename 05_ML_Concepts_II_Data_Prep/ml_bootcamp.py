@@ -193,6 +193,10 @@ print(3/(8+3)) #same as above, good job!
 job = pd.read_csv("https://raw.githubusercontent.com/DG1606/CMS-R-2020/master/Placement_Data_Full_Class.csv")
 print(job.head())
 
+job.info()
+
+# Let's check the structure of the dataset and see if we have any issues with variable classes
+
 # %%
 from io import StringIO
 import requests
