@@ -1,12 +1,10 @@
 ## Metrics Evaluation Lab
 
-Throughout your early career as a Data Scientist you've spent most your time cleaning data, but now you are starting to build models and have come to realize the most important part about understanding any machine learning model 
-(or any model, really) is understanding it's weakness and/or vulnerabilities. 
+Throughout your early career as a Data Scientist you've spent most your time cleaning data, but now you are starting to build models and have come to realize the most important part about understanding any machine learning model (or any model, really) is understanding it's weakness and vulnerabilities. 
 
-In doing so you've decided to practice on datasets that are of interest to you, 
-and use a approach to which you are (becoming) familiar, kNN. 
+In doing so you've decided to practice on a dataset about mushrooms, because after all if you don't know how to evaluate a model thoroughly you'll be in real truffle (ha...ha) and use a approach to which you are familiar, kNN. 
 
-Part 1. Using the mushroom dataset. Define a question that can be answered using classification, specifically kNN.
+Part 1. Using the [mushroom dataset](https://archive.ics.uci.edu/static/public/848/secondary+mushroom+dataset.zip), Define a question that can be answered using classification, specifically kNN.
 
 Part 2. Build a kNN model and evaluate the model using using the metrics discussed in class (Accuracy, TPR, FPR, F1, Kappa, LogLoss and ROC/AUC). Make sure to calculate the prevalence to provide a reference for some of these measures. Make sure to properly clean and prepare the data ahead of building the model.  
 
@@ -27,4 +25,5 @@ Submit a .py or ipynb file along with the data used or access to the data source
 Keys to Success: 
 * Thoughtfully creating a question that aligns with the dataset and classification 
 * Using the evaluation metrics correctly - we are focusing in classification not regression
-* Evaluation is not about the metrics per say, but what they mean, speaking through your question in light of the evaluation metrics is the primary objective of this lab. Think of yourself as a "model detective" that works to leave no stone unturned!  
+* Evaluation is not about the metrics per say, but what they mean, speaking through your question in light of the evaluation metrics is the primary objective of this lab. Think of yourself as a "model detective" that works to leave no stone unturned! 
+* Remember, be patience and double check your code or you might find yourself in real shiitake, :)
