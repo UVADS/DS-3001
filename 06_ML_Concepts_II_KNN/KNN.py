@@ -71,6 +71,7 @@ sns.displot(
 numeric_cols = bank_data.select_dtypes(include='int64').columns
 print(numeric_cols)
 
+
 #%%
 from sklearn import preprocessing
 scaler = preprocessing.MinMaxScaler()

@@ -50,6 +50,7 @@ bank_data.info()
 
 #create a list of all the numeric values in the bank_data dataframe
 numeric = bank_data.select_dtypes(include=['int64','float64']).columns.tolist()
+
 #use the sklearn minmax scaler to scale the numeric values
 bank_data[numeric] = MinMaxScaler().fit_transform(bank_data[numeric])
 
@@ -90,7 +91,7 @@ X_tune, X_test, y_tune, y_test = train_test_split(X_test,y_test,  train_size = 0
 #Finally, it's time to build our model!
 #Here is a function we imported at the beginning of the script,
 #In this case it allows us to create a knn model and specify number of neighbors to 10
-bank_3NN = KNeighborsClassifier(n_neighbors=10)
+bank_3NN = KNeighborsClassifier(n_neighbors=5)
 #Now let's fit our knn model to the training data
 bank_3NN.fit(X_train, y_train)
 #note this is simply a model, let's apply it to something and get results!
@@ -142,12 +143,17 @@ def adjust_thres(x, y, z):
     """
     thres = pd.DataFrame({'new_preds': [1 if i > y else 0 for i in x]})
     thres.new_preds = thres.new_preds.astype('category')
-    con_mat = confusion_matrix(z, thres)  
+    con_mat = metrics.confusion_matrix(z, thres)  
     print(con_mat)
 
 # %%
 # Give it a try with a threshold of .35
-print(adjust_thres(final_model.pos_prob,.35,final_model.target))
+#count 1 and 0 values in the target
+print(final_model.target.value_counts())
+
+print(adjust_thres(final_model.pos_prob,.40,final_model.target))
+
+
 #What's the difference? Try different percents now, what happens?
 
 # %%
