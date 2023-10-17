@@ -6,8 +6,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import graphviz 
-
+import graphviz
 from sklearn.model_selection import train_test_split,GridSearchCV,RepeatedStratifiedKFold
 from sklearn import metrics
 from sklearn.metrics import ConfusionMatrixDisplay
@@ -27,9 +26,6 @@ winequality = pd.read_csv("https://raw.githubusercontent.com/UVADS/DS-3001/main/
 print(winequality.info())
 print(winequality.head())
 
-# %%
-#This will be our target variable
-print(winequality.text_rank.value_counts())
 
 # %% [markdown]
 # ## Preprocessing
@@ -70,9 +66,9 @@ print(203/(1279+203)) #of excellent
 
 # %%
 #Before we start move forward, we have one more preprocessing step
-#We must encode text_rank to become a continuous variable as that is the only type sklearn deicsion trees can currently take
-winequality[["text_rank"]] = OrdinalEncoder().fit_transform(winequality[["text_rank"]])
-print(winequality["text_rank"].value_counts()) #nice
+#We must encode text_rank to become a continuous variable as that is the only type sklearn decision trees can currently take
+#winequality[["text_rank"]] = OrdinalEncoder().fit_transform(winequality[["text_rank"]])
+#print(winequality["text_rank"].value_counts()) #nice
 
 # %% [markdown]
 # ## Splitting the Data
@@ -108,7 +104,7 @@ kf = RepeatedStratifiedKFold(n_splits=10,n_repeats =5, random_state=42)
 
 # %%
 #What score do we want our model to be built on? Let's use:
-#AUC for the ROC curve - remember this is measures how well our model distiguishes between classes
+#AUC for the ROC curve - remember this is measures how well our model distinguishes between classes
 #Recall - this is sensitivity of our model, also known as the true positive rate (predicted pos when actually pos)
 #Balanced accuracy - this is the (sensitivity + specificity)/2, or we can just say it is the number of correctly predicted data points
 print(metrics.SCORERS.keys()) #find them
@@ -231,19 +227,34 @@ print(ConfusionMatrixDisplay.from_estimator(best,X_tune,y_tune, display_labels =
 # ## Let's play with the threshold, what do we see 
 
 # %%
-## Adjust threshold function
-def adjust_thres(model,X,y_true, thres):
-  #model= best estimator, X= feature vairables, y_true= target variables, thres = threshold
-  y_pred = (model.predict_proba(X)[:,1] >= thres).astype(np.int32) #essentially changes the prediction cut off to our desired threshold
-  return metrics.ConfusionMatrixDisplay.from_predictions(y_true,y_pred, display_labels = ['ave','excellent'], colorbar=False)
+## Adjust threshold function, we had to make a change here what's different?
+def adjust_thres(x, y, z):
+    """
+    x=pred_probabilities
+    y=threshold
+    z=tune_outcome
+    """
+    thres = pd.DataFrame({'new_preds': ['excellent' if i > y else 'ave' for i in x]})
+    thres.new_preds = thres.new_preds.astype('category')
+    con_mat = metrics.confusion_matrix(z, thres)  
+    print(con_mat)
+
+
+
+#def adjust_thres(model,X,y_true, thres):
+  #model= best estimator, X= feature variables, y_true= target variables, thres = threshold
+  #y_pred = (model.predict_proba(X)[:,1] >= thres).astype(np.int32) #essentially changes the prediction cut off to our desired threshold
+  #return metrics.ConfusionMatrixDisplay.from_predictions(y_true,y_pred, display_labels = ['ave','excellent'], colorbar=False)
 
 # %%
 #Where should we change the threshold to see a significant difference...
-print(pd.DataFrame(model.predict_proba(X_tune)[:,1]).plot.density())
+#print(pd.DataFrame(model.predict_proba(X_tune)[:,1]).plot.density())
+
+pred_prob = model.predict_proba(X_tune)[:,1]
 
 # %%
 #Let's try .1 as our new threshold ...
-print(adjust_thres(best,X_tune, y_tune,.1))
+print(adjust_thres(pred_prob,.4,y_tune)) #Looks like we are getting a lot more false positives, but also a lot more true positives
 
 # %% [markdown]
 # ## Accuracy Score
