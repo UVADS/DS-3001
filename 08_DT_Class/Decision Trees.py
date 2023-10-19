@@ -138,6 +138,8 @@ cl= DecisionTreeClassifier(random_state=1000)
 #Set up search for best decisiontreeclassifier estimator across all of our folds based on roc_auc
 search = GridSearchCV(cl, param, scoring=scoring, n_jobs=-1, cv=kf,refit='roc_auc')
 
+
+#%%
 #execute search on our training data, this may take a few seconds ...
 model = search.fit(X_train, y_train)
 
