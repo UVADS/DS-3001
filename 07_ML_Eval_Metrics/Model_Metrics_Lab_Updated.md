@@ -14,7 +14,7 @@ Part 3. In consideration of all the metrics you just used are there a few that s
 
 Part 4. Consider where miss-classification errors are occurring, is there a pattern? If so discuss this pattern and why you think this is the case. 
 
-Part 5. Based on your exploration in Part 3/4, change the threshold using the function provided (in the in-class example), what differences do you see in the evaluation metrics? Does it get better at addressing your question or not, why?  
+Part 5. Based on your exploration in Part 3/4, change the threshold using the function provided (in the in-class example), what differences do you see in the confusion metric? Does it get better at addressing your question or not, why?  
 
 Part 6. Use a metric we did not discuss in class (reference the sklearn model metrics documentation). Once you have the output, summarize in a sentence or two what the metric is and what it means in the context of your question.
 
