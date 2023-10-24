@@ -117,7 +117,7 @@ search = GridSearchCV(reg, param, scoring=scoring, n_jobs=-1, cv=kf,refit='r2')
 model = search.fit(X_train, y_train)
 
 # %%
-#Retrieve the best estimator out of all parameters passed, based on lowest mean squared error ...
+#Retrieve the best estimator out of all parameters passed, based on lowest room mean squared error ...
 best= model.best_estimator_
 print(best) #Depth of 7, good
 
@@ -166,7 +166,7 @@ depth= np.unique(model.cv_results_['param_max_depth']).data
 final_model = pd.DataFrame(list(zip(depth, mean_sq_err, r2,mae, SDmse,SDr2,SDmae)),
                columns =['depth','rmse','r2','mae',"rmseSD",'r2SD','maeSD'])
 
-print(final_model.head())
+print(final_model.head(10))
 #Let's take a look in our variable explorer as well to get the full dataframe...
 
 # %%
