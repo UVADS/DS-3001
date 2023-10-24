@@ -195,7 +195,7 @@ print(final_model.head())
 
 # %%
 #Warning!
-#If we used mutiple params... you won't be able to get the scores as easily
+#If we used multiple params... you won't be able to get the scores as easily
 #Say we wanted to get the scores based on max_depth still, but this time we used the parameter ccp_alpha as well
 #Use the np.where function to search for the indices where the other parameter equals their best result, in this say it is .001
 #This is an example code to find auc: #model.cv_results_['mean_test_roc_auc'][np.where((model.cv_results_['param_ccp_alpha'] == .001))]
