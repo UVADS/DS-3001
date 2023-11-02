@@ -64,6 +64,19 @@ fig.show()
 kmeans_obj_Dem = KMeans(n_clusters=3, random_state=1).fit(clust_data_Dem)
 
 #%%
+#Further assess the model using total variance explained
+#calculate total variance explained
+total_sum_squares = np.sum((clust_data_Dem - np.mean(clust_data_Dem))**2)
+total = np.sum(total_sum_squares)
+print(total)
+
+#%%
+between_SSE = (total-kmeans_obj_Dem.inertia_)
+print(between_SSE)
+Var_explained = between_SSE/total
+print(Var_explained)
+
+#%%
 # Step 3: visualize plot
 fig = px.scatter_3d(house_votes_Dem, x="aye", y="nay", z="other",color="party.labels", symbol=kmeans_obj_Dem.labels_,
                     title="Aye vs. Nay vs. Other votes for Democrat-introduced bills")
@@ -75,14 +88,7 @@ fig.add_trace(go.Scatter3d(x=kmeans_obj_Dem.cluster_centers_[:, 0], y=kmeans_obj
 fig.show(renderer="browser")
 
 #%%
-#calculate total sum of squares for the data
-total_sum_squares = np.sum((clust_data_Dem - np.mean(clust_data_Dem))**2)
-total = np.sum(total_sum_squares)
-print(total)
 
-print(total-kmeans_obj_Dem.inertia_)
-
-print(kmeans_obj_Dem.inertia_)
 
 
 
