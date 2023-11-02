@@ -97,7 +97,7 @@ param={
 # %%
 #What score do we want our model to be built on?
 #Let's use rmse, r2, mae this time.
-print(metrics.SCORERS.keys()) #find them
+#print(metrics.SCORERS.keys()) #find them
 #to get rmse looks like we will need to start with mse
 
 # %%
