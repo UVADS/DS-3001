@@ -11,7 +11,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import confusion_matrix
 #%%
-
 import os
 os.listdir()
 #print(os.getcwd())
