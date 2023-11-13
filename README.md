@@ -123,9 +123,9 @@ The books below are essentially a starter Machine Learning Library. I will use a
 | Week 8 Oct 8th | Introduction to ML Concepts IV	| Evaluation	| [Evaluation Lab](https://github.com/UVADS/DS-3001/tree/main/07_ML_Eval_Metrics) | All of B. and G.- Chapter 11 	|
 | Week 9 Oct 15th | Nature's Perfect ML analogy: Trees Part I	|  Classification: Decisions Trees 	| [ Decision Trees](https://github.com/UVADS/DS-3001/tree/main/08_DT_Class)	| TBD and G. Chapter 14.1-14.3 	|
 | Week 10 Oct 22nd | Nature's Perfect ML analogy: Trees Part II  	| Regression: Decision Trees  	| [Predicting Income for Big Brother]	| F. Chapter 5 and G. Chapter 8 	|
-| Week 11 Oct 29th | Wisdom of the Crowd	| Ensemble Methods I	| [Random Forest Classifier ](https://github.com/UVADS/DS-3001/tree/main/12_Ensemble_RF)	| TBD	|
-| Week 12 Nov 5th | Kaggle Competition - No Class on the 7th Election Day  	|  	|	| 	|
-| Week 13 Nov 12th | Let's gather together... but separately 	|Unsupervised: Overview of Clustering Kmeans 	| [NBA Scout for the worst team in the league](https://github.com/UVADS/DS-3001/tree/main/10_kMeans%20Clustering)|  TBD  |
+| Week 11 Oct 29th |Extra Decision Tree Week	 | | | TBD	|
+| Week 12 Nov 5th |  Let's gather together... but separately | Kmeans|	NBA Scout for the worst team in the league| 	|
+| Week 13 Nov 12th |  Wisdom of the Crowd		|Ensemble Methods: Random Forest	| |  TBD  |
 | Week 14 Nov 19th | Do the next right thing…ethics |  Bias in AI Discussion -Simple methods for identifying bias   - Protected Classes	|[Fairness Overview & Ethical Reflections](https://github.com/UVADS/DS-3001/tree/main/14_ML_Bias) 	| Weapons of Math Destruction  	|
 | Week 15 Nov 26th | Final Project Prep	|[Final Project Overview](https://github.com/UVADS/DS-3001/blob/main/final_project_overview.md)	| | Ethical Reflection Due |
 | Week 16 - Final TBD	| Final Projects Presentations	| [Final Project Overview](https://github.com/UVADS/DS-3001/blob/main/final_project_overview.md) 	|  	|  	|
