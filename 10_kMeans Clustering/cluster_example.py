@@ -25,8 +25,8 @@ print(house_votes_Dem.head())
 house_votes_Dem.info()
 #%%
 #Create summary of aye and nay votes by party label
-house_votes_Rep.groupby("party.labels").agg({"aye": "sum", "nay": "sum", "other": "sum"})
-#house_votes_Dem.groupby("party.labels").agg({"aye": "sum", "nay": "sum", "other": "sum"})
+#house_votes_Rep.groupby("party.labels").agg({"aye": "sum", "nay": "sum", "other": "sum"})
+house_votes_Dem.groupby("party.labels").agg({"aye": "sum", "nay": "sum", "other": "sum"})
 
 #%%
 # Step 2: run k-means
