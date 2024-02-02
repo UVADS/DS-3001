@@ -1,0 +1,11 @@
+index,artists,album_name,track_name,duration_ms,explicit,danceability,energy,key,loudness,mode,speechiness,acousticness,instrumentalness,liveness,valence,tempo,time_signature,track_genre
+0,Little Mix,Get Weird,"Secret Love Song, Pt. II",266926,false,0.558,0.361,9,-8.346,1,0.0328,0.754,0,0.0926,0.165,95.161,4,5.0
+1,&TEAM,First Howling : ME,Under the skin,191973,false,0.652,0.764,6,-4.463,0,0.0402,0.000436,0,0.275,0.367,113.272,5,5.0
+2,MAX,IT'S YOU (feat. keshi),IT'S YOU (feat. keshi),173428,false,0.697,0.368,2,-9.708,1,0.056,0.835,0.00016,0.135,0.451,90.011,4,0.0
+3,aespa,MY WORLD - The 3rd Mini Album,Thirsty,193413,false,0.654,0.787,6,-2.538,1,0.0636,0.549,0,0.13,0.632,77.513,4,5.0
+4,HUH YUNJIN,love you twice,love you twice,172189,false,0.749,0.553,10,-6.385,1,0.0374,0.42,0.000198,0.31,0.641,96.044,4,3.0
+5,LE SSERAFIM,UNFORGIVEN,Blue Flame (2023 Ver.),201895,false,0.771,0.747,4,-3.407,0,0.0455,0.023,0.00000147,0.0706,0.762,112.046,4,5.0
+6,ROSÉ,R,Gone,207164,false,0.647,0.377,6,-6.003,1,0.0375,0.594,0,0.0768,0.653,79.936,4,3.0
+7,aespa,MY WORLD - The 3rd Mini Album,Spicy,197040,false,0.757,0.898,11,-1.247,0,0.0667,0.0138,0,0.0703,0.842,114.949,4,5.0
+8,HUH YUNJIN,raise y_our glass,raise y_our glass,212164,false,0.567,0.503,8,-6.119,1,0.124,0.581,0,0.369,0.184,72.798,4,3.0
+9,NewJeans,NewJeans 1st EP 'NewJeans',Hype Boy,179027,false,0.593,0.935,4,-3.43,0,0.225,0.268,0,0.286,0.783,99.976,4,5.0
