@@ -110,16 +110,16 @@ The books below are essentially a starter Machine Learning Library. I will use a
 | Week 2 |  Getting back up to “coding speed” 	| 'Dataframing' with pandas functions 	| [- Group Case Study - Questions + PsuedoCode + Code + Functions  = High Quality Data Science](02_R_function_basics/02_Lecture_Python.ipynb) | D. Chpts 2 and 3 |
 | Week 3 | Introduction to ML Concepts I	|Language of ML	| [Case Studies](https://github.com/UVADS/DS-3001/tree/main/04_ML_Concepts_I_Foundations)|C. Chpt 1 |
 | Week 4  | Introduction to ML Concepts II | Data Preparation 	|ML Concepts|Reading TBD  |
-| Week 5  | Introduction to ML Concepts II | Data Preparation:Linear Regression | Repo |Reading TBD | 
-| Week 6  | Introduction to ML Concepts III	| Machine Learning Process:Linear Regression| |Reading TBD|
+| Week 5  | Introduction to ML Concepts II | Data Preparation <br> Linear Regression | Repo |Reading TBD | 
+| Week 6  | Introduction to ML Concepts III	| Machine Learning Process <br> Linear Regression| |Reading TBD|
 | Week 7  | Introduction to ML Concepts IV	| kNN + Evaluation	| [Evaluation Lab](https://github.com/UVADS/DS-3001/tree/main/07_ML_Eval_Metrics) | All of B. and G.- Chapter 11 	|
 | Week 8  | Sampling Methods and How Bootstrap and Cross-Validation solves all the Problems| | |
-| Week 9  | Nature's Perfect ML analogy: Trees Part I	|  Classification: Decisions Trees + Calibration 	| [ Decision Trees](https://github.com/UVADS/DS-3001/tree/main/08_DT_Class)	| TBD and G. Chapter 14.1-14.3 |
-| Week 10  | Nature's Perfect ML analogy: Trees Part II  	| Regression: Decision Trees  	| [Predicting Income for Big Brother]	| F. Chapter 5 and G. Chapter 8 	|
+| Week 9  | Nature's Perfect ML analogy: Trees Part I	|  Classification <br> Decisions Trees + Calibration 	| [ Decision Trees](https://github.com/UVADS/DS-3001/tree/main/08_DT_Class)	| TBD and G. Chapter 14.1-14.3 |
+| Week 10  | Nature's Perfect ML analogy: Trees Part II  	| Regression <br> Decision Trees  	| [Predicting Income for Big Brother]	| F. Chapter 5 and G. Chapter 8 	|
 | Week 11 |  Unsupervised: kMeans | Let's gather together, but separately|	NBA Scout for the worst team in the league| 	|
 | Week 12 | Unsupervised: Feature Engineering: PCA | | | TBD	|
-| Week 13  |  Topic Exploration |Ensemble Methods: Random Forest	| |  TBD  |
-| Week 14  | Topic Exploration |  Regularization: Ridge Regression |	|   	|
+| Week 13  |  Topic Exploration |Ensemble Methods <br> Random Forest	| |  TBD  |
+| Week 14  | Topic Exploration |  Regularization <br> Ridge Regression |	|   	|
 | Week 15  | Final Project Prep |[Final Project Overview](https://github.com/UVADS/DS-3001/blob/main/final_project_overview.md)	| | |
 | Week 16 | Final Project| [Final Project Overview](https://github.com/UVADS/DS-3001/blob/main/final_project_overview.md)|  	|  	|
 
