@@ -89,7 +89,7 @@ On any given week, the course will require reviewing short video lectures and co
 
 The books below are essentially a starter Machine Learning Library. I will use all of these references at difference points during the class, but try to use free options. Unfortunately the main book for the class Python Machine Learning with Pytorch and Scikit-Learn is not free. Everything else is either free or can be found for around 15 dollars. There's also references to Python style guides and tutorials. 
 
-```
+
 
 * A. [Weapons of Math Destruction](https://www.amazon.com/Weapons-Math-Destruction-Increases-Inequality/dp/0553418815)
 * B. [Evaluating Machine Learning Models – O’Reilly Digital via UVA Library](https://www.oreilly.com/library/view/temporary-access/)<br>
