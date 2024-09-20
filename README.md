@@ -61,13 +61,13 @@ On any given week, the course will require reviewing short video lectures and co
     quizzes will be given. You will be allowed as many chances to complete the quiz as needed and 
     they will be open note however students are to work independently. 
     
-    Labs (45%) – On most weeks we will have in-class labs/assignments. These are designed to allow you 
+    Labs (60%) – On most weeks we will have in-class labs/assignments. These are designed to allow you 
     to practice the skills being presented in class. While they should be submitted individually you are 
     encouraged to work with your peers as much of the best learning can come from your peers. 
     You’ll need to create publishable markdown documents for every lab and submit them along 
     with the raw code file and link each week (Groups).   
    
-    Final projects X 2 (20%) – The course will culminate in a final project that will involve 
+    Final projects (25%) – The course will culminate in a final project that will involve 
     working with a dataset of your choice, giving a presentation, submitting well-annotated 
     code to include summary information in report form. This is an open-ended project 
     designed to allow groups to choose a topic of interest from the semester to
@@ -79,6 +79,7 @@ On any given week, the course will require reviewing short video lectures and co
     Miniconda/Conda - [Mini-Recommended](https://docs.conda.io/en/latest/miniconda.html)
     Github - Almost all course materials (will post on Canvas as needed)
     Canvas - Submission of assignments and class-wide communications
+    Docker + Virtual Machines 
     Discord - Low latency comms for groups and class.
 
 **[Discord Invite Click](tbd)**
@@ -105,22 +106,21 @@ The books below are essentially a starter Machine Learning Library. I will use a
 
 | Week 	| Theme 	| Topics 	| Lab 	| Reading/Repo (Prior to Class) 	|
 |:---:	|:---:	|:---:	|:---:	|:---:	|
-| Week 1 	| What is this “Machine Learning" you speak of? 	|  Synchronous: Short Lab  	| | |
+| Week 1 	| What is this “Machine Learning" you speak of? + Experimental Thinking 	|  Synchronous: Short Lab  	| | |
 | Week 2 |  Getting back up to “coding speed” 	| 'Dataframing' with pandas functions 	| [- Group Case Study - Questions + PsuedoCode + Code + Functions  = High Quality Data Science](02_R_function_basics/02_Lecture_Python.ipynb) | D. Chpts 2 and 3 |
-| Week 3 | How to share nicely + Experimental Thinking 	| TBD |  |  |
-| Week 4 | Introduction to ML Concepts I	|Language of ML	| [Case Studies](https://github.com/UVADS/DS-3001/tree/main/04_ML_Concepts_I_Foundations)|C. Chpt 1 |
-| Week 5  | Introduction to ML Concepts II | Data Preparation 	|ML Concepts|Reading TBD  |
+| Week 3 | Introduction to ML Concepts I	|Language of ML	| [Case Studies](https://github.com/UVADS/DS-3001/tree/main/04_ML_Concepts_I_Foundations)|C. Chpt 1 |
+| Week 4  | Introduction to ML Concepts II | Data Preparation 	|ML Concepts|Reading TBD  |
 | Week 5  | Introduction to ML Concepts II | Data Preparation:Linear Regression | Repo |Reading TBD | 
 | Week 6  | Introduction to ML Concepts III	| Machine Learning Process:Linear Regression| |Reading TBD|
-| Week 8  | Introduction to ML Concepts IV	| kNN + Evaluation	| [Evaluation Lab](https://github.com/UVADS/DS-3001/tree/main/07_ML_Eval_Metrics) | All of B. and G.- Chapter 11 	|
-| Week ?  | Sampling Methods and How Bootstrap and CV solves all the Problems| | |
+| Week 7  | Introduction to ML Concepts IV	| kNN + Evaluation	| [Evaluation Lab](https://github.com/UVADS/DS-3001/tree/main/07_ML_Eval_Metrics) | All of B. and G.- Chapter 11 	|
+| Week 8  | Sampling Methods and How Bootstrap and CV solves all the Problems| | |
 | Week 9  | Nature's Perfect ML analogy: Trees Part I	|  Classification: Decisions Trees 	| [ Decision Trees](https://github.com/UVADS/DS-3001/tree/main/08_DT_Class)	| TBD and G. Chapter 14.1-14.3 	|
 | Week 10  | Nature's Perfect ML analogy: Trees Part II  	| Regression: Decision Trees  	| [Predicting Income for Big Brother]	| F. Chapter 5 and G. Chapter 8 	|
-| Week 12 |  Let's gather together... but separately | Kmeans|	NBA Scout for the worst team in the league| 	|
-| Week 11 | PCA + Feature Engineering | | | TBD	|
+| Week 11 |  Let's gather together... but separately | Kmeans|	NBA Scout for the worst team in the league| 	|
+| Week 12 | PCA + Feature Engineering | | | TBD	|
 | Week 13  |  Topic Exploration |Ensemble Methods: Random Forest	| |  TBD  |
-| Week 14  | Topic Exploration |  Ridge Regression |	|   	|
-| Week 15  | Final Project |[Final Project Overview](https://github.com/UVADS/DS-3001/blob/main/final_project_overview.md)	| | |
+| Week 14  | Topic Exploration |  Regularization: Ridge Regression |	|   	|
+| Week 15  | Final Project Prep |[Final Project Overview](https://github.com/UVADS/DS-3001/blob/main/final_project_overview.md)	| | |
 | Week 16 | Final Project| [Final Project Overview](https://github.com/UVADS/DS-3001/blob/main/final_project_overview.md)|  	|  	|
 
 ## A few Policies that will Govern the Class
