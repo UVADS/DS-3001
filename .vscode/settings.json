@@ -31,5 +31,8 @@
     },
     "accessibility.signals.diffLineModified": {
         "sound": "off"
-    }
+    },
+    "cSpell.words": [
+        "devcontainers"
+    ]
 }
