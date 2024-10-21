@@ -1,21 +1,21 @@
-# DS 3001: Foundations of Machine Learning
+# DS 3021: Foundations of Machine Learning
 
 Your Foundations of Machine Learning Tour Guides: 
 
-* Brian Wright, Ph.D., Office: Elson Room 165 (Old Student Health Center)
+* Brian Wright, Ph.D., Office: TBD
 * Email: brianwright@virginia.edu
-* TA: Ariful Islam xef4hb@virginia.edu
+* TA: 
 * Class Location: Dell 1 Room 105 
 
-Brian's Office Hours: In person in my office Elson (165) or Virtual on Discord - Monday 1-3pm 
+Brian's Office Hours: In person in my office SDS Building 434 or Virtual on Discord - Monday 1-3pm 
 
-Ariful office hours: TBD 
+TA office hours: TBD 
 
-Course Materials: [Foundations of Machine Learning Repo](https://github.com/UVADS/DS-3001)
+Course Materials: [Foundations of Machine Learning Repo](https://github.com/UVADS/DS-3001/3021)
 
-Subject Area and Catalog Number: Data Science, DS 3001
+Subject Area and Catalog Number: Data Science, DS 3021
 
-Year, Term and Time: 2023, Fall, T/Th 3:30-4:45
+Year, Term and Time: 2025, Spring, T/Th 
 
 Class Title: Foundations of Machine Learning 
 
@@ -38,14 +38,15 @@ Throughout the course, we will endeavor to “live the life of a data scientist�
 ## What you’ll learn along the way
 
 Data Science is incredibly broad and dynamic. The topics below are designed to reinforce this perspective and help you understand the field’s core tenements and what is demanded from practicing data scientists.  The key is for you to gain a sense of the scope of Data Science, what is needed to contribute to the community, and feel comfortable incorporating these techniques into your work moving forward. Specific learning objectives are below:
-
-    Be able to describe the field of Data Science and its emerging sub-fields
-    Gain experience working in teams to solve Data Science problems
-    Gain experience communicating Data Science products
+    
+    Gain experience working in teams to solve Data driven problems
+    Be able to describe the field of Machine Learning
+    Understand computational and mathematical foundations of the methods presented
     Articulate the advantages and disadvantages of selected ML approaches
     Be able to select appropriate ML models given problems and data types
     Understand the importance of and methods for evaluating ML models
-    Understand the negative outcomes associated with ML/AI bias and how they can be avoided
+    Gain the foundational knowledge necessary to being ML II
+    
 
 The course will move rather quickly and can be demanding at times. However, if we all work together to support each other you’ll be amazed how much you learn at the end of the semester!
 
@@ -54,11 +55,6 @@ The course will move rather quickly and can be demanding at times. However, if w
 
 On any given week, the course will require reviewing short video lectures and completing readings prior to coming to class.  These lectures and readings will then be implemented in the lab portion of the course which will be conducted during the scheduled class period.  Lab sessions will include a variety of activities but mostly be centered on team-oriented coding assignments.  Students can also use lab sessions to work on mid-term and final projects when needed.
 
-    Ethical data scientist reflection (10%) – Based on in-class discussion and readings 
-    students will write a personal reflection of how ethics and data science interact and 
-    how we all can think about these concerns moving forward. This is critical to the work of 
-    a data scientist as the models we build have the potential to impact the lives of thousands 
-    of people so we must use caution and constraint whenever possible.
     
     Quizzes (15%) – Short occasional (5 or 6) quizzes, will be auto-graded, so you will get instant 
     feedback. In order to ensure we are all meeting the learning objectives from week to week short 
@@ -71,7 +67,7 @@ On any given week, the course will require reviewing short video lectures and co
     You’ll need to create publishable markdown documents for every lab and submit them along 
     with the raw code file and link each week (Groups).   
    
-    Final project (15%) – The course will culminate in a final project that will involve 
+    Final projects (25%) – The course will culminate in a final project that will involve 
     working with a dataset of your choice, giving a presentation, submitting well-annotated 
     code to include summary information in report form. This is an open-ended project 
     designed to allow groups to choose a topic of interest from the semester to
@@ -81,12 +77,12 @@ On any given week, the course will require reviewing short video lectures and co
 
     VS Code/Google Collab/Rivana - You'll need to have the software loaded and ready to go day one, but we will help if needed. 
     Miniconda/Conda - [Mini-Recommended](https://docs.conda.io/en/latest/miniconda.html)
-    Zoom - Virtual Option for Office Hours
     Github - Almost all course materials (will post on Canvas as needed)
     Canvas - Submission of assignments and class-wide communications
+    Docker + Virtual Machines 
     Discord - Low latency comms for groups and class.
 
-**[Discord Invite Click](https://discord.gg/CcMpr8Wj)**
+**[Discord Invite Click](tbd)**
 
 **[Overview for Install Miniconda and VS Code](https://medium.com/the-researchers-guide/how-to-set-up-python-and-visual-studio-code-ide-for-data-science-161c61f76fe3)**
 
@@ -94,17 +90,14 @@ On any given week, the course will require reviewing short video lectures and co
 
 The books below are essentially a starter Machine Learning Library. I will use all of these references at difference points during the class, but try to use free options. Unfortunately the main book for the class Python Machine Learning with Pytorch and Scikit-Learn is not free. Everything else is either free or can be found for around 15 dollars. There's also references to Python style guides and tutorials. 
 
-```
+
 
 * A. [Weapons of Math Destruction](https://www.amazon.com/Weapons-Math-Destruction-Increases-Inequality/dp/0553418815)
 * B. [Evaluating Machine Learning Models – O’Reilly Digital via UVA Library](https://www.oreilly.com/library/view/temporary-access/)<br>
 * C. [Python Machine Learning with PyTorch and Scikit-Learn, 4th Edition](https://sebastianraschka.com/blog/2022/ml-pytorch-book.html)
-* D. [Python Data Science Handbook](https://jakevdp.github.io/PythonDataScienceHandbook/)
-* E. [Python Tutorial](https://docs.python.org/3/tutorial/index.html)
-* F. [Python Style Guide](https://peps.python.org/pep-0008/)
-* G. [Applied Predictive Learning, Kuh and Johnson](http://appliedpredictivemodeling.com/toc) - Expensive but very good/Also R based
-* H. [Machine Learning Engineering](http://www.mlebook.com/wiki/doku.php)- Free PDF Version
-* I. [Mathematics for Machine Learning](https://mml-book.github.io/) Free PDF Version
+* D. [Applied Predictive Learning, Kuh and Johnson](http://appliedpredictivemodeling.com/toc) - Expensive but very good/Also R based
+* E. [Machine Learning Engineering](http://www.mlebook.com/wiki/doku.php)- Free PDF Version
+* H. [Mathematics for Machine Learning](https://mml-book.github.io/) Free PDF Version
 
 
 ## Schedule of Topics 
@@ -113,22 +106,22 @@ The books below are essentially a starter Machine Learning Library. I will use a
 
 | Week 	| Theme 	| Topics 	| Lab 	| Reading/Repo (Prior to Class) 	|
 |:---:	|:---:	|:---:	|:---:	|:---:	|
-| Week 1 Aug 20th	| What is this “Data Science” that you speak of and tech stack 	| - Assessment - Videos: DS Overview and History 	| - Find DS Dream Job - Create your first project,  load the dataset, visualize using the code provided what questions could this data answer? 	|  Synchronous: Short Lab  	|
-| Week 2 Aug 27th	|  Getting back up to “coding speed” 	| 'Dataframing' with pandas functions 	| [- Group Case Study - Questions + PsuedoCode + Code + Functions  = High Quality Data Science](02_R_function_basics/02_Lecture_Python.ipynb) | D. Chpts 2 and 3 |
-| Week 3 Sep 3rd	| How to share nicely  	| Using Quarto to Create HTML Docs	|  (03_knitr_Comms) 	|  [Documentation](https://quarto.org/docs/output-formats/html-basics.html) 	|
-| Week 4 Sep 10th	| Introduction to ML Concepts I	|Language of ML	| [Case Studies](https://github.com/UVADS/DS-3001/tree/main/04_ML_Concepts_I_Foundations)|C. Chpt 1 |
-| Week 5 Sep 17th | Introduction to ML Concepts II | Data Preparation:kNN 	|[ML Concepts](https://github.com/UVADS/DS-3001/tree/main/05_ML_Concepts_II_Data_Prep)|C. Chpt 4 and pages 98-103  | 
-| Week 6  Sep 24th	| Introduction to ML Concepts III	| Machine Learning Process:kNN|[ML Concepts  ](https://github.com/UVADS/DS-3001/tree/main/06_ML_Concepts_II_KNN) |C. pages 98-103 |
-| Week 7 Oct 1st| Fall Break no Tuesday Class| | | 
-| Week 8 Oct 8th | Introduction to ML Concepts IV	| Evaluation	| [Evaluation Lab](https://github.com/UVADS/DS-3001/tree/main/07_ML_Eval_Metrics) | All of B. and G.- Chapter 11 	|
-| Week 9 Oct 15th | Nature's Perfect ML analogy: Trees Part I	|  Classification: Decisions Trees 	| [ Decision Trees](https://github.com/UVADS/DS-3001/tree/main/08_DT_Class)	| TBD and G. Chapter 14.1-14.3 	|
-| Week 10 Oct 22nd | Nature's Perfect ML analogy: Trees Part II  	| Regression: Decision Trees  	| [Predicting Income for Big Brother]	| F. Chapter 5 and G. Chapter 8 	|
-| Week 11 Oct 29th |Extra Decision Tree Week	 | | | TBD	|
-| Week 12 Nov 5th |  Let's gather together... but separately | Kmeans|	NBA Scout for the worst team in the league| 	|
-| Week 13 Nov 12th |  Wisdom of the Crowd		|Ensemble Methods: Random Forest	| |  TBD  |
-| Week 14 Nov 19th | Do the next right thing…ethics |  Bias in AI Discussion -Simple methods for identifying bias   - Protected Classes	|[Fairness Overview & Ethical Reflections](https://github.com/UVADS/DS-3001/tree/main/14_ML_Bias) 	| Weapons of Math Destruction  	|
-| Week 15 Nov 26th | Final Project Prep	|[Final Project Overview](https://github.com/UVADS/DS-3001/blob/main/final_project_overview.md)	| | Ethical Reflection Due |
-| Week 16 - Final TBD	| Final Projects Presentations	| [Final Project Overview](https://github.com/UVADS/DS-3001/blob/main/final_project_overview.md) 	|  	|  	|
+| Week 1 	| What is this “Machine Learning" you speak of? + Experimental Thinking 	|  Synchronous: Short Lab  	| | |
+| Week 2 |  Getting back up to “coding speed” 	| 'Dataframing' with pandas functions 	| [- Group Case Study - Questions + PsuedoCode + Code + Functions  = High Quality Data Science](02_R_function_basics/02_Lecture_Python.ipynb) | D. Chpts 2 and 3 |
+| Week 3 | Introduction to ML Concepts I	|Language of ML	| [Case Studies](https://github.com/UVADS/DS-3001/tree/main/04_ML_Concepts_I_Foundations)|C. Chpt 1 |
+| Week 4  | Introduction to ML Concepts II | Data Preparation 	|ML Concepts|Reading TBD  |
+| Week 5  | Introduction to ML Concepts II | Data Preparation: <br> Linear Regression | Repo |Reading TBD | 
+| Week 6  | Introduction to ML Concepts III	| Machine Learning Process: <br> Linear Regression| |Reading TBD|
+| Week 7  | Introduction to ML Concepts IV	| kNN + Evaluation	| [Evaluation Lab](https://github.com/UVADS/DS-3001/tree/main/07_ML_Eval_Metrics) | All of B. and G.- Chapter 11 	|
+| Week 8  | Sampling Methods and How Bootstrap and Cross-Validation solves all the Problems| | |
+| Week 9  | Nature's Perfect ML analogy: Trees Part I	|  Classification: <br> Decisions Trees + Calibration 	| [ Decision Trees](https://github.com/UVADS/DS-3001/tree/main/08_DT_Class)	| TBD and G. Chapter 14.1-14.3 |
+| Week 10  | Nature's Perfect ML analogy: Trees Part II  	| Regression: <br> Decision Trees  	| [Predicting Income for Big Brother]	| F. Chapter 5 and G. Chapter 8 	|
+| Week 11 |  Unsupervised: kMeans | Let's gather together, but separately|	NBA Scout for the worst team in the league| 	|
+| Week 12 | Unsupervised: PCA | Feature Engineering | | TBD	|
+| Week 13  |  Topic Exploration |Ensemble Methods <br> Random Forest	| |  TBD  |
+| Week 14  | Topic Exploration |  Regularization <br> Ridge Regression |	|   	|
+| Week 15  | Final Project Prep |[Final Project Overview](https://github.com/UVADS/DS-3001/blob/main/final_project_overview.md)	| | |
+| Week 16 | Final Project| [Final Project Overview](https://github.com/UVADS/DS-3001/blob/main/final_project_overview.md)|  	|  	|
 
 ## A few Policies that will Govern the Class
 
